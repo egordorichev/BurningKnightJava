@@ -131,7 +131,7 @@ public class World {
 
 	private static void setBits(FixtureDef fixture, Entity owner) {
 		if (!(owner instanceof SolidProp) && (fixture.isSensor || owner instanceof HeartFx || owner instanceof Upgrade || owner instanceof Exit
-			|| owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell || owner instanceof Chest)) {
+			|| owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell)) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;

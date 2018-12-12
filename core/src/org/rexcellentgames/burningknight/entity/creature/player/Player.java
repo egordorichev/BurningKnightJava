@@ -845,7 +845,8 @@ public class Player extends Creature {
 				Item i = item.getItem();
 				i.setOwner(this);
 
-				for (int j = 0; j < i.getCount(); j++) {
+				int c = i.getCount();
+				for (int j = 0; j < c; j++) {
 					i.use();
 				}
 
@@ -1018,7 +1019,9 @@ public class Player extends Creature {
 		}
 
 		light = World.newLight(256, new Color(1, 1, 1, 1f), 180, x, y);
+		light.setPosition(this.x + 8, this.y + 8);
 		light.attachToBody(this.body, 8, 8, 0);
+		light.setIgnoreAttachedBody(true);
 
 		if (Dungeon.depth == -3) {
 			this.inventory.clear();
@@ -1094,8 +1097,7 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		light.setPosition(this.x + 8, this.y + 8);
-		light.attachToBody(this.body, 8, 8, 0);
+		light.setActive(true);
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
@@ -1897,6 +1899,9 @@ public class Player extends Creature {
 		this.bombs = reader.readByte();
 		this.keys = reader.readByte();
 		this.money = reader.readInt16();
+
+		light.setPosition(this.x + 8, this.y + 8);
+		light.attachToBody(this.body, 8, 8, 0);
 	}
 
 	@Override

@@ -308,6 +308,10 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void update(float dt) {
+		if (this.animation != null) {
+			this.animation.update(dt * speedMod);
+		}
+
 		if (this.dest) {
 			this.invt -= dt;
 			lastExpl += dt;
@@ -434,10 +438,6 @@ public class BurningKnight extends Boss {
 		if (this.invt > 0) {
 			this.common();
 			return;
-		}
-
-		if (this.animation != null) {
-			this.animation.update(dt * speedMod);
 		}
 
 		super.common();
@@ -1294,7 +1294,7 @@ public class BurningKnight extends Boss {
 					appear.missile = missile;
 					Dungeon.area.add(appear);
 				}
-			} else if (self.lookDown.isPaused()) {
+			} else if (self.anim == self.lookDown) { //  && self.lookDown.isPaused()
 				self.anim = self.idle;
 				self.become(self.rage ? "chase" : "preattack");
 			}

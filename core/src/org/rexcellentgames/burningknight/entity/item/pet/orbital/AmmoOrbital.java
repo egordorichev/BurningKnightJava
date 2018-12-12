@@ -47,9 +47,10 @@ public class AmmoOrbital extends Pet {
 				this.last = 0;
 
 				if (Player.instance.room != null) {
-					for (Mob mob : Mob.all) {
-						if (mob.onScreen && mob.room == this.owner.room) {
+					for (Mob mob : Mob.every) {
+						if (mob.onScreen && mob.room == this.owner.room && !mob.getState().equals("unactive") && !mob.getState().equals("defeated")) {
 							BulletProjectile ball = new BulletProjectile();
+							playSfx("gun_machinegun");
 
 							float a = this.getAngleTo(mob.x + mob.w / 2, mob.y + mob.h / 2);
 							ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * 5f);

@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -57,6 +58,9 @@ public class Portal extends SaveableEntity {
 			World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		}
 
+		light = World.newLight(64, new Color(1, 1, 1, 1), 64, 0, 0);
+		light.setPosition(this.x + 8, this.y + 8);
+
 		if (Level.GENERATED) {
 			this.addSelf();
 		}
@@ -100,6 +104,8 @@ public class Portal extends SaveableEntity {
 				p.al = Math.min(0.6f, p.al + dt);
 			}
 		}
+
+		light.setColor(ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360));
 
 		for (Particle p : parts) {
 			if (!p.junk) {
@@ -173,7 +179,11 @@ public class Portal extends SaveableEntity {
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.addSelf();
+
+		light.setPosition(this.x + 8, this.y + 8);
 	}
+
+	private PointLight light;
 
 	@Override
 	public void save(FileWriter writer) throws IOException {
