@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 
 public class BurningKey extends Key {
 	{
+		autoPickup = false;
 		sprite = "item-burning_key";
 	}
 

@@ -136,7 +136,7 @@ public class Gun extends WeaponBase {
 				this.onAmmoAdded();
 				chargeProgress = 0;
 			}
-		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.3f) {
+		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.1f) {
 			this.chargeProgress += dt * this.owner.getStat("reload_time") * reloadRate * ammoMax * this.owner.getStat("ammo_capacity");
 
 			if (this.chargeProgress >= 1f) {
@@ -277,7 +277,7 @@ public class Gun extends WeaponBase {
 
 		float dt = Gdx.graphics.getDeltaTime();
 
-		if (this.chargeProgress > 0 && this.chargeProgress < 1f && this.chargeA < 1) {
+		if (this.chargeProgress > 0 && this.chargeProgress < 1f && this.chargeA < 1 && (this.owner instanceof Mob || ((Player) this.owner).stopT > 0.1f)) {
 			this.chargeA += (1 - this.chargeA) * dt * 5;
 			this.back = false;
 		} else if (this.chargeA > 0) {
@@ -290,13 +290,13 @@ public class Gun extends WeaponBase {
 			}
 
 			this.chargeProgress = 0;
-			this.back = true;
+			this.back = (this.owner instanceof Mob || (this.ammoLeft == this.ammoMax));
 			this.chargeA += -this.chargeA * dt * 5;
 		}
 	}
 
 	public void renderReload() {
-		if (this.owner instanceof Mob && this.chargeA > 0) {
+		if (this.chargeA > 0) {
 			float x = this.owner.x + this.owner.w / 2 ;
 			float y = this.owner.y + this.owner.h;
 
@@ -307,7 +307,7 @@ public class Gun extends WeaponBase {
 			Graphics.shape.setColor(1, 1, 1, chargeA);
 			Graphics.shape.rect(x - 8, y, 16, 1);
 
-			float xx = (back ? 16 : this.chargeProgress * 16) - 8 + x;
+			float xx = (back ? 16 : (this.owner instanceof Mob ? this.chargeProgress : (((float) (this.ammoLeft) / this.ammoMax) + this.chargeProgress / 16f)) * 16) - 8 + x;
 
 			Graphics.shape.setColor(0, 0, 0, this.chargeA);
 			Graphics.shape.rect(xx - 2, y - 2, 5, 5);

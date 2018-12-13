@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 
 public class Key extends Item {
 	{
+		autoPickup = true;
 		stackable = true;
 		useable = false;
 	}

@@ -143,13 +143,10 @@
 	"desert_ruins": "Desert ruins",
 	"dew_vial": "Dew vial",
 	"dew_vial_desc": "Gives a chance to heal you when\nyou enter a room with enemies.",
-	"dialog_i_dont_trade_gold": "Emm... I don't trade gold for gold!",
 	"dialog_nope": "Nope",
 	"dialog_sk_cheers": "Cheers",
 	"dialog_sk_thanks": "Thanks!",
 	"dialog_sure": "Sure",
-	"dialog_wanna_sell_item": "Do you want to sell {VAR=item} for {VAR=gold} gold?",
-	"dialog_wanna_sell_something": "Wanna sell something? Then select it in your hot bar and talk to me again.",
 	"dialog_why_are_you_killing_my_lieges": "Hey, {SHAKE}you{ENDSHAKE}! {WAIT}Why are you killing my lieges?",
 	"diamond": "Diamond",
 	"diamond_desc": "We found a lot of those\nin our mines. So many, that we started\nto throw those away. It looks like humans value them tho.",
@@ -585,5 +582,6 @@
 	"bomb_summoner" : "Bomb Summoner",
 	"bomb_summoner_desc" : "Note on the side: use with care",
 	"teleporter" : "Teleporter",
-	"teleporter_desc" : "Whooosh... Where I am?sp"
+	"teleporter_desc" : "Whooosh... Where I am?",
+	"press" : "Press"
 }

@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.ShopSale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
-import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.*;
@@ -103,50 +102,9 @@ public class Shopkeeper extends Npc {
 		instance = null;
 	}
 
-	public static Dialog dialogs = Dialog.make("shop-keeper");
-	public static DialogData wannaBuy = dialogs.get("wanna-buy");
-	public static DialogData buy = dialogs.get("buy");
-	public static DialogData stupid = dialogs.get("stupid");
-
 	@Override
 	protected DialogData selectDialog() {
-		Item item = Player.instance == null ? null : Player.instance.getInventory().getSlot(Player.instance.ui.getActive());
-		return item == null ? wannaBuy : (item instanceof Gold ? stupid : buy);
-	}
-
-	@Override
-	protected void setupDialog(DialogData dialog) {
-		super.setupDialog(dialog);
-		Item item = Player.instance == null ? null : Player.instance.getInventory().getSlot(Player.instance.ui.getActive());
-
-		if (item != null) {
-			int price = item.getPrice() * item.getCount();
-
-			dialog.setVariable("item", item.getName());
-			dialog.setVariable("gold", price + "");
-
-			dialog.onSelect(new Runnable() {
-				@Override
-				public void run() {
-					if (Dialog.active.getSelected() == 0) {
-						Player.instance.getInventory().setSlot(Player.instance.ui.getActive(), null);
-						ItemHolder gold = new ItemHolder(new Gold());
-
-						gold.getItem().setCount(price);
-						Player.instance.tryToPickup(gold);
-
-						int val = GlobalSave.getInt("num_sold_items") + 1;
-						GlobalSave.put("num_sold_items", val);
-
-						Achievements.unlock(Achievements.UNLOCK_GOLD_RING);
-
-						if (val >= 10) {
-							Achievements.unlock(Achievements.SELL_10_ITEMS);
-						}
-					}
-				}
-			});
-		}
+		return null;
 	}
 
 	@Override

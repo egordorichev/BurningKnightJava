@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
@@ -39,6 +40,8 @@ public class MainMenuState extends State {
 	public static UiEntity first;
 
 	public static boolean skip;
+	private float pressA;
+	private float t;
 
 	public MainMenuState() {
 		skip = false;
@@ -86,6 +89,7 @@ public class MainMenuState extends State {
 	public void destroy() {
 		super.destroy();
 		endVoid();
+		pauseMenuUi.destroy();
 	}
 
 	@Override
@@ -154,26 +158,30 @@ public class MainMenuState extends State {
 		first = buttons.get(0);
 		Dungeon.ui.select(first);
 
-		/*buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", (int) (Display.UI_WIDTH_MAX + 128 + v), (int) (y)) {
+		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", -128, (int) (y)) {
 			@Override
 			public void onClick() {
 				super.onClick();
-				SettingsState.add();
-				Dungeon.ui.select(SettingsState.first);
+				addSettings();
 
-				Tween.to(new Tween.Task(Display.UI_WIDTH_MAX * 1.5f, MainMenuState.MOVE_T, Tween.Type.QUAD_IN_OUT) {
+				Tween.to(new Tween.Task(Display.UI_WIDTH, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
 					public float getValue() {
-						return cameraX;
+						return settingsX;
 					}
 
 					@Override
 					public void setValue(float value) {
-						cameraX = value;
+						settingsX = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
 					}
 				});
 			}
-		}));*/
+		}.setSparks(true)));
 
 		buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (y - 24)) {
 			@Override
@@ -188,6 +196,26 @@ public class MainMenuState extends State {
 				});
 			}
 		}));
+
+		pauseMenuUi = new Area(true);
+		this.pauseMenuUi.show();
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		this.t += dt;
+
+		if (logoY == 0) {
+			if (this.t >= 3f) {
+				this.pressA = Math.min(1, pressA + dt);
+			}
+		} else {
+			pressA = Math.max(0, pressA - dt * 4);
+		}
+
+		pauseMenuUi.update(dt);
 	}
 
 	@Override
@@ -196,8 +224,7 @@ public class MainMenuState extends State {
 
 		renderPortal();
 
-		if (logoY == 0 && (Input.instance.wasPressed("mouse"))) {
-
+		if (logoY == 0 && (Input.instance.wasPressed("start"))) {
 			Dungeon.flash(Color.WHITE, 0.05f);
 			Audio.stop();
 			Audio.highPriority("Menu");
@@ -246,20 +273,31 @@ public class MainMenuState extends State {
 			Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, (float) (Display.UI_HEIGHT / 2 + Math.cos(Dungeon.time * 3f) * 2.5f) + logoY, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		}
 
-		Dungeon.ui.render();
-
 		float size = 48f;
 
 		Camera.ui.position.set(Display.UI_WIDTH / 2, Display.UI_HEIGHT / 2, 0);
 		Camera.ui.update();
 
-		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+		Camera.ui.translate(settingsX, 0);
+		Camera.ui.update();
+
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+		Dungeon.ui.render();
+		pauseMenuUi.render();
+
+		Camera.ui.translate(-settingsX, 0);
+		Camera.ui.update();
 
 		Graphics.startShape();
 		Graphics.shape.setColor(0, 0, 0, 1);
 		Graphics.shape.rect(0, 0, Display.UI_WIDTH, size);
 		Graphics.shape.rect(0, Display.UI_HEIGHT - size, Display.UI_WIDTH, size);
 		Graphics.endShape();
+
+		Graphics.small.setColor(1, 1, 1, this.pressA);
+		Graphics.printCenter("Press space to start", Graphics.small, 0, (float) (20));
+		Graphics.small.setColor(1, 1, 1, 1);
 
 		Camera.ui.position.set(cameraX, cameraY, 0);
 		Camera.ui.update();

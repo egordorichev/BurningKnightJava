@@ -17,6 +17,7 @@ public class Bomb extends Item {
 		sprite = "item-bomb";
 		useTime = 0.3f;
 		stackable = true;
+		autoPickup = true;
 	}
 
 	@Override

@@ -59,7 +59,7 @@ public class RangedKnight extends Knight {
 			items.add(new Aim());
 		}
 
-		if (Random.chance(1)) {
+		if (Random.chance(0.2f)) {
 			AmmoOrbital item = new AmmoOrbital();
 			item.generate();
 

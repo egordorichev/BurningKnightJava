@@ -408,7 +408,7 @@ public class UiInventory extends UiEntity {
 					float s = 1f;
 					float yy = y + 10;
 
-					boolean change = (inva > 0.7f || (inva > 0.5f && inva % 0.2f > 0.1f));
+					boolean change = false; // (inva > 0.7f || (inva > 0.5f && inva % 0.2f > 0.1f));
 					Graphics.render(change ? ammo_change : ammo_bg, xx + i * 3 + ammo_texture.getRegionWidth() / 2,
 						yy + 8 + ammo_texture.getRegionHeight() / 2, 0,
 						ammo_texture.getRegionWidth() / 2, ammo_texture.getRegionHeight() / 2, false, false, s, s);

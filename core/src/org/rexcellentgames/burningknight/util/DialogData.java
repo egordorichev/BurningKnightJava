@@ -8,6 +8,7 @@ import com.rafaskoberg.gdx.typinglabel.TypingListener;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -108,7 +109,6 @@ public class DialogData {
 					float sy = (this.optionsH - 4);
 					int y = (int) (Display.UI_HEIGHT - 52 - 16 - this.h - optionsH);
 
-
 					Graphics.render(optionsLeft, x, y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
 					Graphics.render(optionsRight, x + this.w - right.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, 1, sy);
 					Graphics.render(optionsCenter, x + left.getRegionWidth(), y + bottomLeft.getRegionHeight(), 0, 0, 0, false, false, sx, sy);
@@ -165,11 +165,18 @@ public class DialogData {
 
 		if (this.label != null) {
 			this.label.draw(Graphics.batch, this.a);
-
 			Graphics.print(this.phrases.get(this.current).owner, Graphics.small, x + 4, y + this.h + 3);
+
+			if (this.label.hasEnded()) {
+				String s = pressStr + " " + Input.instance.getBinding("interact");
+				Graphics.layout.setText(Graphics.small, s);
+				Graphics.print(s, Graphics.small, x - 8 + this.w - Graphics.layout.width, (float) (Display.UI_HEIGHT - 52 - 16 - this.h + 7 + Math.cos(Dungeon.time * 6f) * 1.5f));
+			}
 		}
 	}
 
+
+	private static String pressStr = Locale.get("press");
 	private boolean mapWasOpen;
 	private boolean mapWasLarge;
 

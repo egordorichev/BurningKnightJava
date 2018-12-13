@@ -208,7 +208,7 @@ public class Input implements InputProcessor, ControllerListener {
 		return this.keys;
 	}
 
-	public static final String KEYS = "keybindings.json";
+	public static final String KEYS = "key_bindings.json";
 
 	public Input() {
 		instance = this;

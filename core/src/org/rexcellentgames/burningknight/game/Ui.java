@@ -55,7 +55,6 @@ public class Ui {
 	}
 
 	public void update(float dt) {
-		this.ca = Math.min(this.ca + dt, 1);
 		saveAlpha += ((SaveManager.saving > 0 ? 1 : 0) - saveAlpha) * dt * 4;
 		SaveManager.saving -= dt;
 
@@ -541,9 +540,10 @@ public class Ui {
 
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth == -2 || y > 0) {
-				Graphics.render(coin, 4, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 16 : y - 4) + 2);
+				float mx = Dungeon.fpsY * 0.5f + Dungeon.timerY * 3;
+				Graphics.render(coin, 4 + mx, Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 16 : y - 4) + 1);
 				Graphics.print(GlobalSave.getInt("num_coins") + "",
-					Graphics.small, 16,
+					Graphics.small, 17 + mx,
 					Display.UI_HEIGHT - (Dungeon.depth <= -1 ? 14 : y - 6));
 			}
 
@@ -597,10 +597,9 @@ public class Ui {
 		if (upgradeMouse) {
 			// (move ? Math.cos(Dungeon.time * 6) * 1.5f : 0))
 
-			Graphics.batch.setColor(1, 1, 1, this.ca);
+			Graphics.batch.setColor(1, 1, 1, 1);
 			Graphics.render(this.upgrade, Input.instance.uiMouse.x,
 				Input.instance.uiMouse.y, 0, this.upgrade.getRegionWidth() / 2, this.upgrade.getRegionHeight(), false, false);
-			Graphics.batch.setColor(1, 1, 1, 1);
 
 			alf += ((move ? 1 : 0) - alf) * Gdx.graphics.getDeltaTime() * 8;
 
@@ -620,12 +619,8 @@ public class Ui {
 			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : this.scale;
 			float a = Settings.rotateCursor ? Dungeon.time * 60 : 0;
 
-			Graphics.batch.setColor(1, 1, 1, this.ca);
 			Graphics.render(region, Input.instance.uiMouse.x,
 				Input.instance.uiMouse.y, a, ((float)region.getRegionWidth()) / 2, ((float)region.getRegionHeight()) / 2, false, false, s, s);
-			Graphics.batch.setColor(1, 1, 1, 1);
 		}
 	}
-
-	private float ca;
 }
