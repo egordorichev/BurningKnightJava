@@ -97,9 +97,9 @@ public class Log {
 			frame.getContentPane().validate();
 		}
 
-		if (!Version.debug) {
+		/*if (!Version.debug) {
 			return;
-		}
+		}*/
 
 		try {
 			System.out.println("\u001B[31m" + string + "\u001B[0m");

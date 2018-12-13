@@ -164,6 +164,10 @@ public class InGameState extends State {
 
 		if (this.isPaused()) {
 			if (!Player.instance.isDead()) {
+				if (mv == 0) {
+					return;
+				}
+
 				this.mv = -256;
 				depth = Dungeon.level.formatDepth();
 				this.wasHidden = !UiMap.instance.isOpen();
@@ -396,7 +400,7 @@ public class InGameState extends State {
 			}
 		}
 		
-		//if (Version.debug) {
+		if (Version.debug) {
 			this.console.update(dt);
 
 			if (Input.instance.wasPressed("F4")) {
@@ -429,56 +433,56 @@ public class InGameState extends State {
 					}
 				});
 			}
+		}
 
-			if (Version.debug) {
-				if (Input.instance.wasPressed("F5")) {
-					for (Room room : Dungeon.level.getRooms()) {
-						if (room instanceof ShopRoom && !room.hidden) {
-							Point point = room.getRandomFreeCell();
-							Player.instance.tp(point.x * 16, point.y * 16);
 
-							break;
-						}
+		if (Version.debug) {
+			if (Input.instance.wasPressed("F5")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof ShopRoom && !room.hidden) {
+						Point point = room.getRandomFreeCell();
+						Player.instance.tp(point.x * 16, point.y * 16);
+
+						break;
 					}
-				} else if (Input.instance.wasPressed("F6")) {
-					for (Room room : Dungeon.level.getRooms()) {
-						if (room instanceof TreasureRoom) {
-							Point point = room.getRandomFreeCell();
+				}
+			} else if (Input.instance.wasPressed("F6")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof TreasureRoom) {
+						Point point = room.getRandomFreeCell();
 
-							Player.instance.tp(point.x * 16, point.y * 16);
+						Player.instance.tp(point.x * 16, point.y * 16);
 
-							break;
-						}
+						break;
 					}
-				} else if (Input.instance.wasPressed("F7")) {
-					for (Room room : Dungeon.level.getRooms()) {
-						if (room instanceof BossRoom && room != Player.instance.room) {
+				}
+			} else if (Input.instance.wasPressed("F7")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof BossRoom && room != Player.instance.room) {
 
-							Point point = room.getRandomFreeCell();
+						Point point = room.getRandomFreeCell();
 
-							Player.instance.tp(point.x * 16, point.y * 16);
+						Player.instance.tp(point.x * 16, point.y * 16);
 
-							break;
-						}
+						break;
 					}
 				}
 			}
+
 			if (Input.instance.wasPressed("F3")) {
 				Ui.hideUi = !Ui.hideUi;
 			} else if (Input.instance.wasPressed("F9")) {
 				Ui.hideCursor = !Ui.hideCursor;
 			}
 
-			if (Version.debug) {
-				if (Input.instance.wasPressed("O")) {
-					Ui.upscale = 1;
-				} else if (Input.instance.isDown("I")) {
-					Ui.upscale = Math.max(0.1f, Ui.upscale - dt * 3);
-				} else if (Input.instance.isDown("P")) {
-					Ui.upscale += dt * 3;
-				}
+			if (Input.instance.wasPressed("O")) {
+				Ui.upscale = 1;
+			} else if (Input.instance.isDown("I")) {
+				Ui.upscale = Math.max(0.1f, Ui.upscale - dt * 3);
+			} else if (Input.instance.isDown("P")) {
+				Ui.upscale += dt * 3;
 			}
-		//}
+		}
 
 		if (Player.instance != null && !Player.instance.isDead()) {
 			last += dt;
@@ -733,7 +737,13 @@ public class InGameState extends State {
 
 		int y = -24 + 16;
 
-		this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y) {
+		int m = 0;
+
+		if (Dungeon.depth == -2) {
+			m = 1;
+		}
+
+		this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y - m * 24) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
@@ -751,24 +761,27 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("quick_restart", Display.UI_WIDTH / 2, 128 + 32 - 24 + y) {
-			@Override
-			public void onClick() {
-				super.onClick();
+		if (Dungeon.depth != -2) {
+			m++;
+			this.pauseMenuUi.add(new UiButton("quick_restart", Display.UI_WIDTH / 2, 128 + 32 - 24 + y) {
+				@Override
+				public void onClick() {
+					super.onClick();
 
-				transition(() -> {
-					Dungeon.grayscale = 0;
+					transition(() -> {
+						Dungeon.grayscale = 0;
 
-					if (Dungeon.depth == -3) {
-						Dungeon.newGame(false, -3);
-					} else {
-						Dungeon.newGame(true, 1);
-					}
-				});
-			}
-		}.setSparks(true));
+						if (Dungeon.depth == -3) {
+							Dungeon.newGame(false, -3);
+						} else {
+							Dungeon.newGame(true, 1);
+						}
+					});
+				}
+			}.setSparks(true));
+		}
 
-		this.pauseMenuUi.add(new UiButton("settings", Display.UI_WIDTH / 2, 128 + 32 - 24 * 2 + y) {
+		this.pauseMenuUi.add(new UiButton("settings", Display.UI_WIDTH / 2, 128 + 32 - 24 * (m + 1) + y) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -793,7 +806,7 @@ public class InGameState extends State {
 			}
 		}.setSparks(true));
 
-		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.UI_WIDTH / 2, 128 + 32 - 24 * 3 + y) {
+		this.pauseMenuUi.add(new UiButton("save_and_exit", Display.UI_WIDTH / 2, 128 + 32 - 24 * (m + 2) + y) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

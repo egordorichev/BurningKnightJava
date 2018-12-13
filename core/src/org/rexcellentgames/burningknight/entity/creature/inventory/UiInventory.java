@@ -364,7 +364,7 @@ public class UiInventory extends UiEntity {
 		}
 
 		float y = full ? this.slots[0].y + 20 : -3;
-		float x = sx + 24 + 4;
+		float x = sx + (full ? 0 : (24 + 4));
 		float xx = x;
 
 		if (!full) {
@@ -499,23 +499,25 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		Item item = Player.instance.getInventory().getSlot(2);
-		Graphics.render(UiSlot.slot, 4, 4);
+		if (!full) {
+			Item item = Player.instance.getInventory().getSlot(2);
+			Graphics.render(UiSlot.slot, 4, 4);
 
-		if (item != null) {
-			TextureRegion region = item.getSprite();
-			int w = region.getRegionWidth();
+			if (item != null) {
+				TextureRegion region = item.getSprite();
+				int w = region.getRegionWidth();
 
-			if (item.getDelay() > 0) {
-				Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
-				Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
-				Graphics.batch.setColor(1, 1, 1, 1);
+				if (item.getDelay() > 0) {
+					Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
+					Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+					Graphics.batch.setColor(1, 1, 1, 1);
 
-				region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
-				Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
-				region.setRegionWidth(w);
-			} else {
-				Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+					region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
+					Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+					region.setRegionWidth(w);
+				} else {
+					Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+				}
 			}
 		}
 
@@ -589,7 +591,7 @@ public class UiInventory extends UiEntity {
 				float c = (float) (0.8f + Math.cos(Dungeon.time * 10) / 5f);
 
 				Graphics.small.setColor(c, c, c, 1);
-				Graphics.print(info, Graphics.small, this.slots[0].x, this.slots[0].y + 20 + Graphics.layout.height + 14 + 8);
+				Graphics.print(info, Graphics.small, this.slots[0].x, this.slots[0].y + 30 + Graphics.layout.height + 14 + 8);
 				Graphics.small.setColor(1, 1, 1, 1);
 
 				this.hoveredSlot = -1;

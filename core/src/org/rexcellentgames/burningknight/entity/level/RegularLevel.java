@@ -246,10 +246,9 @@ public abstract class RegularLevel extends Level {
 			}
 		} while (this.rooms == null);
 
-		/*
-		if (Dungeon.depth > 0) {
+		if (Dungeon.depth > 0 && Dungeon.depth % 2 == 1) {
 			itemsToSpawn.add(new ScrollOfUpgrade());
-		}*/
+		}
 	}
 
 	protected ArrayList<Room> createRooms() {

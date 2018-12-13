@@ -46,10 +46,6 @@ public class ItemSelectState extends State {
 
 		Audio.play("Void");
 
-		Dungeon.white = 0;
-		Dungeon.dark = 0;
-		Dungeon.darkR = Dungeon.MAX_R;
-
 		melee.clear();
 		ranged.clear();
 		mage.clear();
@@ -114,19 +110,6 @@ public class ItemSelectState extends State {
 		}
 
 		picked = false;
-
-		Dungeon.dark = 0;
-		Tween.to(new Tween.Task(1, 0.3f) {
-			@Override
-			public float getValue() {
-				return Dungeon.dark;
-			}
-
-			@Override
-			public void setValue(float value) {
-				Dungeon.dark = value;
-			}
-		});
 
 		for (int i = 0; i < melee.size(); i++) {
 			StartingItem item = new StartingItem();
@@ -225,8 +208,29 @@ public class ItemSelectState extends State {
 		});
 	}
 
+	private boolean did;
+
 	@Override
 	public void render() {
+		if (!did) {
+			did = true;
+			Dungeon.white = 0;
+			Dungeon.dark = 0;
+			Dungeon.darkR = Dungeon.MAX_R;
+
+			Tween.to(new Tween.Task(1, 0.3f) {
+				@Override
+				public float getValue() {
+					return Dungeon.dark;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Dungeon.dark = value;
+				}
+			});
+		}
+
 		super.render();
 		renderPortal();
 	}

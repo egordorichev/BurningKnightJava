@@ -113,13 +113,13 @@ public class Chest extends SaveableEntity {
 			ItemRegistry.Pair item = both.getValue();
 
 			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
-				&& item.unlocked(both.getKey()) && Player.instance.getInventory().findItem(item.getType()) == null) {
+				&& item.unlocked(both.getKey()) && (Player.instance == null || Player.instance.getInventory().findItem(item.getType()) == null)) {
 
 				if (isVeganFine(item.getType())) {
 					pool.add(item.getType(), item.getChance() * (
-						item.getWarrior() * Player.instance.getWarrior() +
-							item.getMage() * Player.instance.getMage() +
-							item.getRanged() * Player.instance.getRanger()
+						item.getWarrior() * Player.getStaticWarrior() +
+							item.getMage() * Player.getStaticMage() +
+							item.getRanged() * Player.getStaticRanger()
 					));
 				}
 			}

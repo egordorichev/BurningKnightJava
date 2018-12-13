@@ -426,7 +426,7 @@ public class UiSlot {
 		if (id == 3) {
 			return item instanceof Hat;
 		} else if (id == 2) {
-			return !(item instanceof Hat || item instanceof WeaponBase || item instanceof Equippable || item instanceof Key);
+			return !(item instanceof Hat || item instanceof WeaponBase || item instanceof Equippable || item instanceof Key || item instanceof ScrollOfUpgrade);
 		} else if (id > 3 && id < 8) {
 			return item instanceof Equippable;
 		} else if (id == 0 || id == 1) {

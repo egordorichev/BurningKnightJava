@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -137,6 +138,8 @@ public class MainMenuState extends State {
 				super.onClick();
 				Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
 				GameSave.Info info = GameSave.peek(SaveManager.slot);
+
+				Log.error("Go to depth " + (GlobalSave.isTrue("finished_tutorial") ? (info.free ? -2 : info.depth) : -3));
 
 				transition(new Runnable() {
 					@Override

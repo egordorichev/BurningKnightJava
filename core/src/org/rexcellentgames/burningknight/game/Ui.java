@@ -143,7 +143,7 @@ public class Ui {
 	private float val;
 	private float size;
 	private String kills;
-	private float killX = -256;
+	private float killX = -Display.UI_WIDTH;
 	private float mainY = -128;
 	private String time;
 	private float timeW;
@@ -290,7 +290,7 @@ public class Ui {
 					Audio.play("Nostalgia");
 					Audio.reset();
 
-					UiButton button = (UiButton) Dungeon.ui.add(new UiButton("restart", Display.UI_WIDTH / 2 + 256, 107 + 24) {
+					UiButton button = (UiButton) Dungeon.ui.add(new UiButton("restart", Display.UI_WIDTH / 2 + Display.UI_WIDTH, 107 + 24) {
 						@Override
 						public void onClick() {
 							super.onClick();
@@ -323,7 +323,7 @@ public class Ui {
 					Dungeon.ui.select(button);
 
 					if (Dungeon.depth != -3) {
-						button = (UiButton) Dungeon.ui.add(new UiButton("back_to_castle", Display.UI_WIDTH / 2 - 256, 107) {
+						button = (UiButton) Dungeon.ui.add(new UiButton("back_to_castle", Display.UI_WIDTH / 2 - Display.UI_WIDTH, 107) {
 							@Override
 							public void onClick() {
 								super.onClick();
@@ -350,7 +350,7 @@ public class Ui {
 							}
 						}).delay(0.3f);
 
-						button = (UiButton) Dungeon.ui.add(new UiButton("menu", Display.UI_WIDTH / 2 + 256, 83) {
+						button = (UiButton) Dungeon.ui.add(new UiButton("menu", Display.UI_WIDTH / 2 + Display.UI_WIDTH, 83) {
 							@Override
 							public void onClick() {
 								super.onClick();
@@ -381,7 +381,7 @@ public class Ui {
 
 	private void rst() {
 		mainY = -128;
-		killX = -128;
+		killX = -Display.UI_WIDTH;
 
 		Tween.to(new Tween.Task(0, 0.3f) {
 			@Override

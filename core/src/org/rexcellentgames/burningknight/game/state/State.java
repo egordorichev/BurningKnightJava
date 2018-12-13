@@ -25,7 +25,7 @@ public class State {
 		for (int i = 0; i < 65; i++) {
 			float s = i * 0.015f;
 			float mx = (Noise.instance.noise(Dungeon.time * 0.25f + s) * 96);
-			float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + s) * 96);
+			float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + s) * 96);
 			float v = ((float) i) / 65f;
 
 			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
@@ -34,8 +34,8 @@ public class State {
 			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
 			float w = i * 2 + 64;
 			float d = i * 2.5f * (i * 0.01f + 0.99f);
-			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56-i) / 56);
-			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56-i) / 56);
+			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56 - i) / 56);
+			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56 - i) / 56);
 
 			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
 			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.9f);
@@ -44,14 +44,15 @@ public class State {
 
 
 		float i = 32;
-		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56-i) / 56);
-		float my = (Noise.instance.noise( 3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56-i) / 56);
+		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
+		float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
 
 		Graphics.endAlphaShape();
 
-
-		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
-		Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8,false, false);
+		if (!(this instanceof MainMenuState)) {
+			Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+			Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8, false, false);
+		}
 	}
 
 	private boolean paused;

@@ -384,7 +384,7 @@ public class HandmadeRoom extends RegularRoom {
 				end.x = x + rect.x + 16;
 				end.y = y + rect.y + 16 - 8;
 
-				Dungeon.area.add(end);
+				Dungeon.area.add(end.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

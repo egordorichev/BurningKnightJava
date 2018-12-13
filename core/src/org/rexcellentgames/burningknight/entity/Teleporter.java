@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Teleporter extends Item {
@@ -19,7 +20,7 @@ public class Teleporter extends Item {
 		for (int i = 0; i < 64; i++) {
 			Room room = Dungeon.level.getRandomRoom();
 
-			if (room instanceof ConnectionRoom) {
+			if (room instanceof ConnectionRoom || room instanceof BossEntranceRoom) {
 				continue;
 			}
 

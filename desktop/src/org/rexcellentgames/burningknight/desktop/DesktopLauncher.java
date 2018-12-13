@@ -79,7 +79,7 @@ public class DesktopLauncher {
 
 			@Override
 			public void refreshRequested() {
-
+				Gdx.graphics.requestRendering();
 			}
 		});
 

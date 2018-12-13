@@ -205,6 +205,18 @@ public class Player extends Creature {
 
 	public boolean seePath;
 
+	public static float getStaticMage() {
+		return instance == null ? (toSet == Type.WIZARD ? 1f : 0.1f) : instance.getMage();
+	}
+
+	public static float getStaticWarrior() {
+		return instance == null ? (toSet == Type.WARRIOR ? 1f : 0.1f) : instance.getWarrior();
+	}
+
+	public static float getStaticRanger() {
+		return instance == null ? (toSet == Type.RANGER ? 1f : 0.1f) : instance.getRanger();
+	}
+
 	public float getMage() {
 		return this.type == Type.WIZARD ? 1f : 0.1f;
 	}
@@ -1567,6 +1579,10 @@ public class Player extends Creature {
 		this.checkSecrets();
 
 		if (room != null) {
+			if (room.numEnemies > 0) {
+				this.invt = Math.max(this.invt, 0.5f);
+			}
+
 			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
 				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
 			}

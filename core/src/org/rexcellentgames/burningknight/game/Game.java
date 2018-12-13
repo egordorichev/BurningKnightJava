@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.game.state.LoadState;
 import org.rexcellentgames.burningknight.game.state.State;
+import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Log;
 
 public class Game {
@@ -52,6 +53,7 @@ public class Game {
 			Log.info("Set state to " + toSet.getClass().getSimpleName());
 			this.state = toSet;
 			toSet = null;
+			Dialog.active = null;
 
 			if (old != null) {
 				old.destroy();

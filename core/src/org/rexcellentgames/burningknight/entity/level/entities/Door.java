@@ -142,6 +142,14 @@ public class Door extends SaveableEntity {
 			}
 		}
 
+		if (this.collidingWithPlayer) {
+			if (Player.instance.isRolling()) {
+				Log.error("on end");
+				this.collidingWithPlayer = false;
+				onCollisionEnd(Player.instance);
+			}
+		}
+
 		boolean last = this.lock;
 
 		if (this.lock) {
@@ -174,7 +182,7 @@ public class Door extends SaveableEntity {
 		this.al += ((this.collidingWithPlayer ? 1 : 0) - this.al) * dt * 10;
 
 		if (this.lock && this.onScreen && this.al >= 0.5f && Input.instance.wasPressed("interact")) {
-			if (Player.instance.ui.hasEquipped(Lootpick.class)) {
+			if (key != BurningKey.class && Player.instance.ui.hasEquipped(Lootpick.class)) {
 
 				this.body = World.removeBody(this.body);
 				this.lock = false;

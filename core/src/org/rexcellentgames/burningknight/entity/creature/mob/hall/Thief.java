@@ -254,7 +254,7 @@ public class Thief extends Mob {
 			items.add(new NanoOrbital());
 		}
 
-		if (Random.chance(3)) {
+		if (Random.chance(1)) {
 			items.add(new Lootpick());
 		}
 

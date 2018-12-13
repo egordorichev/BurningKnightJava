@@ -242,7 +242,7 @@ public class BurningKnight extends Boss {
 
 	public void restore() {
 		this.pickedKey = false;
-		this.hpMax = (Dungeon.depth * 20) * (Player.instance.type == Player.Type.WARRIOR ? 1 : 2) + 30;
+		this.hpMax = (Dungeon.depth * 20) * (Player.instance != null && Player.instance.type == Player.Type.WARRIOR ? 1 : 2) + 30;
 		this.hp = this.hpMax;
 		this.rage = false;
 
@@ -1219,6 +1219,11 @@ public class BurningKnight extends Boss {
 			self.unhittable = true;
 			self.ignoreRooms = true;
 			self.pickedKey = false;
+
+			if (!Player.instance.didGetHit()) {
+				Log.error("UNLOCK");
+				Achievements.unlock(Achievements.DONT_GET_HIT_IN_BOSS_FIGHT);
+			}
 		}
 
 		@Override

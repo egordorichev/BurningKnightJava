@@ -12,18 +12,20 @@ public class Sword extends SlashSword {
 	protected float oy;
 	protected float ox;
 
-	protected int maxAngle = 200;
+	protected int maxAngle;
 
 	{
-		moveXA = 2.5f;
+		moveXA = 0;
 		moveXB = -8;
-		moveYA = 2;
+		moveYA = 0;
 		moveYB = 0;
-		timeA = 0.15f;
+		timeA = 0f;
 		delayA = 0.0f;
 		timeB = 0.15f;
 		delayB = 0.05f;
 		timeC = 0.1f;
+		backAngle = 0;
+		maxAngle = 200;
 
 		useTime = timeA + delayA + timeB + delayB + timeC;
 	}

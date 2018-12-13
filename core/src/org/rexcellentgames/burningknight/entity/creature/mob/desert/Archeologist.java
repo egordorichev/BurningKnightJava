@@ -45,6 +45,12 @@ public class Archeologist extends Mob {
 		maxSpeed = 100;
 	}
 
+	@Override
+	protected void onHurt(int a, Entity creature) {
+		super.onHurt(a, creature);
+		this.playSfx("damage_clown");
+	}
+
 	private Item weapon;
 
 	@Override

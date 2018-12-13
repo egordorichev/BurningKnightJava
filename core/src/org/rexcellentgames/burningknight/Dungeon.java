@@ -475,20 +475,6 @@ public class Dungeon extends ApplicationAdapter {
 			} else {
 				Gdx.graphics.setWindowedMode(Display.UI_WIDTH_MAX * 2, Display.UI_HEIGHT_MAX * 2);
 			}
-		} else if (Input.instance.wasPressed("F7")) {
-			if (Settings.music > 0.1f) {
-				Settings.music = 0;
-				Audio.update();
-			} else {
-				Settings.music = 0.5f;
-				Audio.update();
-			}
-		} else if (Input.instance.wasPressed("F8")) {
-			if (Settings.sfx > 0.1f) {
-				Settings.sfx = 0;
-			} else {
-				Settings.sfx = 0.5f;
-			}
 		} else if (Input.instance.wasPressed("pause") && Dungeon.darkR == Dungeon.MAX_R && game.getState() instanceof InGameState && !Player.instance.isDead() && Dialog.active == null && !game.getState().isPaused()) {
 			game.getState().setPaused(true);
 			Audio.playSfx("menu/select");

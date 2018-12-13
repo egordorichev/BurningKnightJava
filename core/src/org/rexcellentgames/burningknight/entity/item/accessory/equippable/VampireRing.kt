@@ -18,6 +18,10 @@ class VampireRing : Equippable() {
 		return 10
 	}
 
+	override fun canBeDegraded(): Boolean {
+		return false
+	}
+
 	override fun onUnequip(load: Boolean) {
 		super.onUnequip(load)
 		this.owner.vampire -= getChance()

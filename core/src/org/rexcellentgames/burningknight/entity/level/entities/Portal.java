@@ -76,8 +76,7 @@ public class Portal extends SaveableEntity {
 		Log.info("Checking for exit ladder");
 
 		if (Dungeon.loadType != Entrance.LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
-			Player.ladder = this;
-			Log.info("Set exit ladder!");
+			// Log.info("Set exit ladder!");
 		}
 	}
 
