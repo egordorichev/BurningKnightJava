@@ -72,6 +72,7 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiMap;
@@ -1546,6 +1547,8 @@ public class Player extends Creature {
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
+
+		InGameState.checkMusic();
 
 		if (Dungeon.depth > -1) {
 			if (numCollectedHearts >= 6) {

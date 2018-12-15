@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLeve
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -491,19 +492,7 @@ public class InGameState extends State {
 			if (last >= 1f) {
 				last = 0;
 
-				if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
-					Audio.play("Shopkeeper");
-				} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
-					Audio.highPriority("Rogue");
-				} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
-					Audio.play("Cursed legend");
-				} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
-					if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
-						Audio.play("Rogue");
-					} else {
-						Audio.play(Dungeon.level.getMusic());
-					}
-				}
+				checkMusic();
 			}
 		}
 
@@ -629,6 +618,24 @@ public class InGameState extends State {
 		}
 
 		flow = false;
+	}
+
+	public static void checkMusic() {
+		if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
+			Audio.play("Shopkeeper");
+		} else if (Player.instance.room instanceof SecretRoom) {
+			Audio.play("Serendipity");
+		} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
+			Audio.highPriority("Rogue");
+		} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
+			Audio.play("Cursed legend");
+		} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
+			if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
+				Audio.play("Rogue");
+			} else {
+				Audio.play(Dungeon.level.getMusic());
+			}
+		}
 	}
 
 	public static boolean dark = true;
