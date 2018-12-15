@@ -195,7 +195,7 @@ public class Ui {
 						}
 					});
 				} else {
-					depth = Dungeon.level.formatDepth();
+					depth = Dungeon.level == null ? "Unknown" : Dungeon.level.formatDepth();
 					kills = GameSave.killCount + " " + killsLocale;
 
 					time = String.format("%02d", (int) Math.floor(GameSave.time / 3600)) + ":" +
