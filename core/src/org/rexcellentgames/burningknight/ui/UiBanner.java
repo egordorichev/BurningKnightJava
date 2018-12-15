@@ -189,7 +189,7 @@ public class UiBanner extends Entity {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (!tweened && (Dungeon.game.getState().isPaused() || Player.instance.isDead())) {
+		if (!tweened && (Dungeon.game.getState().isPaused() || (Player.instance != null && Player.instance.isDead()))) {
 			Tween.to(new Tween.Task(0, 0.1f) {
 				@Override
 				public float getValue() {

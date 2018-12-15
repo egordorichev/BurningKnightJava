@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -229,7 +228,7 @@ public class Camera extends Entity {
 
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
-		speed = entity instanceof Player ? (5f) : 4;
+		speed = entity instanceof Player ? (4f) : 4;
 
 		if (target == null) {
 			return;

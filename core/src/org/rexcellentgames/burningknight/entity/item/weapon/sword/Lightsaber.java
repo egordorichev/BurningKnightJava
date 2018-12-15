@@ -13,6 +13,7 @@ public class Lightsaber extends Sword {
 		tr = 0f;
 		tg = 0.7f;
 		tail = true;
+		timeA = 0.2f;
 		useTime = timeA;
 	}
 
@@ -28,7 +29,7 @@ public class Lightsaber extends Sword {
 		description = Locale.get("lightsaber_desc");
 		sprite = "item-lightsaber " + letter.toUpperCase();
 		damage = 6;
-		useTime = 0.4f;
+		useTime = timeA;
 		region = Graphics.getTexture(sprite);
 	}
 
