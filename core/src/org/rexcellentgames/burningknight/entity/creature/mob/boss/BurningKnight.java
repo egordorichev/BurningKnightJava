@@ -1085,11 +1085,11 @@ public class BurningKnight extends Boss {
 			self.setUnhittable(false);
 			Mob.every.add(self);
 
-			if (!Player.instance.isDead()) {
+			/*if (!Player.instance.isDead()) {
 				UiBanner banner = new UiBanner();
 				banner.text = Locale.get("burning_knight");
 				Dungeon.ui.add(banner);
-			}
+			}*/
 		}
 
 		@Override

@@ -22,6 +22,10 @@ public class UiBanner extends Entity {
 	private float w1;
 	private float w2;
 
+	public UiBanner() {
+		
+	}
+
 	@Override
 	public void init() {
 		super.init();

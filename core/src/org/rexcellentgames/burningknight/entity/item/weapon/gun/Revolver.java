@@ -11,6 +11,7 @@ public class Revolver extends Gun {
 		name = Locale.get("gun_" + letter);
 		description = Locale.get("gun_desc");
 		region = Graphics.getTexture(sprite);
+		useTime = 0.5f;
 	}
 
 	{

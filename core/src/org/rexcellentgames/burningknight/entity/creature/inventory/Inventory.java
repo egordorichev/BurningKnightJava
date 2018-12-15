@@ -155,14 +155,29 @@ public class Inventory {
 
 		for (int i = 0; i < this.getSize(); i++) {
 			if (this.isEmpty(i) && UiSlot.canAccept(i, item)) {
+				boolean found = false;
+
+				if (i > 3 && i < 8 && item instanceof Equippable) {
+					for (int j = 4; j < 8; j++) {
+						Item sl = getSlot(j);
+
+						if (sl != null && sl.getClass().isInstance(item)) {
+							found = true;
+							break;
+						}
+					}
+
+					if (found) {
+						continue;
+					}
+
+					((Equippable) item).onEquip(false);
+				}
+
 				this.setSlot(i, item);
 				item.setOwner(Player.instance);
 				item.onPickup();
 				holder.done = true;
-
-				if (item instanceof Equippable) {
-					((Equippable) item).onEquip(false);
-				}
 
 				this.onAdd(holder, i);
 

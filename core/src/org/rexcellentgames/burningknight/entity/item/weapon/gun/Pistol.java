@@ -8,7 +8,7 @@ public class Pistol extends Gun {
 		hole.x = 10;
 		hole.y = 6;
 		damage = 1;
-		useTime = 0.6f;
+		useTime = 0.2f;
 	}
 
 	@Override

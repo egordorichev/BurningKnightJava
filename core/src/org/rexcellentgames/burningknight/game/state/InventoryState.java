@@ -51,6 +51,7 @@ public class InventoryState extends State {
 			UiInventory inventory = new UiInventory(Player.instance.getInventory());
 		}
 
+
 		ui = Player.instance.ui;
 		ui.createSlots();
 

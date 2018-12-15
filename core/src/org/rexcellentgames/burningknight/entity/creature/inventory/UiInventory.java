@@ -415,10 +415,12 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
-		for (; i < Math.ceil(((float) max) / 2) + Math.ceil(((float) iron) / 2); i++) {
+		int nn = (int) (Math.ceil(((float) max) / 2) + Math.ceil(((float) iron) / 2));
+
+		for (; i < nn; i++) {
 			float s = 1f;
 
-			if (golden == 0 && (hpp - 2 == i * 2 || hpp - 2 == i * 2 - 1)) {
+			if (golden == 0 && nn == i + 1) {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
 			}
 
@@ -440,7 +442,7 @@ public class UiInventory extends UiEntity {
 		for (; i < mm; i++) {
 			float s = 1f;
 
-			if ((hpp - 2 == i * 2 || hpp - 2 == i * 2 - 1)) {
+			if (mm == i + 1) {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
 			}
 
