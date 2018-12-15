@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game.state;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -13,6 +14,9 @@ public class WonState extends State {
 
 		Dungeon.dark = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
+		Player.instance.done = true;
+		Player.instance.remove();
+		Player.instance = null;
 
 		Tween.to(new Tween.Task(1, 0.3f) {
 			@Override

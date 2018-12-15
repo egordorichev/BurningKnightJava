@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.game.state;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -73,19 +74,17 @@ public class InventoryState extends State {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		ui.update(dt);
+		Camera.instance.update(dt);
 	}
 
 	@Override
 	public void render() {
 		super.render();
-
 		renderPortal();
 	}
 
 	@Override
 	public void renderUi() {
-		ui.render();
 		Dungeon.ui.render();
 		Ui.ui.renderCursor();
 	}

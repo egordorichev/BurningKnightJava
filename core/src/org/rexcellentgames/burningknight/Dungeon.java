@@ -291,7 +291,6 @@ public class Dungeon extends ApplicationAdapter {
 			Dungeon.newGame();
 		}
 
-		Log.init();
 		Log.info("Burning knight " + Version.string);
 		Log.info(new Date().toString());
 		Log.info("Loading from " + (steam ? "Steam" : "native"));

@@ -3,11 +3,9 @@ package org.rexcellentgames.burningknight.ui;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.math.Vector2;
+import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.Display;
-
-import java.awt.event.KeyEvent;
 
 public class UiInput extends UiEntity implements InputProcessor {
 	private String input = "";
@@ -141,11 +139,6 @@ public class UiInput extends UiEntity implements InputProcessor {
 	}
 
 	public static boolean isPrintableChar(char c) {
-		Character.UnicodeBlock block = Character.UnicodeBlock.of(c);
-
-		return (!Character.isISOControl(c)) &&
-			c != KeyEvent.CHAR_UNDEFINED &&
-			block != null &&
-			block != Character.UnicodeBlock.SPECIALS;
+		return !Character.isISOControl(c);
 	}
 }

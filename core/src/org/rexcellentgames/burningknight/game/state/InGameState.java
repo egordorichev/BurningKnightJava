@@ -154,6 +154,7 @@ public class InGameState extends State {
 	@Override
 	public void setPaused(boolean paused) {
 		super.setPaused(paused);
+
 		Dungeon.dark = 1;
 		Dungeon.darkR = Dungeon.MAX_R;
 

@@ -281,19 +281,27 @@ public class Gun extends WeaponBase {
 			this.chargeA += (1 - this.chargeA) * dt * 5;
 			this.back = false;
 		} else if (this.chargeA > 0) {
-			if (!this.back) {
-				if (this.owner.getStat("fire_on_reload") > 0) {
-					this.delay = 0;
-					this.ammoLeft ++;
-					this.use();
-				}
-			}
-
 			this.chargeProgress = 0;
 			this.back = (this.owner instanceof Mob || (this.ammoLeft == this.ammoMax));
 			this.chargeA += -this.chargeA * dt * 5;
 		}
+
+		if (this.chargeA <= 0.05f) {
+			if (!fired) {
+				if (this.owner.getStat("fire_on_reload") > 0) {
+					this.delay = 0;
+					this.ammoLeft++;
+					this.use();
+				}
+
+				fired = true;
+			}
+		} else {
+			fired = false;
+		}
 	}
+
+	private boolean fired;
 
 	public void renderReload() {
 		if (this.chargeA > 0) {

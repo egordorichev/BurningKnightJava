@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
@@ -50,8 +51,11 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void init() {
+		Dungeon.area.add(new Camera());
+
 		if (instance != null) {
 			instance.done = true;
+			Log.error("Had extra Ui inventory");
 		}
 
 		instance = this;
@@ -230,6 +234,10 @@ public class UiInventory extends UiEntity {
 		}
 
 		this.inventory.active = this.active;
+	}
+
+	public UiSlot getSlot(int i) {
+		return slots[i];
 	}
 
 	private void checkUse() {

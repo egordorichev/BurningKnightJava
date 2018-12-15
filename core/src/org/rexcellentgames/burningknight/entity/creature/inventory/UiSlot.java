@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -179,7 +180,6 @@ public class UiSlot {
 	}
 
 	public void tweenClick() {
-		Audio.playSfx("menu/select");
 
 		Tween.to(new Tween.Task(!(Dungeon.game.getState() instanceof InventoryState) && this.inventory.getActive() == this.id ? 1.5f : 1.2f, 0.05f) {
 			@Override
@@ -214,13 +214,13 @@ public class UiSlot {
 	public void leftClick() {
 		Item self = this.inventory.getInventory().getSlot(this.id);
 
-		if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
+		/*if (self instanceof Accessory && this.id < 6 && Input.instance.isDown("shift")) {
 			if (self.canBeUsed()) {
 				self.use();
 			}
 
 			return;
-		}
+		}*/
 
 		Item current = this.inventory.getCurrentSlot();
 		Item active = this.inventory.getInventory().getSlot(this.inventory.getActive());
@@ -257,6 +257,7 @@ public class UiSlot {
 			}
 
 			this.tweenClick();
+			Audio.playSfx("menu/select");
 			current.use();
 
 			self.setLevel((byte) (self.getLevel() + current.getLevel() - 1));
@@ -305,6 +306,7 @@ public class UiSlot {
 			self.setLevel((byte) (self.getLevel() + active.getLevel() - 1));
 			self.upgrade();
 			this.tweenClick();
+			Audio.playSfx("menu/select");
 			return;
 		}
 
@@ -313,7 +315,7 @@ public class UiSlot {
 			this.inventory.getInventory().setSlot(this.id, current);
 			this.inventory.setCurrentSlot(null);
 		} else if (canAccept(this.id, current) || current == null) {
-			if (this.id > 5 && this.id < 12 && self != null &&
+			if (this.id > 3 && this.id < 8 && self != null &&
 				(self.isCursed() || ((inventory.getInventory().getSlot(id) instanceof Wings || inventory.getInventory().getSlot(id) instanceof RedBalloon)
 				&& (!Player.instance.isTouching(Terrain.FLOOR_A)) && (!Player.instance.isTouching(Terrain.FLOOR_B))
 				&& (!Player.instance.isTouching(Terrain.FLOOR_C)) && (!Player.instance.isTouching(Terrain.FLOOR_D))))) {
@@ -323,11 +325,12 @@ public class UiSlot {
 				tweenClick();
 				return;
 			} else {
-				if (this.id > 5 && current != null) {
-					for (int i = 6; i < 12; i++) {
+				if (this.id > 3 && this.id < 8 && current != null) {
+					for (int i = 4; i < 8; i++) {
 						Item sl = this.inventory.getInventory().getSlot(i);
 
 						if (sl != null && sl.getClass().isInstance(current)) {
+							Player.instance.ui.getSlot(i).tweenClick();
 							Audio.playSfx("item_nocash");
 
 							Camera.shake(6);
@@ -383,6 +386,7 @@ public class UiSlot {
 		}
 
 		tweenClick();
+		Audio.playSfx("menu/select");
 	}
 
 	public void rightClick() {

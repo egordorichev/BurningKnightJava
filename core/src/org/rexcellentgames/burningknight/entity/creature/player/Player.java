@@ -1396,7 +1396,7 @@ public class Player extends Creature {
 
 		float v = this.acceleration.len2();
 
-		if (this.velocity.len() + this.knockback.len() + v > 9f) {
+		if (knockback.len() + v > 9f) {
 			this.stopT = 0;
 		} else {
 			stopT += dt;
