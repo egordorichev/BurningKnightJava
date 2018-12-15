@@ -426,7 +426,7 @@ public class Gun extends WeaponBase {
 		this.owner.knockback.y -= Math.sin(a) * 90f;
 
 		if (this.owner instanceof Player) {
-			Camera.push(a, 8f);
+			Camera.push(a, 16f);
 		}
 
 		Tween.to(new Tween.Task(0.5f, 0.1f) {

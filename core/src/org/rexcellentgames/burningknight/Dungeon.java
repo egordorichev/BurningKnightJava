@@ -440,7 +440,6 @@ public class Dungeon extends ApplicationAdapter {
 			Input.instance.updateMousePosition();
 		}
 
-		Audio.update(dt);
 		Tween.update(dt);
 		shockTime += dt;
 		glitchTime = Math.max(0, glitchTime - dt);

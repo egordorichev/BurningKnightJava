@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Pill
 import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade
+import org.rexcellentgames.burningknight.entity.item.key.BurningKey
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
@@ -301,6 +302,7 @@ object ItemRegistry {
 	  "killer_item" to Pair(KillerItem::class.java, 0.05f, 1f, 1f, 1f, Quality.WOODEN),
 	  "bomb_summoner" to Pair(BombSummoner::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 	  "teleporter" to Pair(Teleporter::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
+	  "burning_key" to Pair(BurningKey::class.java, 0f, 1f, 1f, 1f, Quality.IRON),
 
 	  "snipper_gun" to Pair(SnipperGun::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN)
 	).toList().sortedBy { (_, value) -> value }.toMap()

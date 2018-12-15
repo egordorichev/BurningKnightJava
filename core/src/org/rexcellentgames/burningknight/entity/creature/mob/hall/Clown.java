@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -139,7 +140,7 @@ public class Clown extends Mob {
 
 		if (spawnBomb) {
 			spawnBomb = false;
-			BombEntity e = new BombEntity(this.x, this.y).velTo(this.lastSeen.x + 8, this.lastSeen.y + 8, 60f);
+			BombEntity e = new BombEntity(this.x, this.y).velTo(Player.instance.x + 8, Player.instance.y + 8, 60f);
 
 			this.placedBomb = true;
 			this.apply(e);

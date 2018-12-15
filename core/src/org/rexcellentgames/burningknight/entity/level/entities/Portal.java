@@ -145,7 +145,7 @@ public class Portal extends SaveableEntity {
 
 		last += dt;
 
-		if (last >= 0.01f) {
+		if (!noSpawn && last >= 0.01f) {
 			last = 0;
 			parts.add(new Particle(this));
 			parts.add(new Particle(this));
@@ -225,6 +225,7 @@ public class Portal extends SaveableEntity {
 
 				@Override
 				public void onEnd() {
+					noSpawn = true;
 					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
 						@Override
 						public float getValue() {
@@ -258,6 +259,8 @@ public class Portal extends SaveableEntity {
 			}).delay(1f);
 		}
 	}
+
+	private boolean noSpawn;
 
 	/*
 		ideas:

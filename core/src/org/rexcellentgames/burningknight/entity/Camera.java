@@ -63,6 +63,12 @@ public class Camera extends Entity {
 	}
 
 	public Camera() {
+		if (instance != null) {
+			instance.done = true;
+			instance = this;
+			return;
+		}
+
 		instance = this;
 
 		// https://code-disaster.com/2016/02/subpixel-perfect-smooth-scrolling.html
@@ -111,6 +117,8 @@ public class Camera extends Entity {
 
 	@Override
 	public void update(float dt) {
+		// if (true) {return;}
+
 		if (last != null && last.done) {
 			last = null;
 		}
@@ -121,7 +129,7 @@ public class Camera extends Entity {
 
 		st = Math.max(0, st - dt * 1f);
 
-		pushAm = Math.max(0, pushAm - dt * 50);
+		pushAm = Math.max(0, pushAm - dt * 20);
 		shake = Math.max(0, shake - dt * 10);
 
 		if (target != null && !noMove) {
@@ -141,10 +149,14 @@ public class Camera extends Entity {
 				camPosition = camPosition.lerp(new Vector2(x, y), dt * speed);
 
 				if (target instanceof Player) {
-					float f = 10;
 					float cx = (mousePosition.x);
 					float cy = (mousePosition.y);
-					camPosition = camPosition.lerp(new Vector2(cx, cy), dt * speed * 0.25f);
+					float dx = cx - camPosition.x;
+					float dy = cy - camPosition.y;
+
+					if (Math.sqrt(dx * dx + dy * dy) > 3) {
+						camPosition = camPosition.lerp(new Vector2(cx, cy), dt * speed * 0.25f);
+					}
 				}
 			}
 
@@ -184,7 +196,7 @@ public class Camera extends Entity {
 			float shake = st * st;
 			float tt = t * 13;
 
-			if (shake > 0) {
+			if (shake > 0.1f) {
 				mx = (Noise.instance.noise(tt) * shake);
 				my = (Noise.instance.noise(tt + 1) * shake);
 				ma = (Noise.instance.noise(tt + 2) * shake * 0.5f);
@@ -228,18 +240,25 @@ public class Camera extends Entity {
 
 	public static void follow(Entity entity, boolean jump) {
 		target = entity;
-		speed = entity instanceof Player ? (4f) : 4;
+		speed = entity instanceof Player ? (4.5f) : 4;
 
 		if (target == null) {
 			return;
 		}
 
 		if (jump) {
-			int x = (int) (target.x + target.w / 2);
-			int y = (int) (target.y + target.h / 2);
+			float a = 1;
+			float b = 1 - a;
+			int x = (int) (((target.x + target.w / 2) * a + (Input.instance.worldMouse.x) * b));
+			int y = (int) (((target.y + target.h / 2) * a + (Input.instance.worldMouse.y) * b));
+			camPosition.set(x, y);
 			game.position.set(x, y, 0);
 			game.update();
-			camPosition.set(x, y);
 		}
+	}
+
+	{
+		alwaysActive = true;
+		alwaysRender = true;
 	}
 }

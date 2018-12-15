@@ -51,9 +51,9 @@ public class NpcDialog extends Entity {
 		float y = Math.round(this.npc.y + this.npc.h + 10 - this.h / 2);
 
 		float sx = (this.w - topLeft.getRegionWidth() * 2) / ((float) top.getRegionWidth());
-		float sy = (this.h - left.getRegionHeight()) / ((float) left.getRegionHeight());
+		float sy = (this.h - left.getRegionHeight() - 1) / ((float) left.getRegionHeight());
 
-		Graphics.batch.setColor(1, 1, 1, this.a);
+		Graphics.batch.setColor(1, 1, 1, this.a * 0.5f);
 
 		Graphics.render(top, x + topLeft.getRegionWidth(), y + this.h - topLeft.getRegionHeight(), 0, 0, 0, false, false, sx, 1);
 		Graphics.render(topLeft, x, y + this.h - topLeft.getRegionHeight());

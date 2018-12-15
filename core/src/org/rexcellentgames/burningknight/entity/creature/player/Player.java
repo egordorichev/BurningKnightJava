@@ -1023,7 +1023,6 @@ public class Player extends Creature {
 		this.inventory = new Inventory(this, inventorySize);
 		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
 
-		Camera.follow(this, true);
 		doTp(true);
 
 		switch (this.type) {
@@ -1044,6 +1043,8 @@ public class Player extends Creature {
 
 			Player.instance.tp(Spawn.instance.x, Spawn.instance.y);
 		}
+
+		Camera.follow(this, true);
 	}
 
 	public boolean leaveSmall;
@@ -1066,7 +1067,6 @@ public class Player extends Creature {
 			Log.error("Null lader!");
 		}
 
-		Camera.follow(this, true);
 		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
 		vec = Camera.ui.unproject(vec);
 		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
@@ -1078,12 +1078,13 @@ public class Player extends Creature {
 	@Override
 	public void tp(float x, float y) {
 		super.tp(x, y);
-		Camera.follow(this, !this.teleport);
+		Camera.follow(this, true);
 		orbitalRing.x = this.x + this.w / 2;
 		orbitalRing.y = this.y + this.h / 2;
 	}
 
 	public Vector2 orbitalRing = new Vector2();
+
 
 	private float last;
 	private float lastBlood;
@@ -1112,6 +1113,7 @@ public class Player extends Creature {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
 		light.setActive(true);
 		light.attachToBody(body, 8, 8, 0);
 		light.setPosition(x + 8, y + 8);
@@ -1914,7 +1916,6 @@ public class Player extends Creature {
 
 		this.maxSpeed += (this.speed - last) * 7f;
 		this.setHat(reader.readString());
-		Camera.follow(this, true);
 
 		doTp(false);
 

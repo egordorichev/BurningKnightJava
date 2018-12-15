@@ -103,7 +103,15 @@ public class InGameState extends State {
 
 		this.console = new Console();
 
-		Dungeon.darkR = 0;
+		// Fixme: replace with out of portal anim
+		/*Dungeon.darkR = 0;
+
+		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0f));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
+
+		Dungeon.darkX = vec.x / Display.UI_SCALE;
+		Dungeon.darkY = vec.y;
 
 		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f) {
 			@Override
@@ -121,7 +129,8 @@ public class InGameState extends State {
 				super.onEnd();
 				Player.instance.setUnhittable(false);
 			}
-		});
+		});*/
+		// end fixme
 
 		if (Dungeon.level instanceof DesertLevel) {
 			Achievements.unlock(Achievements.REACH_DESERT);
@@ -142,6 +151,20 @@ public class InGameState extends State {
 		}
 
 		volume = 0;
+
+		Dungeon.darkR = 0;
+
+		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f, Tween.Type.QUAD_OUT) {
+			@Override
+			public float getValue() {
+				return Dungeon.darkR;
+			}
+
+			@Override
+			public void setValue(float value) {
+				Dungeon.darkR = value;
+			}
+		});
 	}
 
 	private boolean wasHidden;

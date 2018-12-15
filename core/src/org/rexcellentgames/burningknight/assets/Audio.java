@@ -21,10 +21,6 @@ public class Audio {
 	public static boolean important;
 	private static String last = "";
 
-	public static void update(float dt) {
-
-	}
-
 	public static void targetAssets() {
 		JsonReader reader = new JsonReader();
 		JsonValue root = reader.parse(Gdx.files.internal("sfx/sfx.json"));

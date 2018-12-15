@@ -238,7 +238,7 @@ public class Shopkeeper extends Npc {
 
 			if (self.room != Player.instance.room) {
 				self.become("idle");
-			} else if (this.moveTo(new Point(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2), 5f, 24f)) {
+			} else if (this.moveTo(new Point(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2), 20f, 24f)) {
 				self.become("stand");
 			}
 		}
@@ -362,7 +362,7 @@ public class Shopkeeper extends Npc {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = Random.newFloat(3, 8f);
+			delay = Random.newFloat(1, 3f);
 		}
 
 		@Override
@@ -398,7 +398,7 @@ public class Shopkeeper extends Npc {
 				to.y *= 16;
 			}
 
-			if (this.moveTo(this.to, 2f, 16f)) {
+			if (this.moveTo(this.to, 20f, 16f)) {
 				self.become("stand");
 			}
 
@@ -435,14 +435,14 @@ public class Shopkeeper extends Npc {
 					to = new Point();
 
 					to.x = target.x + (self.w - target.w) / 2;
-					to.y = target.y + 24;
+					to.y = target.y + 15;
 				} else {
 					self.become("stand");
 					return;
 				}
 			}
 
-			if (this.moveTo(this.to, 3f, 16f)) {
+			if (this.moveTo(this.to, 20f, 16f)) {
 				self.become("talk");
 			}
 		}
@@ -504,7 +504,7 @@ public class Shopkeeper extends Npc {
 					to.y *= 16;
 				}
 
-				if (this.moveTo(to, 12f, 32f) || this.tt >= 5f) {
+				if (this.moveTo(to, 20f, 32f) || this.tt >= 5f) {
 					to = null;
 					this.tt = 0;
 				}
