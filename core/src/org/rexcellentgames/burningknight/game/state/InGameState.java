@@ -363,6 +363,11 @@ public class InGameState extends State {
 			Upgrade.Companion.setUpdateEvent(false);
 		}
 
+		/*if (Input.instance.wasPressed("active")) {
+			Object nil = null;
+			nil.getClass();
+		}*/ // Crash simulation
+
 		if (!isPaused() && !Player.instance.isDead() && Dungeon.depth != -2) {
 			GameSave.time += Gdx.graphics.getDeltaTime();
 		} else {

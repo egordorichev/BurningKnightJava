@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class InventoryState extends State {
@@ -40,21 +41,21 @@ public class InventoryState extends State {
 
 		Dungeon.white = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.ui.destroy();
+		Dungeon.area.destroy();
 
 		inventory = Player.instance.getInventory();
 
 		if (Player.instance.ui == null) {
 			depth = Dungeon.depth + 1;
 			UiInventory inventory = new UiInventory(Player.instance.getInventory());
-			Dungeon.ui.add(inventory);
 		}
 
 		ui = Player.instance.ui;
 		ui.createSlots();
 
-		Dungeon.area.destroy();
 
-		Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 14 + 32)) {
+		go = (UiEntity) Dungeon.ui.add(new UiButton("go", Display.UI_WIDTH / 2, (int) (ui.slots[0].y + 14 + 32)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -71,9 +72,13 @@ public class InventoryState extends State {
 		});
 	}
 
+	private UiEntity go;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+		go.update(dt);
+		ui.update(dt);
 		Camera.instance.update(dt);
 	}
 
@@ -85,7 +90,8 @@ public class InventoryState extends State {
 
 	@Override
 	public void renderUi() {
-		Dungeon.ui.render();
+		ui.render();
+		go.render();
 		Ui.ui.renderCursor();
 	}
 }

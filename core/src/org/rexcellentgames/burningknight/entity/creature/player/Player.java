@@ -1584,7 +1584,7 @@ public class Player extends Creature {
 				this.invt = Math.max(this.invt, 0.5f);
 			}
 
-			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(50)) {
+			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(80)) {
 				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
 			}
 

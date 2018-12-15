@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.item.accessory.equippable
 
 import org.rexcellentgames.burningknight.assets.Locale
+import org.rexcellentgames.burningknight.util.Log
 
 class Halo : Equippable() {
 	init {
@@ -13,7 +14,7 @@ class Halo : Equippable() {
 		super.onEquip(load)
 
 		val full = this.owner.hp == this.owner.hpMax
-		this.owner.hpMax = (this.owner.hpMax + getHearts() * 2).toInt()
+		this.owner.modifyHpMax(getHearts().toInt() * 2)
 
 		if (full) {
 			this.owner.modifyHp(4, null)
@@ -25,7 +26,7 @@ class Halo : Equippable() {
 
 		this.owner.modifyMana(3)
 		this.owner.damageModifier -= 1f
-		this.owner.hpMax = (this.owner.hpMax - getHearts() * 2).toInt()
+		this.owner.modifyHpMax(-getHearts().toInt() * 2)
 	}
 
 	private fun getHearts(): Float {

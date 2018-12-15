@@ -11,5 +11,7 @@ public class BlueShovel extends Claymore {
 		name = Locale.get("blue_shovel");
 		description = Locale.get("blue_shovel_desc");
 		region = Graphics.getTexture(sprite);
+		timeA = 0.1f;
+		useTime = timeA;
 	}
 }

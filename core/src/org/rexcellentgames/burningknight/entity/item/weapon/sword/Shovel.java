@@ -17,7 +17,8 @@ public class Shovel extends Claymore {
 		}
 
 		damage = 4;
-		useTime = 0.4f;
+		timeA = 0.4f;
+		useTime = timeA;
 		region = Graphics.getTexture(sprite);
 	}
 }

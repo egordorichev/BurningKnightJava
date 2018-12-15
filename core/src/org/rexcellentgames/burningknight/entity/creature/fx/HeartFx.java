@@ -123,15 +123,17 @@ public class HeartFx extends SaveableEntity {
 				}
 
 				player.numCollectedHearts += this.type == Type.RED ? 2 : 1;
-			} else if (this.type == Type.GOLDEN) {
-				Achievements.unlock(Achievements.UNLOCK_DIAMOND);
-				player.addGoldenHearts(2);
-				player.numCollectedHearts += 2;
-				this.end(player);
-			} else if (this.type == Type.IRON) {
-				player.addIronHearts(2);
-				this.end(player);
-				player.numCollectedHearts += 2;
+			} else if (Player.instance.getHpMax() + Player.instance.getGoldenHearts() + Player.instance.getIronHearts() < 18) {
+				if (this.type == Type.GOLDEN) {
+					Achievements.unlock(Achievements.UNLOCK_DIAMOND);
+					player.addGoldenHearts(2);
+					player.numCollectedHearts += 2;
+					this.end(player);
+				} else if (this.type == Type.IRON) {
+					player.addIronHearts(2);
+					this.end(player);
+					player.numCollectedHearts += 2;
+				}
 			}
 		}
 	}
