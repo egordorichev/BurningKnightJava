@@ -345,6 +345,10 @@ public class Gun extends WeaponBase {
 			}
 
 			if (this.ammoLeft <= 0) {
+				if (this.owner instanceof Player) {
+					this.owner.playSfx("no_ammo");
+				}
+
 				return;
 			}
 		}

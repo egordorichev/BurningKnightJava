@@ -342,6 +342,7 @@ public class BombEntity extends Entity {
 
 	public static void make(Room room) {
 		Player.instance.playSfx("secret");
+		Player.instance.playSfx("secret_room");
 
 		for (int x = room.left; x <= room.right; x++) {
 			for (int y = room.top; y <= room.bottom; y++) {

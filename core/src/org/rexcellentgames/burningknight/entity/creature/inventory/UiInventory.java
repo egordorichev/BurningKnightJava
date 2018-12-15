@@ -156,7 +156,7 @@ public class UiInventory extends UiEntity {
 				this.validate(Input.instance.getAmount());
 			}
 
-			if (Dungeon.game.getState() instanceof InventoryState && Input.instance.wasPressed("bomb")) {
+			if (!(Dungeon.game.getState() instanceof InventoryState) && Input.instance.wasPressed("bomb")) {
 				int count = Player.instance.getBombs();
 
 				if (count == 0) {

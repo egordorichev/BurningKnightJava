@@ -8,6 +8,8 @@
 	"missile",
 	"laser",
 	"coin",
+	"secret_room",
+	"no_ammo",
 	"key",
 	"door",
 	"curse_lamp",
