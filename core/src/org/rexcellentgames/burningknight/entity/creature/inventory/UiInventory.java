@@ -459,6 +459,7 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
+		mm --;
 		if (!full) {
 			Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
 

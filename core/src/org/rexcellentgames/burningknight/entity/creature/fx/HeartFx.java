@@ -112,6 +112,8 @@ public class HeartFx extends SaveableEntity {
 		if (entity instanceof Player) {
 			Player player = ((Player) entity);
 
+			int s = Player.instance.getHpMax() + Player.instance.getGoldenHearts() + Player.instance.getIronHearts();
+
 			if ((this.type == Type.RED || this.type == Type.RED_HALF) && player.getHp() < player.getHpMax()) {
 				player.modifyHp(2, null);
 				this.end(player);
@@ -123,14 +125,14 @@ public class HeartFx extends SaveableEntity {
 				}
 
 				player.numCollectedHearts += this.type == Type.RED ? 2 : 1;
-			} else if (Player.instance.getHpMax() + Player.instance.getGoldenHearts() + Player.instance.getIronHearts() < 18) {
+			} else if (s < 32) {
 				if (this.type == Type.GOLDEN) {
 					Achievements.unlock(Achievements.UNLOCK_DIAMOND);
-					player.addGoldenHearts(2);
+					player.addGoldenHearts(s == 31 ? 1 : 2);
 					player.numCollectedHearts += 2;
 					this.end(player);
 				} else if (this.type == Type.IRON) {
-					player.addIronHearts(2);
+					player.addIronHearts(s == 31 ? 1 : 2);
 					this.end(player);
 					player.numCollectedHearts += 2;
 				}
