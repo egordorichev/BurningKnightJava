@@ -321,6 +321,10 @@ public class Player extends Creature {
 	public void generate() {
 		this.inventory.clear();
 
+		bombs = 1;
+		keys = 0;
+		money = 0;
+
 		if (Dungeon.depth == -3) {
 			this.hpMax = 12;
 			this.hp = 12;
@@ -1001,9 +1005,18 @@ public class Player extends Creature {
 		al = 0;
 		rotating = false;
 
-		if (Dungeon.depth == -2) {
+		Tween.to(new Tween.Task(0, 0.1f) {
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				Log.error("Jump");
+				Camera.follow(Player.instance, true);
+			}
+		});
+
+		/*if (Dungeon.depth == -2) {
 			Achievements.unlock(Achievements.TUTORIAL_DONE);
-		}
+		}*/
 
 		t = 0;
 

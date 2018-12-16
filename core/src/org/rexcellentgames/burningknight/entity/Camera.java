@@ -117,8 +117,6 @@ public class Camera extends Entity {
 
 	@Override
 	public void update(float dt) {
-		// if (true) {return;}
-
 		if (last != null && last.done) {
 			last = null;
 		}
