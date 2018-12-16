@@ -14,6 +14,6 @@ public class InfiniteBomb extends Bomb {
 	@Override
 	public void use() {
 		super.use();
-		setCount(count + 1);
+		setCount(1);
 	}
 }

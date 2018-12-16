@@ -25,6 +25,7 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.PathFinder;
 
 public class LoadState extends State {
@@ -58,6 +59,8 @@ public class LoadState extends State {
 			Dungeon.game.setState(GameSave.inventory ? new InventoryState() : new InGameState());
 			return;
 		}
+
+		progress += dt * 0.6f;
 
 		if (runM) {
 			runM = false;
@@ -214,6 +217,8 @@ public class LoadState extends State {
 	private boolean error;
 	private String errorString;
 	private float ew;
+	private float progress;
+	public static boolean noPercent = false;
 
 	@Override
 	public void renderUi() {
@@ -224,15 +229,18 @@ public class LoadState extends State {
 			runThread();
 		}
 
-		if (this.third) {
+		if ((noPercent || progress >= 1.0f) && this.third) {
 			this.ready = true;
+			noPercent = false;
 		}
 
 		if (error) {
 			Graphics.print(this.errorString, Graphics.medium, Display.UI_WIDTH / 2 - ew, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Dungeon.ui.render();
-		} else {
-			// Graphics.print(this.s, Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
+		} else if (!noPercent) {
+			int i = (int) MathUtils.clamp(0, 100, Math.round(progress * 100));
+			Graphics.print("Generating... " + i + "%",
+				Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
 		}
 
 		Ui.ui.renderCursor();

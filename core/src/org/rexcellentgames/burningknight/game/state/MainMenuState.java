@@ -286,7 +286,6 @@ public class MainMenuState extends State {
 
 	@Override
 	public void renderUi() {
-
 		renderPortal();
 		super.render();
 
