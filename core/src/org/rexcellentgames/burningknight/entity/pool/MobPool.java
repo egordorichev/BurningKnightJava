@@ -88,7 +88,7 @@ public class MobPool {
 
 		add(0.5f, -1, MovingFly.class);
 		add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
-		add(1f, -1, DiagonalFly.class);
+		add(100000000f, -1, DiagonalFly.class);
 		add(1f, -1, DiagonalShotFly.class);
 
 		if (Dungeon.level instanceof HallLevel) {
