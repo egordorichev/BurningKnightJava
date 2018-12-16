@@ -1575,11 +1575,12 @@ public class Player extends Creature {
 
 			hadEnemies = false;
 
+			/*
 			for (Trader trader : Trader.all) {
 				if (trader.room == this.room) {
 					trader.become("hi");
 				}
-			}
+			}*/
 		}
 
 		this.checkSecrets();

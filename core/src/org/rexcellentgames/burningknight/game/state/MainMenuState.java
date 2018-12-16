@@ -114,12 +114,6 @@ public class MainMenuState extends State {
 
 		Dungeon.setBackground2(Color.valueOf("#000000"));
 
-		SettingsState.added = false;
-		InputSettingsState.added = false;
-		GraphicsSettingsState.added = false;
-		AudioSettingsState.added = false;
-		KeyConfigState.added = false;
-
 		cameraX = Display.UI_WIDTH_MAX / 2;
 		cameraY = Display.UI_HEIGHT_MAX / 2;
 
@@ -129,8 +123,7 @@ public class MainMenuState extends State {
 
 		int y = Display.UI_HEIGHT / 2 - 24;
 
-		float v = 0;
-		logoX = v;
+		logoX = 0f;
 
 		instance = this;
 		Dungeon.area.add(Camera.instance);

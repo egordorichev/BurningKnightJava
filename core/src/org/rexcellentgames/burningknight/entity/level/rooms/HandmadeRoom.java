@@ -227,8 +227,8 @@ public class HandmadeRoom extends RegularRoom {
 					trader.saved = true;
 
 					if (Version.debug) {
-						GlobalSave.put("npc_" + id + "_saved", true);
-						GlobalSave.put("all_npcs_saved", true);
+						// GlobalSave.put("npc_" + id + "_saved", true);
+						// GlobalSave.put("all_npcs_saved", true);
 					}
 				}
 

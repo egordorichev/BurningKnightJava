@@ -36,13 +36,12 @@ public class Trader extends Npc {
 
 	@Override
 	protected State getAi(String state) {
-		return new IdleState();
-
-		/*
 		switch (state) {
-			//case "hi": return new HiState();
-			//case "thanks": return new ThanksState();
-		}*/
+			case "hi": return new HiState();
+			case "thanks": return new ThanksState();
+		}
+
+		return new IdleState();
 	}
 
 	private static String[] dialogs = {
