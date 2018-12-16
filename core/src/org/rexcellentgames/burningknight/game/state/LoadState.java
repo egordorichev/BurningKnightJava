@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -225,13 +226,25 @@ public class LoadState extends State {
 		renderPortal();
 
 		if (!second) {
-			this.second = true;
-			runThread();
+			al += Gdx.graphics.getDeltaTime() * 3;
+
+			if (al >= 1f) {
+				al = 1;
+
+				this.second = true;
+				runThread();
+			}
 		}
 
 		if ((noPercent || progress >= 1.0f) && this.third) {
-			this.ready = true;
-			noPercent = false;
+			al -= Gdx.graphics.getDeltaTime() * 3;
+
+			if (al <= 0) {
+				al = 0;
+
+				this.ready = true;
+				noPercent = false;
+			}
 		}
 
 		if (error) {
@@ -239,10 +252,14 @@ public class LoadState extends State {
 			Dungeon.ui.render();
 		} else if (!noPercent) {
 			int i = (int) MathUtils.clamp(0, 100, Math.round(progress * 100));
+			Graphics.medium.setColor(1, 1, 1, al);
 			Graphics.print("Generating... " + i + "%",
 				Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
+			Graphics.medium.setColor(1, 1, 1, 1);
 		}
 
 		Ui.ui.renderCursor();
 	}
+
+	private float al;
 }

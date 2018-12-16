@@ -154,9 +154,9 @@ public class ItemSelectState extends State {
 				super.onClick();
 				float r = Random.newFloat(1);
 
-				if (r < 0.333f) {
+				if (r < 0.333f || (mage.size() == 0 && ranged.size() == 0)) {
 					pick(melee.get(Random.newInt(melee.size() - 1)), Player.Type.WARRIOR);
-				} else if (r < 0.666f) {
+				} else if (r < 0.666f && ranged.size() > 0) {
 					pick(ranged.get(Random.newInt(ranged.size() - 1)), Player.Type.RANGER);
 				} else {
 					pick(mage.get(Random.newInt(mage.size() - 1)), Player.Type.WIZARD);
