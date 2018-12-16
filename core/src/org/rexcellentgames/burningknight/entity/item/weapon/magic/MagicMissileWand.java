@@ -6,8 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -24,10 +26,14 @@ public class MagicMissileWand extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
+		final int mana = this.mana;
+
 		BulletProjectile missile = new BulletProjectile() {
 			{
 				ignoreArmor = true;
 			}
+
+			private int manaUsed;
 
 			@Override
 			public void render() {
@@ -43,6 +49,7 @@ public class MagicMissileWand extends Wand {
 			@Override
 			public void init() {
 				super.init();
+				manaUsed = mana;
 				light = World.newLight(32, new Color(1f, 1f, 1f, 1f), 64, x, y);
 			}
 
@@ -51,7 +58,6 @@ public class MagicMissileWand extends Wand {
 				super.destroy();
 				World.removeLight(light);
 			}
-
 
 			@Override
 			public void logic(float dt) {
@@ -73,6 +79,25 @@ public class MagicMissileWand extends Wand {
 				}
 
 				World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
+			}
+
+			@Override
+			protected void death() {
+				super.death();
+
+				int weight = manaUsed;
+
+				while (weight > 0) {
+					ManaFx fx = new ManaFx();
+
+					fx.x = x - velocity.x * 0.1f;
+					fx.y = y - velocity.y * 0.1f;
+					fx.half = weight == 1;
+
+					weight -= fx.half ? 1 : 2;
+					Dungeon.area.add(fx);
+					LevelSave.add(fx);
+				}
 			}
 		};
 

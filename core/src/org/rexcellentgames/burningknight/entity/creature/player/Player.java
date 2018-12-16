@@ -33,7 +33,6 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiSlot;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
-import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
@@ -195,7 +194,7 @@ public class Player extends Creature {
 
 	{
 		hpMax = 8;
-		manaMax = 6;
+		manaMax = 8;
 		level = 1;
 		mul = 0.7f;
 		speed = 25;
@@ -1247,7 +1246,7 @@ public class Player extends Creature {
 
 			if (this.lastMana > 1f) {
 				this.lastMana = 0;
-				this.mana += 1;
+				// this.mana += 1;
 			}
 		}
 
