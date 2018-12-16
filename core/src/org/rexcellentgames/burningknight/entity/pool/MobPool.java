@@ -4,7 +4,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
@@ -20,54 +19,99 @@ import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
+import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
 
-public class MobPool extends Pool<Mob> {
+import java.util.ArrayList;
+
+public class MobPool {
 	public static MobPool instance = new MobPool();
+	protected ArrayList<MobHub> classes = new ArrayList<>();
+	protected ArrayList<Float> chances = new ArrayList<>();
+
+	protected ArrayList<MobHub> dclasses = new ArrayList<>();
+	protected ArrayList<Float> dchances = new ArrayList<>();
+
+	public void initForRoom() {
+		for (int i = 0; i < dchances.size(); i++) {
+			classes.add(dclasses.get(i));
+			chances.add(dchances.get(i));
+		}
+
+		dchances.clear();
+		dclasses.clear();
+	}
+
+	public MobHub generate() {
+		int i = Random.chances(chances.toArray(new Float[0]));
+
+		if (i == -1) {
+			Log.error("-1 as pool result!");
+			return null;
+		}
+
+		MobHub hub = classes.get(i);
+
+		if (hub != null) {
+			hub.maxMatches -= 1;
+
+			if (hub.maxMatches == 0) {
+				if (!hub.once) {
+					dchances.add(chances.get(classes.indexOf(hub)));
+					dclasses.add(hub);
+				}
+
+				chances.remove(classes.indexOf(hub));
+				classes.remove(hub);
+			}
+		}
+
+		return hub;
+	}
+
+	public void add(MobHub type, float chance) {
+		classes.add(type);
+		chances.add(chance);
+	}
+
+	public void clear() {
+		classes.clear();
+		chances.clear();
+	}
+
+	private void add(float chance, int max, Class<? extends Mob> ... classes) {
+		add(new MobHub(chance, max, classes), chance);
+	}
 
 	public void initForFloor() {
 		clear();
-		add(Fly.class, 0.2f);
-		add(MovingFly.class, 0.5f);
-		add(DiagonalFly.class, 1f);
-		add(DiagonalShotFly.class, 0.5f);
+
+		add(0.5f, -1, MovingFly.class);
+		add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
+		add(1f, -1, DiagonalFly.class);
+		add(1f, -1, DiagonalShotFly.class);
 
 		if (Dungeon.level instanceof HallLevel) {
-			add(RangedKnight.class, 1f);
-			add(Knight.class, 1f);
-			add(Clown.class, 1f);
-			add(Thief.class, 1f);
+			add(1f, -1, RangedKnight.class);
+			add(1f, -1, Knight.class);
+			add(1f, -1, Clown.class);
+			add(1f, -1, Thief.class);
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
-			add(Archeologist.class, 1f);
-			add(Mummy.class, 1f);
-			add(Skeleton.class, 0.5f);
-			add(Thief.class, 1f);
+			add(1f, -1, Archeologist.class);
+			add(1f, -1, Mummy.class);
+			add(0.5f, 1, Skeleton.class); // Fixme: should allow max 1 skeleton PER ROOM
+			add(1f, -1, Thief.class);
 		}
 
-		if (Dungeon.level instanceof LibraryLevel) {
-			add(Skeleton.class, 1f);
-			// tmp
-		}
+		if (Dungeon.level instanceof LibraryLevel ||
+			Dungeon.level instanceof TechLevel ||
+			Dungeon.level instanceof CreepLevel ||
+			Dungeon.level instanceof ForestLevel ||
+			Dungeon.level instanceof BloodLevel) {
 
-		if (Dungeon.level instanceof TechLevel) {
-			add(Skeleton.class, 1f);
-			// tmp
-		}
-
-		if (Dungeon.level instanceof CreepLevel) {
-			add(Skeleton.class, 1f);
-			// tmp
-		}
-
-		if (Dungeon.level instanceof ForestLevel) {
-			add(Mummy.class, 1f);
-			// tmp
-		}
-
-		if (Dungeon.level instanceof BloodLevel) {
-			add(Knight.class, 1f);
-			// tmp
+			add(1f, -1, Knight.class);
 		}
 	}
 }

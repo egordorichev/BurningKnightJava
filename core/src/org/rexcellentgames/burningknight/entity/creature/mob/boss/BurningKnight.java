@@ -1176,11 +1176,20 @@ public class BurningKnight extends Boss {
 			float y = self.y + self.h / 2;
 
 			if (num < 4 && this.t > num * 0.5f + 1f) {
-				Mob mob = MobPool.instance.generate();
+				Mob mob = null;
+				try {
+					mob = MobPool.instance.generate().types.get(0).newInstance();
+				} catch (InstantiationException | IllegalAccessException e) {
+					e.printStackTrace();
+				}
 
 				if (mob == null) {
 					MobPool.instance.initForFloor();
-					mob = MobPool.instance.generate();
+					try {
+						mob = MobPool.instance.generate().types.get(0).newInstance();
+					} catch (InstantiationException | IllegalAccessException e) {
+						e.printStackTrace();
+					}
 				}
 
 				double a = Math.PI * 2 * (num * 0.25f);

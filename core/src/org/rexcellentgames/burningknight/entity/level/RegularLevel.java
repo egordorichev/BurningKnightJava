@@ -30,6 +30,7 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
+import org.rexcellentgames.burningknight.entity.pool.MobHub;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.entity.pool.room.*;
 import org.rexcellentgames.burningknight.util.Log;
@@ -67,7 +68,7 @@ public abstract class RegularLevel extends Level {
 		this.itemsToSpawn.clear();
 
 		if (Dungeon.depth > 0) {
-			itemsToSpawn.add(new ScrollOfUpgrade());
+			// itemsToSpawn.add(new ScrollOfUpgrade());
 
 			for (int i = 0; i < Random.newInt(4); i++) {
 				this.itemsToSpawn.add(new Bomb());
@@ -100,7 +101,6 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > 0) {
 			MobPool.instance.initForFloor();
-
 			Log.info("Spawn modifier is x" + Player.mobSpawnModifier);
 
 			for (Room room : this.rooms) {
@@ -113,36 +113,23 @@ public abstract class RegularLevel extends Level {
 						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
 					}
 
-					while (weight > 0) {
-						Mob mob;
+					MobPool.instance.initForRoom();
 
+					while (weight > 0) {
 						if (false && GameSave.runId == 0) {
-							mob = new DiagonalShotFly();//new DiagonalFly();// room.id == 1 ? new Fly() : new MovingFly();
+							//new DiagonalFly();// room.id == 1 ? new Fly() : new MovingFly();
+							spawnMob(new DiagonalShotFly(), room, weight);
 							weight -= 1;
 						} else {
-							mob = MobPool.instance.generate();
-							weight -= mob.getWeight();
-						}
+							MobHub mobs = MobPool.instance.generate();
 
-						Point point;
-						int i = 0;
-
-						do {
-							point = room.getRandomCell();
-
-							if (i++ > 40) {
-								Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());
-								break;
+							for (Class<? extends Mob> m : mobs.types) {
+								try {
+									weight = spawnMob(m.newInstance(), room, weight);
+								} catch (InstantiationException | IllegalAccessException e) {
+									e.printStackTrace();
+								}
 							}
-						} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
-
-						if (i <= 40) {
-							mob.generate();
-
-							Dungeon.area.add(mob);
-							LevelSave.add(mob);
-
-							mob.tp(point.x * 16, point.y * 16);
 						}
 					}
 				}
@@ -167,6 +154,33 @@ public abstract class RegularLevel extends Level {
 		}
 
 		this.itemsToSpawn.clear();
+	}
+
+	private float spawnMob(Mob mob, Room room, float weight) {
+		weight -= mob.getWeight();
+
+		Point point;
+		int i = 0;
+
+		do {
+			point = room.getRandomCell();
+
+			if (i++ > 40) {
+				Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());
+				break;
+			}
+		} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
+
+		if (i <= 40) {
+			mob.generate();
+
+			Dungeon.area.add(mob);
+			LevelSave.add(mob);
+
+			mob.tp(point.x * 16, point.y * 16);
+		}
+
+		return weight;
 	}
 
 	protected void spawnEntities() {
