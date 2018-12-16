@@ -229,11 +229,11 @@ public class Mummy extends Mob {
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = super.getDrops();
 
-		if (Random.chance(5)) {
+		if (Random.chance(2)) {
 			items.add(new DewVial());
 		}
 
-		if (Random.chance(5)) {
+		if (Random.chance(1)) {
 			items.add(new Star());
 		}
 

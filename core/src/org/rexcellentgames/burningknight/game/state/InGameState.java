@@ -40,7 +40,6 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.fx.WindFx;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.ui.Bloodsplat;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
@@ -563,6 +562,7 @@ public class InGameState extends State {
 					}
 				});
 
+				/*
 				for (int i = 0; i < 64; i++) {
 					Bloodsplat splat = new Bloodsplat();
 
@@ -583,7 +583,7 @@ public class InGameState extends State {
 					}
 
 					Dungeon.ui.add(splat);
-				}
+				}*/ 
 			}
 		} else {
 			setFrames = false;

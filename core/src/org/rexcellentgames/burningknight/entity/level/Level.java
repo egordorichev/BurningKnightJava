@@ -1137,6 +1137,7 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		for (Room room : this.rooms) {
+			room.lastNumEnemies = room.numEnemies;
 			room.numEnemies = 0;
 		}
 

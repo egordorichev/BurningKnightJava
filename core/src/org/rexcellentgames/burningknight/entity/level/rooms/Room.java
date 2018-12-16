@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.entity.level.rooms;
 
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
@@ -24,6 +23,7 @@ public abstract class Room extends Rect implements GraphNode {
 	private int distance = 0;
 	public boolean hidden;
 	public int numEnemies;
+	public int lastNumEnemies;
 
 	public int getMinWidth() {
 		return 10;

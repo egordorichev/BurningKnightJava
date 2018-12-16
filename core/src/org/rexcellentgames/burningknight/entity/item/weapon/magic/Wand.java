@@ -45,9 +45,13 @@ public class Wand extends WeaponBase {
 	protected float sy = 1;
 	protected float sx = 1;
 
+	public int getManaUsage() {
+		return (int) Math.max(1, this.mana - this.level + 1);
+	}
+
 	@Override
 	public void use() {
-		int mn = (int) Math.max(1, this.mana - this.level * 0.5f + 1);
+		int mn = getManaUsage();
 
 		if (this.owner.getMana() < mn) {
 			return;
@@ -112,7 +116,7 @@ public class Wand extends WeaponBase {
 		StringBuilder builder = super.buildInfo();
 
 		builder.append("\n[blue]Uses ");
-		builder.append(Math.max(1, this.mana - this.level * 0.5f + 1));
+		builder.append( getManaUsage());
 		builder.append(" mana[gray]");
 
 		return builder;
