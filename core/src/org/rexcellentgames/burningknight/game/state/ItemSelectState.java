@@ -4,6 +4,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
@@ -23,7 +24,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
-import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.StartingItem;
@@ -165,6 +165,23 @@ public class ItemSelectState extends State {
 		});
 
 		Ui.saveAlpha = 0;
+
+		Dungeon.white = 0;
+		Dungeon.dark = 1;
+		Dungeon.darkR = Dungeon.MAX_R;
+
+		uiY = Display.UI_HEIGHT;
+		Tween.to(new Tween.Task(0, 0.5f, Tween.Type.BACK_OUT) {
+			@Override
+			public float getValue() {
+				return uiY;
+			}
+
+			@Override
+			public void setValue(float value) {
+				uiY = value;
+			}
+		});
 	}
 
 	@Override
@@ -173,13 +190,23 @@ public class ItemSelectState extends State {
 		Ui.saveAlpha = 0;
 	}
 
+	private static float uiY;
+
 	@Override
 	public void renderUi() {
+		renderPortal();
 		super.renderUi();
 
-		Graphics.print("Pick starting item", Graphics.medium, Display.UI_HEIGHT / 2 + 48 * 2);
+		Camera.ui.position.y -= uiY;
+		Camera.ui.update();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 
 		Dungeon.ui.render();
+		Graphics.print("Pick starting item", Graphics.medium, Display.UI_HEIGHT / 2 + 48 * 2);
+
+		Camera.ui.position.y += uiY;
+		Camera.ui.update();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Ui.ui.renderCursor();
 	}
 
@@ -192,56 +219,28 @@ public class ItemSelectState extends State {
 
 		picked = true;
 
-		Tween.to(new Tween.Task(0, 0.3f) {
+		Tween.to(new Tween.Task(Display.UI_HEIGHT, 0.15f, Tween.Type.QUAD_IN) {
 			@Override
 			public float getValue() {
-				return Dungeon.dark;
+				return uiY;
 			}
 
 			@Override
 			public void setValue(float value) {
-				Dungeon.dark = value;
+				uiY = value;
 			}
 
 			@Override
 			public void onEnd() {
+				super.onEnd();
+
 				Player.toSet = tp;
 				GlobalSave.put("last_class", Player.toSet.id);
 				Player.startingItem = item;
 
-				PlayerSave.generate();
-				Dungeon.area.remove(Player.instance);
-
-				SaveManager.save(SaveManager.Type.PLAYER, false);
-				Dungeon.goToLevel(depth);
+				LoadState.fromSelect = true;
+				Dungeon.game.setState(new LoadState());
 			}
 		});
-	}
-
-	private boolean did;
-
-	@Override
-	public void render() {
-		if (!did) {
-			did = true;
-			Dungeon.white = 0;
-			Dungeon.dark = 0;
-			Dungeon.darkR = Dungeon.MAX_R;
-
-			Tween.to(new Tween.Task(1, 0.3f) {
-				@Override
-				public float getValue() {
-					return Dungeon.dark;
-				}
-
-				@Override
-				public void setValue(float value) {
-					Dungeon.dark = value;
-				}
-			});
-		}
-
-		super.render();
-		renderPortal();
 	}
 }

@@ -18,14 +18,12 @@ import org.rexcellentgames.burningknight.entity.item.Smoke;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
-import org.rexcellentgames.burningknight.entity.level.save.GameSave;
-import org.rexcellentgames.burningknight.game.state.InventoryState;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -212,54 +210,11 @@ public class Portal extends SaveableEntity {
 
 			Dungeon.darkX = vec.x / Display.UI_SCALE;
 			Dungeon.darkY = vec.y;
+			noSpawn = true;
+			Dungeon.area.add(new Smoke(x + 8, y + 8));
 
-			Tween.to(new Tween.Task(Dungeon.MAX_R * 0.25f, 0.3f, Tween.Type.QUAD_OUT) {
-				@Override
-				public float getValue() {
-					return Dungeon.darkR;
-				}
-
-				@Override
-				public void setValue(float value) {
-					Dungeon.darkR = value;
-				}
-
-				@Override
-				public void onEnd() {
-					noSpawn = true;
- 					Dungeon.area.add(new Smoke(x + 8, y + 8));
-
-					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
-						@Override
-						public float getValue() {
-							return Dungeon.darkR;
-						}
-
-						@Override
-						public void setValue(float value) {
-							Dungeon.darkR = value;
-						}
-
-						@Override
-						public void onEnd() {
-							if (Dungeon.depth == -2) {
-								Dungeon.goToSelect = true;
-							} else {
-								GameSave.inventory = true;
-								Dungeon.toInventory = true;
-								Player.instance.rotating = false;
-								Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-								InventoryState.depth = Dungeon.depth + 1;
-							}
-
-							Camera.noMove = false;
-
-							Dungeon.setBackground2(new Color(0, 0, 0, 1));
-							Player.sucked = false;
-						}
-					}).delay(1f);
-				}
-			}).delay(1f);
+			InGameState.startTween = true;
+			InGameState.portal = true;
 		}
 	}
 

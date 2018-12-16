@@ -1,20 +1,15 @@
 package org.rexcellentgames.burningknight.entity.level.entities.fx;
 
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
-import com.badlogic.gdx.math.Vector3;
-import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
-import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InventoryState;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Tween;
@@ -67,44 +62,14 @@ public class LadderFx extends UiEntity {
 	}
 
 	public void end() {
+		Dungeon.darkR = 0;
 		Dungeon.darkR = Dungeon.MAX_R;
 		Player.instance.setUnhittable(true);
 		Camera.follow(null);
 
-		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
-		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
-
-		Dungeon.darkX = vec.x / Display.UI_SCALE;
-		Dungeon.darkY = vec.y;
 		Player.instance.playSfx("menu/select");
-
-		Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
-			@Override
-			public float getValue() {
-				return Dungeon.darkR;
-			}
-
-			@Override
-			public void setValue(float value) {
-				Dungeon.darkR = value;
-			}
-
-			@Override
-			public void onEnd() {
-				if (Dungeon.depth == -2) {
-					Dungeon.goToSelect = true;
-				} else {
-					GameSave.inventory = true;
-					Dungeon.toInventory = true;
-					Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-					Dungeon.ladderId = ((Exit) ladder).getType();
-					InventoryState.depth = Dungeon.depth + 1;
-				}
-
-				Dungeon.setBackground2(new Color(0, 0, 0, 1));
-			}
-		});
+		InGameState.startTween = true;
+		InGameState.id = ((Exit) ladder).getType();
 	}
 
 	public void remove() {

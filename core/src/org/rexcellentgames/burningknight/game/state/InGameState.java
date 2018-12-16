@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -102,35 +103,6 @@ public class InGameState extends State {
 
 		this.console = new Console();
 
-		// Fixme: replace with out of portal anim
-		/*Dungeon.darkR = 0;
-
-		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0f));
-		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
-
-		Dungeon.darkX = vec.x / Display.UI_SCALE;
-		Dungeon.darkY = vec.y;
-
-		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f) {
-			@Override
-			public float getValue() {
-				return Dungeon.darkR;
-			}
-
-			@Override
-			public void setValue(float value) {
-				Dungeon.darkR = value;
-			}
-
-			@Override
-			public void onEnd() {
-				super.onEnd();
-				Player.instance.setUnhittable(false);
-			}
-		});*/
-		// end fixme
-
 		if (Dungeon.level instanceof DesertLevel) {
 			Achievements.unlock(Achievements.REACH_DESERT);
 			Achievements.unlock(Achievements.UNLOCK_DEW_VIAL);
@@ -151,17 +123,18 @@ public class InGameState extends State {
 
 		volume = 0;
 
-		Dungeon.darkR = 0;
+		Dungeon.darkR = Dungeon.MAX_R;
 
-		Tween.to(new Tween.Task(Dungeon.MAX_R, 0.3f, Tween.Type.QUAD_OUT) {
+		portalMod = 0;
+		Tween.to(new Tween.Task(1, 1f) {
 			@Override
 			public float getValue() {
-				return Dungeon.darkR;
+				return portalMod;
 			}
 
 			@Override
 			public void setValue(float value) {
-				Dungeon.darkR = value;
+				portalMod = value;
 			}
 		});
 	}
@@ -380,10 +353,63 @@ public class InGameState extends State {
 		}
 	}
 
+	public static boolean startTween;
+	public static byte id;
+	public static boolean portal;
+
 	@Override
 	public void update(float dt) {
 		if (Dungeon.depth == -2) {
 			Upgrade.Companion.setUpdateEvent(false);
+		}
+
+		if (startTween) {
+			startTween = false;
+			fromCenter = true;
+
+			Tween.to(new Tween.Task(0, 2f) {
+				@Override
+				public float getValue() {
+					return portalMod;
+				}
+
+				@Override
+				public void setValue(float value) {
+					portalMod = value;
+				}
+
+				@Override
+				public void onEnd() {
+					if (portal) {
+						portal = false;
+
+						if (Dungeon.depth == -2) {
+							Dungeon.goToSelect = true;
+						} else {
+							GameSave.inventory = true;
+							Dungeon.toInventory = true;
+							Player.instance.rotating = false;
+							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+							InventoryState.depth = Dungeon.depth + 1;
+						}
+
+						Camera.noMove = false;
+
+						Dungeon.setBackground2(new Color(0, 0, 0, 1));
+						Player.sucked = false;
+					} else {
+						if (Dungeon.depth == -2) {
+							Dungeon.goToSelect = true;
+						} else {
+							GameSave.inventory = true;
+							Dungeon.toInventory = true;
+							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
+							Dungeon.ladderId = id;
+							InventoryState.depth = Dungeon.depth + 1;
+						}
+					}
+				}
+			});
 		}
 
 		/*if (Input.instance.wasPressed("active")) {
@@ -583,7 +609,7 @@ public class InGameState extends State {
 					}
 
 					Dungeon.ui.add(splat);
-				}*/ 
+				}*/
 			}
 		} else {
 			setFrames = false;
@@ -758,6 +784,10 @@ public class InGameState extends State {
 		}
 
 		Ui.ui.renderCursor();
+
+		if (portalMod < 1) {
+			renderPortalOpen();
+		}
 	}
 
 	private void setupUi() {

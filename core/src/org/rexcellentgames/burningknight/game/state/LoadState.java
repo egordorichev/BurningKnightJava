@@ -1,12 +1,10 @@
 package org.rexcellentgames.burningknight.game.state;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
@@ -31,21 +29,18 @@ import org.rexcellentgames.burningknight.util.PathFinder;
 
 public class LoadState extends State {
 	private boolean ready = false;
-	private float alp;
 	private String s;
+	public static boolean fromSelect;
 
 	@Override
 	public void init() {
 		Audio.stop();
 
-		this.s = "Doing secret stuff...";
-		Dungeon.grayscale = 0;
+		Dungeon.darkR = Dungeon.MAX_R;
+		Dungeon.dark = 1;
 
-		switch (Dungeon.loadType) {
-			case GO_UP: this.s = Locale.get("ascending"); break;
-			case GO_DOWN: this.s = Locale.get("descending"); break;
-			case LOADING: this.s = Locale.get("loading"); break;
-		}
+		this.s = "Generating...";
+		Dungeon.grayscale = 0;
 
 		if (Ui.ui != null) {
 			Ui.ui.healthbars.clear();
@@ -59,8 +54,14 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready) {
-			Dungeon.darkR = 0;
+			// Dungeon.darkR = 0;
 			Dungeon.game.setState(GameSave.inventory ? new InventoryState() : new InGameState());
+			return;
+		}
+
+		if (runM) {
+			runM = false;
+			runMain();
 		}
 	}
 
@@ -72,7 +73,6 @@ public class LoadState extends State {
 		errorString = err;
 		Graphics.layout.setText(Graphics.medium, errorString);
 		ew = Graphics.layout.width / 2;
-		et = 0.3f;
 
 		Dungeon.ui.add(new UiButton("start_new_game", Display.UI_WIDTH / 2, Display.UI_HEIGHT / 3) {
 			@Override
@@ -107,6 +107,33 @@ public class LoadState extends State {
 		PlayerSave.all.clear();
 		LevelSave.all.clear();
 
+		if (fromSelect) {
+			fromSelect = false;
+
+			Thread thread = new Thread(new Runnable() {
+				@Override
+				public void run() {
+					PlayerSave.generate();
+					Dungeon.area.remove(Player.instance);
+
+					SaveManager.save(SaveManager.Type.PLAYER, false);
+					Dungeon.lastDepth = Dungeon.depth;
+					Dungeon.depth = ItemSelectState.depth;
+
+					runM = true;
+				}
+			});
+
+			thread.setPriority(1);
+			thread.run();
+		} else {
+			runMain();
+		}
+	}
+
+	private boolean runM;
+
+	private void runMain() {
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -187,49 +214,27 @@ public class LoadState extends State {
 	private boolean error;
 	private String errorString;
 	private float ew;
-	private float et;
 
 	@Override
 	public void renderUi() {
-		Dungeon.darkR = Dungeon.MAX_R;
-		Dungeon.dark = 1;
-		this.alp += ((this.third ? 0 : 1) - this.alp) * Gdx.graphics.getDeltaTime() * 10;
+		renderPortal();
 
-		if (this.alp >= 0.95f && !second) {
+		if (!second) {
 			this.second = true;
 			runThread();
 		}
 
-		if (this.alp <= 0.05f && this.third) {
+		if (this.third) {
 			this.ready = true;
 		}
-
-		Graphics.startShape();
-
-		if (et > 0) {
-			Graphics.shape.setColor(1, 1, 1, 1);
-		} else {
-			Graphics.shape.setColor(0, 0, 0, 1);
-		}
-
-		Graphics.shape.rect(0, 0, Display.UI_WIDTH, Display.UI_HEIGHT);
-		Graphics.endShape();
-
-		if (et > 0) {
-			et -= Gdx.graphics.getDeltaTime();
-			return;
-		}
-
-		Graphics.medium.setColor(1, 1, 1, this.alp);
 
 		if (error) {
 			Graphics.print(this.errorString, Graphics.medium, Display.UI_WIDTH / 2 - ew, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Dungeon.ui.render();
-			Ui.ui.renderCursor();
 		} else {
-			Graphics.print(this.s, Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
+			// Graphics.print(this.s, Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
 		}
 
-		Graphics.medium.setColor(1, 1, 1, 1);
+		Ui.ui.renderCursor();
 	}
 }

@@ -373,16 +373,12 @@ public class Dungeon extends ApplicationAdapter {
 					return true;
 				}
 			});
-
-			return;
 		}
 
 		if (goToSelect) {
 			goToSelect = false;
 			ItemSelectState.depth = 1;
 			game.setState(new ItemSelectState());
-
-			return;
 		}
 
 		if (Version.debug && Input.instance.wasPressed("1")) {
@@ -394,7 +390,6 @@ public class Dungeon extends ApplicationAdapter {
 		if (toInventory) {
 			toInventory = false;
 			game.setState(Dungeon.depth == 4 ? new WonState() : new InventoryState());
-			return;
 		}
 
 		if (AssetLoadState.done && to > -10) {
@@ -403,11 +398,10 @@ public class Dungeon extends ApplicationAdapter {
 
 			game.setState(to == 5 ? new WonState() : new LoadState());
 
-			Gdx.gl.glClearColor(0, 0, 0, 1);
-			Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
+			//Gdx.gl.glClearColor(0, 0, 0, 1);
+			//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 
 			to = -10;
-			return;
 		}
 
 		update();

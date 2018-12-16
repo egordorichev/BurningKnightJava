@@ -28,6 +28,73 @@ import java.util.ArrayList;
 
 public class State {
 	protected Area pauseMenuUi;
+	protected float portalMod;
+
+	protected void renderPortalOpen() {
+		if (player == null) {
+			player = Graphics.getTexture("props-gobbo_full");
+		}
+
+		Graphics.startAlphaShape();
+		Graphics.shape.setProjectionMatrix(Camera.nil.combined);
+		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360);
+		Dungeon.setBackground2(new Color(cl.r * 0.04f, cl.g * 0.04f,
+			cl.b * 0.04f, 1f));
+
+		float vv = Math.max(0, 1 - portalMod);
+
+		for (int i = 0; i < 65; i++) {
+			float s = i * 0.015f;
+			float mx = (Noise.instance.noise(Dungeon.time * 0.25f + s) * 96) * vv;
+			float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + s) * 96) * vv;
+			float v = ((float) i) / 65f;
+
+			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
+
+			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
+			float c = fromCenter ? (-194 * portalMod) : (portalMod * Display.UI_WIDTH);
+			float w = i * 2 + 64 + c;
+
+			if (w <= 0) {
+				continue;
+			}
+
+			float d = i * 2.5f * (i * 0.01f + 0.99f);
+
+			if (fromCenter) {
+				d = d * (1 - portalMod);
+			} else {
+				d += c;
+			}
+
+			if (d <= 0) {
+				continue;
+			}
+
+			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56 - i) / 56);
+			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56 - i) / 56);
+
+			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
+			//Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
+			//Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
+		}
+
+
+		float i = 32;
+		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
+		float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
+
+		Graphics.endAlphaShape();
+
+		if (!(this instanceof MainMenuState || this instanceof InGameState)) {
+			/*Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+			Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8, false, false);
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);*/
+		}
+
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
+	}
 
 	protected void renderPortal() {
 		if (player == null) {
@@ -47,7 +114,7 @@ public class State {
 			float v = ((float) i) / 65f;
 
 			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
-			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.5f);
+			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
 
 			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
 			float w = i * 2 + 64;
@@ -56,8 +123,8 @@ public class State {
 			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56 - i) / 56);
 
 			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
-			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 0.9f);
-			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
+			//Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
+			//Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
 		}
 
 
@@ -68,13 +135,17 @@ public class State {
 		Graphics.endAlphaShape();
 
 		if (!(this instanceof MainMenuState)) {
-			Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+			/*Graphics.batch.setProjectionMatrix(Camera.nil.combined);
 			Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8, false, false);
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);*/
 		}
+
+		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 	}
 
 	private boolean paused;
 	public static TextureRegion player;
+	protected boolean fromCenter;
 
 	public void onPause() {
 

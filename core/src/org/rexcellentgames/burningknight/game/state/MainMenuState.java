@@ -135,9 +135,33 @@ public class MainMenuState extends State {
 				Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
 				GameSave.Info info = GameSave.peek(SaveManager.slot);
 
-				transition(new Runnable() {
+				for (final UiButton button : buttons) {
+					Tween.to(new Tween.Task(-Display.UI_WIDTH_MAX, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return button.x;
+						}
+
+						@Override
+						public void setValue(float value) {
+							button.x = value;
+						}
+					});
+				}
+
+				Tween.to(new Tween.Task(0, 0.1f) {
 					@Override
-					public void run() {
+					public float getValue() {
+						return size;
+					}
+
+					@Override
+					public void setValue(float value) {
+						size = value;
+					}
+
+					@Override
+					public void onEnd() {
 						Dungeon.loadType = Entrance.LoadType.LOADING;
 						Dungeon.goToLevel((info.free ? -2 : info.depth));
 					}
@@ -212,8 +236,6 @@ public class MainMenuState extends State {
 	public void render() {
 		super.render();
 
-		renderPortal();
-
 		if (logoY == 0 && (Input.instance.wasPressed("start"))) {
 			Tween.to(new Tween.Task(48, 0.3f) {
 				@Override
@@ -264,6 +286,8 @@ public class MainMenuState extends State {
 
 	@Override
 	public void renderUi() {
+
+		renderPortal();
 		super.render();
 
 		Camera.ui.position.set(cameraX, cameraY, 0);
@@ -276,7 +300,6 @@ public class MainMenuState extends State {
 			Graphics.batch.setColor(1, 1, 1, 1);
 			Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, (float) (Display.UI_HEIGHT / 2 + Math.cos(Dungeon.time * 3f) * 2.5f) + logoY, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		}
-
 
 		Camera.ui.position.set(Display.UI_WIDTH / 2, Display.UI_HEIGHT / 2, 0);
 		Camera.ui.update();
