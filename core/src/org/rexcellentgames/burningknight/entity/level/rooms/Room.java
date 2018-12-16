@@ -24,6 +24,7 @@ public abstract class Room extends Rect implements GraphNode {
 	public boolean hidden;
 	public int numEnemies;
 	public int lastNumEnemies;
+	public int id;
 
 	public int getMinWidth() {
 		return 10;

@@ -29,7 +29,6 @@ import java.util.ArrayList;
 
 public class Knight extends Mob {
 	public static Animation animations = Animation.make("actor-knight", "-blue");
-	protected Item sword;
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
@@ -39,6 +38,7 @@ public class Knight extends Mob {
 	public Animation getAnimation() {
 		return animations;
 	}
+	protected Item sword;
 
 	{
 		hpMax = 10;

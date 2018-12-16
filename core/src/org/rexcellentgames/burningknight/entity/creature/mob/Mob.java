@@ -21,7 +21,6 @@ import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
-import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
@@ -553,12 +552,19 @@ public class Mob extends Creature {
 			this.lastIndex = Dungeon.longTime;
 		}
 		if (this.body != null) {
-			// this.velocity.clamp(0, this.maxSpeed);
-			this.body.setTransform(this.x, this.y + this.z, 0);
-			this.lz = this.z;
-			this.body.setLinearVelocity(this.velocity.x * speedMod + this.knockback.x, this.velocity.y * speedMod + this.knockback.y);
+			if (ignoreVel) {
+				this.x = this.body.getPosition().x;
+				this.y = this.body.getPosition().y;
+			} else {
+				// this.velocity.clamp(0, this.maxSpeed);
+				this.body.setTransform(this.x, this.y + this.z, 0);
+				this.lz = this.z;
+				this.body.setLinearVelocity(this.velocity.x * speedMod + this.knockback.x, this.velocity.y * speedMod + this.knockback.y);
+			}
 		}
 	}
+
+	protected boolean ignoreVel;
 
 	@Override
 	public void onCollision(Entity entity) {
@@ -572,6 +578,10 @@ public class Mob extends Creature {
 			this.target = player;
 
 			if (!friendly && !this.state.equals("defeated") && !dead) {
+				if (player.getInvt() == 0) {
+					player.knockBackFrom(this, 2);
+				}
+
 				player.modifyHp(-1, this, false);
 			}
 

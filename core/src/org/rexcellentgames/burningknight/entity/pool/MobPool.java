@@ -1,9 +1,18 @@
 package org.rexcellentgames.burningknight.entity.pool;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.desert.*;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.*;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
+import org.rexcellentgames.burningknight.entity.creature.mob.desert.Skeleton;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
@@ -17,6 +26,10 @@ public class MobPool extends Pool<Mob> {
 
 	public void initForFloor() {
 		clear();
+		add(Fly.class, 0.2f);
+		add(MovingFly.class, 0.5f);
+		add(DiagonalFly.class, 0.5f);
+		add(DiagonalShotFly.class, 0.5f);
 
 		if (Dungeon.level instanceof HallLevel) {
 			add(RangedKnight.class, 1f);

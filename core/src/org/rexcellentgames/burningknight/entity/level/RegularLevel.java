@@ -1,7 +1,9 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
@@ -25,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.*;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
@@ -103,12 +106,24 @@ public abstract class RegularLevel extends Level {
 
 			for (Room room : this.rooms) {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
-					float weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
+					float weight;
+
+					if (GameSave.runId == 0) {
+						weight = room.id;
+					} else {
+						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
+					}
 
 					while (weight > 0) {
-						Mob mob = MobPool.instance.generate();
+						Mob mob;
 
-						weight -= mob.getWeight();
+						if (GameSave.runId == 0) {
+							mob = new DiagonalShotFly();//new DiagonalFly();// room.id == 1 ? new Fly() : new MovingFly();
+							weight -= 1;
+						} else {
+							mob = MobPool.instance.generate();
+							weight -= mob.getWeight();
+						}
 
 						Point point;
 						int i = 0;

@@ -1,6 +1,9 @@
 package org.rexcellentgames.burningknight.entity.level.builders;
 
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -218,6 +221,12 @@ public class Builder {
 		}
 
 		if (next.connectWithRoom(prev)) {
+			if (next instanceof ConnectionRoom || next instanceof BossRoom || next instanceof ShopRoom) {
+				next.id = prev.id;
+			} else {
+				next.id = prev.id + 1;
+			}
+
 			return angleBetweenRooms(prev, next);
 		} else {
 			return -1;

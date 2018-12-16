@@ -72,6 +72,7 @@ public class LineBuilder extends RegularBuilder {
 			if (placeRoom(init, curr, r, direction + Random.newFloat(-pathVariance, pathVariance)) == -1) {
 				return null;
 			}
+
 			branchable.add(r);
 			curr = r;
 		}

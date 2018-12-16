@@ -1009,7 +1009,6 @@ public class Player extends Creature {
 			@Override
 			public void onEnd() {
 				super.onEnd();
-				Log.error("Jump");
 				Camera.follow(Player.instance, true);
 			}
 		});

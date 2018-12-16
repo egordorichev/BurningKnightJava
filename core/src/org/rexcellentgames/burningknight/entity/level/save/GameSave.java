@@ -93,8 +93,10 @@ public class GameSave {
 		time = 0;
 		defeatedBK = false;
 		inventory = false;
-		runId = 0;
 		playedAlpha = false;
+
+		// fixme: remove
+		runId = 0;
 
 		ChangableRegistry.generate();
 	}
