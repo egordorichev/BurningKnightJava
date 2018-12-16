@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;

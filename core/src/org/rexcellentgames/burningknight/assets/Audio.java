@@ -133,6 +133,10 @@ public class Audio {
 
 	public static void play(String name) {
 		if (name == null || last.equals(name)) {
+			if (current != null) {
+				current.setVolume(Settings.music);
+			}
+
 			return;
 		}
 

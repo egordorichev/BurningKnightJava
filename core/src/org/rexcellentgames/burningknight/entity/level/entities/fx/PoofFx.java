@@ -17,6 +17,7 @@ public class PoofFx extends Entity {
 	public boolean shadow = true;
 
 	{
+		alwaysActive = true;
 		depth = -1;
 	}
 
