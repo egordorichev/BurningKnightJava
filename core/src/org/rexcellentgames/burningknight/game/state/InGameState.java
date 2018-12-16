@@ -353,6 +353,7 @@ public class InGameState extends State {
 		}
 	}
 
+	public static boolean restart;
 	public static boolean startTween;
 	public static byte id;
 	public static boolean portal;
@@ -374,13 +375,28 @@ public class InGameState extends State {
 				}
 
 				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+
+				@Override
 				public void setValue(float value) {
 					portalMod = value;
 				}
 
 				@Override
 				public void onEnd() {
-					if (portal) {
+					if (restart) {
+						restart = false;
+
+						Dungeon.grayscale = 0;
+
+						if (Dungeon.depth == -3) {
+							Dungeon.newGame(false, -3);
+						} else {
+							Dungeon.newGame(true, 1);
+						}
+					} else if (portal) {
 						portal = false;
 
 						if (Dungeon.depth == -2) {
@@ -829,15 +845,10 @@ public class InGameState extends State {
 				public void onClick() {
 					super.onClick();
 
-					transition(() -> {
-						Dungeon.grayscale = 0;
-
-						if (Dungeon.depth == -3) {
-							Dungeon.newGame(false, -3);
-						} else {
-							Dungeon.newGame(true, 1);
-						}
-					});
+					if (!restart) {
+						startTween = true;
+						restart = true;
+					}
 				}
 			}.setSparks(true));
 		}
