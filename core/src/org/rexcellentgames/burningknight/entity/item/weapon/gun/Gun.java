@@ -43,6 +43,7 @@ public class Gun extends WeaponBase {
 	protected int ammoLeft = 12;
 	protected float chargeProgress;
 	protected float reloadRate = 1;
+	protected boolean down;
 
 	{
 		sprite = "item-gun_a";
@@ -136,7 +137,7 @@ public class Gun extends WeaponBase {
 				this.onAmmoAdded();
 				chargeProgress = 0;
 			}
-		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.1f) {
+		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.1f && !down) {
 			this.chargeProgress += dt * this.owner.getStat("reload_time") * reloadRate * ammoMax * this.owner.getStat("ammo_capacity");
 
 			if (this.chargeProgress >= 1f) {

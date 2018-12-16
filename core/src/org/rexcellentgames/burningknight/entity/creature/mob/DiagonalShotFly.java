@@ -37,10 +37,10 @@ public class DiagonalShotFly extends DiagonalFly {
 	}
 
 	protected void shot() {
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < 8; i++) {
 			BulletProjectile ball = new BulletProjectile();
 
-			float a = (float) (i * Math.PI / 2);
+			float a = (float) (i * Math.PI / 4);
 			ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(50f * Mob.shotSpeedMod);
 
 			ball.x = (float) (this.x + this.w / 2 + Math.cos(a) * 8);

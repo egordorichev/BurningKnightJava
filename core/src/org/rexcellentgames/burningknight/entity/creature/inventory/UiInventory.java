@@ -532,17 +532,49 @@ public class UiInventory extends UiEntity {
 			if (item != null) {
 				TextureRegion region = item.getSprite();
 				int w = region.getRegionWidth();
+				int h = region.getRegionHeight();
 
 				if (item.getDelay() > 0) {
+					if (lastNotUsed) {
+						lastNotUsed = false;
+						Tween.to(new Tween.Task(1.5f, 0.1f) {
+							@Override
+							public float getValue() {
+								return as;
+							}
+
+							@Override
+							public void setValue(float value) {
+								as = value;
+							}
+
+							@Override
+							public void onEnd() {
+								Tween.to(new Tween.Task(1f, 1f, Tween.Type.ELASTIC_OUT) {
+									@Override
+									public float getValue() {
+										return as;
+									}
+
+									@Override
+									public void setValue(float value) {
+										as = value;
+									}
+								});
+							}
+						});
+					}
+
 					Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
-					Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+					Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
 					Graphics.batch.setColor(1, 1, 1, 1);
 
 					region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
-					Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+					Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
 					region.setRegionWidth(w);
 				} else {
-					Graphics.render(region, 4 + (24 - w) / 2, 4 + (24 - region.getRegionHeight()) / 2);
+					lastNotUsed = true;
+					Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
 				}
 			}
 		}
@@ -561,6 +593,9 @@ public class UiInventory extends UiEntity {
 			Graphics.print(s, Graphics.small, dx + (defense.getRegionWidth() - Graphics.layout.width) / 2, dy + (defense.getRegionHeight() - Graphics.layout.height) / 2 - 1);
 		}
 	}
+
+	private boolean lastNotUsed;
+	private float as = 1;
 
 	public UiBuff hoveredBuff;
 

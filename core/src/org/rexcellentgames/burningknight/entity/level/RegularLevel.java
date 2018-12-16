@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.level;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
@@ -108,7 +107,7 @@ public abstract class RegularLevel extends Level {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
 					float weight;
 
-					if (GameSave.runId == 0) {
+					if (false && GameSave.runId == 0) {
 						weight = room.id;
 					} else {
 						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
@@ -117,7 +116,7 @@ public abstract class RegularLevel extends Level {
 					while (weight > 0) {
 						Mob mob;
 
-						if (GameSave.runId == 0) {
+						if (false && GameSave.runId == 0) {
 							mob = new DiagonalShotFly();//new DiagonalFly();// room.id == 1 ? new Fly() : new MovingFly();
 							weight -= 1;
 						} else {

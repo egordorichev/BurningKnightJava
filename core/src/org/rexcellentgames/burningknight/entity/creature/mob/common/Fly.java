@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.common;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -25,6 +26,7 @@ public class Fly extends Mob {
 	@Override
 	public void deathEffects() {
 		super.deathEffects();
+		body.setLinearVelocity(new Vector2());
 		poof();
 	}
 

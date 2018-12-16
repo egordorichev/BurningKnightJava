@@ -28,7 +28,7 @@ public class MobPool extends Pool<Mob> {
 		clear();
 		add(Fly.class, 0.2f);
 		add(MovingFly.class, 0.5f);
-		add(DiagonalFly.class, 0.5f);
+		add(DiagonalFly.class, 1f);
 		add(DiagonalShotFly.class, 0.5f);
 
 		if (Dungeon.level instanceof HallLevel) {

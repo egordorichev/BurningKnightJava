@@ -70,6 +70,4 @@ public class FlameThrower extends Gun {
 	public boolean canBeUpgraded() {
 		return false;
 	}
-
-	private boolean down;
 }
