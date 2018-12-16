@@ -9,8 +9,10 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -27,7 +29,29 @@ public class PoisonWand extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
+		final int mana = getManaUsage();
+
 		BulletProjectile missile = new BulletProjectile() {
+			@Override
+			protected void death() {
+				super.death();
+
+				int weight = mana;
+
+				while (weight > 0) {
+					ManaFx fx = new ManaFx();
+
+					fx.x = x - velocity.x * 0.03f;
+					fx.y = y - velocity.y * 0.03f;
+					fx.half = weight == 1;
+					fx.poof();
+
+					weight -= fx.half ? 1 : 2;
+					Dungeon.area.add(fx);
+					LevelSave.add(fx);
+				}
+			}
+			
 			{
 				ignoreArmor = true;
 			}

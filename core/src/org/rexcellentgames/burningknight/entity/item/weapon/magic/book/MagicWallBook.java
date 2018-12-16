@@ -6,7 +6,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -32,12 +34,36 @@ public class MagicWallBook extends Book {
 			float xx = x + (float) Math.cos(an) * i * d;
 			float yy = y + (float) Math.sin(an) * i * d;
 
-			this.spawnParticle(xx, yy);
+			this.spawnParticle(xx, yy, i == 0);
 		}
 	}
 
-	private void spawnParticle(float x, float y) {
+	private void spawnParticle(float x, float y, final boolean first) {
+		final int mana = getManaUsage();
+
 		BulletProjectile missile = new BulletProjectile() {
+			@Override
+			protected void death() {
+				super.death();
+
+				if (first) {
+					int weight = mana;
+
+					while (weight > 0) {
+						ManaFx fx = new ManaFx();
+
+						fx.x = x - velocity.x * 0.03f;
+						fx.y = y - velocity.y * 0.03f;
+						fx.half = weight == 1;
+						fx.poof();
+
+						weight -= fx.half ? 1 : 2;
+						Dungeon.area.add(fx);
+						LevelSave.add(fx);
+					}
+				}
+			}
+
 			{
 				ignoreArmor = true;
 			}

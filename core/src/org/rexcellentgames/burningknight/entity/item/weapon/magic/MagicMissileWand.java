@@ -11,7 +11,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class MagicMissileWand extends Wand {
@@ -30,6 +29,26 @@ public class MagicMissileWand extends Wand {
 		final int mana = getManaUsage();
 
 		BulletProjectile missile = new BulletProjectile() {
+			@Override
+			protected void death() {
+				super.death();
+
+				int weight = manaUsed;
+
+				while (weight > 0) {
+					ManaFx fx = new ManaFx();
+
+					fx.x = x - velocity.x * 0.03f;
+					fx.y = y - velocity.y * 0.03f;
+					fx.half = weight == 1;
+					fx.poof();
+
+					weight -= fx.half ? 1 : 2;
+					Dungeon.area.add(fx);
+					LevelSave.add(fx);
+				}
+			}
+
 			{
 				ignoreArmor = true;
 			}
@@ -80,26 +99,6 @@ public class MagicMissileWand extends Wand {
 				}
 
 				World.checkLocked(this.body).setTransform(this.x, this.y, (float) Math.toRadians(this.a));
-			}
-
-			@Override
-			protected void death() {
-				super.death();
-
-				int weight = manaUsed;
-
-				while (weight > 0) {
-					ManaFx fx = new ManaFx();
-
-					fx.x = x - velocity.x * 0.03f;
-					fx.y = y - velocity.y * 0.03f;
-					fx.half = weight == 1;
-					fx.poof();
-
-					weight -= fx.half ? 1 : 2;
-					Dungeon.area.add(fx);
-					LevelSave.add(fx);
-				}
 			}
 		};
 

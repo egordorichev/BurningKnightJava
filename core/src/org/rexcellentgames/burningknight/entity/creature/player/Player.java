@@ -623,7 +623,7 @@ public class Player extends Creature {
 					anim = headRoll;
 				} else if (this.invt > 0) {
 					anim = headHurt;
-				} else if (this.state.equals("run")) {
+				} else if (this.state.equals("run") && !this.isFlying()) {
 					anim = headRun;
 				}
 

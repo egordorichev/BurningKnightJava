@@ -132,16 +132,20 @@ public class Projectile extends StatefulEntity {
 		this.done = true;
 		this.onDeath();
 
-		for (int i = 0; i < 3; i++) {
-			PoofFx fx = new PoofFx();
+		if (!noPoof) {
+			for (int i = 0; i < 3; i++) {
+				PoofFx fx = new PoofFx();
 
-			fx.x = this.x;
-			fx.y = this.y;
-			fx.t += 0.5f;
+				fx.x = this.x;
+				fx.y = this.y;
+				fx.t += 0.5f;
 
-			Dungeon.area.add(fx);
+				Dungeon.area.add(fx);
+			}
 		}
 	}
+
+	public boolean noPoof;
 
 	protected void onDeath() {
 

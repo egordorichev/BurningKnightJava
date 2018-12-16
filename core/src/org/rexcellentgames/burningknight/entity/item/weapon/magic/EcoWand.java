@@ -5,10 +5,12 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -22,7 +24,29 @@ public class EcoWand extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
+		final int mana = getManaUsage();
+
 		BulletProjectile missile = new BulletProjectile() {
+			@Override
+			protected void death() {
+				super.death();
+
+				int weight = mana;
+
+				while (weight > 0) {
+					ManaFx fx = new ManaFx();
+
+					fx.x = x - velocity.x * 0.03f;
+					fx.y = y - velocity.y * 0.03f;
+					fx.half = weight == 1;
+					fx.poof();
+
+					weight -= fx.half ? 1 : 2;
+					Dungeon.area.add(fx);
+					LevelSave.add(fx);
+				}
+			}
+
 			{
 				ignoreArmor = true;
 			}

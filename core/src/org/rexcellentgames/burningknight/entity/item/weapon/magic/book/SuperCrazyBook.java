@@ -6,9 +6,11 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
@@ -41,6 +43,7 @@ public class SuperCrazyBook extends Book {
 			BulletProjectile missile = new BulletProjectile() {
 				{
 					ignoreArmor = true;
+					noPoof = true;
 				}
 
 				@Override
@@ -91,6 +94,10 @@ public class SuperCrazyBook extends Book {
 			float a = (float) (i * Math.PI / 4);
 
 			BulletProjectile missile = new BulletProjectile() {
+				{
+					noPoof = true;
+				}
+
 				private PointLight light;
 
 				@Override
@@ -163,10 +170,33 @@ public class SuperCrazyBook extends Book {
 		if (Dungeon.level.checkFor(Math.round(x / 16), Math.round(y / 16), Terrain.SOLID) ||
 			Dungeon.level.checkFor(Math.round(x / 16), Math.round((y - 16) / 16), Terrain.SOLID)) {
 			Log.error("In Wall!");
+			owner.modifyMana(this.getManaUsage());
 			return;
 		}
 
+		final int mana = getManaUsage();
+
 		BulletProjectile missile = new BulletProjectile() {
+			@Override
+			protected void death() {
+				super.death();
+
+				int weight = mana;
+
+				while (weight > 0) {
+					ManaFx fx = new ManaFx();
+
+					fx.x = x - velocity.x * 0.03f;
+					fx.y = y - velocity.y * 0.03f;
+					fx.half = weight == 1;
+					fx.poof();
+
+					weight -= fx.half ? 1 : 2;
+					Dungeon.area.add(fx);
+					LevelSave.add(fx);
+				}
+			}
+
 			@Override
 			public void render() {
 				float r = (float) Math.abs(Math.cos(this.t * 1.5f));
