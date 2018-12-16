@@ -373,7 +373,13 @@ public abstract class RegularLevel extends Level {
 		if (Dungeon.depth <= -1) {
 			return new SingleRoomBuilder();
 		} else if (Dungeon.depth == 0) {
-			return new LineBuilder();
+			LineBuilder builder = new LineBuilder();
+
+			if (GameSave.runId == 0 && Dungeon.depth < 3) {
+				builder.setPathLength(1, new float[]{0, 1, 0});
+			}
+
+			return builder;
 		} else {
 			/*switch (Random.newInt(4)) {
 				case 0:

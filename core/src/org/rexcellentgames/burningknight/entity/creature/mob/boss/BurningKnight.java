@@ -1219,6 +1219,7 @@ public class BurningKnight extends Boss {
 			self.unhittable = true;
 			self.ignoreRooms = true;
 			self.pickedKey = false;
+			self.tp(-1000, -1000);
 
 			if (!Player.instance.didGetHit()) {
 				Log.error("UNLOCK");
