@@ -151,12 +151,8 @@ public class Camera extends Entity {
 				if (target instanceof Player) {
 					float cx = (mousePosition.x);
 					float cy = (mousePosition.y);
-					float dx = cx - camPosition.x;
-					float dy = cy - camPosition.y;
 
-					if (Math.sqrt(dx * dx + dy * dy) > 3) {
-						camPosition = camPosition.lerp(new Vector2(cx, cy), dt * speed * 0.25f);
-					}
+					camPosition = camPosition.lerp(new Vector2(cx, cy), dt * speed * 0.25f);
 				}
 			}
 

@@ -21,7 +21,6 @@ import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -406,8 +405,8 @@ Settings:
 	public void addGraphics() {
 		clear();
 
-		float s = 14;
-		float st = 60;
+		float s = 13;
+		float st = 60 - 5f;
 
 		currentSettings.add(pauseMenuUi.add(new UiButton("back", (int) (Display.UI_WIDTH * 2.5f), (int) (st)) {
 			@Override
@@ -525,6 +524,27 @@ Settings:
 		}.setChoices(new String[] {
 			"bad", "good", "great"
 		}).setCurrent(Settings.quality)));
+
+		currentSettings.add(pauseMenuUi.add(new UiCheckbox("fullscreen", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 11)) {
+			@Override
+			public void onClick() {
+				super.onClick();
+
+				Settings.fullscreen = this.isOn();
+
+				if (Settings.fullscreen) {
+					Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
+				} else {
+					Gdx.graphics.setWindowedMode(Display.UI_WIDTH_MAX * 2, Display.UI_HEIGHT_MAX * 2);
+				}
+			}
+
+			@Override
+			public void render() {
+				setOn(Settings.fullscreen);
+				super.render();
+			}
+		}.setOn(Settings.fullscreen)));
 	}
 
 	public void addAudio() {

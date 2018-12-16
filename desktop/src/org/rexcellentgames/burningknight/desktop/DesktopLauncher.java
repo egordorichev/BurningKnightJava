@@ -131,6 +131,7 @@ public class DesktopLauncher {
 
 		Dungeon.arg = arg;
 
+		System.setProperty("java.awt.headless", Boolean.TRUE.toString());
 		java.awt.Toolkit.getDefaultToolkit(); // Ensure AWT is initialized before GLFW.
 		new Lwjgl3Application(new Client(), config);
 	}
