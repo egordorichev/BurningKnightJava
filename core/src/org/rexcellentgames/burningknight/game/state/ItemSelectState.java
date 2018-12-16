@@ -51,8 +51,18 @@ public class ItemSelectState extends State {
 		mage.clear();
 
 		melee.add(new Sword());
-		ranged.add(new Revolver());
-		mage.add(new MagicMissileWand());
+
+		boolean ur = GlobalSave.isTrue("unlocked_ranged");
+
+		if (ur) {
+			ranged.add(new Revolver());
+		}
+
+		boolean um = GlobalSave.isTrue("unlocked_magic");
+
+		if (um) {
+			mage.add(new MagicMissileWand());
+		}
 
 		if (Player.instance != null) {
 			Dungeon.area.remove(Player.instance);

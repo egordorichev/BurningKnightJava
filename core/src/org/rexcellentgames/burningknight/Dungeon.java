@@ -36,6 +36,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Area;
@@ -180,6 +181,14 @@ public class Dungeon extends ApplicationAdapter {
 		GameSave.time = 0;
 		loadType = Entrance.LoadType.GO_DOWN;
 		GameSave.runId ++;
+
+		if (GameSave.runId == 1) {
+			Achievements.unlock("CLASS_MAGIC");
+			GlobalSave.put("unlocked_magic", true);
+		} else if (GameSave.runId == 2) {
+			Achievements.unlock("CLASS_RANGED");
+			GlobalSave.put("unlocked_ranged", true);
+		}
 
 		Player.instance = null;
 		BurningKnight.instance = null;

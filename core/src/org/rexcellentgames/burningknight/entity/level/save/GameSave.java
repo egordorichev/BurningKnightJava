@@ -96,7 +96,7 @@ public class GameSave {
 		playedAlpha = false;
 
 		// fixme: remove
-		runId = 0;
+		// runId = 0;
 
 		ChangableRegistry.generate();
 	}

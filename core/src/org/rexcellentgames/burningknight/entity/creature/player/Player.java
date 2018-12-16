@@ -354,6 +354,11 @@ public class Player extends Creature {
 				this.manaMax -= 2;
 				this.mana -= 2;
 			}
+
+			if (this.type == Type.RANGER) {
+				this.hpMax = 6;
+				this.hp = 6;
+			}
 		}
 
 		if (hatId != null) {

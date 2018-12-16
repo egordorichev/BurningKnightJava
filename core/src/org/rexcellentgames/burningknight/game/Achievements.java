@@ -98,7 +98,12 @@ public class Achievements {
 
 			UiAchievement achievement = new UiAchievement();
 
-			if (id.contains("ACHIEVEMENT")) {
+			if (id.contains("CLASS")) {
+				achievement.text = Locale.get(id.toLowerCase());
+				achievement.extra = Locale.get(id.toLowerCase() + "_desc");
+				achievement.icon = id.equals("CLASS_MAGIC") ? Graphics.getTexture("item-wand_b") : Graphics.getTexture("item-gun_a");
+				achievement.unlock = true;
+			} else if (id.contains("ACHIEVEMENT")) {
 				achievement.text = Locale.get(id.toLowerCase());
 				achievement.extra = Locale.get(id.toLowerCase() + "_desc");
 				achievement.icon = Graphics.getTexture("achievements-" + (id.toLowerCase().replace("_achievement", "")));

@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Smoke;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
@@ -226,6 +227,8 @@ public class Portal extends SaveableEntity {
 				@Override
 				public void onEnd() {
 					noSpawn = true;
+ 					Dungeon.area.add(new Smoke(x + 8, y + 8));
+
 					Tween.to(new Tween.Task(0, 0.3f, Tween.Type.QUAD_OUT) {
 						@Override
 						public float getValue() {

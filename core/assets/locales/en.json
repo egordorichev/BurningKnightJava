@@ -583,5 +583,9 @@
 	"bomb_summoner_desc" : "Note on the side: use with care",
 	"teleporter" : "Teleporter",
 	"teleporter_desc" : "Whooosh... Where I am?",
-	"press" : "Press"
+	"press" : "Press",
+	"class_ranged" : "Ranged class unlocked!",
+	"class_ranged_desc" : "Guns up!",
+	"class_magic" : "Magic class unlocked!",
+	"class_magic_desc" : "It's magic time!"
 }
