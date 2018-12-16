@@ -215,6 +215,18 @@ public class MainMenuState extends State {
 		renderPortal();
 
 		if (logoY == 0 && (Input.instance.wasPressed("start"))) {
+			Tween.to(new Tween.Task(48, 0.3f) {
+				@Override
+				public float getValue() {
+					return size;
+				}
+
+				@Override
+				public void setValue(float value) {
+					size = value;
+				}
+			});
+
 			Dungeon.flash(Color.WHITE, 0.05f);
 			Audio.stop();
 			Audio.highPriority("Menu");
@@ -248,6 +260,8 @@ public class MainMenuState extends State {
 		}
 	}
 
+	private float size;
+
 	@Override
 	public void renderUi() {
 		super.render();
@@ -263,7 +277,6 @@ public class MainMenuState extends State {
 			Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, (float) (Display.UI_HEIGHT / 2 + Math.cos(Dungeon.time * 3f) * 2.5f) + logoY, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		}
 
-		float size = 48f;
 
 		Camera.ui.position.set(Display.UI_WIDTH / 2, Display.UI_HEIGHT / 2, 0);
 		Camera.ui.update();

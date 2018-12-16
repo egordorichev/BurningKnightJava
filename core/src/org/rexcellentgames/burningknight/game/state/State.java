@@ -16,12 +16,12 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -680,6 +680,7 @@ Settings:
 					public void onEnd() {
 						SaveManager.deleteAll();
 						Dungeon.depth = -2;
+						GameSave.runId = 0;
 						Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 						Player.instance = null;
 						Player.ladder = null;

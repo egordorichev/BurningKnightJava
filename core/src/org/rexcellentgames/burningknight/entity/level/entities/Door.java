@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
@@ -614,7 +614,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof RollingSpike || entity instanceof DiagonalFly) {
+		if (entity instanceof RollingSpike || entity instanceof Fly) {
 			return true;
 		}
 

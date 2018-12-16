@@ -258,10 +258,12 @@ public class ShopRoom extends LockedRoom {
 			holder.getItem().price += 5;
 		}
 
-		int cn = (int) Player.instance.getStat("sale");
+		if (Player.instance != null) {
+			int cn = (int) Player.instance.getStat("sale");
 
-		for (int j = 0; j < cn; j++) {
-			holder.sale();
+			for (int j = 0; j < cn; j++) {
+				holder.sale();
+			}
 		}
 
 		LevelSave.add(holder);
