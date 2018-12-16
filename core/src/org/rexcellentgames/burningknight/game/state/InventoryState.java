@@ -65,6 +65,7 @@ public class InventoryState extends State {
 					inventory.setSlot(i, null);
 				}
 
+				Player.instance.modifyMana(10000);
 				GameSave.inventory = false;
 				SaveManager.saveGame();
 				SaveManager.saveGames();

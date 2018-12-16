@@ -5,10 +5,12 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.FireFx;
 import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
@@ -34,6 +36,8 @@ public class Turret extends SolidProp {
 	protected float sx = 1f;
 	protected float sy = 1f;
 
+	protected Room room;
+
 	@Override
 	public void init() {
 		super.init();
@@ -48,6 +52,8 @@ public class Turret extends SolidProp {
 			this.type = 3;
 			this.sp = 10;
 		}*/
+
+		readRoom();
 	}
 
 	@Override
@@ -58,6 +64,12 @@ public class Turret extends SolidProp {
 		this.a = reader.readFloat();
 		this.type = reader.readByte();
 		this.frame = reader.readByte();
+
+		readRoom();
+	}
+
+	private void readRoom() {
+		this.room = Dungeon.level.findRoomFor(this.x, this.y);
 	}
 
 	@Override
@@ -128,7 +140,9 @@ public class Turret extends SolidProp {
 			this.lastFlame += dt;
 
 			if (this.lastFlame >= 0.04f) {
-				this.sendFlames();
+				if (this.room == Player.instance.room && this.room.lastNumEnemies > 0) {
+					this.sendFlames();
+				}
 
 				if (this.t >= 4.5f) {
 					this.on = false;
@@ -141,7 +155,10 @@ public class Turret extends SolidProp {
 		if (this.type == 3) {
 			if (this.t >= 9f) {
 				if (!this.rotated) {
-					this.rotate();
+					if (this.room == Player.instance.room && this.room.lastNumEnemies > 0) {
+						this.rotate();
+					}
+
 					this.rotated = true;
 				}
 			} else {
@@ -150,7 +167,10 @@ public class Turret extends SolidProp {
 		} else {
 			if (this.t >= this.sp / 2) {
 				if (!this.rotated) {
-					this.rotate();
+					if (this.room == Player.instance.room && this.room.lastNumEnemies > 0) {
+						this.rotate();
+					}
+
 					this.rotated = true;
 				}
 			} else {
@@ -176,7 +196,10 @@ public class Turret extends SolidProp {
 
 		if (this.last >= sp / 2) {
 			this.last = 0;
-			this.send();
+
+			if (this.room == Player.instance.room && this.room.lastNumEnemies > 0) {
+				this.send();
+			}
 		}
 	}
 

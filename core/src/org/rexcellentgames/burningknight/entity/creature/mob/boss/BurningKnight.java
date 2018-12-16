@@ -40,6 +40,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.game.Achievements;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
@@ -71,7 +72,7 @@ public class BurningKnight extends Boss {
 
 	{
 		texture = "ui-bkbar-skull";
-		hpMax = 50;
+		hpMax = 200;
 		damage = 10;
 		w = 23;
 		h = 30;
@@ -119,6 +120,7 @@ public class BurningKnight extends Boss {
 		dty = y;
 
 		Player.instance.setUnhittable(true);
+		Input.instance.blocked = true;
 		Camera.follow(this, false);
 
 		if (dest) {
@@ -241,8 +243,9 @@ public class BurningKnight extends Boss {
 	}
 
 	public void restore() {
+		Log.error("restore");
 		this.pickedKey = false;
-		this.hpMax = (Dungeon.depth * 20) * (Player.instance != null && Player.instance.type == Player.Type.WARRIOR ? 1 : 2) + 30;
+		this.hpMax = (Dungeon.depth * 50) + 150;
 		this.hp = this.hpMax;
 		this.rage = false;
 
@@ -361,6 +364,7 @@ public class BurningKnight extends Boss {
 				this.dest = false;
 
 				Player.instance.setUnhittable(false);
+				Input.instance.blocked = false;
 
 				Camera.shake(4);
 				Audio.highPriority("Reckless");
@@ -749,7 +753,7 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= 5f) {
+			if (this.t >= 1f) {
 				int i = lastAttack % 3;
 
 				if (self.pattern == 0) {
@@ -851,6 +855,7 @@ public class BurningKnight extends Boss {
 			self.attackTp = true;
 			self.findStartPoint();
 			self.setUnhittable(true);
+			Input.instance.blocked = true;
 			self.rage = true;
 			self.body.getFixtureList().get(0).setSensor(true);
 			self.knockback.x = 0;
@@ -912,6 +917,7 @@ public class BurningKnight extends Boss {
 				ft.vel = new Point((float) Math.cos(an - Math.PI) * fr, (float) Math.sin(an - Math.PI) * fr);
 				Dungeon.area.add(ft);
 			} else if (self.a == 0.6f) {
+				Input.instance.blocked = false;
 				Camera.follow(Player.instance, false);
 				self.become("chase");
 			}
@@ -939,6 +945,7 @@ public class BurningKnight extends Boss {
 				public void onEnd() {
 					self.become("chase");
 					self.attackTp = false;
+					Input.instance.blocked = false;
 					Camera.follow(Player.instance, false);
 				}
 			});
@@ -1098,6 +1105,7 @@ public class BurningKnight extends Boss {
 
 			if (self.t >= 0.1f && ((Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) || (Dungeon.depth == -3 && Player.instance.room == self.room))) {
 				Log.info("BK is out");
+				Input.instance.blocked = true;
 
 				self.setUnhittable(false);
 				self.tp((Player.instance.room.left + Player.instance.room.getWidth() / 2) * 16,

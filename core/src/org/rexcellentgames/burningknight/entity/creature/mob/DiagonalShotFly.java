@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -37,6 +38,10 @@ public class DiagonalShotFly extends DiagonalFly {
 	}
 
 	protected void shot() {
+		if (Player.instance.room != this.room) {
+			return;
+		}
+
 		for (int i = 0; i < 8; i++) {
 			BulletProjectile ball = new BulletProjectile();
 
