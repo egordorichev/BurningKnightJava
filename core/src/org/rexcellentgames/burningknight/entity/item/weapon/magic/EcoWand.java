@@ -28,8 +28,8 @@ public class EcoWand extends Wand {
 
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
-			protected void death() {
-				super.death();
+			protected void onDeath() {
+				super.onDeath();
 
 				int weight = mana;
 

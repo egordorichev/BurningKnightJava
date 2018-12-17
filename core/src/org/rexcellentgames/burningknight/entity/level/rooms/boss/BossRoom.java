@@ -48,4 +48,18 @@ public class BossRoom extends EntranceRoom {
 	public int getMaxHeight() {
 		return 26;
 	}
+
+	@Override
+	public int getMaxConnections(Connection side) {
+		return 1;
+	}
+
+	@Override
+	public int getMinConnections(Connection side) {
+		if (side == Connection.ALL) {
+			return 1;
+		}
+
+		return 0;
+	}
 }

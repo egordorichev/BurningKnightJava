@@ -124,8 +124,8 @@ public class CrazyBook extends Book {
 
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
-			protected void death() {
-				super.death();
+			protected void onDeath() {
+				super.onDeath();
 
 				int weight = mana;
 
@@ -141,6 +141,8 @@ public class CrazyBook extends Book {
 					Dungeon.area.add(fx);
 					LevelSave.add(fx);
 				}
+
+				spawnChild(this.x, this.y);
 			}
 
 			private PointLight light;
@@ -170,12 +172,6 @@ public class CrazyBook extends Book {
 				Graphics.batch.setColor(r, g, b, 0.8f);
 				Graphics.render(particle, this.x, this.y, this.a, particle.getRegionWidth() / 2, particle.getRegionHeight() / 2, false, false);
 				Graphics.batch.setColor(1, 1, 1, 1);
-			}
-
-			@Override
-			protected void onDeath() {
-				super.onDeath();
-				spawnChild(this.x, this.y);
 			}
 
 			@Override

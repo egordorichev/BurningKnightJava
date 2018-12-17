@@ -149,6 +149,7 @@ public class Dungeon extends ApplicationAdapter {
 
 		Player.instance = null;
 		BurningKnight.instance = null;
+		unlockClasses();
 
 		level = null;
 
@@ -165,21 +166,26 @@ public class Dungeon extends ApplicationAdapter {
 		game.setState(new LoadState());
 	}
 
+	public static void unlockClasses() {
+		GameSave.runId ++;
+
+		if (GameSave.runId == 1) {
+			Achievements.unlock("CLASS_RANGED");
+			GlobalSave.put("unlocked_ranged", true);
+		} else if (GameSave.runId == 2) {
+			Achievements.unlock("CLASS_MELEE");
+			GlobalSave.put("unlocked_melee", true);
+		}
+	}
+
 	public static void newGame(boolean quick, int depth) {
 		reset = true;
 		Dungeon.quick = quick;
 		SaveManager.delete();
 		GameSave.time = 0;
 		loadType = Entrance.LoadType.GO_DOWN;
-		GameSave.runId ++;
 
-		if (GameSave.runId == 1) {
-			Achievements.unlock("CLASS_MAGIC");
-			GlobalSave.put("unlocked_magic", true);
-		} else if (GameSave.runId == 2) {
-			Achievements.unlock("CLASS_RANGED");
-			GlobalSave.put("unlocked_ranged", true);
-		}
+		unlockClasses();
 
 		Player.instance = null;
 		BurningKnight.instance = null;

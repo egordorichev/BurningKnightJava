@@ -586,6 +586,6 @@
 	"press" : "Press",
 	"class_ranged" : "Ranged class unlocked!",
 	"class_ranged_desc" : "Guns up!",
-	"class_magic" : "Magic class unlocked!",
-	"class_magic_desc" : "It's magic time!"
+	"class_melee" : "Melee class unlocked!",
+	"class_melee_desc" : "Into the battle!"
 }

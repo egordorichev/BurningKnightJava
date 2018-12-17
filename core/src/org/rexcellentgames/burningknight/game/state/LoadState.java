@@ -138,6 +138,10 @@ public class LoadState extends State {
 	private boolean runM;
 
 	private void runMain() {
+		if (Dungeon.depth <= 0) {
+			noPercent = true;
+		}
+
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {

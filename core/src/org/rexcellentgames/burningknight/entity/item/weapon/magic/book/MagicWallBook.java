@@ -43,8 +43,8 @@ public class MagicWallBook extends Book {
 
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
-			protected void death() {
-				super.death();
+			protected void onDeath() {
+				super.onDeath();
 
 				if (first) {
 					int weight = mana;

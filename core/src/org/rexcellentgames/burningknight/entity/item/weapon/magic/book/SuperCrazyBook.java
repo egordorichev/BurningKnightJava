@@ -178,8 +178,9 @@ public class SuperCrazyBook extends Book {
 
 		BulletProjectile missile = new BulletProjectile() {
 			@Override
-			protected void death() {
-				super.death();
+			protected void onDeath() {
+				super.onDeath();
+				spawnMain(this.x, this.y);
 
 				int weight = mana;
 
@@ -210,12 +211,6 @@ public class SuperCrazyBook extends Book {
 				Graphics.batch.setColor(r, g, b, 0.8f);
 				Graphics.render(big, this.x, this.y, this.a, big.getRegionWidth() / 2, big.getRegionHeight() / 2, false, false);
 				Graphics.batch.setColor(1, 1, 1, 1);
-			}
-
-			@Override
-			protected void onDeath() {
-				super.onDeath();
-				spawnMain(this.x, this.y);
 			}
 
 			private PointLight light;

@@ -50,7 +50,7 @@ public class ItemSelectState extends State {
 		ranged.clear();
 		mage.clear();
 
-		melee.add(new Sword());
+		mage.add(new MagicMissileWand());
 
 		boolean ur = GlobalSave.isTrue("unlocked_ranged");
 
@@ -58,10 +58,10 @@ public class ItemSelectState extends State {
 			ranged.add(new Revolver());
 		}
 
-		boolean um = GlobalSave.isTrue("unlocked_magic");
+		boolean um = GlobalSave.isTrue("unlocked_melee");
 
 		if (um) {
-			mage.add(new MagicMissileWand());
+			melee.add(new Sword());
 		}
 
 		if (Player.instance != null) {
@@ -125,7 +125,7 @@ public class ItemSelectState extends State {
 			StartingItem item = new StartingItem();
 			item.item = melee.get(i);
 			item.type = Player.Type.WARRIOR;
-			item.y = Display.UI_HEIGHT / 2 + 48;
+			item.y = Display.UI_HEIGHT / 2 - 48;
 			item.x = (Display.UI_WIDTH - melee.size() * 48) / 2 + i * 48 + 24;
 			Dungeon.ui.add(item);
 		}
@@ -143,7 +143,7 @@ public class ItemSelectState extends State {
 			StartingItem item = new StartingItem();
 			item.item = mage.get(i);
 			item.type = Player.Type.WIZARD;
-			item.y = Display.UI_HEIGHT / 2 - 48;
+			item.y = Display.UI_HEIGHT / 2 + 48;
 			item.x = (Display.UI_WIDTH - mage.size() * 48) / 2 + i * 48 + 24;
 			Dungeon.ui.add(item);
 		}
@@ -154,12 +154,12 @@ public class ItemSelectState extends State {
 				super.onClick();
 				float r = Random.newFloat(1);
 
-				if (r < 0.333f || (mage.size() == 0 && ranged.size() == 0)) {
-					pick(melee.get(Random.newInt(melee.size() - 1)), Player.Type.WARRIOR);
-				} else if (r < 0.666f && ranged.size() > 0) {
-					pick(ranged.get(Random.newInt(ranged.size() - 1)), Player.Type.RANGER);
-				} else {
+				if (r < 0.333f || (melee.size() == 0 && ranged.size() == 0)) {
 					pick(mage.get(Random.newInt(mage.size() - 1)), Player.Type.WIZARD);
+				} else if (r < 0.666f || ranged.size() == 0) {
+					pick(melee.get(Random.newInt(melee.size() - 1)), Player.Type.WARRIOR);
+				} else {
+					pick(ranged.get(Random.newInt(ranged.size() - 1)), Player.Type.RANGER);
 				}
 			}
 		});

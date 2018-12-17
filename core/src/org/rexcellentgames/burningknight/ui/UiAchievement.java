@@ -91,6 +91,8 @@ public class UiAchievement extends Entity {
 	public void render() {
 		boolean missing = icon == Item.missing;
 
+		Graphics.batch.setColor(1, 1, 1, 1);
+
 		if (unlock ) {
 			Graphics.startShape();
 			Graphics.shape.setColor(0.3f, 0.3f, 0.3f, 1f);

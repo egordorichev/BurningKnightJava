@@ -129,6 +129,10 @@ public class Projectile extends StatefulEntity {
 	}
 
 	protected void death() {
+		if (done) {
+			return;
+		}
+
 		this.done = true;
 		this.onDeath();
 
