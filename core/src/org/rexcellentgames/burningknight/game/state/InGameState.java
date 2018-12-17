@@ -84,10 +84,6 @@ public class InGameState extends State {
 
 		Dungeon.white = 0;
 
-		if (Input.instance.activeController != null) {
-			Achievements.unlock(Achievements.UNLOCK_DENDY);
-		}
-
 		Camera.did = false;
 
 		pauseMenuUi = new Area(true);

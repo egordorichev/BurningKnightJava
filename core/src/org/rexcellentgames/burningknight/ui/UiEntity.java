@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.game.input.Input;
 
 public class UiEntity extends Entity {
 	protected boolean isSelected;
@@ -21,9 +20,7 @@ public class UiEntity extends Entity {
 	}
 
 	public void select() {
-		if (Input.instance.activeController != null) {
-			isSelected = true;
-		}
+
 	}
 
 	public void unselect() {

@@ -6,6 +6,7 @@ import com.sun.jna.Native;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.SystemUtils;
+import org.rexcellentgames.burningknight.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -130,7 +131,7 @@ public final class DiscordRPC{
         if (SystemUtils.IS_OS_MAC_OSX) {
             name = System.mapLibraryName("discord-rpc");
             homeDir = new File(System.getProperty("user.home") + "/Library/Application Support/");
-            finalPath = "libs/mac/" + name;
+            finalPath = "libs/darwin/" + name;
             tempPath = homeDir + "/discord-rpc/" + name;
         } else if (SystemUtils.IS_OS_WINDOWS) {
             name = System.mapLibraryName("discord-rpc");
@@ -146,14 +147,17 @@ public final class DiscordRPC{
         }
 
         File f = new File(tempPath);
+        Log.info("Copying discord RPC from " + finalPath + " to " + tempPath);
 
         try (InputStream in = Gdx.files.internal(finalPath).read(); OutputStream out = FileUtils.openOutputStream(f)) {
             IOUtils.copy(in, out);
             FileUtils.forceDeleteOnExit(f);
-        } catch(IOException e){
+        } catch (IOException e) {
+            Log.error("Failed to copy the file");
             e.printStackTrace();
         }
 
+        Log.info("Loading the lib...");
         System.load(f.getAbsolutePath());
     }
 

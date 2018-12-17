@@ -1,10 +1,9 @@
 package org.rexcellentgames.burningknight.desktop;
 
+import com.badlogic.gdx.Files;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Window;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3WindowListener;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
+import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.*;
 import org.rexcellentgames.burningknight.assets.Assets;
@@ -39,50 +38,37 @@ public class DesktopLauncher {
 			}
 		});
 
-		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		config.setWindowListener(new Lwjgl3WindowListener() {
+		Dungeon.title = "Burning Knight " + Version.asString() + ": " + generateTitle();
+
+		config.title = Dungeon.title;
+		config.width = Display.GAME_WIDTH * SCALE;
+		config.height = Display.GAME_HEIGHT * SCALE;
+		config.addIcon("icon.png", Files.FileType.Internal);
+		config.addIcon("icon32x32.png", Files.FileType.Internal);
+		config.addIcon("icon128x128.png", Files.FileType.Internal);
+		config.resizable = true;
+		config.samples = 2;
+		config.backgroundFPS = 0;
+		config.initialBackgroundColor = Color.BLACK;
+		config.vSyncEnabled = true;
+
+		// min size not avaible :(
+
+		Dungeon.arg = arg;
+
+		new LwjglApplication(new Client(), config) {
 			@Override
-			public void created(Lwjgl3Window window) {
-				Dungeon.window = window;
+			public void exit() {
+				if (Assets.finishedLoading) {
+					super.exit();
+				}
 			}
+		};
+	}
 
-			@Override
-			public void iconified(boolean isIconified) {
-				Dungeon.instance.pause();
-			}
-
-			@Override
-			public void maximized(boolean isMaximized) {
-
-			}
-
-			@Override
-			public void focusLost() {
-				Dungeon.instance.pause();
-			}
-
-			@Override
-			public void focusGained() {
-				Dungeon.instance.resume();
-			}
-
-			@Override
-			public boolean closeRequested() {
-				return Assets.finishedLoading;
-			}
-
-			@Override
-			public void filesDropped(String[] files) {
-
-			}
-
-			@Override
-			public void refreshRequested() {
-				Gdx.graphics.requestRendering();
-			}
-		});
-
+	private static String generateTitle() {
 		SimpleDateFormat format = new SimpleDateFormat("MM-dd");
 
 		if (Random.chance(0.001f)) {
@@ -119,21 +105,7 @@ public class DesktopLauncher {
 			extra = "Houston, we have a problem!";
 		}
 
-		Dungeon.title = "Burning Knight " + Version.asString() + ": " + extra;
-
-		config.setTitle(Dungeon.title);
-		config.setWindowedMode(Display.GAME_WIDTH * SCALE, Display.GAME_HEIGHT * SCALE);
-		config.setBackBufferConfig(8, 8, 8, 8, 16, 0, 2);
-		config.setWindowSizeLimits(Display.GAME_WIDTH, Display.GAME_HEIGHT, 1000000000, 10000000);
-		config.setWindowIcon("icon.png", "icon32x32.png", "icon128x128.png");
-		config.setIdleFPS(0);
-		config.setInitialBackgroundColor(Color.BLACK);
-
-		Dungeon.arg = arg;
-
-		System.setProperty("java.awt.headless", Boolean.TRUE.toString());
-		java.awt.Toolkit.getDefaultToolkit(); // Ensure AWT is initialized before GLFW.
-		new Lwjgl3Application(new Client(), config);
+		return extra;
 	}
 
 	private static boolean lockInstance(final String lockFile) {

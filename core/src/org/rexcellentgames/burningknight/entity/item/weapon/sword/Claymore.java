@@ -14,7 +14,8 @@ public class Claymore extends Sword {
 		description = Locale.get("claymore_desc");
 		sprite = "item-claymore_" + letter;
 		damage = 4;
-		useTime = 0.4f;
+		timeA = 0.14f;
+		useTime = timeA;
 		region = Graphics.getTexture(sprite);
 	}
 

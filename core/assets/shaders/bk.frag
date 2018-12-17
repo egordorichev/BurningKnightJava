@@ -16,10 +16,10 @@ void main() {
     vec2 cof = vec2(1.0 / size.x, 1.0 / size.y);
     float x = (pos.x - v_texCoord.x) * cof.x;
     float y = (pos.y - v_texCoord.y) * cof.y;
-    float v = round(sin(time * 4.0 + y * 8.0));
+    float v = floor(sin(time * 4.0 + y * 8.0));
     vec2 ps = vec2(
        clamp(v_texCoord.x + v / (cof.x * 16.0), pos.x, pos.x + size.x),
-       clamp(v_texCoord.y + round(sin(time * 2.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
+       clamp(v_texCoord.y + floor(sin(time * 2.0 + x)) / (cof.y * 24.0), pos.y, pos.y + size.y)
     );
 
     vec4 color = texture2D(u_texture, ps);

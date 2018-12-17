@@ -22,7 +22,7 @@ void main() {
     if (white > 0.5) {
         vec4 c = texture2D(u_texture, v_texCoord.xy);
 
-        if ((c.r + c.g + c.b) >= 0.5f) {
+        if ((c.r + c.g + c.b) >= 0.5) {
             gl_FragColor = vec4(1.0, 1.0, 1.0, c.a);
         } else {
             gl_FragColor = c;

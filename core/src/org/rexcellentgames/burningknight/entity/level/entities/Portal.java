@@ -161,8 +161,8 @@ public class Portal extends SaveableEntity {
 			MainMenuState.voidMusic.play();
 			float f = (dd - d) / dd;
 			MainMenuState.voidMusic.setVolume(f * Settings.music);
-			Player.instance.velocity.x -= dx / d * dt * 4000 * f;
-			Player.instance.velocity.y -= dy / d * dt * 4000 * f;
+			Player.instance.velocity.x -= dx / d * dt * 2400 * f;
+			Player.instance.velocity.y -= dy / d * dt * 2400 * f;
 		} else {
 			MainMenuState.voidMusic.setVolume(0);
 			MainMenuState.voidMusic.pause();

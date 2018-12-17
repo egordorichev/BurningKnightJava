@@ -43,7 +43,7 @@ public class Fly extends Mob {
 	}
 
 	protected void createBody() {
-		body = World.createSimpleBody(this, 6, 6, w - 12, h - 6, BodyDef.BodyType.DynamicBody, false);
+		body = World.createSimpleBody(this, 3, 3, w - 6, h, BodyDef.BodyType.DynamicBody, false);
 		body.setTransform(x, y, 0);
 	}
 

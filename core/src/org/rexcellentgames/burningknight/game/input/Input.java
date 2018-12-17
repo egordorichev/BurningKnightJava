@@ -3,10 +3,6 @@ package org.rexcellentgames.burningknight.game.input;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
-import com.badlogic.gdx.controllers.Controller;
-import com.badlogic.gdx.controllers.ControllerListener;
-import com.badlogic.gdx.controllers.Controllers;
-import com.badlogic.gdx.controllers.PovDirection;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -15,11 +11,9 @@ import com.badlogic.gdx.utils.JsonValue;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
-import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiKey;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -33,14 +27,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class Input implements InputProcessor, ControllerListener {
+public class Input implements InputProcessor {
 	public static InputMultiplexer multiplexer = new InputMultiplexer();
 	public static Input instance;
 
 	public Point uiMouse = new Point();
 	public Point worldMouse = new Point();
 	public boolean blocked = false;
-	public Controller activeController;
 	public Vector2 mouse = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 	public Vector2 target = new Vector2(Display.GAME_WIDTH / 2, Display.GAME_HEIGHT / 2);
 
@@ -52,138 +45,6 @@ public class Input implements InputProcessor, ControllerListener {
 
 	static {
 		Gdx.input.setInputProcessor(multiplexer);
-	}
-
-	private GamepadMap map = new GamepadMap(GamepadMap.Type.Xbox);
-
-	@Override
-	public void connected(Controller controller) {
-		String name = controller.getName().toLowerCase();
-
-		// disabled for now
-		if (true || (!name.contains("gamepad") && !name.contains("joy") && !name.contains("stick") && !name.contains("controller")) || name.contains("wacom")) {
-			Log.info("Controller " + controller.getName() + " was ignored");
-			return;
-		}
-
-		Log.info("Controller " + controller.getName() + " connected!");
-		controllerChanged = true;
-
-		if (activeController == null) {
-			activeController = controller;
-			onControllerChange();
-		}
-	}
-
-	public void onControllerChange() {
-		if (activeController == null) {
-			return;
-		}
-
-		if (activeController.getName().toLowerCase().contains("xbox")) {
-			map = new GamepadMap(GamepadMap.Type.Xbox);
-		} else if (activeController.getName().equalsIgnoreCase("wireless controller")) {
-		  map = new GamepadMap(GamepadMap.Type.PlayStation4);
-    } else {
-			map = new GamepadMap(GamepadMap.Type.Unknown);
-		}
-	}
-
-	@Override
-	public void disconnected(Controller controller) {
-		Log.info("Controller " + controller.getName() + " disconnected!");
-		controllerChanged = true;
-
-		if (Dungeon.game.getState() instanceof InGameState && !Dungeon.game.getState().isPaused()) {
-			Dungeon.game.getState().setPaused(true);
-		}
-
-		if (activeController == controller) {
-			activeController = null;
-		}
-	}
-
-	@Override
-	public boolean buttonDown(Controller controller, int buttonCode) {
-		if (activeController == null || controller != activeController) {
-			return false;
-		}
-
-		anyPressed = true;
-
-		if (listener != null) {
-			listener.set("Controller" + buttonCode);
-			return false;
-		}
-
-		this.keys.put("Controller" + buttonCode, State.DOWN);
-		return false;
-	}
-
-	@Override
-	public boolean buttonUp(Controller controller, int buttonCode) {
-		if (activeController == null || controller != activeController) {
-			return false;
-		}
-
-		this.keys.put("Controller" + buttonCode, State.UP);
-		return false;
-	}
-
-	@Override
-	public boolean axisMoved(Controller controller, int axisCode, float value) {
-		if (activeController == null || controller != activeController) {
-			return false;
-		}
-
-		int second = axisCode - 1;
-
-		if (axisCode % 2 == 0) {
-			second = axisCode + 1;
-		}
-
-		float dx = controller.getAxis(second);
-		float d = (float) Math.sqrt(dx * dx + value * value);
-
-		if (d >= 0.3f) {
-			axes[second] = dx;
-			axes[axisCode] = value;
-		} else {
-			axes[second] = 0f;
-			axes[axisCode] = 0f;
-		}
-
-		return false;
-	}
-
-	@Override
-	public boolean povMoved(Controller controller, int povCode, PovDirection value) {
-		if (activeController == null || controller != activeController) {
-			return false;
-		}
-
-		this.keys.put("ControllerDPadRight", value == PovDirection.east || value == PovDirection.northEast || value == PovDirection.southEast ? State.DOWN : State.UP);
-		this.keys.put("ControllerDPadLeft", value == PovDirection.west || value == PovDirection.northWest || value == PovDirection.southWest ? State.DOWN : State.UP);
-		this.keys.put("ControllerDPadUp", value == PovDirection.north || value == PovDirection.northEast || value == PovDirection.northWest ? State.DOWN : State.UP);
-		this.keys.put("ControllerDPadDown", value == PovDirection.south || value == PovDirection.southEast || value == PovDirection.southWest ? State.DOWN : State.UP);
-
-		anyPressed = true;
-		return false;
-	}
-
-	@Override
-	public boolean xSliderMoved(Controller controller, int sliderCode, boolean value) {
-		return false;
-	}
-
-	@Override
-	public boolean ySliderMoved(Controller controller, int sliderCode, boolean value) {
-		return false;
-	}
-
-	@Override
-	public boolean accelerometerMoved(Controller controller, int accelerometerCode, Vector3 value) {
-		return false;
 	}
 
 	public enum State {
@@ -224,10 +85,6 @@ public class Input implements InputProcessor, ControllerListener {
 			return;
 		}
 
-		if (activeController == null && Controllers.getControllers().size > 0) {
-			this.connected(Controllers.getControllers().get(0));
-		}
-
     JsonValue root = reader.parse(handle);
 
     for (JsonValue value : root) {
@@ -238,28 +95,7 @@ public class Input implements InputProcessor, ControllerListener {
 	}
 
 	public float getAxis(String name) {
-		if (activeController == null) {
-			return 0;
-		}
-
-		ArrayList<String> keys = this.bindings.get(name);
-
-		if (keys == null || keys.size() == 0) {
-			return 0;
-		}
-
-		String na = keys.get(0);
-		int n = map.getId(na);
-
-		if (axes.length <= n || n < 0) {
-			return 0;
-		}
-
-		if (Math.abs(axes[n]) < 0.01f) {
-		  return 0;
-    }
-		
-		return axes[n];
+		return 0;
 	}
 	
 	public void addBinding(String name, String key) {
@@ -426,11 +262,7 @@ public class Input implements InputProcessor, ControllerListener {
 				return true;
 			}
 
-			if (activeController == null || !key.equals("X")) {
-				return false;
-			}
-
-			return activeController.getButton(map.BUTTON_X);
+			return false;
 		}
 
 		for (String id : this.bindings.get(key)) {
@@ -564,13 +396,7 @@ public class Input implements InputProcessor, ControllerListener {
 	
 	private String toButtonWithId(String id) {
     if (id.toLowerCase().startsWith("controller")) {
-    	if (activeController == null) {
-    		return null;
-	    }
-
-    	if (!id.toLowerCase().contains("dpad")) {
-		    return "Controller" + map.getId(id);
-	    }
+    	return null;
     }
     
     return id;
@@ -583,31 +409,19 @@ public class Input implements InputProcessor, ControllerListener {
 			return "Null";
 		}
 
-		if (activeController != null) {
-			String k = keys.get(1).replace("Controller", "");
+		String k = keys.get(0);
+
+		if (k.startsWith("Mouse")) {
+			k = k.replace("Mouse", "");
 
 			switch (k) {
-				case "L1": return "LT";
-				case "L2": return "LB";
-				case "R1": return "RT";
-				case "R2": return "RB";
-				default: return k;
+				case "0": return Locale.get("left_mouse_button");
+				case "1": return Locale.get("right_mouse_button");
 			}
+
+			return k;
 		} else {
-			String k = keys.get(0);
-
-			if (k.startsWith("Mouse")) {
-				k = k.replace("Mouse", "");
-
-				switch (k) {
-					case "0": return Locale.get("left_mouse_button");
-					case "1": return Locale.get("right_mouse_button");
-				}
-
-				return k;
-			} else {
-				return k;
-			}
+			return k;
 		}
 	}
 }

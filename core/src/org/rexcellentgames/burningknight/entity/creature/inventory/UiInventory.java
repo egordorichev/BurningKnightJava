@@ -88,8 +88,6 @@ public class UiInventory extends UiEntity {
 					current.setOwner(Player.instance);
 					((Accessory) current).equipped = true;
 					((Accessory) current).onEquip(true);
-
-					Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 				}
 			}
 		}
@@ -621,13 +619,6 @@ public class UiInventory extends UiEntity {
 		if (this.currentSlot != null) {
 			float x = Input.instance.uiMouse.x;
 			float y = Input.instance.uiMouse.y;
-
-			if (Input.instance.activeController != null) {
-				UiSlot slot = this.slots[this.active];
-
-				x = slot.x + 24;
-				y = slot.y + 24;
-			}
 
 			int count = this.currentSlot.getCount();
 

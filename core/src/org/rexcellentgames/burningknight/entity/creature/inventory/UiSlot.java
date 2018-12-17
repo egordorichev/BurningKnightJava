@@ -375,7 +375,6 @@ public class UiSlot {
 						current.setOwner(Player.instance);
 						((Accessory) current).equipped = true;
 						((Accessory) current).onEquip(false);
-						Achievements.unlock(Achievements.EQUIP_ACCESSORY);
 					}
 				}
 			}

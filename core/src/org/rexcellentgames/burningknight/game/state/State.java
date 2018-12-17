@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Cursor;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -518,7 +517,7 @@ Settings:
 			@Override
 			public void onClick() {
 				Settings.borderless = !Settings.borderless;
-				((Lwjgl3Graphics) Gdx.graphics).setUndecorated(Settings.borderless);
+				Gdx.graphics.setUndecorated(Settings.borderless);
 				super.onClick();
 			}
 		}.setOn(Settings.borderless)));

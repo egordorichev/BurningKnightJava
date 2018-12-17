@@ -1146,12 +1146,10 @@ public class Player extends Creature {
 				if (moved) {
 					this.step = 1;
 				} else if (this.tt >= 4f) {
-					if (Input.instance.activeController == null) {
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("forward"));
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("left") + " [gray]" + Locale.get("left"));
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("down") + " [gray]" + Locale.get("back"));
-						Ui.ui.addControl("[white]" + Input.instance.getMapping("right") + " [gray]" + Locale.get("right"));
-					}
+					Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("forward"));
+					Ui.ui.addControl("[white]" + Input.instance.getMapping("left") + " [gray]" + Locale.get("left"));
+					Ui.ui.addControl("[white]" + Input.instance.getMapping("down") + " [gray]" + Locale.get("back"));
+					Ui.ui.addControl("[white]" + Input.instance.getMapping("right") + " [gray]" + Locale.get("right"));
 
 					this.step = 1;
 				}
@@ -1416,7 +1414,7 @@ public class Player extends Creature {
 
 		float v = this.acceleration.len2();
 
-		if (knockback.len() + v > 9f) {
+		if (knockback.len() + v > 4f) {
 			this.stopT = 0;
 		} else {
 			stopT += dt;

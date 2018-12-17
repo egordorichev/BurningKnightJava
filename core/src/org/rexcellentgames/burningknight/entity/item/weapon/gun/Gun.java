@@ -137,7 +137,7 @@ public class Gun extends WeaponBase {
 				this.onAmmoAdded();
 				chargeProgress = 0;
 			}
-		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.1f && !down) {
+		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.15f && !down) {
 			this.chargeProgress += dt * this.owner.getStat("reload_time") * reloadRate * ammoMax * this.owner.getStat("ammo_capacity");
 
 			if (this.chargeProgress >= 1f) {
@@ -423,8 +423,8 @@ public class Gun extends WeaponBase {
 			Dungeon.area.add(shell);
 		}
 
-		this.owner.knockback.x -= Math.cos(a) * 90f;
-		this.owner.knockback.y -= Math.sin(a) * 90f;
+		this.owner.knockback.x -= Math.cos(a) * 30f;
+		this.owner.knockback.y -= Math.sin(a) * 30f;
 
 		if (this.owner instanceof Player) {
 			Camera.push(a, 16f);

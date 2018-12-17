@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.util.*;
@@ -190,6 +191,11 @@ public class Trader extends Npc {
 	private Dialog cs = Dialog.make("consumable-trader");
 	private Dialog ha = Dialog.make("hat-trader");
 	private Dialog ac = Dialog.make("accessory-trader");
+
+	@Override
+	public boolean wantToTalk() {
+		return !(this.room instanceof NpcSaveRoom);
+	}
 
 	@Override
 	protected DialogData selectDialog() {

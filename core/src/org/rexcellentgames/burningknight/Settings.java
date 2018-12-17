@@ -1,7 +1,6 @@
 package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Graphics;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 
 public class Settings {
@@ -78,7 +77,7 @@ public class Settings {
 		}
 
 		if (borderless) {
-			((Lwjgl3Graphics) Gdx.graphics).setUndecorated(Settings.borderless);
+			Gdx.graphics.setUndecorated(Settings.borderless);
 		}
 
 		Gdx.graphics.setVSync(Settings.vsync);
