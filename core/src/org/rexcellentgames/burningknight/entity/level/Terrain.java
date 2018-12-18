@@ -37,7 +37,7 @@ public class Terrain {
 
 	public static int[] flags = new int[SIZE];
 	public static Color[] colors = new Color[SIZE];
-	public static Color[][] floors = new Color[6][4];
+	public static Color[][] floors = new Color[8][4];
 
 	public static int PASSABLE = 0x1;
 	public static int SOLID = 0x2;
@@ -106,11 +106,29 @@ public class Terrain {
 		floors[2][2] = Color.valueOf("#5d2c28");
 		floors[2][3] = Color.valueOf("#657392");
 
+		// Tech
+		floors[4][0] = Color.valueOf("#8a4836");
+		floors[4][1] = Color.valueOf("#891e2b");
+		floors[4][2] = Color.valueOf("#5d2c28");
+		floors[4][3] = Color.valueOf("#657392");
+
 		// Forest
 		floors[5][0] = Color.valueOf("#1e6f50");
 		floors[5][1] = Color.valueOf("#33984b");
 		floors[5][2] = Color.valueOf("#5d2c28");
 		floors[5][3] = Color.valueOf("#424c6e");
+
+		// Creep
+		floors[4][0] = Color.valueOf("#1e6f50");
+		floors[4][1] = Color.valueOf("#33984b");
+		floors[4][2] = Color.valueOf("#5d2c28");
+		floors[4][3] = Color.valueOf("#424c6e");
+
+		// Blood
+		floors[6][0] = Color.valueOf("#1e6f50");
+		floors[6][1] = Color.valueOf("#33984b");
+		floors[6][2] = Color.valueOf("#5d2c28");
+		floors[6][3] = Color.valueOf("#424c6e");
 	}
 
 	public static Color getColor(byte t) {

@@ -28,8 +28,10 @@ import org.rexcellentgames.burningknight.entity.fx.SteamFx;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.fx.WaterfallFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
@@ -203,9 +205,13 @@ public abstract class Level extends SaveableEntity {
 			return new ForestLevel();
 		} else if (depth < 9) {
 			return new LibraryLevel();
+		} else if (depth < 11) {
+			return new TechLevel();
+		} else if (depth < 13) {
+			return new CreepLevel();
 		}
 
-		return new TechLevel();
+		return new BloodLevel();
 	}
 
 	public String getDepthAsCoolNum() {
