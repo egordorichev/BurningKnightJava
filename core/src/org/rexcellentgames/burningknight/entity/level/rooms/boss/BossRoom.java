@@ -13,7 +13,7 @@ public class BossRoom extends EntranceRoom {
 		Painter.fill(level, this, 1, Terrain.randomFloor());
 
 		for (Door door : connected.values()) {
-			door.setType(Door.Type.REGULAR);
+			door.setType(Door.Type.BOSS);
 		}
 
 		/*if (Dungeon.depth == 4) {

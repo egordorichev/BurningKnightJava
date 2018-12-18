@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.Random;
 
 public class DiagonalFly extends Fly {
 	public static Animation animations = Animation.make("actor-fly", "-brown");
@@ -29,13 +30,13 @@ public class DiagonalFly extends Fly {
 
 	@Override
 	protected void createBody() {
-		body = World.createSimpleBody(this, 6, 6, w - 12, h - 6, BodyDef.BodyType.DynamicBody, false);
+		body = World.createSimpleBody(this, 3, 3, w - 6, h - 6, BodyDef.BodyType.DynamicBody, false);
 		body.getFixtureList().get(0).setRestitution(1f);
 		body.setTransform(x, y, 0);
 
 		float f = 32;
 
-		body.setLinearVelocity(new Vector2(-f, f));
+		body.setLinearVelocity(new Vector2(f * (Random.chance(50) ? -1 : 1), f * (Random.chance(50) ? -1 : 1)));
 	}
 
 	@Override

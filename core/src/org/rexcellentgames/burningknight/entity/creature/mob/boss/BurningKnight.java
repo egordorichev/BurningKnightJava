@@ -30,6 +30,7 @@ import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
@@ -115,6 +116,14 @@ public class BurningKnight extends Boss {
 		this.unhittable = true;
 		this.ignoreRooms = true;
 		this.pickedKey = false;
+
+		for (Mob mob : Mob.all) {
+			if (mob.room == Player.instance.room) {
+				mob.die();
+			}
+		}
+
+		Projectile.allDie = true;
 
 		dtx = x;
 		dty = y;

@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
@@ -356,6 +357,8 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		Projectile.allDie = false;
+
 		if (Dungeon.depth == -2) {
 			Upgrade.Companion.setUpdateEvent(false);
 		}

@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class DiagonalShotFly extends DiagonalFly {
@@ -20,12 +21,18 @@ public class DiagonalShotFly extends DiagonalFly {
 	}
 
 	@Override
+	public void init() {
+		super.init();
+		lastShot = Random.newFloat(3);
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 
 		lastShot += dt;
 
-		if (lastShot > 2f) {
+		if (lastShot > 3f) {
 			shot();
 			lastShot = 0;
 		}

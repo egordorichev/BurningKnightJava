@@ -33,10 +33,12 @@ public class ManaFx extends SaveableEntity {
 	private AnimationData anim;
 	private static Animation fullAnim = Animation.make("fx-star", "-full");
 	private static Animation halfAnim = Animation.make("fx-star", "-half");
+	private float waitT;
 
 	@Override
 	public void init() {
 		super.init();
+		waitT = 0.5f;
 
 		anim = half ? halfAnim.get("idle") : fullAnim.get("idle");
 		anim.randomize();
@@ -47,7 +49,6 @@ public class ManaFx extends SaveableEntity {
 
 		body = World.createCircleBody(this, 0, 0, Math.min(w, h) / 2, BodyDef.BodyType.DynamicBody, false);
 		body.setTransform(this.x, this.y, 0);
-		light = World.newLight(32, new Color(0, 1, 1, 1), 64, 0, 0);
 		light.setPosition(this.x + w / 2, this.y + h / 2);
 	}
 
@@ -73,11 +74,16 @@ public class ManaFx extends SaveableEntity {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 		half = reader.readBoolean();
+		waitT = 0;
 		body.setTransform(this.x, this.y, 0);
 	}
 
 	@Override
 	public void render() {
+		if (waitT > 0) {
+			return;
+		}
+
 		anim.render(this.x, this.y, false);
 	}
 
@@ -116,6 +122,21 @@ public class ManaFx extends SaveableEntity {
 		Vector2 vel = this.body.getLinearVelocity();
 		vel.x -= vel.x * dt * 3;
 		vel.y -= vel.y * dt * 3;
+
+		if (waitT > 0) {
+			waitT -= dt;
+
+			if (waitT <= 0) {
+				waitT = 0;
+				poof();
+			}
+
+			return;
+		}
+
+		if (light == null) {
+			light = World.newLight(32, new Color(0, 1, 1, 1), 64, 0, 0);
+		}
 
 		light.setPosition(this.x + w / 2, this.y + h / 2);
 

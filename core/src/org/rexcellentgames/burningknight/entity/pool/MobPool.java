@@ -87,10 +87,10 @@ public class MobPool {
 		clear();
 
 		add(0.5f, -1, MovingFly.class);
-		add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
 		add(1f, -1, DiagonalFly.class);
 
 		if (Dungeon.depth > 1) {
+			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
 			add(1f, -1, DiagonalShotFly.class);
 		}
 
@@ -98,14 +98,20 @@ public class MobPool {
 			add(1f, -1, RangedKnight.class);
 			add(1f, -1, Knight.class);
 			add(1f, -1, Clown.class);
-			add(1f, -1, Thief.class);
+
+			if (Dungeon.depth > 1) {
+				add(1f, -1, Thief.class);
+			}
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
 			add(1f, -1, Archeologist.class);
 			add(1f, -1, Mummy.class);
-			add(0.5f, 1, Skeleton.class); // Fixme: should allow max 1 skeleton PER ROOM
 			add(1f, -1, Thief.class);
+
+			if (Dungeon.depth > 3) {
+				add(0.5f, 1, Skeleton.class);
+			}
 		}
 
 		if (Dungeon.level instanceof LibraryLevel ||

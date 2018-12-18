@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.key.*;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
@@ -44,6 +43,8 @@ public class Door extends SaveableEntity {
 	private int numCollisions;
 	private static Animation vertAnimation = Animation.make("actor-door-vertical", "-wooden");
 	private static Animation horizAnimation = Animation.make("actor-door-horizontal", "-wooden");
+	private static Animation vertAnimationFire = Animation.make("actor-door-vertical", "-iron");
+	private static Animation horizAnimationFire = Animation.make("actor-door-horizontal", "-iron");
 	private static Animation ironLockAnimation = Animation.make("door-lock", "-iron");
 	private static Animation bronzeLockAnimation = Animation.make("door-lock", "-bronze");
 	public static Animation goldLockAnimation = Animation.make("door-lock", "-gold");
@@ -95,6 +96,17 @@ public class Door extends SaveableEntity {
 	public void init() {
 		super.init();
 		all.add(this);
+
+		if (!this.vertical) {
+			this.animation = bkDoor ? vertAnimationFire.get("idle") : vertAnimation.get("idle");
+			this.y -= 8;
+		} else {
+			this.animation = bkDoor ? horizAnimationFire.get("idle") : horizAnimation.get("idle");
+			this.x += 4;
+		}
+
+		this.animation.setAutoPause(true);
+		this.animation.setPaused(true);
 	}
 
 	public Door(int x, int y, boolean vertical) {
@@ -103,17 +115,6 @@ public class Door extends SaveableEntity {
 		this.sx = x;
 		this.sy = y;
 		this.vertical = vertical;
-
-		if (!this.vertical) {
-			this.animation = vertAnimation.get("idle");
-			this.y -= 8;
-		} else {
-			this.animation = horizAnimation.get("idle");
-			this.x += 4;
-		}
-
-		this.animation.setAutoPause(true);
-		this.animation.setPaused(true);
 	}
 
 	private void setPas(boolean pas) {
@@ -122,6 +123,7 @@ public class Door extends SaveableEntity {
 
 	private float lastFlame;
 	private Body sensor;
+	public boolean bkDoor;
 
 	@Override
 	public void update(float dt) {
@@ -144,7 +146,6 @@ public class Door extends SaveableEntity {
 
 		if (this.collidingWithPlayer) {
 			if (Player.instance.isRolling()) {
-				Log.error("on end");
 				this.collidingWithPlayer = false;
 				onCollisionEnd(Player.instance);
 			}
@@ -233,37 +234,6 @@ public class Door extends SaveableEntity {
 				vt = 1;
 				this.playSfx("item_nocash");
 				Camera.shake(3);
-
-				if (this.key == BurningKey.class) {
-					ItemHolder holder = null;
-
-					for (ItemHolder h : ItemHolder.getAll()) {
-						if (h.getItem() instanceof BurningKey) {
-							holder = h;
-							break;
-						}
-					}
-
-					if (holder != null) {
-						ItemHolder finalHolder = holder;
-
-						Tween.to(new Tween.Task(0, 0.5f) {
-							@Override
-							public void onEnd() {
-								Player.instance.setUnhittable(true);
-								Camera.follow(finalHolder, true);
-
-								Tween.to(new Tween.Task(0, 3f) {
-									@Override
-									public void onEnd() {
-										Player.instance.setUnhittable(false);
-										Camera.follow(Player.instance, true);
-									}
-								});
-							}
-						});
-					}
-				}
 			}
 		}
 
@@ -585,6 +555,7 @@ public class Door extends SaveableEntity {
 
 		this.sx = reader.readInt16();
 		this.sy = reader.readInt16();
+		this.bkDoor = reader.readBoolean();
 	}
 
 	@Override
@@ -610,6 +581,7 @@ public class Door extends SaveableEntity {
 
 		writer.writeInt16((short) this.sx);
 		writer.writeInt16((short) this.sy);
+		writer.writeBoolean(this.bkDoor);
 	}
 
 	@Override

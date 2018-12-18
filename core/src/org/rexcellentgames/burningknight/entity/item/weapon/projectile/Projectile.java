@@ -38,10 +38,15 @@ public class Projectile extends StatefulEntity {
 	}
 
 	protected boolean didDie;
+	public static boolean allDie;
 
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
+		if (allDie && bad) {
+			broke = true;
+		}
 
 		if (broke) {
 			if (!didDie) {

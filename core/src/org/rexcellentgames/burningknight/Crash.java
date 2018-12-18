@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight;
 
+import com.badlogic.gdx.Gdx;
 import com.julienvey.trello.Trello;
 import com.julienvey.trello.domain.Board;
 import com.julienvey.trello.domain.Card;
@@ -7,6 +8,9 @@ import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import org.rexcellentgames.burningknight.util.Log;
 
+import javax.swing.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.management.ManagementFactory;
@@ -67,7 +71,7 @@ public class Crash {
 			}
 		}
 
-		/*JTextArea text = new JTextArea();
+		JTextArea text = new JTextArea();
 
 		text.setText(builder.toString());
 		text.setEditable(false);
@@ -97,7 +101,7 @@ public class Crash {
 			}
 		});
 
-		JOptionPane.showMessageDialog(null, pane, "Burning Knight crash report", JOptionPane.ERROR_MESSAGE);*/
+		JOptionPane.showMessageDialog(null, pane, "Burning Knight crash report", JOptionPane.ERROR_MESSAGE);
 	}
 
 	private static String getMemoryUsage() {

@@ -51,8 +51,8 @@ public class FastBook extends Book {
 				while (weight > 0) {
 					ManaFx fx = new ManaFx();
 
-					fx.x = x - velocity.x * 0.03f;
-					fx.y = y - velocity.y * 0.03f;
+					fx.x = x- velocity.x * 0.06f;
+					fx.y = y - velocity.y * 0.06f;
 					fx.half = weight == 1;
 					fx.poof();
 

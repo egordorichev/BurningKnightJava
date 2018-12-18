@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Door extends Point {
 	public enum Type {
-		EMPTY, TUNNEL, REGULAR, MAZE, ENEMY, LOCKED, LEVEL_LOCKED, SECRET
+		EMPTY, TUNNEL, REGULAR, MAZE, ENEMY, LOCKED, LEVEL_LOCKED, BOSS, SECRET
 	}
 
 	private Type type = Type.EMPTY;

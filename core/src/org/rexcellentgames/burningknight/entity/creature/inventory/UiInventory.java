@@ -55,7 +55,6 @@ public class UiInventory extends UiEntity {
 
 		if (instance != null) {
 			instance.done = true;
-			Log.error("Had extra Ui inventory");
 		}
 
 		instance = this;

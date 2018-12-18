@@ -298,13 +298,15 @@ public class Painter {
 						d.setType(Door.Type.ENEMY);
 					}
 
-					door.autoLock = (d.getType() == Door.Type.ENEMY);
+					door.autoLock = (d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.BOSS);
 					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
 
 					if (d.getType() == Door.Type.LEVEL_LOCKED) {
 						door.key = BurningKey.class;
 					} else if (d.getType() == Door.Type.LOCKED) {
 						door.key = KeyC.class;
+					} else if (d.getType() == Door.Type.BOSS) {
+						door.bkDoor = true;
 					}
 
 					door.lockable = door.lock;
