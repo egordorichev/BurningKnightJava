@@ -43,7 +43,7 @@ public class Entrance extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		depth = -1;
+		depth = -3;
 
 		// this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
 		// World.checkLocked(this.body).setTransform(this.x, this.y, 0);
@@ -119,10 +119,13 @@ public class Entrance extends SaveableEntity {
 
 		Graphics.render(Terrain.entrance, this.x, this.y);*/
 
-		drawKey(x, y);
+		drawKey("W", x - 9, y + 9);
+		drawKey("A", x + 9, y + 9);
+		drawKey("S", x - 9, y - 9);
+		drawKey("D", x + 9, y - 9);
 	}
 
-	private void drawKey(float x, float y) {
+	private void drawKey(String ky, float x, float y) {
 		int src = Graphics.batch.getBlendSrcFunc();
 		int dst = Graphics.batch.getBlendDstFunc();
 		Graphics.batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
@@ -134,9 +137,9 @@ public class Entrance extends SaveableEntity {
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.batch.setBlendFunction(src, dst);
 
-		Graphics.mediumSimple.setColor(1, 1, 1, 0.8f);
-		Graphics.print("E", Graphics.mediumSimple, x + 4, y - 3);
-		Graphics.mediumSimple.setColor(1, 1, 1, 1);
+		Graphics.smallSimple.setColor(1, 1, 1, 0.8f);
+		Graphics.print(ky, Graphics.smallSimple, x + 5, y + 3);
+		Graphics.smallSimple.setColor(1, 1, 1, 1);
 	}
 
 	@Override

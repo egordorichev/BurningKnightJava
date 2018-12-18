@@ -1170,6 +1170,8 @@ public class BurningKnight extends Boss {
 			center = self.room.getCenter();
 			center.x *= 16;
 			center.y *= 16;
+
+			MobPool.instance.initForRoom();
 		}
 
 		private Point center;
@@ -1194,6 +1196,7 @@ public class BurningKnight extends Boss {
 
 			if (num < 4 && this.t > num * 0.5f + 1f) {
 				Mob mob = null;
+
 				try {
 					mob = MobPool.instance.generate().types.get(0).newInstance();
 				} catch (InstantiationException | IllegalAccessException e) {

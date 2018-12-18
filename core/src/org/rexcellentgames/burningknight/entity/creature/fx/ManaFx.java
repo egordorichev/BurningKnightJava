@@ -128,7 +128,7 @@ public class ManaFx extends SaveableEntity {
 		light.setPosition(this.x + w / 2, this.y + h / 2);
 		boolean force = (Player.instance.room != null && Player.instance.room.lastNumEnemies == 0) || Dungeon.level.checkFor(Math.round(this.x / 16), Math.round(this.y / 16), Terrain.HOLE);
 
-		if (waitT <= 0 && Player.instance.getManaMax() - Player.instance.getMana() > 0 || force) {
+		if ((waitT <= 0 && Player.instance.getManaMax() - Player.instance.getMana() > 0 || force) && !Player.instance.isDead()) {
 			float dx = Player.instance.x + 8 - this.x - this.w / 2;
 			float dy = Player.instance.y + 8 - this.y - this.h / 2;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
