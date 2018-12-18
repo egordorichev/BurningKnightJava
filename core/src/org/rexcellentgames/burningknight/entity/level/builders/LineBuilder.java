@@ -37,6 +37,8 @@ public class LineBuilder extends RegularBuilder {
 
 		int roomsOnPath = (int) (this.multiConnection.size() * pathLength) + Random.chances(pathLenJitterChances);
 		roomsOnPath = Math.min(roomsOnPath, this.multiConnection.size());
+		Log.error("Rooms on path " + roomsOnPath + " from " + multiConnection.size());
+		Log.error("Single connection " + singleConnection.size());
 
 		Room curr = entrance;
 
@@ -69,6 +71,7 @@ public class LineBuilder extends RegularBuilder {
 			}
 
 			Room r = (i == roomsOnPath ? exit : this.multiConnection.get(i));
+
 			if (placeRoom(init, curr, r, direction + Random.newFloat(-pathVariance, pathVariance)) == -1) {
 				return null;
 			}

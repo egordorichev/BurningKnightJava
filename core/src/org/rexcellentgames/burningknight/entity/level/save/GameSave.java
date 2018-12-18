@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -96,7 +97,9 @@ public class GameSave {
 		playedAlpha = false;
 
 		// fixme: remove
-		// runId = 0;
+		if (Version.debug) {
+			runId = 0;
+		}
 
 		ChangableRegistry.generate();
 	}

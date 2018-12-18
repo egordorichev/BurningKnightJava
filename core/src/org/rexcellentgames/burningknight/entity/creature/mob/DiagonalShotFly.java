@@ -41,13 +41,15 @@ public class DiagonalShotFly extends DiagonalFly {
 	@Override
 	public void deathEffects() {
 		super.deathEffects();
-		shot();
+		// shot();
 	}
 
 	protected void shot() {
 		if (Player.instance.room != this.room) {
 			return;
 		}
+
+		playSfx("gun_machinegun");
 
 		for (int i = 0; i < 8; i++) {
 			BulletProjectile ball = new BulletProjectile();

@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.pool.room.RegularRoomPool;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -51,6 +52,11 @@ public class RegularRoom extends Room {
 	protected Size size = Size.NORMAL;
 
 	public boolean setSize(int min, int max) {
+		if (GameSave.runId == 0) {
+			this.size = Size.NORMAL;
+			return true;
+		}
+
 		float[] chances = this.getSizeChance();
 		Size[] sizes = Size.values();
 
@@ -77,7 +83,7 @@ public class RegularRoom extends Room {
 	}
 
 	protected float[] getSizeChance() {
-		return new float[]{1,0,0};
+		return new float[] {1, 0, 0};
 	}
 
 	public Size getSize() {

@@ -3,6 +3,13 @@ package org.rexcellentgames.burningknight.entity.level;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
@@ -107,7 +114,7 @@ public abstract class RegularLevel extends Level {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
 					float weight;
 
-					if (false && GameSave.runId == 0) {
+					if (GameSave.runId == 0 && Dungeon.depth <= 2) {
 						weight = room.id;
 					} else {
 						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
@@ -116,9 +123,41 @@ public abstract class RegularLevel extends Level {
 					MobPool.instance.initForRoom();
 
 					while (weight > 0) {
-						if (false && GameSave.runId == 0) {
-							//new DiagonalFly();// room.id == 1 ? new Fly() : new MovingFly();
-							spawnMob(new DiagonalShotFly(), room, weight);
+						if (GameSave.runId == 0 && Dungeon.depth <= 2) {
+							int id = room.id;
+							Mob mob = null;
+
+							if (Dungeon.depth == 1) {
+								switch (id) {
+									case 1: mob = new Fly(); break;
+									case 2: mob = new MovingFly(); break;
+									case 3: mob = weight == 2 ? new DiagonalFly() : new MovingFly(); break;
+									case 4: mob = new Knight(); weight = 1; break;
+									case 5: mob = weight == 2 ? new DiagonalShotFly() : new DiagonalFly(); break;
+								}
+							} else {
+								switch (id) {
+									case 1: mob = new Clown(); break;
+									case 2: mob = weight == 1 ? new Knight() : new Thief(); break;
+									case 3: mob = weight == 2 ? new Clown() : (weight == 1 ? new RangedKnight() : new Knight());  break;
+									default: {
+										MobHub mobs = MobPool.instance.generate();
+
+										for (Class<? extends Mob> m : mobs.types) {
+											try {
+												weight = spawnMob(m.newInstance(), room, weight);
+											} catch (InstantiationException | IllegalAccessException e) {
+												e.printStackTrace();
+											}
+										}
+
+										continue;
+									}
+								}
+							}
+
+
+							spawnMob(mob == null ? new DiagonalFly() : mob, room, weight);
 							weight -= 1;
 						} else {
 							MobHub mobs = MobPool.instance.generate();
@@ -242,16 +281,6 @@ public abstract class RegularLevel extends Level {
 			if (this.rooms == null) {
 				Log.error("Failed!");
 
-				/*Player.all.clear();
-				Mob.all.clear();
-				ItemHolder.getAll().clear();
-				Chest.all.clear();
-				Mimic.all.clear();
-				AnswerButton.all.clear();
-
-				PlayerSave.all.clear();
-				LevelSave.all.clear();*/
-
 				Dungeon.area.destroy();
 				Dungeon.area.add(Dungeon.level);
 
@@ -352,7 +381,7 @@ public abstract class RegularLevel extends Level {
 			rooms.add(room);
 			// rooms.add(TreasureRoomPool.instance.generate());
 
-			if (Random.chance(90)) {
+			if (Random.chance(90) && GameSave.runId != 0 || GameSave.runId == 1) {
 				Log.info("Adding shop");
 				rooms.add(ShopRoomPool.instance.generate());
 			}
@@ -386,30 +415,22 @@ public abstract class RegularLevel extends Level {
 	protected Builder getBuilder() {
 		if (Dungeon.depth <= -1) {
 			return new SingleRoomBuilder();
-		} else if (Dungeon.depth == 0) {
+		} else {
 			LineBuilder builder = new LineBuilder();
 
-			if (GameSave.runId == 0 && Dungeon.depth < 3) {
-				builder.setPathLength(1, new float[]{0, 1, 0});
+			if (GameSave.runId == 0 && Dungeon.depth <= 2) {
+				builder.setPathLength(1, new float[]{0, 0, 0});
+				builder.setExtraConnectionChance(0);
+				// builder.setTunnelLength(new float[]{0, 0, 0}, new float[] {0, 0, 0});
 			}
 
 			return builder;
-		} else {
-			/*switch (Random.newInt(4)) {
-				case 0:
-				case 1: return new CastleBuilder();
-				case 2:
-				case 3: default:
-					return new LoopBuilder().setShape(2,
-						Random.newFloat(0.4f, 0.7f),
-						Random.newFloat(0f, 0.5f)).setPathLength(Random.newFloat(0.3f, 0.8f), new float[]{1, 1, 1});
-			}*/
-			return new LineBuilder();
 		}
 	}
 
+	// fixme: get straight line on first run
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt(3, 5);
+		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 6 : Random.newInt(3, 5));
 	}
 
 	protected int getNumSpecialRooms() {

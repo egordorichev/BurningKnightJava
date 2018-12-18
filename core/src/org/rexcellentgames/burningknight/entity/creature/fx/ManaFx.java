@@ -49,6 +49,8 @@ public class ManaFx extends SaveableEntity {
 
 		body = World.createCircleBody(this, 0, 0, Math.min(w, h) / 2, BodyDef.BodyType.DynamicBody, false);
 		body.setTransform(this.x, this.y, 0);
+
+		light = World.newLight(32, new Color(0, 1, 1, 1), 64, 0, 0);
 		light.setPosition(this.x + w / 2, this.y + h / 2);
 	}
 
@@ -80,10 +82,6 @@ public class ManaFx extends SaveableEntity {
 
 	@Override
 	public void render() {
-		if (waitT > 0) {
-			return;
-		}
-
 		anim.render(this.x, this.y, false);
 	}
 
@@ -125,27 +123,17 @@ public class ManaFx extends SaveableEntity {
 
 		if (waitT > 0) {
 			waitT -= dt;
-
-			if (waitT <= 0) {
-				waitT = 0;
-				poof();
-			}
-
-			return;
-		}
-
-		if (light == null) {
-			light = World.newLight(32, new Color(0, 1, 1, 1), 64, 0, 0);
 		}
 
 		light.setPosition(this.x + w / 2, this.y + h / 2);
+		boolean force = (Player.instance.room != null && Player.instance.room.lastNumEnemies == 0) || Dungeon.level.checkFor(Math.round(this.x / 16), Math.round(this.y / 16), Terrain.HOLE);
 
-		if (Player.instance.getManaMax() - Player.instance.getMana() > 0) {
+		if (waitT <= 0 && Player.instance.getManaMax() - Player.instance.getMana() > 0 || force) {
 			float dx = Player.instance.x + 8 - this.x - this.w / 2;
 			float dy = Player.instance.y + 8 - this.y - this.h / 2;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			if (d < 48 || (Player.instance.room != null && Player.instance.room.lastNumEnemies == 0) || Dungeon.level.checkFor(Math.round(this.x / 16), Math.round(this.y / 16), Terrain.HOLE)) {
+			if (d < 48 || force) {
 				float f = 1024;
 				vel.x += dx / d * dt * f;
 				vel.y += dy / d * dt * f;
@@ -188,7 +176,7 @@ public class ManaFx extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Mob || entity instanceof WeaponBase || entity instanceof Level ) {
+		if (entity instanceof Mob || entity instanceof WeaponBase || entity instanceof Level || (entity instanceof Player && ((Player) entity).isRolling())) {
 			return false;
 		}
 

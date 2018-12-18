@@ -133,6 +133,11 @@ public class InGameState extends State {
 			public void setValue(float value) {
 				portalMod = value;
 			}
+
+			@Override
+			public boolean runWhenPaused() {
+				return true;
+			}
 		});
 	}
 
@@ -367,7 +372,7 @@ public class InGameState extends State {
 			startTween = false;
 			fromCenter = true;
 
-			Tween.to(new Tween.Task(0, 2f) {
+			Tween.to(new Tween.Task(0, 1f) {
 				@Override
 				public float getValue() {
 					return portalMod;
