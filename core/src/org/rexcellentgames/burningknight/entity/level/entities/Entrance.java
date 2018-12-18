@@ -1,30 +1,23 @@
 package org.rexcellentgames.burningknight.entity.level.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.RegularLevel;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
-import org.rexcellentgames.burningknight.game.Ui;
-import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.ColorUtils;
 import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
 import java.io.IOException;
 
 public class Entrance extends SaveableEntity {
-	private Body body;
+	// private Body body;
 	private LadderFx fx;
 
 	public static byte NORMAL = 0;
@@ -50,8 +43,10 @@ public class Entrance extends SaveableEntity {
 	public void init() {
 		super.init();
 
-		this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
-		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		depth = -1;
+
+		// this.body = World.createSimpleBody(this, 0, 0, 16, 16, BodyDef.BodyType.DynamicBody, true);
+		// World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 		if (Level.GENERATED) {
 			this.addSelf();
@@ -63,7 +58,7 @@ public class Entrance extends SaveableEntity {
 	@Override
 	public void destroy() {
 		super.destroy();
-		this.body = World.removeBody(this.body);
+		// this.body = World.removeBody(this.body);
 	}
 
 	private void addSelf() {
@@ -81,7 +76,7 @@ public class Entrance extends SaveableEntity {
 
 		this.type = reader.readByte();
 
-		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+		// World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 		this.addSelf();
 	}
 
@@ -93,10 +88,11 @@ public class Entrance extends SaveableEntity {
 	}
 
 	private float al;
+	private static TextureRegion key = Graphics.getTexture("ui-button_top");
 
 	@Override
 	public void render() {
-		float dt = Gdx.graphics.getDeltaTime();
+		/*float dt = Gdx.graphics.getDeltaTime();
 		this.al = MathUtils.clamp(0, 1, this.al + ((this.fx != null ? 1 : 0) - this.al) * dt * 10);
 
 		if (this.al > 0.05f && !Ui.hideUi) {
@@ -121,12 +117,31 @@ public class Entrance extends SaveableEntity {
 			Graphics.batch.begin();
 		}
 
-		Graphics.render(Terrain.entrance, this.x, this.y);
+		Graphics.render(Terrain.entrance, this.x, this.y);*/
+
+		drawKey(x, y);
+	}
+
+	private void drawKey(float x, float y) {
+		int src = Graphics.batch.getBlendSrcFunc();
+		int dst = Graphics.batch.getBlendDstFunc();
+		Graphics.batch.setBlendFunction(GL20.GL_DST_COLOR, GL20.GL_ZERO);
+
+		float v = 0.6f;
+		Graphics.batch.setColor(v, v, v, 1);
+
+		Graphics.render(key, x, y);
+		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.setBlendFunction(src, dst);
+
+		Graphics.mediumSimple.setColor(1, 1, 1, 0.8f);
+		Graphics.print("E", Graphics.mediumSimple, x + 4, y - 3);
+		Graphics.mediumSimple.setColor(1, 1, 1, 1);
 	}
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y + 4, 16, 32);
+		// Graphics.shadow(this.x, this.y + 4, 16, 32);
 	}
 
 	@Override

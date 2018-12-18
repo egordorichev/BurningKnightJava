@@ -133,7 +133,7 @@ public abstract class RegularLevel extends Level {
 									case 2: mob = new MovingFly(); break;
 									case 3: mob = weight == 2 ? new DiagonalFly() : new MovingFly(); break;
 									case 4: mob = new Knight(); weight = 1; break;
-									case 5: mob = weight == 2 ? new DiagonalShotFly() : new DiagonalFly(); break;
+									case 5: mob = weight == 2 ? new DiagonalShotFly() : (weight == 3 ? new RangedKnight() : new DiagonalFly()); break;
 								}
 							} else {
 								switch (id) {
@@ -419,7 +419,7 @@ public abstract class RegularLevel extends Level {
 			LineBuilder builder = new LineBuilder();
 
 			if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-				builder.setPathLength(1, new float[]{0, 0, 0});
+				builder.setPathLength(2, new float[]{0, 1, 0});
 				builder.setExtraConnectionChance(0);
 				// builder.setTunnelLength(new float[]{0, 0, 0}, new float[] {0, 0, 0});
 			}
@@ -430,7 +430,7 @@ public abstract class RegularLevel extends Level {
 
 	// fixme: get straight line on first run
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 6 : Random.newInt(3, 5));
+		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 5 : Random.newInt(3, 5));
 	}
 
 	protected int getNumSpecialRooms() {

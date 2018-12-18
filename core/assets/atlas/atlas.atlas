@@ -21307,9 +21307,9 @@ ui-mana_change
   index: -1
 ui-ach
   rotate: false
-  xy: 1020, 781
-  size: 3, 37
-  orig: 3, 37
+  xy: 1020, 780
+  size: 3, 38
+  orig: 3, 38
   offset: 0, 0
   index: -1
 ui-achievement_center
