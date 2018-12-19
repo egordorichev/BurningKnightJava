@@ -143,14 +143,15 @@ public class InGameState extends State {
 			@Override
 			public void onEnd() {
 				super.onEnd();
-
-				if (resetMusic) {
-					Audio.reset();
-				}
-
-				Audio.play(toPlay);
 			}
 		});
+
+		if (resetMusic) {
+			resetMusic = false;
+			Audio.reset();
+		}
+		
+		Audio.play(toPlay);
 	}
 
 	public static String toPlay;
@@ -942,6 +943,23 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(0f * Settings.music, 0.3f) {
+					@Override
+					public float getValue() {
+						return 0.5f * Settings.music;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Audio.current.setVolume(value);
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
 
 				transition(() -> {
 					Dungeon.grayscale = 0;

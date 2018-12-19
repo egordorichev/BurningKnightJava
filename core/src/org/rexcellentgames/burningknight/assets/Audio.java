@@ -127,6 +127,7 @@ public class Audio {
 	public static void reset() {
 		if (current != null) {
 			current.stop();
+			current.setVolume(Settings.music);
 			current.play();
 		}
 	}

@@ -188,7 +188,7 @@ public class LoadState extends State {
 				Dungeon.level.addPhysics();
 
 				InGameState.toPlay = Dungeon.level.getMusic();
-				InGameState.resetMusic = !Dungeon.level.same(lvl);
+				InGameState.resetMusic = Dungeon.depth == 1 || !Dungeon.level.same(lvl);
 
 				if (Player.instance == null) {
 					showError("Failed to load player!");
