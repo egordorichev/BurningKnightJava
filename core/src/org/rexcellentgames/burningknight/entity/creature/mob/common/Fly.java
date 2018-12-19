@@ -52,7 +52,7 @@ public class Fly extends Mob {
 		super.update(dt);
 
 		if (!freezed) {
-			idle.update(dt);
+			idle.update(dt * Mob.speedMod);
 		}
 
 		common();
