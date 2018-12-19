@@ -5,10 +5,10 @@ import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
-import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -65,7 +65,11 @@ public class RegularBuilder extends Builder {
 
 		if (Dungeon.type != Dungeon.Type.INTRO) {
 			this.weightRooms(this.multiConnection);
-			Collections.shuffle(this.multiConnection);
+
+			if (GameSave.runId != 0 || Dungeon.depth != 1) {
+				Collections.shuffle(this.multiConnection);
+			}
+
 			this.multiConnection = new ArrayList<>(new LinkedHashSet<>(this.multiConnection));
 		}
 	}

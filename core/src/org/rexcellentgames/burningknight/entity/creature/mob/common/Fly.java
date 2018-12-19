@@ -50,7 +50,11 @@ public class Fly extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-		idle.update(dt);
+
+		if (!freezed) {
+			idle.update(dt);
+		}
+
 		common();
 	}
 

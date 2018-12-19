@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.TutorialChasmRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -262,7 +263,7 @@ public abstract class RegularLevel extends Level {
 
 		ArrayList<Room> rooms = this.createRooms();
 
-		if (Dungeon.depth > -2) {
+		if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 			Collections.shuffle(rooms);
 		}
 
@@ -294,7 +295,7 @@ public abstract class RegularLevel extends Level {
 
 					rooms = this.createRooms();
 
-					if (Dungeon.depth > -2) {
+					if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 						Collections.shuffle(rooms);
 					}
 				}
@@ -310,6 +311,11 @@ public abstract class RegularLevel extends Level {
 
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
+
+		if (GameSave.runId == 0 && Dungeon.depth == 1) {
+			rooms.add(new TutorialChasmRoom());
+			Log.info("Added tutorial chasm room");
+		}
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
@@ -421,6 +427,7 @@ public abstract class RegularLevel extends Level {
 			if (GameSave.runId == 0 && Dungeon.depth <= 2) {
 				builder.setPathLength(2, new float[]{0, 1, 0});
 				builder.setExtraConnectionChance(0);
+				builder.setAngle(90);
 				// builder.setTunnelLength(new float[]{0, 0, 0}, new float[] {0, 0, 0});
 			}
 

@@ -1497,16 +1497,18 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
+			float x = self.x + self.w / 2;
+			float y = self.y + self.h + self.z - 12;
+
+			laser.x = x;
+			laser.y = y;
+
 			if (this.t > 2 || this.laser.al == 1) {
 				laser.huge = true;
 				laser.fake = false;
 
-				float x = self.x + self.w / 2;
-				float y = self.y + self.h + self.z - 12;
 				double an = Math.toDegrees(self.getAngleTo(self.getAim().x, self.getAim().y) - Math.PI / 2);
 
-				laser.x = x;
-				laser.y = y;
 				laser.depth = 17;
 
 				float v = (float) (an - laser.a);

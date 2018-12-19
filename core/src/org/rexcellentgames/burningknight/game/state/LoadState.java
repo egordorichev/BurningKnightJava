@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -36,8 +35,6 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
-		Audio.stop();
-
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 1;
 
@@ -190,11 +187,8 @@ public class LoadState extends State {
 				Dungeon.level.loadPassable();
 				Dungeon.level.addPhysics();
 
-				Audio.play(Dungeon.level.getMusic());
-
-				if (!Dungeon.level.same(lvl)) {
-					Audio.reset();
-				}
+				InGameState.toPlay = Dungeon.level.getMusic();
+				InGameState.resetMusic = !Dungeon.level.same(lvl);
 
 				if (Player.instance == null) {
 					showError("Failed to load player!");

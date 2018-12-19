@@ -3,10 +3,10 @@ package org.rexcellentgames.burningknight;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 
 public class Version {
-	public static final boolean debug = false;
+	public static final boolean debug = true;
 	public static final boolean showAlphaWarning = false;
 	public static final double major = 0.1;
-	public static final double minor = 1.9;
+	public static final double minor = 2.0;
 
 	{
 		// REMOVE WHEN BETA COMES OUT

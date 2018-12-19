@@ -30,11 +30,13 @@ public class DiagonalShotFly extends DiagonalFly {
 	public void update(float dt) {
 		super.update(dt);
 
-		lastShot += dt;
+		if (!freezed) {
+			lastShot += dt;
 
-		if (lastShot > 3f) {
-			shot();
-			lastShot = 0;
+			if (lastShot > 3f) {
+				shot();
+				lastShot = 0;
+			}
 		}
 	}
 

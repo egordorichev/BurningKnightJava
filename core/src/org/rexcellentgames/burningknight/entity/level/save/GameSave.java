@@ -43,9 +43,6 @@ public class GameSave {
 		public boolean error;
 		public byte depth;
 
-		public float firstW;
-		public float secondW;
-		public String first;
 		public String second;
 	}
 
@@ -54,6 +51,13 @@ public class GameSave {
 		Info info = new Info();
 
 		if (!save.exists()) {
+			info.free = true;
+			return info;
+		}
+
+		FileHandle sv = Gdx.files.external(SaveManager.getSavePath(SaveManager.Type.PLAYER, slot));
+
+		if (!sv.exists()) {
 			info.free = true;
 			return info;
 		}

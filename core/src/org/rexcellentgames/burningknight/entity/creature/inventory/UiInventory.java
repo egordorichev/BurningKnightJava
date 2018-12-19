@@ -26,7 +26,6 @@ import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
@@ -214,20 +213,22 @@ public class UiInventory extends UiEntity {
 			checkUse();
 		}
 
-		int hp = Player.instance.getHp();
+		if (Player.instance != null) {
+			int hp = Player.instance.getHp();
 
-		if (this.hp > hp) {
-			this.hp = hp;
-		} else if (this.hp < hp) {
-			this.hp += dt * 10;
-		}
+			if (this.hp > hp) {
+				this.hp = hp;
+			} else if (this.hp < hp) {
+				this.hp += dt * 10;
+			}
 
-		int mana = Player.instance.getMana();
+			int mana = Player.instance.getMana();
 
-		if (this.mana > mana) {
-			this.mana = mana;
-		} else if (this.mana < mana) {
-			this.mana += dt * 20;
+			if (this.mana > mana) {
+				this.mana = mana;
+			} else if (this.mana < mana) {
+				this.mana += dt * 20;
+			}
 		}
 
 		this.inventory.active = this.active;
