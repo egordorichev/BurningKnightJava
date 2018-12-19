@@ -46,11 +46,13 @@ public class DiagonalFly extends Fly {
 	public void update(float dt) {
 		super.update(dt);
 
-		this.velocity.x = this.body.getLinearVelocity().x;
-		this.velocity.y = this.body.getLinearVelocity().y;
+		if (this.body != null) {
+			this.velocity.x = this.body.getLinearVelocity().x;
+			this.velocity.y = this.body.getLinearVelocity().y;
 
-		float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
-		this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod, ((float) Math.sin(a)) * 32 * Mob.speedMod);
+			float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
+			this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod, ((float) Math.sin(a)) * 32 * Mob.speedMod);
+		}
 	}
 
 	@Override

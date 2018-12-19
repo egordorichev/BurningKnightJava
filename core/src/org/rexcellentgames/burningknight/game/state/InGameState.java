@@ -45,7 +45,6 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -458,8 +457,7 @@ public class InGameState extends State {
 						if (Dungeon.depth == -2) {
 							Dungeon.goToSelect = true;
 						} else {
-							GameSave.inventory = true;
-							Dungeon.toInventory = true;
+							Dungeon.goToLevel(Dungeon.depth + 1);
 							Player.instance.rotating = false;
 							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 							InventoryState.depth = Dungeon.depth + 1;
