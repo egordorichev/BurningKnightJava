@@ -106,7 +106,7 @@ public class UiAchievement extends Entity {
 			}
 		}
 
-		Graphics.render(missing ? ach : left, this.x, this.y + (missing ? 1 : 0));
+		Graphics.render(missing ? ach : left, this.x, this.y);
 		Graphics.render(center, this.x + (missing ? 3 : 38), this.y, 0, 0, 0, false, false, (this.w - (missing ? 21 : 57)), 1);
 		Graphics.render(right, this.x + this.w - 19, this.y);
 

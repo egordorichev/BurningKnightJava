@@ -150,7 +150,7 @@ public class InGameState extends State {
 			resetMusic = false;
 			Audio.reset();
 		}
-		
+
 		Audio.play(toPlay);
 	}
 
@@ -363,7 +363,6 @@ public class InGameState extends State {
 		Camera.instance.resetShake();
 
 		boolean old = (Dungeon.game.getState() instanceof LoadState);
-		Log.error("Saving as old: " + old);
 
 		if (Player.instance != null && !Player.instance.isDead()) {
 			SaveManager.save(SaveManager.Type.GAME, old);

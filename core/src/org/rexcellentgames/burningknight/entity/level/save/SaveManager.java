@@ -144,6 +144,10 @@ public class SaveManager {
 
 				generate(type);
 				save(type, false);
+
+				if (type == Type.LEVEL) {
+					save(Type.GAME, false);
+				}
 			} else {
 				return false;
 			}
