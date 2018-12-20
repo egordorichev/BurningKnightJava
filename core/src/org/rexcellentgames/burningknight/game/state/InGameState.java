@@ -460,7 +460,6 @@ public class InGameState extends State {
 							Dungeon.goToLevel(Dungeon.depth + 1);
 							Player.instance.rotating = false;
 							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-							InventoryState.depth = Dungeon.depth + 1;
 						}
 
 						Camera.noMove = false;
@@ -475,7 +474,6 @@ public class InGameState extends State {
 							Dungeon.toInventory = true;
 							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 							Dungeon.ladderId = id;
-							InventoryState.depth = Dungeon.depth + 1;
 						}
 					}
 				}

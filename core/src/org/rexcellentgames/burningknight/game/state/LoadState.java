@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
-import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -30,7 +29,6 @@ import org.rexcellentgames.burningknight.util.PathFinder;
 
 public class LoadState extends State {
 	private boolean ready = false;
-	private String s;
 	public static boolean fromSelect;
 
 	@Override
@@ -38,7 +36,6 @@ public class LoadState extends State {
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 1;
 
-		this.s = "Generating...";
 		Dungeon.grayscale = 0;
 
 		if (Ui.ui != null) {
@@ -54,7 +51,7 @@ public class LoadState extends State {
 	public void update(float dt) {
 		if (this.ready) {
 			// Dungeon.darkR = 0;
-			Dungeon.game.setState(GameSave.inventory ? new InventoryState() : new InGameState());
+			Dungeon.game.setState(new InGameState());
 			return;
 		}
 

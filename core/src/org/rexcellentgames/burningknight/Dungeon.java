@@ -381,17 +381,6 @@ public class Dungeon extends ApplicationAdapter {
 			game.setState(new ItemSelectState());
 		}
 
-		if (Version.debug && Input.instance.wasPressed("1")) {
-			InventoryState.depth = Dungeon.depth + 1;
-			GameSave.inventory = true;
-			toInventory = true;
-		}
-
-		if (toInventory) {
-			toInventory = false;
-			game.setState(Dungeon.depth == 4 ? new WonState() : new InventoryState());
-		}
-
 		if (AssetLoadState.done && to > -10) {
 			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;
