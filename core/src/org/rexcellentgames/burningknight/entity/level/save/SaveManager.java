@@ -5,7 +5,6 @@ import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.game.state.LoadState;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -144,14 +143,14 @@ public class SaveManager {
 
 				generate(type);
 				save(type, false);
+
+				if (type == Type.LEVEL) {
+					save(Type.GAME, false);
+				}
 			} else {
 				return false;
 			}
 		} else {
-			if (type == Type.LEVEL) {
-				LoadState.noPercent = true;
-			}
-
 			Log.info("Loading " + type + " " + Dungeon.depth);
 			FileReader stream = new FileReader(save.file().getAbsolutePath());
 

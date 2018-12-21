@@ -138,8 +138,23 @@ public class InGameState extends State {
 			public boolean runWhenPaused() {
 				return true;
 			}
+
+			@Override
+			public void onEnd() {
+				super.onEnd();
+			}
 		});
+
+		if (resetMusic) {
+			resetMusic = false;
+			Audio.reset();
+		}
+
+		Audio.play(toPlay);
 	}
+
+	public static String toPlay;
+	public static boolean resetMusic;
 
 	private boolean wasHidden;
 	private String depth;
@@ -182,6 +197,23 @@ public class InGameState extends State {
 					@Override
 					public void setValue(float value) {
 						Dungeon.grayscale = value;
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
+
+				Tween.to(new Tween.Task(0.2f * Settings.music, 0.3f) {
+					@Override
+					public float getValue() {
+						return 1 * Settings.music;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Audio.current.setVolume(value);
 					}
 
 					@Override
@@ -254,6 +286,23 @@ public class InGameState extends State {
 				}
 			});
 
+			Tween.to(new Tween.Task(1f * Settings.music, 0.3f) {
+				@Override
+				public float getValue() {
+					return 0.5f * Settings.music;
+				}
+
+				@Override
+				public void setValue(float value) {
+					Audio.current.setVolume(value);
+				}
+
+				@Override
+				public boolean runWhenPaused() {
+					return true;
+				}
+			});
+
 
 			Tween.remove(lastTaskSize);
 			lastTaskSize = Tween.to(new Tween.Task(0, 0.2f) {
@@ -312,12 +361,9 @@ public class InGameState extends State {
 
 		Camera.instance.resetShake();
 
-		if (Dungeon.reset || Player.instance == null || Player.instance.isDead()) {
-			Gdx.files.external(SaveManager.SAVE_DIR + SaveManager.slot).deleteDirectory();
-			Dungeon.reset = false;
-		} else {
-			boolean old = (Dungeon.game.getState() instanceof LoadState);
+		boolean old = (Dungeon.game.getState() instanceof LoadState);
 
+		if (Player.instance != null && !Player.instance.isDead()) {
 			SaveManager.save(SaveManager.Type.GAME, old);
 			SaveManager.save(SaveManager.Type.LEVEL, old);
 			SaveManager.save(SaveManager.Type.PLAYER, old);
@@ -358,6 +404,7 @@ public class InGameState extends State {
 	public static boolean restart;
 	public static boolean startTween;
 	public static byte id;
+	public static boolean newGame;
 	public static boolean portal;
 
 	@Override
@@ -369,6 +416,7 @@ public class InGameState extends State {
 		}
 
 		if (startTween) {
+			Audio.play("Void");
 			startTween = false;
 			fromCenter = true;
 
@@ -390,7 +438,10 @@ public class InGameState extends State {
 
 				@Override
 				public void onEnd() {
-					if (restart) {
+					if (newGame) {
+						newGame = false;
+						Dungeon.newGame(true, 1);
+					} else if (restart) {
 						restart = false;
 
 						Dungeon.grayscale = 0;
@@ -406,11 +457,9 @@ public class InGameState extends State {
 						if (Dungeon.depth == -2) {
 							Dungeon.goToSelect = true;
 						} else {
-							GameSave.inventory = true;
-							Dungeon.toInventory = true;
+							Dungeon.goToLevel(Dungeon.depth + 1);
 							Player.instance.rotating = false;
 							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
-							InventoryState.depth = Dungeon.depth + 1;
 						}
 
 						Camera.noMove = false;
@@ -425,7 +474,6 @@ public class InGameState extends State {
 							Dungeon.toInventory = true;
 							Dungeon.loadType = Entrance.LoadType.GO_DOWN;
 							Dungeon.ladderId = id;
-							InventoryState.depth = Dungeon.depth + 1;
 						}
 					}
 				}
@@ -560,7 +608,9 @@ public class InGameState extends State {
 			if (last >= 1f) {
 				last = 0;
 
-				checkMusic();
+				if (portalMod == 1) {
+					checkMusic();
+				}
 			}
 		}
 
@@ -690,19 +740,21 @@ public class InGameState extends State {
 	}
 
 	public static void checkMusic() {
-		if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
-			Audio.play("Shopkeeper");
-		} else if (Player.instance.room instanceof SecretRoom) {
-			Audio.play("Serendipity");
-		} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
-			Audio.highPriority("Rogue");
-		} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
-			Audio.play("Cursed legend");
-		} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
-			if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
-				Audio.play("Rogue");
-			} else {
-				Audio.play(Dungeon.level.getMusic());
+		if (Dungeon.game.getState() instanceof InGameState) {
+			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
+				Audio.play("Shopkeeper");
+			} else if (Player.instance.room instanceof SecretRoom) {
+				Audio.play("Serendipity");
+			} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
+				Audio.highPriority("Rogue");
+			} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
+				Audio.play("Cursed legend");
+			} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
+				if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
+					Audio.play("Rogue");
+				} else {
+					Audio.play(Dungeon.level.getMusic());
+				}
 			}
 		}
 	}
@@ -886,6 +938,23 @@ public class InGameState extends State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+
+				Tween.to(new Tween.Task(0f * Settings.music, 0.3f) {
+					@Override
+					public float getValue() {
+						return 0.5f * Settings.music;
+					}
+
+					@Override
+					public void setValue(float value) {
+						Audio.current.setVolume(value);
+					}
+
+					@Override
+					public boolean runWhenPaused() {
+						return true;
+					}
+				});
 
 				transition(() -> {
 					Dungeon.grayscale = 0;

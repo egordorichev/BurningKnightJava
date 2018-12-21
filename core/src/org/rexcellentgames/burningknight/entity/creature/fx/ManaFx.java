@@ -27,7 +27,7 @@ import java.io.IOException;
 
 public class ManaFx extends SaveableEntity {
 	public boolean half;
-	private Body body;
+	public Body body;
 	private PointLight light;
 
 	private AnimationData anim;
@@ -126,7 +126,7 @@ public class ManaFx extends SaveableEntity {
 		}
 
 		light.setPosition(this.x + w / 2, this.y + h / 2);
-		boolean force = (Player.instance.room != null && Player.instance.room.lastNumEnemies == 0) || Dungeon.level.checkFor(Math.round(this.x / 16), Math.round(this.y / 16), Terrain.HOLE);
+		boolean force = (Player.instance.room != null && Player.instance.room.lastNumEnemies == 0 && Player.instance.getManaMax() - Player.instance.getMana() > 0) || Dungeon.level.checkFor(Math.round(this.x / 16), Math.round(this.y / 16), Terrain.HOLE);
 
 		if ((waitT <= 0 && Player.instance.getManaMax() - Player.instance.getMana() > 0 || force) && !Player.instance.isDead()) {
 			float dx = Player.instance.x + 8 - this.x - this.w / 2;
@@ -176,7 +176,9 @@ public class ManaFx extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Mob || entity instanceof WeaponBase || entity instanceof Level || (entity instanceof Player && ((Player) entity).isRolling())) {
+		if (entity instanceof Mob || entity instanceof WeaponBase || entity instanceof Level || (entity instanceof Player && ((Player) entity).isRolling())
+			|| (entity == null && Player.instance.room != null && Player.instance.room.lastNumEnemies == 0)) {
+
 			return false;
 		}
 

@@ -127,16 +127,13 @@ public class Audio {
 	public static void reset() {
 		if (current != null) {
 			current.stop();
+			current.setVolume(Settings.music);
 			current.play();
 		}
 	}
 
 	public static void play(String name) {
 		if (name == null || last.equals(name)) {
-			if (current != null) {
-				current.setVolume(Settings.music);
-			}
-
 			return;
 		}
 
@@ -159,7 +156,7 @@ public class Audio {
 		music.setVolume(0);
 		music.play();
 
-		Tween.to(new Tween.Task(Settings.music, 1f) {
+		Tween.to(new Tween.Task(Settings.music, 0.5f) {
 			@Override
 			public float getValue() {
 				return music.getVolume();
@@ -202,7 +199,7 @@ public class Audio {
 		if (current != null) {
 			final Music last = current;
 
-			Tween.to(new Tween.Task(0, 1f) {
+			Tween.to(new Tween.Task(0, 0.5f) {
 				@Override
 				public float getValue() {
 					return last.getVolume();

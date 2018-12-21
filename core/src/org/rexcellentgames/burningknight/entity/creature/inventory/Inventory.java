@@ -141,7 +141,7 @@ public class Inventory {
 			for (int i = 0; i < this.getSize(); i++) {
 				Item slot = this.getSlot(i);
 
-				if (slot != null && slot.getClass() == item.getClass() && UiSlot.canAccept(i, slot)) {
+				if (slot != null && slot.getClass() == item.getClass()) {
 					slot.setCount(slot.getCount() + item.getCount());
 					item.setOwner(Player.instance);
 					item.onPickup();
@@ -154,7 +154,7 @@ public class Inventory {
 		}
 
 		for (int i = 0; i < this.getSize(); i++) {
-			if (this.isEmpty(i) && UiSlot.canAccept(i, item)) {
+			if (this.isEmpty(i)) {
 				boolean found = false;
 
 				if (i > 3 && i < 8 && item instanceof Equippable) {

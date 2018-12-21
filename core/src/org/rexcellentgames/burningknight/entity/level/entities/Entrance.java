@@ -119,10 +119,12 @@ public class Entrance extends SaveableEntity {
 
 		Graphics.render(Terrain.entrance, this.x, this.y);*/
 
-		drawKey("W", x - 9, y + 9);
-		drawKey("A", x + 9, y + 9);
-		drawKey("S", x - 9, y - 9);
-		drawKey("D", x + 9, y - 9);
+		if (Dungeon.depth == 1) {
+			drawKey("W", x - 9, y + 9);
+			drawKey("A", x + 9, y + 9);
+			drawKey("S", x - 9, y - 9);
+			drawKey("D", x + 9, y - 9);
+		}
 	}
 
 	private void drawKey(String ky, float x, float y) {

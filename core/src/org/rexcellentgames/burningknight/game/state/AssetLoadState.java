@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
+import org.rexcellentgames.burningknight.util.Log;
 
 public class AssetLoadState extends State {
 	public static final boolean START_TO_MENU = !Version.debug;
@@ -52,6 +53,7 @@ public class AssetLoadState extends State {
 		if (!START_TO_MENU) {
 			Gdx.graphics.setTitle(Dungeon.title);
 			GameSave.Info info = GameSave.peek(SaveManager.slot);
+			Log.error("Game slot was " + (info.free ? "free" : "not free"));
 			Dungeon.goToLevel((info.free ? -2 : info.depth));
 			return;
 		}

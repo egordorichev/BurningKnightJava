@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -151,61 +150,25 @@ public class Ui {
 	private static String killsLocale = Locale.get("kills");
 
 	public void onDeath() {
-		boolean bk_dead = Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive");
+		SaveManager.delete();
 
-		if (bk_dead) {
-			GlobalSave.put("finished_tutorial", true);
-			SaveManager.deletePlayer();
+		depth = Dungeon.level == null ? "Unknown" : Dungeon.level.formatDepth();
+		kills = GameSave.killCount + " " + killsLocale;
 
-			Audio.highPriority("Nostalgia");
-			Audio.reset();
+		time = String.format("%02d", (int) Math.floor(GameSave.time / 3600)) + ":" +
+			String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
+			String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
+			String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100));
 
+		Graphics.layout.setText(Graphics.small, time);
+		timeW = Graphics.layout.width;
 
-			Tween.to(new Tween.Task(1f, 0.3f) {
-				@Override
-				public float getValue() {
-					return Dungeon.grayscale;
-				}
-
-				@Override
-				public void setValue(float value) {
-					Dungeon.grayscale = value;
-				}
-			}).delay(0.15f);
-		}
+		val = 1;
 
 		Tween.to(new Tween.Task(0, 1f) {
 			@Override
 			public void onEnd() {
-				if (bk_dead) {
-					Tween.to(new Tween.Task(0, 1.65f) {
-						@Override
-						public float getValue() {
-							return Dungeon.dark;
-						}
-
-						@Override
-						public void setValue(float value) {
-							Dungeon.dark = value;
-						}
-
-						@Override
-						public void onEnd() {
-							Dungeon.newGame(true, -1);
-						}
-					});
-				} else {
-					depth = Dungeon.level == null ? "Unknown" : Dungeon.level.formatDepth();
-					kills = GameSave.killCount + " " + killsLocale;
-
-					time = String.format("%02d", (int) Math.floor(GameSave.time / 3600)) + ":" +
-						String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
-						String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
-						String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100));
-
-					Graphics.layout.setText(Graphics.small, time);
-					timeW = Graphics.layout.width;
-
+				{
 					Tween.to(new Tween.Task(1f, 0.3f) {
 						@Override
 						public float getValue() {
@@ -217,8 +180,6 @@ public class Ui {
 							Dungeon.grayscale = value;
 						}
 					}).delay(0.15f);
-
-					val = 1;
 
 					Tween.to(new Tween.Task(1, 0.05f) {
 						@Override
@@ -296,13 +257,8 @@ public class Ui {
 
 							rst();
 
-							if (Dungeon.depth == -3) {
-								Dungeon.newGame(false, -3);
-							} else {
-								Dungeon.newGame(true, 1);
-							}
-
-							Camera.shake(3);
+							InGameState.startTween = true;
+							InGameState.newGame = true;
 						}
 					});
 

@@ -22,7 +22,6 @@ import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiMap extends UiEntity {
@@ -153,7 +152,7 @@ public class UiMap extends UiEntity {
 
 		final UiMap self = this;
 
-		hide = new UiImageButton("ui-hide_button", (int) x + 4, (int) y - 3) {
+		/*hide = new UiImageButton("ui-hide_button", (int) x + 4, (int) y - 3) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -266,7 +265,7 @@ public class UiMap extends UiEntity {
 			}
 		};
 
-		Dungeon.ui.add(minus);
+		Dungeon.ui.add(minus);*/
 
 		this.plusLarge = new UiImageButton("ui-plus", (int) (x + w - 30), (int) y) {
 			@Override
@@ -550,6 +549,10 @@ public class UiMap extends UiEntity {
 
 	@Override
 	public void render() {
+		if (!large) {
+			return;
+		}
+
 		if ((my == 96 && !large) || Dungeon.depth < 0 || Ui.hideUi) {
 			return;
 		}

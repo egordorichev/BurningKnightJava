@@ -15,7 +15,6 @@ import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
 import org.rexcellentgames.burningknight.entity.level.builders.Builder;
 import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
 import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
@@ -26,6 +25,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.TutorialChasmRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -75,8 +75,6 @@ public abstract class RegularLevel extends Level {
 		this.itemsToSpawn.clear();
 
 		if (Dungeon.depth > 0) {
-			// itemsToSpawn.add(new ScrollOfUpgrade());
-
 			for (int i = 0; i < Random.newInt(4); i++) {
 				this.itemsToSpawn.add(new Bomb());
 			}
@@ -202,7 +200,7 @@ public abstract class RegularLevel extends Level {
 		int i = 0;
 
 		do {
-			point = room.getRandomCell();
+			point = room.getRandomDoorFreeCell();
 
 			if (i++ > 40) {
 				Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());
@@ -262,7 +260,7 @@ public abstract class RegularLevel extends Level {
 
 		ArrayList<Room> rooms = this.createRooms();
 
-		if (Dungeon.depth > -2) {
+		if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 			Collections.shuffle(rooms);
 		}
 
@@ -294,7 +292,7 @@ public abstract class RegularLevel extends Level {
 
 					rooms = this.createRooms();
 
-					if (Dungeon.depth > -2) {
+					if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 						Collections.shuffle(rooms);
 					}
 				}
@@ -302,14 +300,15 @@ public abstract class RegularLevel extends Level {
 				attempt ++;
 			}
 		} while (this.rooms == null);
-
-		if (Dungeon.depth > 0 && Dungeon.depth % 2 == 1) {
-			itemsToSpawn.add(new ScrollOfUpgrade());
-		}
 	}
 
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
+
+		if (GameSave.runId == 0 && Dungeon.depth == 1) {
+			rooms.add(new TutorialChasmRoom());
+			Log.info("Added tutorial chasm room");
+		}
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
@@ -421,7 +420,10 @@ public abstract class RegularLevel extends Level {
 			if (GameSave.runId == 0 && Dungeon.depth <= 2) {
 				builder.setPathLength(2, new float[]{0, 1, 0});
 				builder.setExtraConnectionChance(0);
-				// builder.setTunnelLength(new float[]{0, 0, 0}, new float[] {0, 0, 0});
+
+				if (Dungeon.depth == 1) {
+					builder.setAngle(90);
+				}
 			}
 
 			return builder;

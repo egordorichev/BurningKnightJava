@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.pool;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MobHub {
 	public ArrayList<Class<? extends Mob>> types;
@@ -12,12 +13,9 @@ public class MobHub {
 
 	public MobHub(float chance, int max, Class<? extends Mob> ... classes) {
 		types = new ArrayList<>();
+		types.addAll(Arrays.asList(classes));
 
-		for (Class<? extends Mob> c : classes) {
-			types.add(c);
-		}
-
-		chance = chance;
-		max = maxMatches;
+		this.chance = chance;
+		maxMatches = max;
 	}
 }

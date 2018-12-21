@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiEntity;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -162,6 +163,7 @@ public class MainMenuState extends State {
 
 					@Override
 					public void onEnd() {
+						Log.error("Game slot was " + (info.free ? "free" : "not free"));
 						Dungeon.loadType = Entrance.LoadType.LOADING;
 						Dungeon.goToLevel((info.free ? -2 : info.depth));
 					}

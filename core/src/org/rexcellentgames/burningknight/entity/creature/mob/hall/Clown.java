@@ -114,7 +114,7 @@ public class Clown extends Mob {
 		super.onHurt(a, creature);
 		this.playSfx("damage_clown");
 
-		spawnBomb = true;
+		// spawnBomb = true;
 	}
 
 	private boolean spawnBomb;
@@ -234,7 +234,7 @@ public class Clown extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = Random.newFloat(4, 12f);
+			delay = Random.newFloat(1, 3f);
 		}
 
 		@Override

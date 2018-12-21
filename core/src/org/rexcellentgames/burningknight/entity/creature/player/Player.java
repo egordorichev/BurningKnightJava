@@ -29,7 +29,6 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
-import org.rexcellentgames.burningknight.entity.creature.inventory.UiSlot;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
@@ -72,7 +71,6 @@ import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
-import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.*;
@@ -193,7 +191,7 @@ public class Player extends Creature {
 	}
 
 	{
-		hpMax = 8;
+		hpMax = 6;
 		manaMax = 8;
 		level = 1;
 		mul = 0.7f;
@@ -356,8 +354,8 @@ public class Player extends Creature {
 			}
 
 			if (this.type == Type.RANGER) {
-				this.hpMax = 6;
-				this.hp = 6;
+				this.hpMax = 4;
+				this.hp = 4;
 			}
 		}
 
@@ -524,6 +522,8 @@ public class Player extends Creature {
 
 	private static TextureRegion wing = Graphics.getTexture("item-half_wing");
 
+	private static TextureRegion playerTexture = Graphics.getTexture("props-gobbo_full");
+
 	@Override
 	public void render() {
 		// fixme: player head blink white when hurt too (hat / body head)
@@ -539,12 +539,8 @@ public class Player extends Creature {
 		}
 
 		if (this.rotating) {
-			if (InventoryState.player == null) {
-				InventoryState.player = Graphics.getTexture("props-gobbo_full");
-			}
-
 			this.al += Gdx.graphics.getDeltaTime() * 960;
-			Graphics.render(InventoryState.player, this.x + 6.5f, this.y + 2.5f, this.al, 6.5f, 2.5f, false, false);
+			Graphics.render(playerTexture, this.x + 6.5f, this.y + 2.5f, this.al, 6.5f, 2.5f, false, false);
 			Graphics.batch.setColor(1, 1, 1, 1);
 		} else {
 			if (this.rolling) {
@@ -933,7 +929,7 @@ public class Player extends Creature {
 					this.playSfx("pickup_item");
 					return false;
 				}
-			} else if (UiSlot.canAccept(2, item.getItem())) {
+			} else {
 				if (inventory.getSlot(2) == null) {
 					inventory.setSlot(2, item.getItem());
 
@@ -962,20 +958,6 @@ public class Player extends Creature {
 					this.playSfx("pickup_item");
 					return false;
 				}
-			} else if (this.inventory.add(item)) {
-				if (item.getItem().hasAutoPickup()) {
-					if (!(item.getItem() instanceof Gold)) {
-						this.area.add(new ItemPickedFx(item));
-					}
-				}
-
-				if (item.getItem() instanceof Gold && this.manaCoins) {
-					this.modifyMana(2);
-				}
-
-				this.playSfx("pickup_item");
-
-				return true;
 			}
 		}
 
@@ -1007,6 +989,7 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
+		invt = 0.5f;
 		al = 0;
 		rotating = false;
 
@@ -1563,6 +1546,7 @@ public class Player extends Creature {
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
+		// Log.error(BurningKnight.instance + " " + (BurningKnight.instance == null ? "null" : BurningKnight.instance.getArea()) + " " + Dungeon.area);
 
 		InGameState.checkMusic();
 

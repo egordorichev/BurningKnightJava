@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Noise;
 import org.rexcellentgames.burningknight.Settings;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;

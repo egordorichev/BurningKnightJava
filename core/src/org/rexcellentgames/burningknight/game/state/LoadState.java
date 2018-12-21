@@ -4,7 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -17,7 +16,6 @@ import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
-import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -31,17 +29,14 @@ import org.rexcellentgames.burningknight.util.PathFinder;
 
 public class LoadState extends State {
 	private boolean ready = false;
-	private String s;
 	public static boolean fromSelect;
 
 	@Override
 	public void init() {
-		Audio.stop();
-
+		generating = false;
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 1;
 
-		this.s = "Generating...";
 		Dungeon.grayscale = 0;
 
 		if (Ui.ui != null) {
@@ -56,8 +51,7 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready) {
-			// Dungeon.darkR = 0;
-			Dungeon.game.setState(GameSave.inventory ? new InventoryState() : new InGameState());
+			Dungeon.game.setState(new InGameState());
 			return;
 		}
 
@@ -138,10 +132,6 @@ public class LoadState extends State {
 	private boolean runM;
 
 	private void runMain() {
-		if (Dungeon.depth <= 0) {
-			noPercent = true;
-		}
-
 		Thread thread = new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -190,11 +180,8 @@ public class LoadState extends State {
 				Dungeon.level.loadPassable();
 				Dungeon.level.addPhysics();
 
-				Audio.play(Dungeon.level.getMusic());
-
-				if (!Dungeon.level.same(lvl)) {
-					Audio.reset();
-				}
+				InGameState.toPlay = Dungeon.level.getMusic();
+				InGameState.resetMusic = Dungeon.depth == 1 || !Dungeon.level.same(lvl);
 
 				if (Player.instance == null) {
 					showError("Failed to load player!");
@@ -223,7 +210,7 @@ public class LoadState extends State {
 	private String errorString;
 	private float ew;
 	private float progress;
-	public static boolean noPercent = false;
+	public static boolean generating = false;
 
 	@Override
 	public void renderUi() {
@@ -240,21 +227,20 @@ public class LoadState extends State {
 			}
 		}
 
-		if ((noPercent || progress >= 1.0f) && this.third) {
+		if ((!generating || progress >= 1.0f) && this.third) {
 			al -= Gdx.graphics.getDeltaTime() * 3;
 
 			if (al <= 0) {
 				al = 0;
 
 				this.ready = true;
-				noPercent = false;
 			}
 		}
 
 		if (error) {
 			Graphics.print(this.errorString, Graphics.medium, Display.UI_WIDTH / 2 - ew, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Dungeon.ui.render();
-		} else if (!noPercent) {
+		} else if (generating) {
 			int i = (int) MathUtils.clamp(0, 100, Math.round(progress * 100));
 			Graphics.medium.setColor(1, 1, 1, al);
 			Graphics.print("Generating... " + i + "%",

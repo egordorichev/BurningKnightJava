@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.inventory;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
@@ -12,7 +11,6 @@ import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
@@ -22,20 +20,16 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
-import org.rexcellentgames.burningknight.game.state.InventoryState;
 import org.rexcellentgames.burningknight.ui.UiEntity;
 import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
 	private Inventory inventory;
 	private Item currentSlot;
-	public UiSlot[] slots;
 	private int active = 0;
 	public boolean handled;
-	public int hoveredSlot = -1;
 	public static UiInventory instance;
 
 	{
@@ -59,58 +53,14 @@ public class UiInventory extends UiEntity {
 
 		instance = this;
 
-		createSlots();
 		hp = Player.instance.getHp();
 		mana = Player.instance.getMana();
-	}
-
-	private float sx;
-
-	public void createSlots() {
-		this.slots = new UiSlot[this.inventory.getSize()];
-
-		boolean full = Dungeon.game.getState() instanceof InventoryState;
-		int my = full ? (Display.UI_HEIGHT) / 2 - 32 - 16 : 0;
-		sx = full ? (Display.UI_WIDTH - 4 * 29 + 5) / 2 : 4;
-
-		for (int i = 0; i < this.slots.length; i++) {
-			this.slots[i] = new UiSlot(this, i, (int) (i % 4 * 29 + sx), (int) (-29 * Math.floor(i / 4) + 4 + (i < 8 ? 16 : 0)) + my);
-
-			if (full) {
-				this.slots[i].a = 1;
-			}
-
-			if (i > 5 && i < 12) {
-				Item current = this.inventory.getSlot(i);
-
-				if (current instanceof Accessory) {
-					current.setOwner(Player.instance);
-					((Accessory) current).equipped = true;
-					((Accessory) current).onEquip(true);
-				}
-			}
-		}
-	}
-
-	public void resize(int newSize) {
-		this.inventory.resize(newSize);
-		Player.instance.inventorySize = newSize;
-		createSlots();
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
 		this.done = true;
-
-		for (int i = 6; i < this.slots.length; i++) {
-			Item current = this.inventory.getSlot(i);
-
-			if (current instanceof Accessory) {
-				((Accessory) current).equipped = false;
-				((Accessory) current).onUnequip(true);
-			}
-		}
 	}
 
 	public Inventory getInventory() {
@@ -131,12 +81,18 @@ public class UiInventory extends UiEntity {
 			return;
 		}
 
-		boolean full = Dungeon.game.getState() instanceof InventoryState;
-
 		depth = 1;
 
 		if (Dungeon.game.getState().isPaused() || Dialog.active != null) {
 			return;
+		}
+
+		for (int i = 0; i < this.inventory.getSize(); i++) {
+			Item item = this.inventory.getSlot(i);
+
+			if (item != null) {
+				item.update(dt);
+			}
 		}
 
 		this.handled = false;
@@ -153,7 +109,7 @@ public class UiInventory extends UiEntity {
 				this.validate(Input.instance.getAmount());
 			}
 
-			if (!(Dungeon.game.getState() instanceof InventoryState) && Input.instance.wasPressed("bomb")) {
+			if (Input.instance.wasPressed("bomb")) {
 				int count = Player.instance.getBombs();
 
 				if (count == 0) {
@@ -204,37 +160,27 @@ public class UiInventory extends UiEntity {
 			}
 		}
 
+		checkUse();
+
 		if (Player.instance != null) {
-			for (UiSlot slot : this.slots) {
-				slot.update(dt);
+			int hp = Player.instance.getHp();
+
+			if (this.hp > hp) {
+				this.hp = hp;
+			} else if (this.hp < hp) {
+				this.hp += dt * 10;
+			}
+
+			int mana = Player.instance.getMana();
+
+			if (this.mana > mana) {
+				this.mana = mana;
+			} else if (this.mana < mana) {
+				this.mana += dt * 20;
 			}
 		}
 
-		if (!full) {
-			checkUse();
-		}
-
-		int hp = Player.instance.getHp();
-
-		if (this.hp > hp) {
-			this.hp = hp;
-		} else if (this.hp < hp) {
-			this.hp += dt * 10;
-		}
-
-		int mana = Player.instance.getMana();
-
-		if (this.mana > mana) {
-			this.mana = mana;
-		} else if (this.mana < mana) {
-			this.mana += dt * 20;
-		}
-
 		this.inventory.active = this.active;
-	}
-
-	public UiSlot getSlot(int i) {
-		return slots[i];
 	}
 
 	private void checkUse() {
@@ -345,15 +291,6 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		boolean full = Dungeon.game.getState() instanceof InventoryState;
-
-		if (full) {
-			for (int i = this.inventory.getSize() - 1; i >= 0; i--) {
-				Item item = this.inventory.getSlot(i);
-				this.slots[i].render(item);
-			}
-		}
-
 		boolean empty = false;
 
 		for (int i = this.inventory.getSize() - 1; i >= 0; i--) {
@@ -368,9 +305,8 @@ public class UiInventory extends UiEntity {
 			Achievements.unlock(Achievements.UNLOCK_BACKPACK);
 		}
 
-		float y = full ? this.slots[0].y + 20 : -3;
-		float x = sx + (full ? 0 : (24 + 4));
-		float xx = x;
+		float y = -3;
+		float x = 32;
 
 		if (lastMana > mana) {
 			invm = 1.0f;
@@ -385,7 +321,6 @@ public class UiInventory extends UiEntity {
 		int hp = (int) Math.floor(this.hp);
 		int iron = Player.instance.getIronHearts();
 		int golden = Player.instance.getGoldenHearts();
-		int hpp = iron + hp + golden;
 
 		float invt = Player.instance.getInvt();
 		int max = Player.instance.getHpMax();
@@ -399,15 +334,15 @@ public class UiInventory extends UiEntity {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
 			}
 
-			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2,
+			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2,
 				(float) (yy + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
 				heart_bg.getRegionWidth() / 2, heart_bg.getRegionHeight() / 2, false, false, s, s);
 
 			if (hp - 2 >= i * 2) {
-				Graphics.render(heart, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (yy + 9 + Math.floor(i / 8) * 11
+				Graphics.render(heart, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (yy + 9 + Math.floor(i / 8) * 11
 									+ heart.getRegionHeight() / 2), 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (hp - 2 >= i * 2 - 1) {
-				Graphics.render(half, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (yy + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
+				Graphics.render(half, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (yy + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
 		}
@@ -421,15 +356,15 @@ public class UiInventory extends UiEntity {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
 			}
 
-			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2,
+			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2,
 				(float) (y + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
 				heart_bg.getRegionWidth() / 2, heart_bg.getRegionHeight() / 2, false, false, s, s);
 
 			if (max + iron - 2 >= i * 2) {
-				Graphics.render(heartIron, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9 + Math.floor(i / 8) * 11
+				Graphics.render(heartIron, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9 + Math.floor(i / 8) * 11
 									+ heart.getRegionHeight() / 2), 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (max + iron - 2 >= i * 2 - 1) {
-				Graphics.render(halfIron, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
+				Graphics.render(halfIron, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
 		}
@@ -443,153 +378,139 @@ public class UiInventory extends UiEntity {
 				s = (float) (1f + Math.abs(Math.cos(Dungeon.time * 3) / 2.5f));
 			}
 
-			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2,
+			Graphics.render((invt > 0.7f || (invt > 0.5f && invt % 0.2f > 0.1f)) ? hurt : heart_bg, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2,
 				(float) (y + 9 + heart.getRegionHeight() / 2 + Math.floor(i / 8) * 11), 0,
 				heart_bg.getRegionWidth() / 2, heart_bg.getRegionHeight() / 2, false, false, s, s);
 
 			if (max + iron + golden - 2 >= i * 2) {
-				Graphics.render(heartGolden, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9 + Math.floor(i / 8) * 11
+				Graphics.render(heartGolden, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9 + Math.floor(i / 8) * 11
 									+ heart.getRegionHeight() / 2), 0, heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			} else if (max + iron + golden - 2 >= i * 2 - 1) {
-				Graphics.render(halfGolden, xx + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9  + Math.floor(i / 8) * 11 + heart.getRegionHeight() / 2), 0,
+				Graphics.render(halfGolden, x + (i % 8) * 11 + 1 + heart.getRegionWidth() / 2, (float) (y + 9  + Math.floor(i / 8) * 11 + heart.getRegionHeight() / 2), 0,
 					heart.getRegionWidth() / 2, heart.getRegionHeight() / 2, false, false, s, s);
 			}
 		}
 
 		mm --;
-		if (!full) {
-			Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
+		Item item = Player.instance.getInventory().getSlot(Player.instance.getInventory().active);
 
-			if (item instanceof Wand) {
-				int mana = (int) this.mana;
+		if (item instanceof Wand) {
+			int mana = (int) this.mana;
 
-				for (i = 0; i < Player.instance.getManaMax() / 2; i++) {
-					float s = 1f;
-					float yy = (float) (y + 10 + Math.floor(mm / 8) * 11);
+			for (i = 0; i < Player.instance.getManaMax() / 2; i++) {
+				float s = 1f;
+				float yy = (float) (y + 10 + Math.floor(mm / 8) * 11);
 
-					boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
-					Graphics.render(change ? star_change : star_bg, xx + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
-						yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
+				boolean change = (invm > 0.7f || (invm > 0.5f && invm % 0.2f > 0.1f));
+				Graphics.render(change ? star_change : star_bg, x + i * 11 + star.getRegionWidth() / 2 + (change ? -1 : 0),
+					yy + 8 + star.getRegionHeight() / 2 + (change ? -1 : 0), 0,
+					star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+
+				if (mana - 2 >= i * 2) {
+					Graphics.render(star, x + i * 11 + star.getRegionWidth() / 2, yy + 8
+						+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
+				} else if (mana - 2 >= i * 2 - 1) {
+					Graphics.render(halfStar, x + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
 						star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-
-					if (mana - 2 >= i * 2) {
-						Graphics.render(star, xx + i * 11 + star.getRegionWidth() / 2, yy + 8
-							+ star.getRegionHeight() / 2, 0, star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-					} else if (mana - 2 >= i * 2 - 1) {
-						Graphics.render(halfStar, xx + i * 11 + star.getRegionWidth() / 2, yy + 8 + star.getRegionHeight() / 2, 0,
-							star.getRegionWidth() / 2, star.getRegionHeight() / 2, false, false, s, s);
-					}
-				}
-			} else if (item instanceof Gun) {
-				int ammo = ((Gun) item).getAmmoLeft();
-				max = ((Gun) item).ammoMax;
-
-				if (lastAmmo < ammo) {
-					inva = 1.0f;
-				}
-
-				lastAmmo = ammo;
-
-				if (inva > 0) {
-					inva -= Gdx.graphics.getDeltaTime();
-				}
-
-				for (i = 0; i < max; i++) {
-					float s = 1f;
-					float yy = (float) (y + 10 + Math.floor(mm / 8) * 11);
-
-					boolean change = false; // (inva > 0.7f || (inva > 0.5f && inva % 0.2f > 0.1f));
-					Graphics.render(change ? ammo_change : ammo_bg, xx + i * 3 + ammo_texture.getRegionWidth() / 2,
-						yy + 8 + ammo_texture.getRegionHeight() / 2, 0,
-						ammo_texture.getRegionWidth() / 2, ammo_texture.getRegionHeight() / 2, false, false, s, s);
-
-					if (i < ammo) {
-						Graphics.render(ammo_texture, xx + i * 3 + ammo_texture.getRegionWidth() / 2 + 1, yy + 9
-								+ ammo_texture.getRegionHeight() / 2, 0, ammo_texture.getRegionWidth() / 2,
-							ammo_texture.getRegionHeight() / 2, false, false, s, s);
-					}
 				}
 			}
+		} else if (item instanceof Gun) {
+			int ammo = ((Gun) item).getAmmoLeft();
+			max = ((Gun) item).ammoMax;
 
-			float by = 24 + 8;
+			if (lastAmmo < ammo) {
+				inva = 1.0f;
+			}
 
-			Graphics.render(bomb, 4, by);
-			Graphics.render(key, 4, by + 12);
-			Graphics.render(gold, 4, by + 24);
+			lastAmmo = ammo;
 
-			Graphics.print(Player.instance.getBombs() + "", Graphics.small, 16, by);
-			Graphics.print(Player.instance.getKeys() + "", Graphics.small, 16, by + 12);
-			Graphics.print(Player.instance.getMoney() + "", Graphics.small, 16, by + 24);
+			if (inva > 0) {
+				inva -= Gdx.graphics.getDeltaTime();
+			}
+
+			for (i = 0; i < max; i++) {
+				float s = 1f;
+				float yy = (float) (y + 10 + Math.floor(mm / 8) * 11);
+
+				boolean change = false; // (inva > 0.7f || (inva > 0.5f && inva % 0.2f > 0.1f));
+				Graphics.render(change ? ammo_change : ammo_bg, x + i * 3 + ammo_texture.getRegionWidth() / 2,
+					yy + 8 + ammo_texture.getRegionHeight() / 2, 0,
+					ammo_texture.getRegionWidth() / 2, ammo_texture.getRegionHeight() / 2, false, false, s, s);
+
+				if (i < ammo) {
+					Graphics.render(ammo_texture, x + i * 3 + ammo_texture.getRegionWidth() / 2 + 1, yy + 9
+							+ ammo_texture.getRegionHeight() / 2, 0, ammo_texture.getRegionWidth() / 2,
+						ammo_texture.getRegionHeight() / 2, false, false, s, s);
+				}
+			}
 		}
 
-		if (!full) {
-			Item item = Player.instance.getInventory().getSlot(2);
-			Graphics.render(UiSlot.slot, 4, 4);
+		float by = 24 + 8;
 
-			if (item != null) {
-				TextureRegion region = item.getSprite();
-				int w = region.getRegionWidth();
-				int h = region.getRegionHeight();
+		Graphics.render(bomb, 4, by);
+		Graphics.render(key, 4, by + 12);
+		Graphics.render(gold, 4, by + 24);
 
-				if (item.getDelay() > 0) {
-					if (lastNotUsed) {
-						lastNotUsed = false;
-						Tween.to(new Tween.Task(1.5f, 0.1f) {
-							@Override
-							public float getValue() {
-								return as;
-							}
+		Graphics.print(Player.instance.getBombs() + "", Graphics.small, 16, by);
+		Graphics.print(Player.instance.getKeys() + "", Graphics.small, 16, by + 12);
+		Graphics.print(Player.instance.getMoney() + "", Graphics.small, 16, by + 24);
 
-							@Override
-							public void setValue(float value) {
-								as = value;
-							}
+		item = Player.instance.getInventory().getSlot(2);
+		Graphics.render(slot, 4, 4);
 
-							@Override
-							public void onEnd() {
-								Tween.to(new Tween.Task(1f, 1f, Tween.Type.ELASTIC_OUT) {
-									@Override
-									public float getValue() {
-										return as;
-									}
+		if (item != null) {
+			TextureRegion region = item.getSprite();
+			int w = region.getRegionWidth();
+			int h = region.getRegionHeight();
 
-									@Override
-									public void setValue(float value) {
-										as = value;
-									}
-								});
-							}
-						});
-					}
+			if (item.getDelay() > 0) {
+				if (lastNotUsed) {
+					lastNotUsed = false;
+					Tween.to(new Tween.Task(1.5f, 0.1f) {
+						@Override
+						public float getValue() {
+							return as;
+						}
 
-					Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
-					Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
-					Graphics.batch.setColor(1, 1, 1, 1);
+						@Override
+						public void setValue(float value) {
+							as = value;
+						}
 
-					region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
-					Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
-					region.setRegionWidth(w);
-				} else {
-					lastNotUsed = true;
-					Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(1f, 1f, Tween.Type.ELASTIC_OUT) {
+								@Override
+								public float getValue() {
+									return as;
+								}
+
+								@Override
+								public void setValue(float value) {
+									as = value;
+								}
+							});
+						}
+					});
 				}
+
+				Graphics.batch.setColor(0.1f, 0.1f, 0.1f, 1);
+				Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
+				Graphics.batch.setColor(1, 1, 1, 1);
+
+				region.setRegionWidth((int) (w * (1f - item.getDelay() / item.getUseTime())));
+				Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
+				region.setRegionWidth(w);
+			} else {
+				lastNotUsed = true;
+				Graphics.render(region, 4 + (24 - w) / 2 + w / 2, 4 + (24 - region.getRegionHeight()) / 2 + h / 2, 0, w / 2, h / 2, false, false, 2 - as, as);
 			}
 		}
 
 		this.renderCurrentSlot();
-
-		if (full) {
-			float dy = 8 + y;
-			float dx = x + 4 * 29 - 5 - defense.getRegionWidth();
-
-			Graphics.render(defense, dx, dy);
-			int d = Player.instance.getDefense();
-			String s = String.valueOf(d);
-
-			Graphics.layout.setText(Graphics.small, s);
-			Graphics.print(s, Graphics.small, dx + (defense.getRegionWidth() - Graphics.layout.width) / 2, dy + (defense.getRegionHeight() - Graphics.layout.height) / 2 - 1);
-		}
 	}
+
+	private TextureRegion slot = Graphics.getTexture("ui-inventory_slot");
 
 	private boolean lastNotUsed;
 	private float as = 1;
@@ -632,7 +553,7 @@ public class UiInventory extends UiEntity {
 					Graphics.small.draw(Graphics.batch, String.valueOf(count), x + 16, y - 4);
 				}
 			}
-		} else if (this.hoveredSlot != -1) {
+		}/* else if (this.hoveredSlot != -1) {
 			Item item = this.inventory.getSlot(this.hoveredSlot);
 
 			if (item != null) {
@@ -647,7 +568,7 @@ public class UiInventory extends UiEntity {
 
 				this.hoveredSlot = -1;
 			}
-		}
+		}*/
 	}
 
 	public void renderOnPlayer(Player player, float of) {
@@ -668,13 +589,5 @@ public class UiInventory extends UiEntity {
 		if (slot != null) {
 			slot.beforeRender(player.x, player.y + of, player.w, player.h, player.isFlipped());
 		}
-	}
-
-	public void setCurrentSlot(Item currentSlot) {
-		this.currentSlot = currentSlot;
-	}
-
-	public Item getCurrentSlot() {
-		return this.currentSlot;
 	}
 }

@@ -37,7 +37,7 @@ public class Firebolt extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
-		float s = 80f;
+		float s = 120f;
 		final int mana = getManaUsage();
 
 		BulletProjectile missile = new BulletProjectile() {
@@ -49,15 +49,13 @@ public class Firebolt extends Wand {
 
 				while (weight > 0) {
 					ManaFx fx = new ManaFx();
-
-					fx.x = x- velocity.x * 0.06f;
-					fx.y = y - velocity.y * 0.06f;
+fx.x = x; 					fx.y = y;
 					fx.half = weight == 1;
 					fx.poof();
 
 					weight -= fx.half ? 1 : 2;
 					Dungeon.area.add(fx);
-					LevelSave.add(fx);
+					LevelSave.add(fx);fx.body.setLinearVelocity(new Vector2(-this.velocity.x * 0.5f, -this.velocity.y * 0.5f));
 				}
 			}
 

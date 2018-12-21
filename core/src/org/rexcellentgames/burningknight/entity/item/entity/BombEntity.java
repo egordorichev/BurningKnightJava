@@ -1,7 +1,10 @@
 package org.rexcellentgames.burningknight.entity.item.entity;
 
 import box2dLight.PointLight;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -19,7 +22,6 @@ import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -48,6 +50,7 @@ public class BombEntity extends Entity {
 	public ArrayList<Buff> toApply = new ArrayList<>();
 
 	{
+		depth = -1;
 		alwaysActive = true;
 	}
 
@@ -202,7 +205,7 @@ public class BombEntity extends Entity {
 
 			this.playSfx("explosion");
 			this.done = true;
-			Explosion.make(this.x + 8, this.y + 8, !this.small);
+			Explosion.make(this.x + w / 2, this.y + h / 2, !this.small);
 
 			boolean fire = false;
 			boolean ice = false;
@@ -221,7 +224,7 @@ public class BombEntity extends Entity {
 				if (entity instanceof Creature) {
 					Creature creature = (Creature) entity;
 
-					if (creature.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+					if (creature.getDistanceTo(this.x + w / 2, this.y + h / 2) < 24f) {
 						if (!creature.explosionBlock) {
 							if (creature instanceof Player) {
 								creature.modifyHp(-1000, this, true);
@@ -245,7 +248,7 @@ public class BombEntity extends Entity {
 						}
 					}
 				} else if (entity instanceof Chest) {
-					if (entity.getDistanceTo(this.x + 8, this.y + 8) < 24f) {
+					if (entity.getDistanceTo(this.x + w / 2, this.y + h / 2) < 24f) {
 						((Chest) entity).explode();
 					}
 				} else if (entity instanceof BombEntity) {
@@ -311,13 +314,13 @@ public class BombEntity extends Entity {
 			}
 		}
 
-		light.setPosition(this.x + 8, this.y + 8);
+		light.setPosition(this.x + w / 2, this.y + h / 2);
 	}
 
 	public boolean check(Room room) {
 		for (int x = room.left; x <= room.right; x++) {
 			for (int y = room.top; y <= room.bottom; y++) {
-				if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + 8, y * 16 + 8) <= 32f) {
+				if (Dungeon.level.get(x, y) == Terrain.CRACK && this.getDistanceTo(x * 16 + w / 2, y * 16 + h / 2) <= 32f) {
 					make(room);
 
 					Achievements.unlock(Achievements.FIND_SECRET_ROOM);
@@ -365,12 +368,24 @@ public class BombEntity extends Entity {
 		float sx = (float) (Math.cos(this.t * 16) / 2f) + 1;
 		float sy = (float) (Math.cos(this.t * 16 + Math.PI) / 3f) + 1;
 
+		if (Math.cos(this.t * 16 + Math.PI) > 0) {
+			Graphics.batch.end();
+			Gdx.gl.glEnable(GL20.GL_BLEND);
+			Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+			Graphics.shape.setColor(1, 0, 0, 0.4f);
+			Graphics.shape.begin(ShapeRenderer.ShapeType.Line);
+			Graphics.shape.circle(this.x + w / 2, this.y + h / 2, 24);
+			Graphics.shape.circle(this.x + w / 2, this.y + h / 2, 23);
+			Graphics.shape.circle(this.x + w / 2, this.y + h / 2, 23.5f);
+			Graphics.endAlphaShape();
+		}
+
 		this.animation.render(this.x, this.y, false, false, 5, 0, 0, this.fliped ? -sx : sx, sy);
 	}
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Door && !((Door) entity).isOpen()) {
+		if (entity == null) {
 			return true;
 		}
 

@@ -24,6 +24,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
+import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.ui.StartingItem;
@@ -44,6 +45,7 @@ public class ItemSelectState extends State {
 	public void init() {
 		super.init();
 
+		SaveManager.delete();
 		Audio.play("Void");
 
 		melee.clear();

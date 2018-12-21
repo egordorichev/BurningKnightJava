@@ -19,8 +19,8 @@
 	"mouse" : [ "Mouse0" ],
 	"start" : [ "Space", "Mouse0", "Mouse1" ],
 
-	"map" : [ "M" ],
-	"toggle_minimap" : [ "Tab" ],
+	"map" : [ "Tab" ],
+	"toggle_minimap" : [ "M" ],
 	"zoom_out" : [ "-" ],
 	"zoom_in" : [ "=" ]
 }

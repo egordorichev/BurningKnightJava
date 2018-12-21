@@ -11,12 +11,12 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.*;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -105,14 +105,9 @@ public class Door extends SaveableEntity {
 			this.x += 4;
 		}
 
-		listner = new DoorListener();
-		listner.door = this;
-
 		this.animation.setAutoPause(true);
 		this.animation.setPaused(true);
 	}
-
-	private DoorListener listner;
 
 	public Door(int x, int y, boolean vertical) {
 		this.x = x * 16;
@@ -132,6 +127,20 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		if (this.sensor == null) {
+			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
+				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, false);
+			this.sensor.setSleepingAllowed(false);
+
+
+			MassData data = new MassData();
+			data.mass = 1000000000000000f;
+
+			this.sensor.setMassData(data);
+		}
+
+		World.checkLocked(this.sensor).setTransform(this.x, this.y, 0);
+
 		if (locked == null) {
 			Animation animation = getAnimation();
 
@@ -163,7 +172,7 @@ public class Door extends SaveableEntity {
 		}
 
 		if (this.autoLock) {
-			this.lock = Player.instance.room != null && Player.instance.room.numEnemies > 0 && !Player.instance.hasBkKey;
+			this.lock = Player.instance != null && Player.instance.room != null && Player.instance.room.numEnemies > 0 && !Player.instance.hasBkKey;
 		}
 
 		this.setPas(false);
@@ -265,16 +274,6 @@ public class Door extends SaveableEntity {
 			
 			if (this.body != null) {
 				this.body.setMassData(data);
-			}
-		}
-
-		if (this.sensor == null) {
-			this.sensor = World.createSimpleBody(this.listner, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
-				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, false);
-			this.sensor.setSleepingAllowed(false);
-
-			if (this.sensor != null) {
-				World.checkLocked(this.sensor).setTransform(this.x, this.y, 0);
 			}
 		}
 
@@ -592,7 +591,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof RollingSpike || entity instanceof Fly) {
+		if (entity instanceof RollingSpike || ((entity instanceof Mob || entity instanceof BombEntity))) {
 			return true;
 		}
 
@@ -602,6 +601,6 @@ public class Door extends SaveableEntity {
 			}
 		}
 
-		return super.shouldCollide(entity, contact, fixture);
+		return false;//return super.shouldCollide(entity, contact, fixture);
 	}
 }

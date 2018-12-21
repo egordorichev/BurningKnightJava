@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -43,9 +44,6 @@ public class GameSave {
 		public boolean error;
 		public byte depth;
 
-		public float firstW;
-		public float secondW;
-		public String first;
 		public String second;
 	}
 
@@ -54,6 +52,13 @@ public class GameSave {
 		Info info = new Info();
 
 		if (!save.exists()) {
+			info.free = true;
+			return info;
+		}
+
+		FileHandle sv = Gdx.files.external(SaveManager.getSavePath(SaveManager.Type.PLAYER, slot));
+
+		if (!sv.exists()) {
 			info.free = true;
 			return info;
 		}
@@ -90,6 +95,9 @@ public class GameSave {
 	}
 
 	public static void generate() {
+		BurningKnight.instance = null;
+		Player.instance = null;
+
 		killCount = 0;
 		time = 0;
 		defeatedBK = false;
