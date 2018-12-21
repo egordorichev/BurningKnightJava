@@ -989,6 +989,7 @@ public class Player extends Creature {
 	@Override
 	public void init() {
 		super.init();
+		invt = 0.5f;
 		al = 0;
 		rotating = false;
 
