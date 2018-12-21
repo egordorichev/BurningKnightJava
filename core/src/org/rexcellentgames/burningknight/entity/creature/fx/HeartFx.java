@@ -88,8 +88,9 @@ public class HeartFx extends SaveableEntity {
 		this.type = Type.values()[reader.readByte()];
 
 		if (this.type.half) {
-			this.w /= 2;
+			// this.w /= 2;
 		}
+
 		setColor();
 	}
 

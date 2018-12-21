@@ -44,7 +44,7 @@ public class ManaFx extends SaveableEntity {
 		anim.randomize();
 		TextureRegion region = anim.getFrames().get(0).frame;
 
-		this.w = region.getRegionWidth();
+		this.w = 14;
 		this.h = region.getRegionHeight();
 
 		body = World.createCircleBody(this, 0, 0, Math.min(w, h) / 2, BodyDef.BodyType.DynamicBody, false);
