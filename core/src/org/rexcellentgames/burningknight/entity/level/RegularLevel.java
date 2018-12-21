@@ -200,7 +200,7 @@ public abstract class RegularLevel extends Level {
 		int i = 0;
 
 		do {
-			point = room.getRandomCell();
+			point = room.getRandomDoorFreeCell();
 
 			if (i++ > 40) {
 				Log.error("Failed to place " + mob.getClass() + " in room " + room.getClass());

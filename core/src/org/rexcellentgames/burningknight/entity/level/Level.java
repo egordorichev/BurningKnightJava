@@ -627,9 +627,8 @@ public abstract class Level extends SaveableEntity {
 		}*/
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		boolean light = Dungeon.depth > -3 && Settings.quality > 0;
 
-		if (light) {
+		if (Dungeon.depth > -3 && Settings.quality > 0) {
 			Graphics.surface.end();
 			Graphics.batch.setShader(null);
 			Graphics.batch.begin();

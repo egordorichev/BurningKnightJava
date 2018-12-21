@@ -183,6 +183,30 @@ public abstract class Room extends Rect implements GraphNode {
 		return point;
 	}
 
+	public Point getRandomDoorFreeCell() {
+		Point point;
+		int at = 0;
+
+		while (true) {
+			if (at++ > 200) {
+				Log.error("To many attempts");
+				return null;
+			}
+
+			point = getRandomCell();
+
+			for (Door door : connected.values()) {
+				int dx = (int) (door.x - point.x);
+				int dy = (int) (door.y - point.y);
+				float d = (float) Math.sqrt(dx * dx + dy * dy);
+
+				if (d < 3 && Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE)) {
+					return point;
+				}
+			}
+		}
+	}
+
 	@Override
 	public int getPrice() {
 		return this.price;
