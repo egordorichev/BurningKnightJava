@@ -116,7 +116,7 @@ public class MagicMissileWand extends Wand {
 
 		double ra = Math.toRadians(a);
 
-		float s = 100f;
+		float s = 140f;
 
 		missile.velocity.x = (float) Math.cos(ra) * s;
 		missile.velocity.y = (float) Math.sin(ra) * s;

@@ -109,7 +109,7 @@ public class CrazyBook extends Book {
 			missile.h = 6;
 			missile.rotates = true;
 
-			float s = 60f;
+			float s = 90f;
 
 			missile.velocity.x = (float) Math.cos((double) a) * s;
 			missile.velocity.y = (float) Math.sin((double) a) * s;
@@ -214,7 +214,7 @@ public class CrazyBook extends Book {
 		missile.rotationSpeed = 0.3f;
 
 		double ra = Math.toRadians(a);
-		float s = 40f;
+		float s = 60f;
 
 		missile.velocity.x = (float) Math.cos(ra) * s;
 		missile.velocity.y = (float) Math.sin(ra) * s;

@@ -20,7 +20,7 @@ public class SlowBook extends Book {
 		name = Locale.get("slow_book");
 		description = Locale.get("slow_book_desc");
 		sprite = "item-book_d";
-		mana = 4;
+		mana = 6;
 		damage = 30; // GG WP EZ
 	}
 

@@ -37,7 +37,7 @@ public class Firebolt extends Wand {
 
 	@Override
 	public void spawnProjectile(float x, float y, float a) {
-		float s = 80f;
+		float s = 120f;
 		final int mana = getManaUsage();
 
 		BulletProjectile missile = new BulletProjectile() {

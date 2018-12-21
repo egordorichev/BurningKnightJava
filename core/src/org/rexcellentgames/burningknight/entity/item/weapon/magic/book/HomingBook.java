@@ -158,7 +158,7 @@ public class HomingBook extends Book {
 
 		double ra = Math.toRadians(a);
 
-		float s = 80f;
+		float s = 90f;
 
 		missile.velocity.x = (float) Math.cos(ra) * s;
 		missile.velocity.y = (float) Math.sin(ra) * s;

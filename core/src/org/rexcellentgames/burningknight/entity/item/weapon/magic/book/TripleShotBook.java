@@ -132,7 +132,7 @@ public class TripleShotBook extends Book {
 
 		double ra = Math.toRadians(a);
 
-		float s = 60f;
+		float s = 90f;
 
 		missile.velocity.x = (float) Math.cos(ra) * s;
 		missile.velocity.y = (float) Math.sin(ra) * s;
