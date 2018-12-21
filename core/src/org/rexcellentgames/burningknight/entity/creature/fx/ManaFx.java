@@ -27,7 +27,7 @@ import java.io.IOException;
 
 public class ManaFx extends SaveableEntity {
 	public boolean half;
-	private Body body;
+	public Body body;
 	private PointLight light;
 
 	private AnimationData anim;
