@@ -33,6 +33,7 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
+		generating = false;
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 1;
 
@@ -50,7 +51,6 @@ public class LoadState extends State {
 	@Override
 	public void update(float dt) {
 		if (this.ready) {
-			// Dungeon.darkR = 0;
 			Dungeon.game.setState(new InGameState());
 			return;
 		}
@@ -210,15 +210,11 @@ public class LoadState extends State {
 	private String errorString;
 	private float ew;
 	private float progress;
-	public static boolean noPercent = false;
+	public static boolean generating = false;
 
 	@Override
 	public void renderUi() {
 		renderPortal();
-
-		if (Dungeon.depth <= 0) {
-			noPercent = true;
-		}
 
 		if (!second) {
 			al += Gdx.graphics.getDeltaTime() * 3;
@@ -231,21 +227,20 @@ public class LoadState extends State {
 			}
 		}
 
-		if ((noPercent || progress >= 1.0f) && this.third) {
+		if ((!generating || progress >= 1.0f) && this.third) {
 			al -= Gdx.graphics.getDeltaTime() * 3;
 
 			if (al <= 0) {
 				al = 0;
 
 				this.ready = true;
-				noPercent = false;
 			}
 		}
 
 		if (error) {
 			Graphics.print(this.errorString, Graphics.medium, Display.UI_WIDTH / 2 - ew, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Dungeon.ui.render();
-		} else if (!noPercent) {
+		} else if (generating) {
 			int i = (int) MathUtils.clamp(0, 100, Math.round(progress * 100));
 			Graphics.medium.setColor(1, 1, 1, al);
 			Graphics.print("Generating... " + i + "%",

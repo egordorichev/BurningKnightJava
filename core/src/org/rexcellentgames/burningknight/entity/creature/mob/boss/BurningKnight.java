@@ -764,9 +764,8 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			if (this.t >= 1f) {
 				int i = lastAttack % 3;
-				self.become("spawnAttack");
 
-				/*if (self.pattern == 0) {
+				if (self.pattern == 0) {
 					if (i == 0) {
 						self.become("laserAttack");
 					} else if (i == 1) {
@@ -793,7 +792,7 @@ public class BurningKnight extends Boss {
 						self.become("laserAimAttack");
 						pattern = Random.newInt(3);
 					}
-				}*/
+				}
 
 				lastAttack++;
 

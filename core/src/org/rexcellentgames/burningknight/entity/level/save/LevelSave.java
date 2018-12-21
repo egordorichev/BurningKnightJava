@@ -3,6 +3,8 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.game.state.LoadState;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -74,6 +76,8 @@ public class LevelSave {
 
 	public static void generate() {
 		try {
+			LoadState.generating = true;
+
 			Dungeon.level = Level.forDepth(Dungeon.depth);
 			Dungeon.area.add(Dungeon.level);
 			Dungeon.level.generate();
