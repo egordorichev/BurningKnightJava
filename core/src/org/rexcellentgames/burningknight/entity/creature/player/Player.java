@@ -857,29 +857,6 @@ public class Player extends Creature {
 				}
 
 				return true;
-			} else if (item.getItem() instanceof Autouse) {
-				Item i = item.getItem();
-				i.setOwner(this);
-
-				int c = i.getCount();
-				for (int j = 0; j < c; j++) {
-					i.use();
-				}
-
-				item.remove();
-				item.done = true;
-				this.playSfx("pickup_item");
-
-				for (int j = 0; j < 3; j++) {
-					PoofFx fx = new PoofFx();
-
-					fx.x = item.x + item.w / 2;
-					fx.y = item.y + item.h / 2;
-
-					Dungeon.area.add(fx);
-				}
-
-				return true;
 			} else if (item.getItem() instanceof WeaponBase) {
 				if (inventory.getSlot(0) == null) {
 					inventory.setSlot(0, item.getItem());

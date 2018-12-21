@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
 import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
+import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -133,12 +134,18 @@ public class Inventory {
 				item.onPickup();
 				holder.done = true;
 
+				if (item instanceof Autouse) {
+					int c = item.getCount();
+					for (int j = 0; j < c; j++) {
+						item.use();
+					}
+				}
+
 				if (item instanceof Equippable) {
 					((Equippable) item).onEquip(false);
 				}
 
 				this.onAdd(holder, i);
-
 				return true;
 			}
 		}
