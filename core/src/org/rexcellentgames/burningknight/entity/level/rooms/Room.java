@@ -200,7 +200,7 @@ public abstract class Room extends Rect implements GraphNode {
 				int dy = (int) (door.y - point.y);
 				float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-				if (d < 3 && Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE)) {
+				if (d > 3 && Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE)) {
 					return point;
 				}
 			}

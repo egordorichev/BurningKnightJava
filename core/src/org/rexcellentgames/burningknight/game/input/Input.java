@@ -69,7 +69,7 @@ public class Input implements InputProcessor {
 		return this.keys;
 	}
 
-	public static final String KEYS = "key_bindings.json";
+	public static final String KEYS = "key_bind.json";
 
 	public Input() {
 		instance = this;

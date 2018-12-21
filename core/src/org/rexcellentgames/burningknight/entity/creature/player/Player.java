@@ -1545,6 +1545,7 @@ public class Player extends Creature {
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
+		// Log.error(BurningKnight.instance + " " + (BurningKnight.instance == null ? "null" : BurningKnight.instance.getArea()) + " " + Dungeon.area);
 
 		InGameState.checkMusic();
 

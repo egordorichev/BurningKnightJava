@@ -176,7 +176,9 @@ public class ManaFx extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof Mob || entity instanceof WeaponBase || entity instanceof Level || (entity instanceof Player && ((Player) entity).isRolling())) {
+		if (entity instanceof Mob || entity instanceof WeaponBase || entity instanceof Level || (entity instanceof Player && ((Player) entity).isRolling())
+			|| (entity == null && Player.instance.room != null && Player.instance.room.lastNumEnemies == 0)) {
+
 			return false;
 		}
 

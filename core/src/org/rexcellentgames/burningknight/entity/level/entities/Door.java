@@ -158,7 +158,7 @@ public class Door extends SaveableEntity {
 		}
 
 		if (this.autoLock) {
-			this.lock = Player.instance.room != null && Player.instance.room.numEnemies > 0 && !Player.instance.hasBkKey;
+			this.lock = Player.instance != null && Player.instance.room != null && Player.instance.room.numEnemies > 0 && !Player.instance.hasBkKey;
 		}
 
 		this.setPas(false);
