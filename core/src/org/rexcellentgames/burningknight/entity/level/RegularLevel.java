@@ -117,7 +117,7 @@ public abstract class RegularLevel extends Level {
 					if (GameSave.runId == 0 && Dungeon.depth <= 2) {
 						weight = room.id;
 					} else {
-						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 128) * Player.mobSpawnModifier);
+						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 256) * Player.mobSpawnModifier);
 					}
 
 					MobPool.instance.initForRoom();

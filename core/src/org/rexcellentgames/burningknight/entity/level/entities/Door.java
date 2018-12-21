@@ -105,9 +105,14 @@ public class Door extends SaveableEntity {
 			this.x += 4;
 		}
 
+		listner = new DoorListener();
+		listner.door = this;
+
 		this.animation.setAutoPause(true);
 		this.animation.setPaused(true);
 	}
+
+	private DoorListener listner;
 
 	public Door(int x, int y, boolean vertical) {
 		this.x = x * 16;
@@ -264,8 +269,9 @@ public class Door extends SaveableEntity {
 		}
 
 		if (this.sensor == null) {
-			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
-				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, true);
+			this.sensor = World.createSimpleBody(this.listner, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
+				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, false);
+			this.sensor.setSleepingAllowed(false);
 
 			if (this.sensor != null) {
 				World.checkLocked(this.sensor).setTransform(this.x, this.y, 0);

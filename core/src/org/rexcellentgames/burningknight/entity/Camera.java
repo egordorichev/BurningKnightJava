@@ -147,10 +147,12 @@ public class Camera extends Entity {
 				camPosition = camPosition.lerp(new Vector2(x, y), dt * speed);
 
 				if (target instanceof Player) {
-					float cx = (mousePosition.x);
-					float cy = (mousePosition.y);
+					camPosition = camPosition.lerp(new Vector2(mousePosition.x, mousePosition.y), dt * speed * 0.25f);
+					Player p = (Player) target;
 
-					camPosition = camPosition.lerp(new Vector2(cx, cy), dt * speed * 0.25f);
+					if (p.room != null && p.room.lastNumEnemies > 0) {
+						camPosition = camPosition.lerp(new Vector2(p.room.getCenter().x * 16 + 8, p.room.getCenter().y * 16 + 8), dt * speed * 0.5f);
+					}
 				}
 			}
 
