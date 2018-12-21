@@ -20,10 +20,10 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -529,6 +529,12 @@ Settings:
 			@Override
 			public void onUpdate() {
 				Settings.side_art = this.getCurrent();
+
+				if (getCurrent() != 0) {
+					final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT) * Ui.upscale;
+
+					Gdx.graphics.setWindowedMode((int) upscale * Display.GAME_WIDTH, (int) upscale * Display.GAME_WIDTH);
+				}
 			}
 		}.setChoices(new String[] {
 			"none", "1/8", "2/8", "3/8", "4/8", "5/8", "6/8", "7/8", "8/8"
