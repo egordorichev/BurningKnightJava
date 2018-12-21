@@ -1,6 +1,7 @@
-package org.rexcellentgames.burningknight.entity.item;
+package org.rexcellentgames.burningknight.entity.item.active;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
 
 public class KillerItem extends Item {
 	@Override

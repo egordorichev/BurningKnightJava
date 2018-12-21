@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
-import org.rexcellentgames.burningknight.entity.item.InfiniteBomb;
+import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;

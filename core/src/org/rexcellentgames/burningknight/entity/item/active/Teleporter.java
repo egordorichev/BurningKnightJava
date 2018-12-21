@@ -1,15 +1,14 @@
-package org.rexcellentgames.burningknight.entity;
+package org.rexcellentgames.burningknight.entity.item.active;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class Teleporter extends Item {
+public class Teleporter extends ActiveItem {
 	{
 		useTime = 30f;
 	}

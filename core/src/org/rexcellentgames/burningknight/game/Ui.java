@@ -10,6 +10,9 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
@@ -451,6 +454,8 @@ public class Ui {
 		}
 	}
 
+	private ItemPickupFx pickupFx;
+
 	public void render() {
 		if (hideUi) {
 			return;
@@ -458,6 +463,22 @@ public class Ui {
 
 		if (coin == null) {
 			coin = Graphics.getTexture("ui-coin");
+		}
+
+		if (Player.instance != null && (Player.instance.pickupFx != null || pickupFx != null)) {
+			if (Player.instance.pickupFx != null) {
+				pickupFx = Player.instance.pickupFx;
+			}
+
+			Item item = pickupFx.item.getItem();
+			String info = item.buildInfo().toString();
+
+			Graphics.layout.setText(Graphics.small, info);
+			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height + 4 - 8) * pickupFx.item.getAl() - (1 - pickupFx.item.getAl()) * Graphics.layout.height);
+
+			if (pickupFx.item.getAl() <= 0.05f) {
+				pickupFx = null;
+			}
 		}
 
 		if (Dungeon.depth == -3 && controls.size() > 0) {

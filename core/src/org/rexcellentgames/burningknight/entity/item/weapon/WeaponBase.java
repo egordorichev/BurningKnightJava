@@ -110,7 +110,7 @@ public class WeaponBase extends Item {
 
 		builder.append("\n[orange]");
 
-		float mod = ((Player) (this.owner)).getDamageModifier();
+		float mod = Player.instance.getDamageModifier();
 
 		int min = Math.max(1, Math.round((this.minDamage + this.level - 1) * mod));
 		int dmg = Math.max(1, Math.round((this.damage + this.level - 1) * mod));

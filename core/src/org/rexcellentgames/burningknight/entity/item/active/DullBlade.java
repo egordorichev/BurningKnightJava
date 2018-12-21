@@ -1,4 +1,4 @@
-package org.rexcellentgames.burningknight.entity;
+package org.rexcellentgames.burningknight.entity.item.active;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;

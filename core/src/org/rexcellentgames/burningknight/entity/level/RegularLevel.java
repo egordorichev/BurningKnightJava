@@ -380,7 +380,7 @@ public abstract class RegularLevel extends Level {
 			rooms.add(room);
 			// rooms.add(TreasureRoomPool.instance.generate());
 
-			if (Random.chance(90) && GameSave.runId != 0 || GameSave.runId == 1) {
+			if ((GameSave.runId == 1 || Random.chance(90)) && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 				Log.info("Adding shop");
 				rooms.add(ShopRoomPool.instance.generate());
 			}

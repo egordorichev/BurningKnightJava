@@ -111,6 +111,10 @@ public class Inventory {
 	public boolean add(ItemHolder holder) {
 		Item item = holder.getItem();
 
+		if (item == null) {
+			return false;
+		}
+
 		if (item.isStackable()) {
 			for (int i = 0; i < this.getSize(); i++) {
 				Item slot = this.getSlot(i);

@@ -1,6 +1,7 @@
-package org.rexcellentgames.burningknight.entity.item;
+package org.rexcellentgames.burningknight.entity.item.active;
 
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.item.Bomb;
 
 public class InfiniteBomb extends Bomb {
 	{

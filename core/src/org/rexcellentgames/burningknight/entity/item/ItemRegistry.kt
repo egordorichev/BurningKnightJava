@@ -1,10 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item
 
-import org.rexcellentgames.burningknight.entity.DullBlade
-import org.rexcellentgames.burningknight.entity.Teleporter
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
+import org.rexcellentgames.burningknight.entity.item.active.*
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
 import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints

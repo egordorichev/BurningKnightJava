@@ -83,7 +83,7 @@ open class ItemHolder : SaveableEntity {
   private var hh: Int = 0
   private var added: Boolean = false
 
-  private var al: Float = 0.toFloat()
+  public var al: Float = 0.toFloat()
   private var sz = 1f
 
   fun createSimpleBody(x: Int, y: Int, w: Int, h: Int, type: BodyDef.BodyType, sensor: Boolean): Body {
