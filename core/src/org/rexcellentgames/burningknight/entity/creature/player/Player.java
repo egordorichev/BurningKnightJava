@@ -104,7 +104,6 @@ public class Player extends Creature {
 	public Type type;
 	public boolean flipRegenFormula;
 	public boolean manaCoins;
-	public int inventorySize = 16;
 	public boolean fireBombs;
 	public boolean iceBombs;
 	public boolean poisonBombs;
@@ -180,6 +179,14 @@ public class Player extends Creature {
 
 	public void setMoney(int money) {
 		this.money = money;
+
+		if (money >= 100) {
+			Achievements.unlock(Achievements.UNLOCK_MONEY_PRINTER);
+		}
+
+		if (money >= 300) {
+			Achievements.unlock(Achievements.COLLECT_300_GOLD);
+		}
 	}
 
 	public void setKeys(int money) {
@@ -744,14 +751,6 @@ public class Player extends Creature {
 				if (this.tryToPickup(item) && !item.getAuto()) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
-					} else {
-						if (this.inventory.getGold() >= 100) {
-							Achievements.unlock(Achievements.UNLOCK_MONEY_PRINTER);
-						}
-
-						if (this.inventory.getGold() >= 300) {
-							Achievements.unlock(Achievements.COLLECT_300_GOLD);
-						}
 					}
 
 					item.done = true;
@@ -1019,7 +1018,7 @@ public class Player extends Creature {
 		}
 
 		this.mana = this.manaMax;
-		this.inventory = new Inventory(this, inventorySize);
+		this.inventory = new Inventory(this);
 		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
 
 		doTp(true);
@@ -1876,7 +1875,6 @@ public class Player extends Creature {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
-		writer.writeInt16((short) this.inventorySize);
 		this.inventory.save(writer);
 
 		writer.writeInt32((int) this.mana);
@@ -1898,8 +1896,6 @@ public class Player extends Creature {
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
-		this.inventorySize = reader.readInt16();
-		this.inventory.resize(inventorySize);
 		this.inventory.load(reader);
 
 		this.mana = reader.readInt32();

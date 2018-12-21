@@ -5,12 +5,11 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
+import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -18,67 +17,28 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.util.ArrayList;
 
 public class Inventory {
 	private Creature creature;
 	private Item[] slots;
+	private ArrayList<Item> spaces = new ArrayList<>();
 	public int active;
 
-	public Inventory(Creature creature, int size) {
+	public Inventory(Creature creature) {
 		this.creature = creature;
-		this.slots = new Item[size];
+		this.slots = new Item[3];
 	}
 
 	public void clear() {
-		this.slots = new Item[this.slots.length];
-	}
-
-	public void resize(int size) {
-		Item[] old = this.slots;
-		this.slots = new Item[size];
-
-		System.arraycopy(old, 0, this.slots, 0, old.length);
-	}
-
-	public int getGold() {
-		int c = 0;
-
-		for (int i = 0; i < getSize(); i++) {
-			Item item = this.getSlot(i);
-
-			if (item instanceof Gold) {
-				c += item.getCount();
-			}
-		}
-
-		return c;
-	}
-
-	public void removeGold(int c) {
-		for (int i = 0; i < getSize(); i++) {
-			Item item = this.getSlot(i);
-
-			if (item instanceof Gold) {
-				int r = item.getCount();
-
-				if (r == c) {
-					this.setSlot(i, null);
-					break;
-				} else if (r < c) {
-					this.setSlot(i, null);
-					c -= r;
-				} else {
-					item.setCount(r - c);
-					return;
-				}
-			}
-		}
+		this.slots = new Item[3];
+		spaces.clear();
 	}
 
 	public void load(FileReader reader) throws IOException {
 		this.active = reader.readByte();
 
-		for (int i = 0; i < this.getSize(); i++) {
+		for (int i = 0; i < 3; i++) {
 			if (reader.readBoolean()) {
 				String type = reader.readString();
 
@@ -95,6 +55,26 @@ public class Inventory {
 				} catch (Exception e) {
 					Dungeon.reportException(e);
 				}
+			}
+		}
+
+		short spaces = reader.readInt16();
+
+		for (int i = 0; i < spaces; i++) {
+			String type = reader.readString();
+
+			try {
+				Class<?> clazz = Class.forName(type);
+				Constructor<?> constructor = clazz.getConstructor();
+				Object object = constructor.newInstance();
+
+				Item item = (Item) object;
+				item.load(reader);
+				item.setOwner(Player.instance);
+
+				this.spaces.add(item);
+			} catch (Exception e) {
+				Dungeon.reportException(e);
 			}
 		}
 	}
@@ -114,28 +94,21 @@ public class Inventory {
 				slot.save(writer);
 			}
 		}
+
+		writer.writeInt16((short) this.spaces.size());
+
+		for (int i = 0; i < spaces.size(); i++) {
+			Item slot = spaces.get(i);
+
+			writer.writeBoolean(true);
+			writer.writeString(slot.getClass().getName());
+
+			slot.save(writer);
+		}
 	}
 
 	public boolean add(ItemHolder holder) {
 		Item item = holder.getItem();
-
-		if (item instanceof Gold) {
-			/*
-			Item slot = this.getSlot(11);
-
-			if (slot == null) {
-				this.setSlot(11, item);
-			} else {
-				slot.setCount(slot.getCount() + item.getCount());
-			}
-
-			item.onPickup();
-			holder.done = true;
-
-			this.onAdd(holder, 11);
-
-			return true;*/
-		}
 
 		if (item.isStackable()) {
 			for (int i = 0; i < this.getSize(); i++) {
@@ -153,31 +126,16 @@ public class Inventory {
 			}
 		}
 
-		for (int i = 0; i < this.getSize(); i++) {
-			if (this.isEmpty(i)) {
-				boolean found = false;
-
-				if (i > 3 && i < 8 && item instanceof Equippable) {
-					for (int j = 4; j < 8; j++) {
-						Item sl = getSlot(j);
-
-						if (sl != null && sl.getClass().isInstance(item)) {
-							found = true;
-							break;
-						}
-					}
-
-					if (found) {
-						continue;
-					}
-
-					((Equippable) item).onEquip(false);
-				}
-
+		for (int i = 0; i < 3; i++) {
+			if (this.isEmpty(i) && (i != 2 || item instanceof ActiveItem)) {
 				this.setSlot(i, item);
 				item.setOwner(Player.instance);
 				item.onPickup();
 				holder.done = true;
+
+				if (item instanceof Equippable) {
+					((Equippable) item).onEquip(false);
+				}
 
 				this.onAdd(holder, i);
 
@@ -185,11 +143,8 @@ public class Inventory {
 			}
 		}
 
-		Log.error("Can't pickup item " + item);
-		Player.instance.playSfx("item_nocash");
-		// Dungeon.area.add(new TextFx("No Space", Player.instance).setColor(Dungeon.ORANGE));
-
-		return false;
+		this.spaces.add(holder.getItem());
+		return true;
 	}
 
 	private void onAdd(ItemHolder holder, int slot) {
@@ -221,7 +176,7 @@ public class Inventory {
 	}
 
 	public boolean find(Class<? extends Item> clazz) {
-		for (int i = 0; i < this.getSize(); i++) {
+		for (int i = 0; i < 3; i++) {
 			if (!this.isEmpty(i)) {
 				if (clazz.isInstance(this.getSlot(i))) {
 					return true;
@@ -229,16 +184,13 @@ public class Inventory {
 			}
 		}
 
-		return false;
+		return findEquipped(clazz);
 	}
 
-
 	public boolean findEquipped(Class<? extends Item> clazz) {
-		for (int i = 4; i < 8; i++) {
-			if (!this.isEmpty(i)) {
-				if (clazz.isInstance(this.getSlot(i))) {
-					return true;
-				}
+		for (Item item : spaces) {
+			if (clazz.isInstance(item)) {
+				return true;
 			}
 		}
 
@@ -246,7 +198,7 @@ public class Inventory {
 	}
 
 	public Item findItem(Class<? extends Item> clazz) {
-		for (int i = 0; i < this.getSize(); i++) {
+		for (int i = 0; i < 3; i++) {
 			if (!this.isEmpty(i)) {
 				if (clazz.isInstance(this.getSlot(i))) {
 					return this.getSlot(i);
@@ -254,11 +206,17 @@ public class Inventory {
 			}
 		}
 
+		for (Item item : spaces) {
+			if (clazz.isInstance(item)) {
+				return item;
+			}
+		}
+
 		return null;
 	}
 
 	public Item remove(Class<? extends Item> clazz) {
-		for (int i = 0; i < this.getSize(); i++) {
+		for (int i = 0; i < 3; i++) {
 			if (!this.isEmpty(i)) {
 				Item item = this.getSlot(i);
 
@@ -274,6 +232,20 @@ public class Inventory {
 			}
 		}
 
+		for (int i = spaces.size() - 1; i >= 0; i--) {
+			Item item = spaces.get(i);
+
+			if (clazz.isInstance(item)) {
+				item.setCount(item.getCount() - 1);
+
+				if (item.getCount() == 0) {
+					spaces.remove(item);
+				}
+
+				return item;
+			}
+		}
+
 		return null;
 	}
 
@@ -285,12 +257,16 @@ public class Inventory {
 		return this.slots[i];
 	}
 
+	public Item getSpace(int i) {
+		return this.spaces.get(i);
+	}
+
 	public void setSlot(int i, Item item) {
 		this.slots[i] = item;
 	}
 
 	public int getSize() {
-		return this.slots.length;
+		return 3;
 	}
 
 	public Creature getCreature() {

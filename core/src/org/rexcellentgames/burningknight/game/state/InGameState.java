@@ -456,6 +456,8 @@ public class InGameState extends State {
 
 						if (Dungeon.depth == -2) {
 							Dungeon.goToSelect = true;
+						} else if (Dungeon.depth == 4) {
+							Dungeon.game.setState(new WonState());
 						} else {
 							Dungeon.goToLevel(Dungeon.depth + 1);
 							Player.instance.rotating = false;

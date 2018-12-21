@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Noise;
 import org.rexcellentgames.burningknight.Settings;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -209,8 +208,8 @@ public class Camera extends Entity {
 
 			if (pushAm > 0) {
 				float v = pushAm * pushAm * 0.3f;
-				mx += (float) Math.cos(pushA) * v;
-				my += (float) Math.sin(pushA) * v;
+				mx += (float) Math.cos(pushA - Math.PI) * v;
+				my += (float) Math.sin(pushA - Math.PI) * v;
 			}
 
 			game.position.add(mx, my, 0);
