@@ -15,12 +15,15 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
+import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -795,8 +798,21 @@ Settings:
 		}.setOn(Settings.gore)));
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("vegan_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 7)) {
+			private int clicks;
+
 			@Override
 			public void onClick() {
+				clicks++;
+
+				if (clicks == 15) {
+					for (String id : NpcSaveRoom.saveOrder) {
+						GlobalSave.put("npc_" + id + "_saved", true);
+					}
+
+					GlobalSave.put("all_npcs_saved", true);
+					Audio.playSfx("curse_lamp", 1f, 1f);
+				}
+
 				Settings.vegan = !Settings.vegan;
 				super.onClick();
 			}
