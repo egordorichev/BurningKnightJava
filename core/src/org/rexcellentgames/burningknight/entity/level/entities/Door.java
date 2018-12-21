@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.*;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.level.Level;
@@ -586,7 +587,7 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (entity instanceof RollingSpike || entity instanceof Fly) {
+		if (entity instanceof RollingSpike || entity instanceof Fly || entity instanceof BombEntity) {
 			return true;
 		}
 

@@ -67,11 +67,11 @@ public class HeartFx extends SaveableEntity {
 		} else {
 			float r = Random.newFloat(1f);
 
-			if (r < 0.45f) {
+			if (r < 0.5f) {
 				this.type = Type.RED_HALF;
-			} else if (r < 0.8) {
+			} else if (r < 0.85) {
 				this.type = Type.RED;
-			} else if (r < 0.95) {
+			} else if (r < 0.98) {
 				this.type = Type.IRON;
 			} else {
 				this.type = Type.GOLDEN;
