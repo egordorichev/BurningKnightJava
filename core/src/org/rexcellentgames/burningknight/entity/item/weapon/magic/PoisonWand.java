@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.magic;
 import box2dLight.PointLight;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
@@ -40,15 +41,13 @@ public class PoisonWand extends Wand {
 
 				while (weight > 0) {
 					ManaFx fx = new ManaFx();
-
-					fx.x = x- velocity.x * 0.06f;
-					fx.y = y - velocity.y * 0.06f;
+fx.x = x; 					fx.y = y;
 					fx.half = weight == 1;
 					fx.poof();
 
 					weight -= fx.half ? 1 : 2;
 					Dungeon.area.add(fx);
-					LevelSave.add(fx);
+					LevelSave.add(fx);fx.body.setLinearVelocity(new Vector2(-this.velocity.x * 0.5f, -this.velocity.y * 0.5f));
 				}
 			}
 			

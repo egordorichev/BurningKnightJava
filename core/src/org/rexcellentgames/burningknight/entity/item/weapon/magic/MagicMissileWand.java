@@ -41,13 +41,13 @@ public class MagicMissileWand extends Wand {
 
 					fx.x = x;
 					fx.y = y;
+
 					fx.half = weight == 1;
 					fx.poof();
 
 					weight -= fx.half ? 1 : 2;
 					Dungeon.area.add(fx);
 					LevelSave.add(fx);
-
 					fx.body.setLinearVelocity(new Vector2(-this.velocity.x * 0.5f, -this.velocity.y * 0.5f));
 				}
 			}

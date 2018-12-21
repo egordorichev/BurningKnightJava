@@ -430,7 +430,7 @@ public class BurningKnight extends Boss {
 			float dy = this.y + 8 - Player.instance.y;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : Settings.sfx * MathUtils.clamp(0, 1, (100 - d) / 100f));
+			sfx.setVolume(sid, this.state.equals("unactive") ? 0 : Settings.sfx * MathUtils.clamp(0, 1, (200 - d) / 200f));
 		} else {
 			sfx.setVolume(sid, 0);
 		}
@@ -764,8 +764,9 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			if (this.t >= 1f) {
 				int i = lastAttack % 3;
+				self.become("spawnAttack");
 
-				if (self.pattern == 0) {
+				/*if (self.pattern == 0) {
 					if (i == 0) {
 						self.become("laserAttack");
 					} else if (i == 1) {
@@ -792,7 +793,7 @@ public class BurningKnight extends Boss {
 						self.become("laserAimAttack");
 						pattern = Random.newInt(3);
 					}
-				}
+				}*/
 
 				lastAttack++;
 
@@ -1171,6 +1172,7 @@ public class BurningKnight extends Boss {
 			center.x *= 16;
 			center.y *= 16;
 
+			MobPool.instance.initForFloor();
 			MobPool.instance.initForRoom();
 		}
 
