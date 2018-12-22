@@ -43,7 +43,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
-import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
+import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;

@@ -1,8 +1,8 @@
-package org.rexcellentgames.burningknight.entity.item;
+package org.rexcellentgames.burningknight.entity.item.active;
 
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class SharpBlade extends Item {
+public class SharpBlade extends ActiveItem {
 	@Override
 	public void use() {
 		if (delay > 0) {
