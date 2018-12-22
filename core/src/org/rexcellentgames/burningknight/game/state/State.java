@@ -516,14 +516,14 @@ Settings:
 			}
 		}));
 
-		currentSettings.add(pauseMenuUi.add(new UiCheckbox("borderless_window", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
+		/*currentSettings.add(pauseMenuUi.add(new UiCheckbox("borderless_window", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
 			@Override
 			public void onClick() {
 				Settings.borderless = !Settings.borderless;
 				Gdx.graphics.setUndecorated(Settings.borderless);
 				super.onClick();
 			}
-		}.setOn(Settings.borderless)));
+		}.setOn(Settings.borderless)));*/
 
 		currentSettings.add(pauseMenuUi.add(new UiChoice("side_art", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
 			@Override

@@ -106,7 +106,7 @@ public class GameSave {
 
 		// fixme: remove
 		if (Version.debug) {
-			runId = 0;
+			// runId = 0;
 		}
 
 		ChangableRegistry.generate();

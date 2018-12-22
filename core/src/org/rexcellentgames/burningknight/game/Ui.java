@@ -471,6 +471,7 @@ public class Ui {
 			}
 
 			Item item = pickupFx.item.getItem();
+			item.setOwner(Player.instance);
 			String info = item.buildInfo().toString();
 
 			Graphics.layout.setText(Graphics.small, info);
@@ -478,6 +479,8 @@ public class Ui {
 
 			if (pickupFx.item.getAl() <= 0.05f) {
 				pickupFx = null;
+			} else if (pickupFx.done) {
+				pickupFx.item.setAl(pickupFx.item.getAl() - Gdx.graphics.getDeltaTime() * 3);
 			}
 		}
 

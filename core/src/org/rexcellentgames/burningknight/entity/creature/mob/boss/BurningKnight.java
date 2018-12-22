@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.*;
@@ -346,6 +347,18 @@ public class BurningKnight extends Boss {
 				ArrayList<Item> items = new ArrayList<>();
 				items.add(new BurningKey());
 				items.add(Chest.generate(ItemRegistry.Quality.IRON_PLUS, Random.chance(50)));
+
+				for (int i = 0; i < Random.newInt(1, 4); i++) {
+					if (Player.instance != null && !Player.instance.isDead()) {
+						HeartFx fx = new HeartFx();
+
+						fx.x = x + w / 2 + Random.newFloat(-4, 4);
+						fx.y = y + h / 2 + Random.newFloat(-4, 4);
+
+						Dungeon.area.add(fx);
+						LevelSave.add(fx);
+					}
+				}
 
 				for (Item item : items) {
 					ItemHolder holder = new ItemHolder(item);

@@ -138,19 +138,19 @@ public class Inventory {
 				item.onPickup();
 				holder.done = true;
 
-				if (item instanceof Autouse) {
-					int c = item.getCount();
-					for (int j = 0; j < c; j++) {
-						item.use();
-					}
-				}
-
 				if (item instanceof Equippable) {
 					((Equippable) item).onEquip(false);
 				}
 
 				this.onAdd(holder, i);
 				return true;
+			}
+		}
+
+		if (item instanceof Autouse) {
+			int c = item.getCount();
+			for (int j = 0; j < c; j++) {
+				item.use();
 			}
 		}
 

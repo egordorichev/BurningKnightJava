@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -179,6 +180,7 @@ public class ItemPickupFx extends Entity {
 
 				if (this.player.tryToPickup(this.item)) {
 					this.erase();
+					item.done = true;
 					LevelSave.remove(item);
 					if (item.getItem() instanceof BurningKey) {
 						Player.instance.hasBkKey = true;

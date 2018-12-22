@@ -46,6 +46,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
+import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
@@ -345,6 +346,16 @@ public class Player extends Creature {
 				this.give(new Sword());
 			}
 
+			if (this.type != Type.WIZARD) {
+				this.manaMax -= 2;
+				this.mana -= 2;
+			}
+
+			if (this.type == Type.RANGER) {
+				this.hpMax = 4;
+				this.hp = 4;
+			}
+
 			if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
 				this.give(new HealingPotion());
 			}
@@ -356,16 +367,6 @@ public class Player extends Creature {
 			if (GlobalSave.isTrue(ExtraHeart.ID)) {
 				this.hpMax += 2;
 				this.hp += 2;
-			}
-
-			if (this.type != Type.WIZARD) {
-				this.manaMax -= 2;
-				this.mana -= 2;
-			}
-
-			if (this.type == Type.RANGER) {
-				this.hpMax = 4;
-				this.hp = 4;
 			}
 		}
 
@@ -908,7 +909,7 @@ public class Player extends Creature {
 					this.playSfx("pickup_item");
 					return false;
 				}
-			} else {
+			} else if (item.getItem() instanceof ActiveItem) {
 				if (inventory.getSlot(2) == null) {
 					inventory.setSlot(2, item.getItem());
 
@@ -937,6 +938,13 @@ public class Player extends Creature {
 					this.playSfx("pickup_item");
 					return false;
 				}
+			} else {
+				Item it = item.getItem();
+				it.setOwner(this);
+				it.onPickup();
+				this.playSfx("pickup_item");
+				inventory.add(item);
+				return true;
 			}
 		}
 
