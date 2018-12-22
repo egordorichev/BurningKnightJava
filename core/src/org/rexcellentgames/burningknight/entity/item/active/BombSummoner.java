@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
-public class BombSummoner extends Item {
+public class BombSummoner extends ActiveItem {
 	{
 		useTime = 60f;
 	}
