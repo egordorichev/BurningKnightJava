@@ -31,7 +31,7 @@ public class FireWand extends Wand {
 		description = Locale.get("fire_wand_desc");
 		sprite = "item-wand_g";
 		damage = 2;
-		mana = 2;
+		mana = 4;
 	}
 
 	public static TextureRegion region = Graphics.getTexture("particle-big");

@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -46,6 +47,9 @@ public class ManaFx extends SaveableEntity {
 
 		this.w = 14;
 		this.h = region.getRegionHeight();
+
+		x += Random.newFloat(4) - 2;
+		y += Random.newFloat(4) - 2;
 
 		body = World.createCircleBody(this, 0, 0, Math.min(w, h) / 2, BodyDef.BodyType.DynamicBody, false);
 		body.setTransform(this.x, this.y, 0);
@@ -180,6 +184,10 @@ public class ManaFx extends SaveableEntity {
 			|| (entity == null && Player.instance.room != null && Player.instance.room.lastNumEnemies == 0)) {
 
 			return false;
+		}
+
+		if (entity instanceof ManaFx) {
+			return true;
 		}
 
 		return super.shouldCollide(entity, contact, fixture);

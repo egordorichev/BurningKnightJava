@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
@@ -36,7 +37,7 @@ public class Thief extends Mob {
 	}
 
 	{
-		hpMax = 10;
+		hpMax = 20;
 		w = 15;
 
 		idle = getAnimation().get("idle").randomize();
@@ -128,6 +129,8 @@ public class Thief extends Mob {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
+
+		// Graphics.print(this.state, Graphics.small, this.x, this.y);
 	}
 
 	public class ThiefState extends Mob.State<Thief> {
@@ -205,14 +208,8 @@ public class Thief extends Mob {
 			if (self.lastSeen == null) {
 				return;
 			} else {
-				if (this.moveTo(self.lastSeen, 20f, ATTACK_DISTANCE)) {
-					if (self.target != null) {
-						self.become("preattack");
-					} else {
-						self.noticeSignT = 0f;
-						self.hideSignT = 2f;
-						self.become("idle");
-					}
+				if (this.moveTo(Player.instance, 40f, ATTACK_DISTANCE)) {
+					self.become("preattack");
 
 					return;
 				}
@@ -272,7 +269,7 @@ public class Thief extends Mob {
 		public void onEnter() {
 			super.onEnter();
 
-			delay = Random.newFloat(2f, 5f);
+			delay = Random.newFloat(2f, 4f);
 			self.setStat("block_chance", 0.1f);
 		}
 
@@ -317,11 +314,25 @@ public class Thief extends Mob {
 	}
 
 	public class AttackState extends ThiefState {
+		private int count;
+		private float delay;
+
 		@Override
-		public void onEnter() {
-			super.onEnter();
-			self.sword.use();
-			self.become("unchase");
+		public void update(float dt) {
+			super.update(dt);
+
+			if (delay <= 0) {
+				if (count >= 3) {
+					self.become("unchase");
+					return;
+				}
+
+				delay = 0.5f;
+				count ++;
+				self.sword.use();
+			}
+
+			delay -= dt;
 		}
 	}
 
@@ -362,7 +373,7 @@ public class Thief extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1.3f) {
+			if (this.t >= 0.5f) {
 				self.become("attack");
 			}
 		}

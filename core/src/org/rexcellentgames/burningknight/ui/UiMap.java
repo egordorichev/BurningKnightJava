@@ -617,7 +617,7 @@ public class UiMap extends UiEntity {
 			for (int y = Math.max(0, sy); y < Math.min(fy, Level.getHeight()); y++) {
 				byte t = Dungeon.level.get(x, y);
 
-				if (t != Terrain.WALL && t != Terrain.CRACK) {
+				if (t >= 0 && t != Terrain.WALL && t != Terrain.CRACK) {
 					if (Dungeon.level.explored(x, y)) {
 						Graphics.shape.rect(xx * s - o + mx, yy * s - o + my, s + o * 2, s + o * 2);
 					}
@@ -640,7 +640,7 @@ public class UiMap extends UiEntity {
 					byte l = Dungeon.level.liquidData[i];
 					byte t = Dungeon.level.data[i];
 
-					if (t != Terrain.WALL && t != Terrain.CRACK) {
+					if (t >= 0 && t != Terrain.WALL && t != Terrain.CRACK) {
 						if (l == 0 || l == Terrain.COBWEB || l == Terrain.EMBER) {
 							l = t;
 						}

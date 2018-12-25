@@ -866,7 +866,7 @@ public class Mob extends Creature {
 	@Override
 	public Point getAim() {
 		if (this.target != null) {
-			return new Point(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
+			return new Point(Player.instance.x + 8, Player.instance.y + 8);
 		} else {
 			return new Point(this.x + this.w, this.y);
 		}

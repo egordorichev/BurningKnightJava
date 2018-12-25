@@ -73,6 +73,10 @@ public class Inventory {
 				item.load(reader);
 				item.setOwner(Player.instance);
 
+				if (item instanceof Equippable) {
+					((Equippable) item).onEquip(true);
+				}
+
 				this.spaces.add(item);
 			} catch (Exception e) {
 				Dungeon.reportException(e);
@@ -152,8 +156,12 @@ public class Inventory {
 			for (int j = 0; j < c; j++) {
 				item.use();
 			}
+		} else if (item instanceof Equippable) {
+			((Equippable) item).onEquip(false);
 		}
 
+
+		this.onAdd(holder, 0);
 		this.spaces.add(holder.getItem());
 		return true;
 	}

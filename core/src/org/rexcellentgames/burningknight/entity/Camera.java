@@ -203,7 +203,7 @@ public class Camera extends Entity {
 			}
 
 			if (Dungeon.blood > 0) {
-				ma += (Noise.instance.noise(t * 3 + 3) * Dungeon.blood * 10);
+				ma += (Noise.instance.noise(t * 3 + 3) * Dungeon.blood * 6);
 			}
 
 			if (pushAm > 0) {

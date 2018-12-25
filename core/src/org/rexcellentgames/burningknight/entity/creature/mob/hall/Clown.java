@@ -34,7 +34,7 @@ public class Clown extends Mob {
 	}
 
 	{
-		hpMax = 6;
+		hpMax = 9;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
@@ -261,7 +261,7 @@ public class Clown extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (t >= 15f) {
+			if (t >= 3f) {
 				self.become("chase");
 			}
 		}
