@@ -16,6 +16,8 @@ public class Fly extends Mob {
 	}
 
 	private AnimationData idle;
+	private AnimationData hurt;
+	private AnimationData killed;
 
 	{
 		hpMax = 1;
@@ -26,6 +28,8 @@ public class Fly extends Mob {
 	@Override
 	public void deathEffects() {
 		super.deathEffects();
+
+		deathEffect(killed);
 		body.setLinearVelocity(new Vector2());
 		poof();
 	}
@@ -40,6 +44,10 @@ public class Fly extends Mob {
 
 		idle = getAnimation().get("idle");
 		idle.randomize();
+		animation = idle;
+
+		hurt = getAnimation().get("hurt");
+		killed = getAnimation().get("dead");
 	}
 
 	protected void createBody() {
@@ -52,7 +60,7 @@ public class Fly extends Mob {
 		super.update(dt);
 
 		if (!freezed) {
-			idle.update(dt * Mob.speedMod);
+			animation.update(dt * Mob.speedMod);
 		}
 
 		common();
@@ -60,8 +68,16 @@ public class Fly extends Mob {
 
 	@Override
 	public void render() {
-		renderWithOutline(idle);
+		if (invt > 0) {
+			animation = hurt;
+		} else {
+			animation = idle;
+		}
+
+		renderWithOutline(animation);
 	}
+
+	private AnimationData animation;
 
 	@Override
 	public void destroy() {

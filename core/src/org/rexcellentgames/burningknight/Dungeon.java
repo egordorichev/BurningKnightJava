@@ -12,6 +12,11 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.codedisaster.steamworks.SteamAPI;
 import com.codedisaster.steamworks.SteamException;
+import net.arikia.dev.drpc.DiscordEventHandlers;
+import net.arikia.dev.drpc.DiscordRPC;
+import net.arikia.dev.drpc.DiscordRichPresence;
+import net.arikia.dev.drpc.DiscordUser;
+import net.arikia.dev.drpc.callbacks.ReadyCallback;
 import org.rexcellentgames.burningknight.assets.Assets;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -249,25 +254,33 @@ public class Dungeon extends ApplicationAdapter {
 	public static boolean steam = true;
 
 	private static void initDiscord() {
-		/*DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler(new ReadyCallback() {
+		if (OS.macos) {
+			return;
+		}
+
+		DiscordEventHandlers handlers = new DiscordEventHandlers.Builder().setReadyEventHandler(new ReadyCallback() {
 			@Override
 			public void apply(DiscordUser user) {
 
 			}
 		}).build();
 
-		DiscordRPC.discordInitialize("459603244256198657", handlers, true);*/
+		DiscordRPC.discordInitialize("459603244256198657", handlers, true);
 	}
 
 	private static void shutdownDiscord() {
-		// DiscordRPC.discordShutdown();
+		if (OS.macos) {
+			DiscordRPC.discordShutdown();
+		}
 	}
 
 	public static void buildDiscordBadge() {
-		/*if (Dungeon.game.getState() instanceof MainMenuState) {
+		if (OS.macos) {
+			return;
+		}
+
+		if (Dungeon.game.getState() instanceof MainMenuState) {
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Main menu").setDetails(Version.string).setBigImage("hero_mercy", "").setSmallImage("hero_mercy", "").build());
-		} else if (Dungeon.game.getState() instanceof InventoryState) {
-			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder("Portal").setDetails(Version.string).setBigImage("hero_mercy", "").setSmallImage("hero_mercy", "").build());
 		} else if (Dungeon.level != null) {
 			String type = Player.instance.getType().toString().toLowerCase();
 			type = type.substring(0, 1).toUpperCase() + type.substring(1);
@@ -275,7 +288,7 @@ public class Dungeon extends ApplicationAdapter {
 			DiscordRPC.discordUpdatePresence(new DiscordRichPresence.Builder(Dungeon.level.formatDepth()).setDetails(Version.string)
 				.setBigImage("hero_mercy", type).setTimestamps(startTime, 0)
 				.setSmallImage("hero_mercy", type).build());
-		}*/
+		}
 	}
 
 	private static long startTime = System.currentTimeMillis() / 1000;
@@ -619,7 +632,6 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.draw(texture, -Display.GAME_WIDTH * upscale / 2, (flip * -1) * Display.GAME_HEIGHT * upscale / 2, (Display.GAME_WIDTH) * upscale,
 			(flip) * (Display.GAME_HEIGHT) * upscale);
 		Graphics.batch.setProjectionMatrix(Graphics.batch.getProjectionMatrix().rotate(0, 0, 1, -Camera.ma));
-
 
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);

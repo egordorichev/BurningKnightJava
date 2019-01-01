@@ -28,6 +28,10 @@ public class Shell extends Entity {
 	private float t;
 	private boolean tweened;
 
+	{
+		alwaysActive = true;
+	}
+
 	@Override
 	public void init() {
 		super.init();

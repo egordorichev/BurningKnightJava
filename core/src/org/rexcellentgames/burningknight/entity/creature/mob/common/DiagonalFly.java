@@ -51,7 +51,7 @@ public class DiagonalFly extends Fly {
 			this.velocity.y = this.body.getLinearVelocity().y;
 
 			float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
-			this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod, ((float) Math.sin(a)) * 32 * Mob.speedMod);
+			this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y);
 		}
 	}
 

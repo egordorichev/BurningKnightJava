@@ -1,0 +1,137 @@
+{ "frames": {
+   "actor_wombat 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 16, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 10, "w": 16, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 1.ase": {
+    "frame": { "x": 16, "y": 0, "w": 15, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 10, "w": 15, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 2.ase": {
+    "frame": { "x": 31, "y": 0, "w": 13, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 9, "w": 13, "h": 14 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 3.ase": {
+    "frame": { "x": 44, "y": 0, "w": 15, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 10, "w": 15, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 4.ase": {
+    "frame": { "x": 59, "y": 0, "w": 16, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 10, "w": 16, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 300
+   },
+   "actor_wombat 5.ase": {
+    "frame": { "x": 75, "y": 0, "w": 17, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 9, "w": 17, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 300
+   },
+   "actor_wombat 6.ase": {
+    "frame": { "x": 92, "y": 0, "w": 18, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 8, "w": 18, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 300
+   },
+   "actor_wombat 7.ase": {
+    "frame": { "x": 110, "y": 0, "w": 18, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 8, "w": 18, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 1000
+   },
+   "actor_wombat 8.ase": {
+    "frame": { "x": 128, "y": 0, "w": 17, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 9, "w": 17, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 1000
+   },
+   "actor_wombat 9.ase": {
+    "frame": { "x": 145, "y": 0, "w": 16, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 10, "w": 16, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 1000
+   },
+   "actor_wombat 10.ase": {
+    "frame": { "x": 161, "y": 0, "w": 8, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 13, "y": 13, "w": 8, "h": 8 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 11.ase": {
+    "frame": { "x": 169, "y": 0, "w": 9, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 12, "y": 12, "w": 9, "h": 9 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 12.ase": {
+    "frame": { "x": 178, "y": 0, "w": 9, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 12, "y": 12, "w": 9, "h": 7 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 13.ase": {
+    "frame": { "x": 187, "y": 0, "w": 13, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 9, "w": 13, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_wombat 14.ase": {
+    "frame": { "x": 200, "y": 0, "w": 13, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 9, "w": 13, "h": 13 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "RGBA8888",
+  "size": { "w": 213, "h": 16 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "sucking", "from": 4, "to": 6, "direction": "pingpong" },
+   { "name": "blowing", "from": 7, "to": 9, "direction": "forward" },
+   { "name": "dead", "from": 10, "to": 12, "direction": "forward" },
+   { "name": "hurt", "from": 13, "to": 14, "direction": "forward" }
+  ]
+ }
+}

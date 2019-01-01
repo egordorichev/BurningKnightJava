@@ -1,5 +1,8 @@
 package org.rexcellentgames.burningknight.entity.fx;
 
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -8,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
@@ -21,7 +25,7 @@ public class MissileProjectile extends BulletProjectile {
 
 	@Override
 	public void init() {
-		this.letter = "bullet-missile_lined";
+		this.letter = "bullet-missile_burning";
 		this.angle = (float) Math.PI;
 		this.owner.playSfx("missile");
 		this.startY = this.y;
@@ -129,7 +133,32 @@ public class MissileProjectile extends BulletProjectile {
 
 	@Override
 	public void render() {
+		TextureRegion reg = sprite;
+		Texture texture = reg.getTexture();
+
+		Graphics.batch.end();
+		RectFx.shader.begin();
+		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= 4f && (this.t - 4f) % 0.3f > 0.15f) ? 1 : 0);
+
+		RectFx.shader.setUniformf("r", 1f);
+		RectFx.shader.setUniformf("g", 1f);
+		RectFx.shader.setUniformf("b", 1f);
+		RectFx.shader.setUniformf("a", 1);
+		RectFx.shader.setUniformf("remove", 0f);
+
+		RectFx.shader.setUniformf("pos", new Vector2(((float) reg.getRegionX()) / texture.getWidth(), ((float) reg.getRegionY()) / texture.getHeight()));
+		RectFx.shader.setUniformf("size", new Vector2(((float) reg.getRegionWidth()) / texture.getWidth(), ((float) reg.getRegionHeight()) / texture.getHeight()));
+
+		RectFx.shader.end();
+
+		Graphics.batch.setShader(RectFx.shader);
+		Graphics.batch.begin();
+
 		Graphics.render(sprite, x, y + sprite.getRegionHeight() / 2, 0, sprite.getRegionWidth() / 2, sprite.getRegionHeight() / 2, false, false, 1, up ? 1 : -1);
+
+		Graphics.batch.end();
+		Graphics.batch.setShader(null);
+		Graphics.batch.begin();
 	}
 
 	@Override
