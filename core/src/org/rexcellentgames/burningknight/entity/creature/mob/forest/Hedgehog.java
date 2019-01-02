@@ -93,7 +93,7 @@ public class Hedgehog extends Mob {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Level || entity == null) {
-			if (state.equals("roll")) {
+			if (state.equals("roll") && body != null) {
 				body.setLinearVelocity(new Vector2());
 				become("uncircle");
 			}
