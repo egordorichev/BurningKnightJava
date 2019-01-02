@@ -857,11 +857,11 @@ public class InGameState extends State {
 			Camera.ui.update();
 		}
 
-		Ui.ui.renderCursor();
-
 		if (portalMod < 1) {
 			renderPortalOpen();
 		}
+
+		Ui.ui.renderCursor();
 	}
 
 	private void setupUi() {

@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.pool;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.BurningMan;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
@@ -90,6 +91,7 @@ public class MobPool {
 
 		add(0.5f, -1, MovingFly.class);
 		add(1f, -1, DiagonalFly.class);
+		add(0.3f, -1, BurningMan.class);
 
 		if (Dungeon.depth > 1) {
 			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);

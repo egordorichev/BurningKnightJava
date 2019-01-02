@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.BurningMan;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.Achievements;
 
@@ -54,7 +55,9 @@ public class BurningBuff extends Buff {
 		}
 
 		if (progress >= 1f) {
-			this.owner.modifyHp(this.owner instanceof Player ? -1 : -2, null, true);
+			if (!(this.owner instanceof BurningMan)) {
+				this.owner.modifyHp(this.owner instanceof Player ? -1 : -2, null, true);
+			}
 
 			if (!mob) {
 				did = true;
