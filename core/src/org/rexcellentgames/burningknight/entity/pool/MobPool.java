@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Skeleton;
+import org.rexcellentgames.burningknight.entity.creature.mob.forest.Hedgehog;
 import org.rexcellentgames.burningknight.entity.creature.mob.forest.Wombat;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
@@ -116,14 +117,14 @@ public class MobPool {
 		}
 
 		if (Dungeon.level instanceof ForestLevel) {
-			add(1f, -1, Wombat.class);
+			add(1f, 1, Wombat.class);
+			add(1f, -1, Hedgehog.class);
 		}
 
 		// TMP
 		if (Dungeon.level instanceof LibraryLevel ||
 			Dungeon.level instanceof TechLevel ||
 			Dungeon.level instanceof CreepLevel ||
-			Dungeon.level instanceof ForestLevel ||
 			Dungeon.level instanceof BloodLevel) {
 
 			add(1f, -1, Knight.class);

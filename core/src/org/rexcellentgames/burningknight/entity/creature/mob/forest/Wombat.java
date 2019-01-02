@@ -98,8 +98,8 @@ public class Wombat extends Mob {
 	public void update(float dt) {
 		super.update(dt);
 
-		if (!freezed) {
-			animation.update(state.equals("blowing") ? dt * 0.3f : dt);
+		if (!freezed && (state.equals("idle") || state.equals("tired"))) {
+			animation.update(dt);
 		}
 
 		if (body != null) {
@@ -108,6 +108,10 @@ public class Wombat extends Mob {
 
 			float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
 			this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y);
+		}
+
+		if (target != null && target.room != room) {
+			become("idle");
 		}
 
 		super.common();
@@ -168,7 +172,7 @@ public class Wombat extends Mob {
 				self.body.setLinearVelocity(vel);
 			}
 
-			if (Random.chance(10)) {
+			if (Random.chance(30)) {
 				BulletProjectile ball = new BulletProjectile();
 				boolean atom = Random.chance(40);
 
@@ -236,7 +240,7 @@ public class Wombat extends Mob {
 			super.update(dt);
 			checkForPlayer();
 
-			if (self.target != null) {
+			if (self.target != null && self.target.room == self.room) {
 				self.become("sucking");
 			}
 		}

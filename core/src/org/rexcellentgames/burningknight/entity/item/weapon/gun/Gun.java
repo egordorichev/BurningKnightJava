@@ -509,6 +509,8 @@ public class Gun extends WeaponBase {
 		sendBullet(an, xx, yy, new BulletProjectile());
 	}
 
+	protected String bulletSprite;
+
 	protected void sendBullet(float an, float xx, float yy, BulletProjectile bullet) {
 		float a = (float) Math.toDegrees(an);
 
@@ -519,7 +521,7 @@ public class Gun extends WeaponBase {
 			  b.bulletName = "bullet-" + b.bulletName;
 			}
 
-      bullet.sprite = Graphics.getTexture(b.bulletName);
+      bullet.sprite = bulletSprite == null ? Graphics.getTexture(b.bulletName) : Graphics.getTexture(bulletSprite);
 			
 			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
 			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
