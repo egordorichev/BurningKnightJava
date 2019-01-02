@@ -64,7 +64,7 @@ public class DiagonalShotFly extends DiagonalFly {
 			ball.damage = 2;
 			ball.bad = true;
 
-			ball.letter = "bullet-nano";
+			ball.letter = "bullet-atom";
 			Dungeon.area.add(ball);
 		}
 	}
