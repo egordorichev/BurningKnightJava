@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Skeleton;
 import org.rexcellentgames.burningknight.entity.creature.mob.forest.Hedgehog;
+import org.rexcellentgames.burningknight.entity.creature.mob.forest.Treeman;
 import org.rexcellentgames.burningknight.entity.creature.mob.forest.Wombat;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
@@ -121,6 +122,8 @@ public class MobPool {
 		if (Dungeon.level instanceof ForestLevel) {
 			add(1f, 1, Wombat.class);
 			add(1f, -1, Hedgehog.class);
+			// fixme: nerf the chance to ~0.5f and set max to 1
+			add(100000000f, -1, Treeman.class);
 		}
 
 		// TMP
