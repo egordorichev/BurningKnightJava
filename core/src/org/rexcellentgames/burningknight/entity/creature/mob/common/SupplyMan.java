@@ -3,16 +3,20 @@ package org.rexcellentgames.burningknight.entity.creature.mob.common;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Random;
 
-public class BurningMan extends Mob {
-	public static Animation animations = Animation.make("actor-burningman", "-gray");
+import java.util.ArrayList;
+
+public class SupplyMan extends Mob {
+	public static Animation animations = Animation.make("actor-supply", "-key");
 	private AnimationData run;
+	private AnimationData idle;
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
@@ -22,19 +26,22 @@ public class BurningMan extends Mob {
 	}
 
 	{
-		hpMax = 6;
+		hpMax = 2;
+		w = 10;
 
 		run = getAnimation().get("run");
+		idle = getAnimation().get("idle");
+		killed = getAnimation().get("dead");
 		hurt = getAnimation().get("hurt");
-		killed = getAnimation().get("death");
 		animation = run;
 	}
+
 
 	@Override
 	public void init() {
 		super.init();
 
-		this.body = this.createSimpleBody(4, 3, 8, 9, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(0, 0, 10, 14, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
@@ -50,12 +57,16 @@ public class BurningMan extends Mob {
 			this.flipped = this.velocity.x < 0;
 		}
 
+		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
+
 		if (this.dead) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
-		} else {
+		} else if (v > 1f) {
 			this.animation = run;
+		} else {
+			this.animation = idle;
 		}
 
 		this.renderWithOutline(this.animation);
@@ -64,18 +75,16 @@ public class BurningMan extends Mob {
 	}
 
 	@Override
+	public void renderShadow() {
+		Graphics.shadow(x, y + 4, w, h, 0);
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 
 		if (!freezed) {
 			animation.update(dt);
-		}
-
-		if (this.target != null && this.target.room == this.room && !this.hasBuff(BurningBuff.class)) {
-			BurningBuff burningBuff = new BurningBuff();
-			burningBuff.infinite = true;
-
-			addBuff(burningBuff);
 		}
 
 		super.common();
@@ -96,26 +105,53 @@ public class BurningMan extends Mob {
 	}
 
 	@Override
-	protected State getAi(String state) {
-		return new RunningState();
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> items = new ArrayList<>();
+
+		items.add(new KeyC());
+
+		return items;
 	}
 
-	public class RunningState extends Mob.State<BurningMan> {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			t = Random.newFloat(10);
+	@Override
+	protected State getAi(String state) {
+		switch (state) {
+			case "idle": case "roam": case "alerted": return new IdleState();
+			case "run": return new RunState();
 		}
 
+		return super.getAi(state);
+	}
+
+	public class SupplyState extends Mob.State<SupplyMan> {
+
+	}
+
+	public class IdleState extends SupplyState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (self.target == null) {
-				return;
+			if (self.target != null && self.onScreen && self.canSee(self.target)) {
+				self.become("run");
+				self.noticeSignT = 2f;
+				self.playSfx("enemy_alert");
 			}
+		}
+	}
 
-			moveTo(self.target, 20f, 8f);
+	public class RunState extends SupplyState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			moveFrom(Player.instance, 20f, 512f);
+
+			if (!self.onScreen) {
+				self.poof();
+				Player.instance.playSfx("head_explode");
+				self.done = true;
+			}
 		}
 	}
 }

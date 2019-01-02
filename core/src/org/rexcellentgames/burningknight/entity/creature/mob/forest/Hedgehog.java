@@ -45,7 +45,7 @@ public class Hedgehog extends Mob {
 	public void init() {
 		super.init();
 
-		this.body = this.createSimpleBody(4, 3, 12, 9, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 1, 10, 9, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 

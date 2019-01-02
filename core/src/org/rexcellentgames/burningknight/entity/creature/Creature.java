@@ -19,6 +19,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.BurningMan;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
@@ -349,7 +350,7 @@ public class Creature extends SaveableEntity {
 
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
-			if (this.hasBuff(BurningBuff.class)) {
+			if (this.hasBuff(BurningBuff.class) && !(this instanceof BurningMan)) {
 				this.removeBuff(BurningBuff.class);
 
 				for (int i = 0; i < 20; i++) {
@@ -442,9 +443,10 @@ public class Creature extends SaveableEntity {
 
 		if (this.done || this.dead || this.invtt > 0 || (this.invt > 0 && !(this instanceof Mob))) {
 			return null;
+		} else if (ignoreArmor) {
 		} else if (this instanceof Player && amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
 			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
-			(!ignoreArmor && this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
+			(this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
 
 			this.playSfx("block");
 			this.invt = this.getStat("inv_time");

@@ -13,7 +13,8 @@ public class Spear extends Sword {
 	{
 		knockback = 30f;
 		useTime = 0.3f;
-		timeA = 0.15f;
+		delayA = 0;
+		timeA = 0f;
 		timeB = 0.15f;
 		useTime = timeA + timeB + timeDelay + 0.02f;
 	}

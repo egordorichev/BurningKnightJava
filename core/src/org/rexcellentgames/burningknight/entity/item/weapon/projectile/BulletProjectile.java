@@ -140,7 +140,7 @@ public class BulletProjectile extends Projectile {
 		}
 
 		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(this.x, this.y, (float) (ra - Math.PI / 2));
+			World.checkLocked(this.body).setTransform(this.x, this.y, (float) (ra));
 			this.body.setBullet(true);
 		}
 
@@ -206,7 +206,7 @@ public class BulletProjectile extends Projectile {
 				Graphics.batch.begin();
 			}
 
-			Graphics.render(reg, this.x, this.y, this.noRotation ? 0 : this.a - 90, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
+			Graphics.render(reg, this.x, this.y, this.noRotation ? 0 : this.a, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false);
 		}
 
 		Graphics.batch.end();
@@ -391,7 +391,7 @@ public class BulletProjectile extends Projectile {
 			this.body.setLinearVelocity(this.velocity);
 		}
 
-		World.checkLocked(this.body).setTransform(this.x, this.y, (float) (this.ra - Math.PI / 2));
+		World.checkLocked(this.body).setTransform(this.x, this.y, (float) (this.ra));
 
 		light.setPosition(x, y);
 	}
