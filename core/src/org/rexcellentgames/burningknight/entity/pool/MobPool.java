@@ -92,7 +92,7 @@ public class MobPool {
 
 		add(0.5f, -1, MovingFly.class);
 		add(1f, -1, DiagonalFly.class);
-		add(0.3f, -1, BurningMan.class);
+		add(0.3f, 1, BurningMan.class);
 
 		if (Dungeon.depth > 1) {
 			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
@@ -122,8 +122,7 @@ public class MobPool {
 		if (Dungeon.level instanceof ForestLevel) {
 			add(1f, 1, Wombat.class);
 			add(1f, -1, Hedgehog.class);
-			// fixme: nerf the chance to ~0.5f and set max to 1
-			add(100000000f, -1, Treeman.class);
+			add(1f, 2, Treeman.class);
 		}
 
 		// TMP

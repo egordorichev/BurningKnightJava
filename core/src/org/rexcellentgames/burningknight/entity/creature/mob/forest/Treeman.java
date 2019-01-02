@@ -133,6 +133,8 @@ public class Treeman extends Mob {
 
 	}
 
+	private boolean noLeft;
+
 	public class IdleState extends TreeState {
 		@Override
 		public void onEnter() {
@@ -153,6 +155,21 @@ public class Treeman extends Mob {
 
 			if (self.target != null && self.getDistanceTo(self.target.x + 8, self.target.y + 8) < 64) {
 				self.become("up");
+				return;
+			}
+
+			boolean found = false;
+
+			for (Mob mob : Mob.all) {
+				if (mob.room == self.room && !(mob instanceof Treeman)) {
+					found = true;
+					break;
+				}
+			}
+
+			if (!found) {
+				self.become("up");
+				self.noLeft = true;
 				return;
 			}
 
@@ -186,14 +203,34 @@ public class Treeman extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (self.target == null || !self.onScreen || self.getDistanceTo(self.target.x + 8, self.target.y + 8) > 140f) {
-				self.become("down");
-				return;
+			if (self.room != null && Player.instance.room == self.room) {
+				for (Mob mob : Mob.all) {
+					if (mob != self && mob.room == self.room && mob instanceof Treeman) {
+						float x = mob.x + mob.w / 2 + mob.velocity.x * dt * 10;
+						float y = mob.y + mob.h / 2 + mob.velocity.y * dt * 10;
+						float d = self.getDistanceTo(x, y);
+
+						if (d < 16) {
+							float a = d <= 1 ? Random.newFloat((float) (Math.PI * 2)) : self.getAngleTo(x, y);
+							float f = 600 * dt;
+
+							self.velocity.x -= Math.cos(a) * f;
+							self.velocity.y -= Math.sin(a) * f;
+						}
+					}
+				}
 			}
 
-			if (t >= delay) {
-				self.become("down");
-				return;
+			if (!noLeft) {
+				if (self.target == null || !self.onScreen || self.getDistanceTo(self.target.x + 8, self.target.y + 8) > 140f) {
+					self.become("down");
+					return;
+				}
+
+				if (t >= delay) {
+					self.become("down");
+					return;
+				}
 			}
 
 			moveTo(Player.instance, s, 4f);

@@ -517,6 +517,10 @@ public class Gun extends WeaponBase {
 		try {
 			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
 
+			if (bulletSprite != null) {
+				b.bulletName = bulletSprite;
+			}
+
 			if (!b.bulletName.startsWith("bullet-")) {
 			  b.bulletName = "bullet-" + b.bulletName;
 			}

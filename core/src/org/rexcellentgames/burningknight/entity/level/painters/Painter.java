@@ -7,8 +7,10 @@ import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Patch;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Bush;
 import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
@@ -92,7 +94,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if (Dungeon.depth < 5 && Dungeon.depth > -1) {
+			if (Dungeon.depth < 3 && Dungeon.depth > -1) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);
@@ -101,6 +103,21 @@ public class Painter {
 							level.liquidData[i] = 0;
 							level.set(i, Terrain.CHASM);
 						}
+					}
+				}
+			}
+
+			if (level instanceof ForestLevel && Random.chance(70)) {
+				for (int i = 0; i < Random.newInt(1, 4); i++) {
+					Point point = room.getRandomFreeCell();
+
+					if (point != null) {
+						Bush bush = new Bush();
+
+						bush.x = point.x * 16 + Random.newFloat(-4, 4);
+						bush.y = point.y * 16 + Random.newFloat(-4, 4);
+
+						Dungeon.area.add(bush.add());
 					}
 				}
 			}
