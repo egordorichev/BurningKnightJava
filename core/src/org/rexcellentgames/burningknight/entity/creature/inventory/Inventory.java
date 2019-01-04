@@ -87,7 +87,7 @@ public class Inventory {
 	public void save(FileWriter writer) throws IOException {
 		writer.writeByte((byte) this.active);
 
-		for (int i = 0; i < this.getSize(); i++) {
+		for (int i = 0; i < slots.length; i++) {
 			Item slot = this.getSlot(i);
 
 			if (slot == null) {
@@ -120,7 +120,7 @@ public class Inventory {
 		}
 
 		if (item.isStackable()) {
-			for (int i = 0; i < this.getSize(); i++) {
+			for (int i = 0; i < this.slots.length; i++) {
 				Item slot = this.getSlot(i);
 
 				if (slot != null && slot.getClass() == item.getClass()) {
@@ -274,6 +274,10 @@ public class Inventory {
 
 	public Item getSlot(int i) {
 		return this.slots[i];
+	}
+
+	public int getSpace() {
+		return spaces.size();
 	}
 
 	public Item getSpace(int i) {

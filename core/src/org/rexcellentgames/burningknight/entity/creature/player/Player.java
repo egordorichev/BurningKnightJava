@@ -1194,13 +1194,36 @@ public class Player extends Creature {
 
 				this.dead = true;
 				this.done = true;
-				SaveManager.delete();
 
 				Camera.shake(10);
 				this.remove();
 
 				deathEffect(killed);
 				BloodFx.add(this, 20);
+
+				ArrayList<Item> items = new ArrayList<>();
+
+				for (int i = 0; i < 3; i++) {
+					if (inventory.getSlot(i) != null) {
+						items.add(inventory.getSlot(i));
+					}
+				}
+
+				for (int i = 0; i < inventory.getSpace(); i++) {
+					items.add(inventory.getSpace(i));
+				}
+
+				for (Item item : items) {
+					ItemHolder holder = new ItemHolder();
+					holder.x = this.x + Random.newFloat(16);
+					holder.y = this.y + Random.newFloat(16);
+					holder.randomVelocity();
+					holder.setItem(item);
+					Dungeon.area.add(holder);
+				}
+
+				SaveManager.delete();
+				inventory.clear();
 			}
 
 			return;
@@ -1571,15 +1594,21 @@ public class Player extends Creature {
 		this.checkSecrets();
 
 		if (room != null) {
-			if (room.numEnemies > 0) {
+			int count = 0;
+			for (Mob mob : Mob.all) {
+				if (mob.room == room) {
+					count++;
+				}
+			}
+			if (count > 0) {
 				this.invt = Math.max(this.invt, 0.5f);
 			}
 
-			if (this.healOnEnter && room.numEnemies > 0 && Random.chance(80)) {
+			if (this.healOnEnter && count > 0 && Random.chance(80)) {
 				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
 			}
 
-			if (manaRegenRoom && room.numEnemies > 0 && Random.chance(50)) {
+			if (manaRegenRoom && count > 0 && Random.chance(50)) {
 				this.modifyMana(this.getManaMax());
 			}
 		}
@@ -1815,8 +1844,6 @@ public class Player extends Creature {
 		if (this.toDeath) {
 			return;
 		}
-
-		inventory.clear();
 
 		UiMap.instance.hide();
 

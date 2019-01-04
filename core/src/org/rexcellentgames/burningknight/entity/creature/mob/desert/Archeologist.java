@@ -10,7 +10,7 @@ import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.SnipperGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Pickaxe;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Shovel;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
@@ -342,7 +342,7 @@ public class Archeologist extends Mob {
 		}
 
 		if (Random.chance(5)) {
-			items.add(new Shotgun());
+			items.add(new BronzeShotgun());
 		}
 
 		return items;

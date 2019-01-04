@@ -162,45 +162,6 @@ open class ItemHolder : SaveableEntity {
       return
     }
 
-    if (!this.item!!.shop) {
-      var found = false
-      var x = Math.floor(((this.x) / 16).toDouble()).toInt() - 1
-
-      while (x < Math.ceil(((this.x + this.hw.toFloat() + 8) / 16).toDouble())) {
-        var y = Math.floor(((this.y) / 16).toDouble()).toInt() - 1
-
-        while (y < Math.ceil(((this.y + 16f + this.hh.toFloat()) / 16).toDouble())) {
-          if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
-            y++
-            continue
-          }
-
-          if (CollisionHelper.check(this.x, this.y, w, h, x * 16f, y * 16f - 8f, 32f, 32f)) {
-            val i = Level.toIndex(x, y)
-            val l = Dungeon.level.liquidData[i]
-
-            if (l == Terrain.WATER) {
-              velocity.y -= dt * 800
-              found = true
-              break
-            }
-          }
-
-          if (found) {
-            break
-          }
-
-          y++
-        }
-
-        if (found) {
-          break
-        }
-
-        x++
-      }
-    }
-
     if (this.item!!.shop && !added) {
       added = true
       

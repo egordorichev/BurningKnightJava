@@ -52,11 +52,11 @@ public class Equippable extends Accessory {
 
 	@Override
 	public boolean canBeUsed() {
-		for (int i = 7; i < 11; i++) {
+		/*for (int i = 7; i < 11; i++) {
 			if (Player.instance.getInventory().getSlot(i) == null) {
 				return true;
 			}
-		}
+		}*/
 
 		return false;
 	}

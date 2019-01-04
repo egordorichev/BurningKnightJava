@@ -147,7 +147,7 @@ public class SupplyMan extends Mob {
 
 			moveFrom(Player.instance, 20f, 512f);
 
-			if (!self.onScreen) {
+			if (!self.onScreen || self.getDistanceTo(self.target.x + 8, self.target.y + 8) > 256f) {
 				self.poof();
 				Player.instance.playSfx("head_explode");
 				self.done = true;
