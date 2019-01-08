@@ -89,7 +89,7 @@ public class MobPool {
 		clear();
 
 		add(0.5f, -1, MovingFly.class);
-		add(1f, -1, DiagonalFly.class);
+		add(1f, 1, DiagonalFly.class);
 		add(0.3f, 1, BurningMan.class);
 		add(0.1f, 1, SupplyMan.class);
 		add(0.1f, 1, CoinMan.class);

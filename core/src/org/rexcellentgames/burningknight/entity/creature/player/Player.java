@@ -1601,7 +1601,7 @@ public class Player extends Creature {
 				}
 			}
 			if (count > 0) {
-				this.invt = Math.max(this.invt, 0.5f);
+				this.invt = Math.max(this.invt, 1f);
 			}
 
 			if (this.healOnEnter && count > 0 && Random.chance(80)) {

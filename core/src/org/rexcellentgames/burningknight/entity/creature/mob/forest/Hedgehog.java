@@ -83,6 +83,10 @@ public class Hedgehog extends Mob {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity instanceof Level || entity == null) {
+			return true;
+		}
+
 		if (entity instanceof SolidProp || entity instanceof RollingSpike) {
 			return false;
 		}

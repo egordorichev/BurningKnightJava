@@ -639,8 +639,8 @@ public abstract class Level extends SaveableEntity {
 			Graphics.batch.end();
 
 			//Gdx.gl.glEnable(GL20.GL_SCISSOR_TEST);
-			float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
-			float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
+			//float x = -Camera.game.position.x + Display.GAME_WIDTH / 2;
+			//float y = -Camera.game.position.y + Display.GAME_HEIGHT / 2 - 8;
 
 			//Gdx.gl.glScissor((int) x, (int) y,getWidth() * 16, getHeight() * 16);
 

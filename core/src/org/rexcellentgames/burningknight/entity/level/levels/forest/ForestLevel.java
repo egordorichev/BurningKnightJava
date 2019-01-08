@@ -21,7 +21,7 @@ public class ForestLevel extends RegularLevel {
 
 	@Override
 	public String getMusic() {
-		return Dungeon.depth == 0 ? "Gobbeon" : "Born to do rogueries";
+		return Dungeon.depth == 0 ? "Gobbeon" : "Botanical Expedition";
 	}
 
 	@Override

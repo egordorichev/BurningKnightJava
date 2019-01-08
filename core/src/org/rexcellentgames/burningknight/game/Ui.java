@@ -599,8 +599,9 @@ public class Ui {
 			float s = Settings.rotateCursor ? (float) (1.2f + Math.cos(Dungeon.time / 1.5f) / 5f) * this.scale : this.scale;
 			float a = Settings.rotateCursor ? Dungeon.time * 60 : 0;
 
-			Graphics.render(region, Input.instance.uiMouse.x,
-				Input.instance.uiMouse.y, a, ((float)region.getRegionWidth()) / 2, ((float)region.getRegionHeight()) / 2, false, false, s, s);
+
+				Graphics.render(region, Input.instance.uiMouse.x,
+					Input.instance.uiMouse.y, a, ((float)region.getRegionWidth()) / 2, ((float)region.getRegionHeight()) / 2, false, false, s, s);
 		}
 	}
 }
