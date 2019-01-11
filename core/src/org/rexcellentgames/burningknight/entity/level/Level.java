@@ -541,6 +541,10 @@ public abstract class Level extends SaveableEntity {
 
 		Dungeon.area.add(llll);
 		Dungeon.area.add(new SignsLevel());
+
+
+		float v = this instanceof LibraryLevel ? 0f : 0.2f;
+		World.lights.setAmbientLight(v, v, v, 1f);
 	}
 
 	public String getName() {

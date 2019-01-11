@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
@@ -107,7 +108,7 @@ public class Painter {
 				}
 			}
 
-			if (level instanceof ForestLevel && Random.chance(70)) {
+			if (!(room instanceof BossEntranceRoom) && level instanceof ForestLevel && Random.chance(70)) {
 				for (int i = 0; i < Random.newInt(1, 4); i++) {
 					Point point = room.getRandomFreeCell();
 

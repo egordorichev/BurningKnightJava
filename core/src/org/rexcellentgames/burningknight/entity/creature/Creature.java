@@ -277,7 +277,7 @@ public class Creature extends SaveableEntity {
 			if (buffs[i] instanceof BurningBuff) {
 				InGameState.burning = true;
 
-				if (!this.isFlying()) {
+				if (!(this instanceof BurningMan) && !this.isFlying()) {
 					Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true, false);
 				}
 			}

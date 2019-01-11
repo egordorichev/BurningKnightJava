@@ -14,7 +14,7 @@ public class Collisions implements ContactListener, ContactFilter {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
 		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a instanceof Level && !(b instanceof DashingKnight || a instanceof Hedgehog)) {
+		if (a instanceof Level && !(b instanceof DashingKnight || b instanceof Hedgehog)) {
 			return;
 		} else if (b instanceof Level && !(a instanceof DashingKnight || a instanceof Hedgehog)) {
 			return;
