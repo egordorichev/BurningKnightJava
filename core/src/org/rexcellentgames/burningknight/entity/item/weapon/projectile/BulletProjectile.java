@@ -26,6 +26,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.pattern.BulletPattern;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
@@ -237,6 +238,15 @@ public class BulletProjectile extends Projectile {
 				Player player = (Player) ((WeaponBase) entity).getOwner();
 				double a = this.getAngleTo(player.x + player.w / 2, player.y + player.h / 2) - Math.PI;
 				double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+
+				if (pattern != null) {
+					pattern.removeBullet(this);
+					ignoreVel = false;
+					ignoreBodyPos = false;
+					d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.vввыelocity.y);
+					Dungeon.area.add(this, true);
+				}
+
 				this.velocity.x = (float) (d * Math.cos(a));
 				this.velocity.y = (float) (d * Math.sin(a));
 				this.bad = false;
@@ -384,7 +394,7 @@ public class BulletProjectile extends Projectile {
 			this.velocity.y = (float) (Math.sin(this.angle) * f);
 		}
 
-		if (delay <= 0 && !hasPattern) {
+		if (delay <= 0 && pattern == null) {
 			this.x += this.velocity.x * dt;
 			this.y += this.velocity.y * dt;
 
@@ -396,7 +406,7 @@ public class BulletProjectile extends Projectile {
 		light.setPosition(x, y);
 	}
 
-	public boolean hasPattern;
+	public BulletPattern pattern;
 
 	@Override
 	protected void onDeath() {

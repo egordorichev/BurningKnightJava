@@ -6,12 +6,15 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.pattern.BulletPattern;
 import org.rexcellentgames.burningknight.entity.pattern.CircleBulletPattern;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Mage extends Mob {
 	public static Animation animations = Animation.make("actor-mage", "-yellow");
@@ -61,6 +64,10 @@ public class Mage extends Mob {
 
 	@Override
 	public void render() {
+		if (state.equals("idle") || state.equals("unactive")) {
+			return;
+		}
+
 		if (this.target != null) {
 			this.flipped = this.target.x < this.x;
 		} else {
@@ -86,16 +93,21 @@ public class Mage extends Mob {
 		super.renderStats();
 	}
 
+	private float lm;
+
 	@Override
 	public void update(float dt) {
 		super.update(dt);
 
 		light.setActive(true);
-		light.attachToBody(body, 4, 8, 0);
-		light.setPosition(x + 10, y + 8);
-		light.setDistance(64);
+		light.attachToBody(body, 8, 8, 0);
+		light.setPosition(x + 8, y + 8);
+		light.setDistance(64 * lm);
 
-		animation.update(dt);
+		if (!(state.equals("dissappear") || state.equals("appear"))) {
+			animation.update(dt);
+		}
+
 		super.common();
 	}
 
@@ -116,6 +128,9 @@ public class Mage extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
+			case "appear": return new AppearState();
+			case "dissappear": return new DissappearState();
+			case "unactive": return new WaitState();
 			case "attack": return new AttackState();
 			case "idle": case "roam": case "alerted": return new IdleState();
 		}
@@ -127,27 +142,113 @@ public class Mage extends Mob {
 
 	}
 
+	@Override
+	public void renderShadow() {
+		if (!state.equals("unactive")) {
+			super.renderShadow();
+		}
+	}
+
+	public class AppearState extends MageState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+			lm = t * 0.5f;
+
+			if (t < 2f) {
+				self.appear.setFrame((int) (t * 5));
+			} else {
+				self.idle.setFrame(0);
+				self.become("attack");
+			}
+		}
+	}
+
+	public class DissappearState extends MageState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			lm = 1 - t * 0.7f;
+
+			if (t < 1.4f) {
+				self.dissappear.setFrame((int) (t * 5));
+			} else {
+				self.become("unactive");
+			}
+		}
+	}
+
+	public class WaitState extends MageState {
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			delay = Random.newFloat(0.5f, 2f);
+			self.unhittable = true;
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (t >= delay) {
+				self.become("appear");
+			}
+		}
+
+		@Override
+		public void onExit() {
+			super.onExit();
+			self.unhittable = false;
+			
+			if (self.room != null) {
+				for (int i = 0; i < 100; i++) {
+					Point point = self.room.getRandomFreeCell();
+
+					if (point != null) {
+						if (Player.instance.getDistanceTo(point.x * 16, point.y * 16) < 24) {
+							continue;
+						}
+
+						self.tp(point.x * 16 - 4, point.y * 16);
+						break;
+					}
+				}
+			}
+		}
+	}
+
 	public class AttackState extends MageState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
 			if (self.target.room != self.room) {
-				self.become("idle");
+				self.become("dissappear");
+				return;
 			}
 
-			if (t >= 4f) {
-				t = 0;
-
+			if (t >= 2f && !attacked) {
+				attacked = true;
 				CircleBulletPattern pattern = new CircleBulletPattern();
 
-				for (int i = 0; i < 8; i++) {
+				pattern.radius = 8f;
+
+				for (int i = 0; i < 5; i++) {
 					pattern.addBullet(newProjectile());
 				}
 
-				BulletPattern.fire(pattern, self.x + 10, self.y + 8, self.getAngleTo(self.target.x + 8, self.target.y + 8), 60f);
+				BulletPattern.fire(pattern, self.x + 10, self.y + 8, self.getAngleTo(self.target.x + 8, self.target.y + 8), 40f);
+			}
+
+			if (t >= 5f && self.idle.getFrame() == 0) {
+				self.become("dissappear");
 			}
 		}
+
+		private boolean attacked;
 	}
 
 	public BulletProjectile newProjectile() {
@@ -176,7 +277,7 @@ public class Mage extends Mob {
 			checkForPlayer();
 
 			if (self.target != null && self.target.room == self.room) {
-				self.become("attack");
+				self.become("appear");
 			}
 		}
 	}

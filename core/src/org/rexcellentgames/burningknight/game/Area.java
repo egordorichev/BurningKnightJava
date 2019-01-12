@@ -40,10 +40,17 @@ public class Area {
   }
 
   public Entity add(Entity entity) {
+    return add(entity, false);
+  }
+
+  public Entity add(Entity entity, boolean noInit) {
     this.entities.add(entity);
 
     entity.setArea(this);
-    entity.init();
+
+    if (!noInit) {
+      entity.init();
+    }
 
     if (entity instanceof UiEntity && ((UiEntity) entity).isSelectable()) {
       if (selectedUiEntity == -1) {

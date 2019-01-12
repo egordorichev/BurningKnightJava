@@ -10,7 +10,7 @@ public class CircleBulletPattern extends BulletPattern {
 	@Override
 	protected void doLogic(BulletProjectile bullet, int i) {
 		count = Math.max(count, bullets.size());
-		float a = (float) (((float) bullet.i) / count * Math.PI * 2) + t * 2;
+		float a = (float) (((float) bullet.i) / count * Math.PI * 2) + t * 4;
 
 		bullet.x = (float) (Math.cos(a) * radius) + x;
 		bullet.y = (float) (Math.sin(a) * radius) + y;

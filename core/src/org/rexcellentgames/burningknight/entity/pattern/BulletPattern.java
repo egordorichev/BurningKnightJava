@@ -11,11 +11,12 @@ import java.util.ArrayList;
 
 public class BulletPattern extends Entity {
 	public ArrayList<BulletProjectile> bullets = new ArrayList<>();
-	protected Vector2 velocity = new Vector2();
+	public Vector2 velocity = new Vector2();
 
 	{
 		alwaysActive = true;
 		alwaysRender = true;
+		depth = 16;
 	}
 
 	public static void fire(BulletPattern pattern, float x, float y, float a, float speed) {
@@ -73,10 +74,15 @@ public class BulletPattern extends Entity {
 		bullet.canBeRemoved = true;
 		bullet.ignoreBodyPos = true;
 		bullet.renderCircle = false;
-		bullet.hasPattern = true;
+		bullet.pattern = this;
 		bullet.i = bullets.size() - 1;
 
 		bullet.init();
+	}
+
+	public void removeBullet(BulletProjectile bullet) {
+		onBulletRemove(bullet);
+		bullets.remove(bullet);
 	}
 
 	protected void updateBullets(float dt) {
