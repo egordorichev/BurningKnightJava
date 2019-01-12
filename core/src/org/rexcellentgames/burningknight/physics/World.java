@@ -57,7 +57,7 @@ public class World {
 				if (fast) {
 					light.setDistance(rad);
 				} else {
-					Tween.to(new Tween.Task(rad, 0.2f) {
+					Tween.to(new Tween.Task(rad, 0.15f) {
 						@Override
 						public float getValue() {
 							return light.getDistance();

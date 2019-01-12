@@ -533,7 +533,7 @@ public class Gun extends WeaponBase {
 			bullet.x = (float) (x + this.getAimX(xx, yy));
 			bullet.y = (float) (y + this.getAimY(xx, yy));
 			bullet.damage = b.damage + rollDamage();
-			bullet.crit = true;
+			bullet.crit = lastCrit;
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.bad = this.owner instanceof Mob;

@@ -93,7 +93,7 @@ public class BulletProjectile extends Projectile {
 			this.h = sprite.getRegionHeight();
 		}
 
-		light = World.newLight(32, new Color(1, 1, 1, 1f), 64, x, y, true);
+		light = World.newLight(32, new Color(1, 1, 1, 1f), 64, x, y, false);
 
 		if (this.letter != null) {
 			switch (this.letter) {
@@ -384,17 +384,19 @@ public class BulletProjectile extends Projectile {
 			this.velocity.y = (float) (Math.sin(this.angle) * f);
 		}
 
-		if (delay <= 0) {
+		if (delay <= 0 && !hasPattern) {
 			this.x += this.velocity.x * dt;
 			this.y += this.velocity.y * dt;
 
 			this.body.setLinearVelocity(this.velocity);
 		}
 
-		World.checkLocked(this.body).setTransform(this.x, this.y, (float) (this.ra));
+		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 
 		light.setPosition(x, y);
 	}
+
+	public boolean hasPattern;
 
 	@Override
 	protected void onDeath() {

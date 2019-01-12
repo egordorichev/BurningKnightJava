@@ -57,7 +57,7 @@ public class Projectile extends StatefulEntity {
 			return;
 		}
 
-		if (this.body != null) {
+		if (this.body != null && !ignoreBodyPos) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
 		}
@@ -69,7 +69,12 @@ public class Projectile extends StatefulEntity {
 		}
 	}
 
+	public boolean ignoreBodyPos;
+
 	public void setPos(float x, float y) {
+		this.x = x;
+		this.y = y;
+
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(x, y, this.body.getAngle());
 		}
@@ -100,6 +105,8 @@ public class Projectile extends StatefulEntity {
 	public void remove() {
 		broke = true;
 	}
+
+	public int i;
 
 	protected boolean breaksFrom(Entity entity) {
 		return false;
