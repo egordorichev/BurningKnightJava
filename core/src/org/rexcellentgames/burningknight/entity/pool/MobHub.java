@@ -9,6 +9,7 @@ public class MobHub {
 	public ArrayList<Class<? extends Mob>> types;
 	public float chance;
 	public int maxMatches;
+	public int maxMatchesInitial;
 	public boolean once;
 
 	public MobHub(float chance, int max, Class<? extends Mob> ... classes) {
@@ -17,5 +18,6 @@ public class MobHub {
 
 		this.chance = chance;
 		maxMatches = max;
+		maxMatchesInitial = max;
 	}
 }

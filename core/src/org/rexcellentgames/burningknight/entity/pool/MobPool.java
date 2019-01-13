@@ -37,8 +37,12 @@ public class MobPool {
 
 	public void initForRoom() {
 		for (int i = 0; i < dchances.size(); i++) {
-			classes.add(dclasses.get(i));
+			MobHub cl = dclasses.get(i);
+
+			classes.add(cl);
 			chances.add(dchances.get(i));
+
+			cl.maxMatches = cl.maxMatchesInitial;
 		}
 
 		dchances.clear();

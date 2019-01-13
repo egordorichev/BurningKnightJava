@@ -869,6 +869,7 @@ public class Player extends Creature {
 					item.getItem().onPickup();
 					item.remove();
 					item.done = true;
+
 					this.playSfx("pickup_item");
 
 					for (int j = 0; j < 3; j++) {
