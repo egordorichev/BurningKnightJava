@@ -6,6 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.fx.Zzz;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
@@ -34,7 +35,7 @@ public class Grandma extends Mob {
 		killed = getAnimation().get("dead");
 		tss = getAnimation().get("tss");
 		animation = idle;
-		w = 21;
+		w = 16;
 		ignoreRooms = true;
 	}
 
@@ -44,8 +45,7 @@ public class Grandma extends Mob {
 	public void init() {
 		super.init();
 
-		flying = true;
-		this.body = this.createSimpleBody(8, 0, 2, 14, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 0, 12, 14, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 
 
@@ -130,19 +130,38 @@ public class Grandma extends Mob {
 
 	}
 
+	@Override
+	public float getOx() {
+		return 8;
+	}
+
 	public class IdleState extends GrandmaState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
+			if (t >= 10f) {
+				t = Random.newFloat(0, 5f);
+				addZ();
+			}
+
 			if (self.target != null && self.target.room == self.room && UiInventory.justUsed > 0) {
 				self.become("tss");
 			}
 		}
-	}
 
-	// fixme: book projectile
-	// fix hitbox
+		private void addZ() {
+			for (int i = 0; i < 3; i++) {
+				Zzz z = new Zzz();
+
+				z.x = self.x + 6;
+				z.y = self.y + 12;
+				z.delay = i * 0.25f;
+
+				Dungeon.area.add(z);
+			}
+		}
+	}
 
 	public class TssState extends GrandmaState {
 		@Override
