@@ -1103,7 +1103,7 @@ public class Player extends Creature {
 		light.setActive(true);
 		light.attachToBody(body, 8, 8, 0);
 		light.setPosition(x + 8, y + 8);
-		light.setDistance((float) (140));
+		light.setDistance((float) (180));
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
@@ -1139,7 +1139,7 @@ public class Player extends Creature {
 		if (this.hasBuff(BurningBuff.class)) {
 			this.light.setColor(1, 0.5f, 0f, 1);
 		} else {
-			this.light.setColor(1, 1, 0.5f, 1);
+			this.light.setColor(1, 1, 0.8f, 1);
 		}
 
 		if (!this.rolling) {

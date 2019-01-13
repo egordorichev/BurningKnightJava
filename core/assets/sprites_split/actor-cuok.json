@@ -13,7 +13,7 @@
     "trimmed": true,
     "spriteSourceSize": { "x": 9, "y": 6, "w": 14, "h": 16 },
     "sourceSize": { "w": 32, "h": 32 },
-    "duration": 100
+    "duration": 1
    },
    "actor_cuok 2.ase": {
     "frame": { "x": 28, "y": 0, "w": 14, "h": 16 },

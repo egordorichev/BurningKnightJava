@@ -23,7 +23,7 @@ public class Bare extends Mob {
 	{
 		hpMax = 16;
 
-		idle = getAnimation().get("blink");
+		idle = getAnimation().get("idle");
 		hurt = getAnimation().get("hurt");
 		killed = getAnimation().get("dead");
 		appear = getAnimation().get("appear");

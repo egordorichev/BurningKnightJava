@@ -94,11 +94,10 @@ public class BulletProjectile extends Projectile {
 			this.h = sprite.getRegionHeight();
 		}
 
-		light = World.newLight(32, new Color(1, 1, 1, 1f), 64, x, y, false);
+		light = World.newLight(32, new Color(1, 0, 0, 1f), 64, x, y, false);
 
 		if (this.letter != null) {
 			switch (this.letter) {
-				case "nano": case "bullet-skull": case "bullet-rekt": case "bullet-rect": case "bullet-atom": case "bullet-nano": case "bullet-missile_burning": light.setColor(1, 0, 0, 1); break;
 				case "bullet-a": case "bullet-missile": light.setColor(1, 1, 0, 1); break;
 				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
 				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
@@ -110,7 +109,7 @@ public class BulletProjectile extends Projectile {
 			} else if (this.letter.equals("bullet-bone")) {
 				this.depth = 16;
 				second = false;
-			} else if (this.letter.equals("bullet-rect") || this.letter.equals("bullet-nano") || this.letter.equals("bullet-atom")) {
+			} else if (this.letter.equals("bullet-bad") || this.letter.equals("bullet-rect") || this.letter.equals("bullet-nano") || this.letter.equals("bullet-atom") || this.letter.equals("bullet-A") || this.letter.equals("bullet-h")) {
 				this.noRotation = true;
 				this.second = false;
 			} else if (this.letter.equals("bullet-snow")) {
@@ -243,7 +242,7 @@ public class BulletProjectile extends Projectile {
 					pattern.removeBullet(this);
 					ignoreVel = false;
 					ignoreBodyPos = false;
-					d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.vввыelocity.y);
+					d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.velocity.y);
 					Dungeon.area.add(this, true);
 				}
 

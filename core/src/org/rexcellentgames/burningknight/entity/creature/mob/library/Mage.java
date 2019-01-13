@@ -64,7 +64,7 @@ public class Mage extends Mob {
 
 	@Override
 	public void render() {
-		if (state.equals("idle") || state.equals("unactive")) {
+		if (state.equals("roam") ||state.equals("alerted") ||state.equals("idle") || state.equals("unactive")) {
 			return;
 		}
 
@@ -202,7 +202,7 @@ public class Mage extends Mob {
 		public void onExit() {
 			super.onExit();
 			self.unhittable = false;
-			
+
 			if (self.room != null) {
 				for (int i = 0; i < 100; i++) {
 					Point point = self.room.getRandomFreeCell();

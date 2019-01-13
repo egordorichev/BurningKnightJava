@@ -14,7 +14,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
-import org.rexcellentgames.burningknight.entity.creature.mob.library.Mage;
+import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
@@ -128,7 +128,12 @@ public class MobPool {
 		}
 
 		if (Dungeon.level instanceof LibraryLevel) {
-			add(1000000000000000f, -1, Mage.class);
+			add(1f, -1, Mage.class);
+			add(1f, -1, Cuok.class);
+			add(1f, -1, DiagonalCuok.class);
+			add(0.8f, -1, FourSideCuok.class);
+			add(0.4f, -1, FourSideCrossCuok.class);
+			add(0.2f, 1, SpinningCuok.class);
 		}
 
 		// TMP

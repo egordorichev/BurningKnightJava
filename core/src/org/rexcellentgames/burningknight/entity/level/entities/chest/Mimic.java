@@ -356,7 +356,7 @@ public class Mimic extends Mob {
 
 						BulletProjectile bullet = new BulletProjectile();
 
-						bullet.letter = "nano";
+						bullet.letter = "bullet-nano";
 						bullet.bad = true;
 						bullet.owner = self;
 						bullet.x = self.x + self.w / 2;
