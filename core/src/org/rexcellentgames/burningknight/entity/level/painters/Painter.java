@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Bush;
 import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -86,7 +87,8 @@ public class Painter {
 		bottomMost += sz;
 
 		//add 1 to account for 0 values
-		Log.info("Setting level size to " + (1 + rightMost) + ":" + (bottomMost + 1));
+		Log.info("Setting level size to " + (1 + rightMost) + ":" +
+			(bottomMost + 1));
 		Level.setSize(rightMost + 1, bottomMost + 1);
 		level.generateDecor();
 		level.fill();
@@ -95,7 +97,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if (Dungeon.depth < 3 && Dungeon.depth > -1) {
+			if ((level instanceof HallLevel) && Dungeon.depth > -1) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);

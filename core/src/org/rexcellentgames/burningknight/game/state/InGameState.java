@@ -395,7 +395,7 @@ public class InGameState extends State {
 				}
 
 				if (y != room.top) {
-					Dungeon.level.addLight(x * 16, y * 16, 4f, 1f);
+					Dungeon.level.addLight(x * 16, y * 16, 4f, 4f);
 				}
 			}
 		}

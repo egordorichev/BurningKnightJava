@@ -383,7 +383,7 @@ public class Mob extends Creature {
 	private float lastSplat;
 
 	public boolean isLow() {
-		return this.hp != this.hpMax && this.hp <= Math.ceil(((float) this.hpMax) / 4);
+		return this.hp != this.hpMax && this.hp <= Math.ceil(((float) this.hpMax) / 4) && !(this.state.equals("unactive"));
 	}
 
 	@Override

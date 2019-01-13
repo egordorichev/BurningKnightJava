@@ -7,6 +7,12 @@ import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class Claymore extends Sword {
+	{
+
+		timeA = 0.14f;
+		useTime = timeA;
+	}
+
 	protected void setStats() {
 		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
 

@@ -135,7 +135,7 @@ public class MobPool {
 			add(0.8f, -1, FourSideCuok.class);
 			add(0.4f, -1, FourSideCrossCuok.class);
 			add(0.2f, 1, SpinningCuok.class);
-			add(10000000000000.5f, 1, Grandma.class);
+			add(1.5f, 1, Grandma.class);
 		}
 
 		// TMP

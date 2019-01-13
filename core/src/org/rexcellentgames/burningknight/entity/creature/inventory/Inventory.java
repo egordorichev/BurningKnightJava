@@ -105,9 +105,7 @@ public class Inventory {
 		for (int i = 0; i < spaces.size(); i++) {
 			Item slot = spaces.get(i);
 
-			writer.writeBoolean(true);
 			writer.writeString(slot.getClass().getName());
-
 			slot.save(writer);
 		}
 	}
