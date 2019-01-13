@@ -20,7 +20,6 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
-import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
@@ -525,6 +524,7 @@ Settings:
 			}
 		}.setOn(Settings.borderless)));*/
 
+		/*
 		currentSettings.add(pauseMenuUi.add(new UiChoice("side_art", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
 			@Override
 			public void onUpdate() {
@@ -538,7 +538,7 @@ Settings:
 			}
 		}.setChoices(new String[] {
 			"none", "1/8", "2/8", "3/8", "4/8", "5/8", "6/8", "7/8", "8/8"
-		}).setCurrent(Settings.side_art)));
+		}).setCurrent(Settings.side_art)));*/
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("rotate_cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
 			@Override

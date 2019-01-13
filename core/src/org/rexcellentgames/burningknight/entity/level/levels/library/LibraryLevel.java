@@ -20,7 +20,7 @@ public class LibraryLevel extends RegularLevel {
 
 	@Override
 	public String getMusic() {
-		return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
+		return Dungeon.depth == 0 ? "Gobbeon" : "Frozen to the bones";
 	}
 
 	@Override

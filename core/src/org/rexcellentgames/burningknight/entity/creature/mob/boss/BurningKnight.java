@@ -357,6 +357,7 @@ public class BurningKnight extends Boss {
 
 						Dungeon.area.add(fx);
 						LevelSave.add(fx);
+						fx.randomVelocity();
 					}
 				}
 

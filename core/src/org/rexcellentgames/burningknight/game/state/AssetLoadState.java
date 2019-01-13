@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
@@ -15,11 +16,26 @@ public class AssetLoadState extends State {
 	public static final boolean START_TO_MENU = !Version.debug;
 	public static final boolean QUICK = true;
 	public static boolean done = false;
-	private static Texture region;
 	private float a;
+	public static TextureRegion logo;
+
+	private float t;
+	private boolean did;
 
 	@Override
 	public void update(float dt) {
+		t += dt;
+
+		if (t > 0.01f && !did) {
+			did = true;
+
+			if (QUICK || !START_TO_MENU) {
+				Assets.finishLoading();
+				finish();
+				tweened = true;
+			}
+		}
+
 		super.update(dt);
 
 		if (!tweened) {
@@ -35,14 +51,7 @@ public class AssetLoadState extends State {
 	@Override
 	public void init() {
 		super.init();
-
-		if (QUICK || !START_TO_MENU) {
-			Assets.finishLoading();
-			finish();
-			tweened = true;
-		} else {
-			region = new Texture(Gdx.files.internal("sprites_split/rexcellent_games.png"));
-		}
+		logo = new TextureRegion(new Texture(Gdx.files.internal("rexcellent_logo_pixel.png")));
 	}
 
 	private boolean tweened;
@@ -73,12 +82,13 @@ public class AssetLoadState extends State {
 	public void render() {
 		super.render();
 
-		if (QUICK) {
-			return;
-		}
+		Graphics.render(logo, (Display.GAME_WIDTH - 128) / 2, (Display.GAME_HEIGHT - 128) / 2);
+
+		/*
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
 		Graphics.batch.draw(region, (Display.GAME_WIDTH - region.getWidth()) / 2, (Display.GAME_HEIGHT - region.getHeight()) / 2);
+*/
 
 		Gdx.graphics.setTitle(Dungeon.title + " " + Math.floor(Assets.manager.getProgress() * 100) + "%");
 	}

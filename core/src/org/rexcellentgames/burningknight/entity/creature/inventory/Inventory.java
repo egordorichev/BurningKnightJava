@@ -117,22 +117,6 @@ public class Inventory {
 			return false;
 		}
 
-		if (item.isStackable()) {
-			for (int i = 0; i < this.slots.length; i++) {
-				Item slot = this.getSlot(i);
-
-				if (slot != null && slot.getClass() == item.getClass()) {
-					slot.setCount(slot.getCount() + item.getCount());
-					item.setOwner(Player.instance);
-					item.onPickup();
-					holder.done = true;
-
-					this.onAdd(holder, i);
-					return true;
-				}
-			}
-		}
-
 		for (int i = 0; i < 3; i++) {
 			if (this.isEmpty(i) && (i != 2 || item instanceof ActiveItem)) {
 				this.setSlot(i, item);

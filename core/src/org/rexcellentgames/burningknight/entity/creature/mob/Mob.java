@@ -712,6 +712,8 @@ public class Mob extends Creature {
 
 							Dungeon.area.add(fx);
 							LevelSave.add(fx);
+
+							fx.randomVelocity();
 						}
 					}
 				}).delay(0.2f);

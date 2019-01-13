@@ -35,6 +35,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocke
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -443,6 +444,10 @@ public class Creature extends SaveableEntity {
 
 		if (this.done || this.dead || this.invtt > 0 || (this.invt > 0 && !(this instanceof Mob))) {
 			return null;
+		} else if (this instanceof Mimic && rollBlock()) {
+			this.playSfx("block");
+			this.invt = this.getStat("inv_time");
+			return (HpFx) Dungeon.area.add(new HpFx(this, 0, true));
 		} else if (ignoreArmor) {
 		} else if (this instanceof Player && amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
 			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||

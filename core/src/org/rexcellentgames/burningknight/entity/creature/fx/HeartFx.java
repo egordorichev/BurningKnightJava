@@ -53,6 +53,18 @@ public class HeartFx extends SaveableEntity {
 		this.h = 9;
 	}
 
+	public void randomVelocity() {
+		float a = Random.newFloat((float) (Math.PI * 2f));
+		float f = Random.newFloat(60f, 150f);
+
+		this.velocity.x = (float) (Math.cos(a) * f);
+		this.velocity.y = (float) (Math.sin(a) * f);
+
+		if (body != null) {
+			body.setLinearVelocity(velocity);
+		}
+	}
+
 	@Override
 	public void init() {
 		super.init();
@@ -110,6 +122,10 @@ public class HeartFx extends SaveableEntity {
 
 	@Override
 	public void onCollision(Entity entity) {
+		if (t <= 0.04f) {
+			return;
+		}
+
 		if (entity instanceof Player) {
 			Player player = ((Player) entity);
 
@@ -171,7 +187,7 @@ public class HeartFx extends SaveableEntity {
 		if (this.body == null) {
 			this.t = Random.newFloat(128);
 			this.body = World.createCircleBody(this, 0, 0, Math.max(this.h / 2, this.w / 2), BodyDef.BodyType.DynamicBody, false, 0.8f);
-
+			body.setLinearVelocity(this.velocity);
 			MassData data = new MassData();
 			data.mass = 0.1f;
 			this.body.setMassData(data);

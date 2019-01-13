@@ -475,7 +475,7 @@ public class Ui {
 			String info = item.buildInfo().toString();
 
 			Graphics.layout.setText(Graphics.small, info);
-			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height + 4 - 8) * pickupFx.item.getAl() - (1 - pickupFx.item.getAl()) * Graphics.layout.height);
+			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height) * pickupFx.item.getAl() - (1 - pickupFx.item.getAl()) * Graphics.layout.height);
 
 			if (pickupFx.item.getAl() <= 0.05f) {
 				pickupFx = null;

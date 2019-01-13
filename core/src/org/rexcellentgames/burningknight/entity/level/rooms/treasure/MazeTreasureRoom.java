@@ -48,9 +48,9 @@ public class MazeTreasureRoom extends TreasureRoom {
 		Point center = this.getCenter();
 
 		if (Random.chance(50)) {
-			Painter.fill(level, (int) center.x - 1, (int) center.y - 1, 3, 3, Random.chance(50) ? Terrain.FLOOR_B : Terrain.FLOOR_D);
+			Painter.fill(level, (int) center.x - 2, (int) center.y - 2, 5, 5, Random.chance(50) ? Terrain.FLOOR_B : Terrain.FLOOR_D);
 		} else {
-			Painter.fillEllipse(level, (int) center.x - 1, (int) center.y - 1, 3, 3, Random.chance(50) ? Terrain.FLOOR_B : Terrain.FLOOR_D);
+			Painter.fillEllipse(level, (int) center.x - 2, (int) center.y - 2, 5, 5, Random.chance(50) ? Terrain.FLOOR_B : Terrain.FLOOR_D);
 		}
 
 		placeChest(center);

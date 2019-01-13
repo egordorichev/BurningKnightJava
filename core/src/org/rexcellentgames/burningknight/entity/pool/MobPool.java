@@ -90,12 +90,12 @@ public class MobPool {
 	public void initForFloor() {
 		clear();
 
-		add(0.5f, -1, MovingFly.class);
-		add(1f, 1, DiagonalFly.class);
-		add(0.3f, 1, BurningMan.class);
-		add(0.1f, 1, SupplyMan.class);
-		add(0.1f, 1, CoinMan.class);
-		add(0.1f, 1, BombMan.class);
+		add(0.25f, -1, MovingFly.class);
+		add(0.5f, 1, DiagonalFly.class);
+		add(0.15f, 1, BurningMan.class);
+		add(0.05f, 1, SupplyMan.class);
+		add(0.05f, 1, CoinMan.class);
+		add(0.05f, 1, BombMan.class);
 
 		if (Dungeon.depth > 1) {
 			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
@@ -118,7 +118,7 @@ public class MobPool {
 			add(1f, -1, Thief.class);
 
 			//if (Dungeon.depth > 3) {
-				add(0.5f, 1, Skeleton.class);
+				add(1f, 1, Skeleton.class);
 			//}
 		}
 

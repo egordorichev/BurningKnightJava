@@ -247,7 +247,7 @@ public class Cuok extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (delay < t && self.getDistanceTo(self.target.x + 8, self.target.y + 8) < 128) {
+			if (delay < t) { // && self.getDistanceTo(self.target.x + 8, self.target.y + 8) < 128) {
 				self.toAttack = true;
 				self.become("anim");
 			}

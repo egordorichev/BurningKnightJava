@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -23,7 +22,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
-import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -169,6 +167,7 @@ public class Dungeon extends ApplicationAdapter {
 			quick = false;
 		}
 
+		// game.setState(new LogoState());
 		game.setState(new LoadState());
 	}
 
@@ -506,15 +505,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 	}
 
-	public static TextureRegion[] sideArt;
-
 	private void renderGame() {
-		if (sideArt == null) {
-			sideArt = new TextureRegion[] {
-				Graphics.getTexture("side_art-0")
-			};
-		}
-
 		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT) * Ui.upscale;
 		Camera.applyShake();
 
@@ -535,21 +526,6 @@ public class Dungeon extends ApplicationAdapter {
 
 		Camera.game.position.set(sceneIX, sceneIY, 0);
 		Camera.game.update();
-
-		if (Settings.side_art != 0 && Settings.side_art <= sideArt.length) {
-			Graphics.batch.begin();
-			Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-
-			int sz = 64 * 2;
-			for (float x = 0; x < Gdx.graphics.getWidth(); x += sz) {
-				for (float y = 0; y < Gdx.graphics.getHeight(); y += sz) {
-					Graphics.batch.draw(sideArt[Settings.side_art - 1], x - Gdx.graphics.getWidth() * 0.5f, y - Gdx.graphics.getHeight() * 0.5f,
-						sz, sz);
-				}
-			}
-
-			Graphics.batch.end();
-		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);

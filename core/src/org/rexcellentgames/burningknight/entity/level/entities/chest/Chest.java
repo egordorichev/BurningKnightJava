@@ -376,6 +376,7 @@ public class Chest extends SaveableEntity {
 					fx.y = this.y + (this.h - fx.h) / 2;
 
 					Dungeon.area.add(fx.add());
+					fx.randomVelocity();
 				}
 
 				if (Random.chance(30)) {

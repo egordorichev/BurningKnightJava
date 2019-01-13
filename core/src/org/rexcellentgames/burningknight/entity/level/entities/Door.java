@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
-import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.*;
@@ -208,8 +207,7 @@ public class Door extends SaveableEntity {
 				if (this.key == KeyC.class) {
 					Player.instance.setKeys(Player.instance.getKeys() - 1);
 				} else {
-					Item key = Player.instance.getInventory().findItem(this.key);
-					key.setCount(key.getCount() - 1);
+					Player.instance.getInventory().remove(BurningKey.class);
 				}
 
 				Player.instance.playSfx("unlock");
@@ -455,31 +453,7 @@ public class Door extends SaveableEntity {
 	private float clearT;
 
 	public void renderSigns() {
-		if (this.lockAnim != null) {
-			if (this.al > 0) {
-				Graphics.batch.end();
-				Mob.shader.begin();
-				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
-				Mob.shader.setUniformf("u_a", al);
-				Mob.shader.end();
-				Graphics.batch.setShader(Mob.shader);
-				Graphics.batch.begin();
 
-				for (int yy = -1; yy < 2; yy++) {
-					for (int xx = -1; xx < 2; xx++) {
-						if (Math.abs(xx) + Math.abs(yy) == 1) {
-							this.lockAnim.render(this.x + (this.vertical ? -1 : 3) + xx, this.y + (this.vertical ? 2 : -2) + yy, false);
-						}
-					}
-				}
-
-				Graphics.batch.end();
-				Graphics.batch.setShader(null);
-				Graphics.batch.begin();
-			}
-
-			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
-		}
 
 		if (lockAnim != null && keyRegion != null && al > 0) {
 			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
@@ -510,6 +484,32 @@ public class Door extends SaveableEntity {
 		}
 
 		this.animation.render(this.x, this.y, false);
+
+		if (this.lockAnim != null) {
+			if (this.al > 0) {
+				Graphics.batch.end();
+				Mob.shader.begin();
+				Mob.shader.setUniformf("u_color", ColorUtils.WHITE);
+				Mob.shader.setUniformf("u_a", al);
+				Mob.shader.end();
+				Graphics.batch.setShader(Mob.shader);
+				Graphics.batch.begin();
+
+				for (int yy = -1; yy < 2; yy++) {
+					for (int xx = -1; xx < 2; xx++) {
+						if (Math.abs(xx) + Math.abs(yy) == 1) {
+							this.lockAnim.render(this.x + (this.vertical ? -1 : 3) + xx, this.y + (this.vertical ? 2 : -2) + yy, false);
+						}
+					}
+				}
+
+				Graphics.batch.end();
+				Graphics.batch.setShader(null);
+				Graphics.batch.begin();
+			}
+
+			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
+		}
 	}
 
 	@Override

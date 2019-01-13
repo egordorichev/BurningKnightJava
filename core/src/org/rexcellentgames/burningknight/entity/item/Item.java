@@ -270,7 +270,7 @@ public class Item extends Entity {
   }
 
   public String getName() {
-    return this.count >= 1 ? this.name : this.name + " (" + this.count + ")";
+    return this.count == 0 || this.count >= 1 ? this.name : this.name + " (" + this.count + ")";
   }
 
   public boolean isStackable() {
