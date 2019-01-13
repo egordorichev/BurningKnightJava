@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equipp
 import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -117,19 +118,21 @@ public class Inventory {
 			return false;
 		}
 
-		for (int i = 0; i < 3; i++) {
-			if (this.isEmpty(i) && (i != 2 || item instanceof ActiveItem)) {
-				this.setSlot(i, item);
-				item.setOwner(Player.instance);
-				item.onPickup();
-				holder.done = true;
+		if (item instanceof WeaponBase) {
+			for (int i = 0; i < 3; i++) {
+				if (this.isEmpty(i) && (i != 2 || item instanceof ActiveItem)) {
+					this.setSlot(i, item);
+					item.setOwner(Player.instance);
+					item.onPickup();
+					holder.done = true;
 
-				if (item instanceof Equippable) {
-					((Equippable) item).onEquip(false);
+					if (item instanceof Equippable) {
+						((Equippable) item).onEquip(false);
+					}
+
+					this.onAdd(holder, i);
+					return true;
 				}
-
-				this.onAdd(holder, i);
-				return true;
 			}
 		}
 

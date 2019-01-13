@@ -862,7 +862,7 @@ public class Player extends Creature {
 
 				return true;
 			} else if (item.getItem() instanceof WeaponBase) {
-				if (inventory.getSlot(0) == null) {
+				if (inventory.isEmpty(0)) {
 					inventory.setSlot(0, item.getItem());
 
 					item.getItem().setOwner(this);
@@ -881,7 +881,7 @@ public class Player extends Creature {
 					}
 
 					return true;
-				} else if (inventory.getSlot(1) == null) {
+				} else if (inventory.isEmpty(1)) {
 					inventory.setSlot(1, item.getItem());
 					item.getItem().setOwner(this);
 					item.getItem().onPickup();

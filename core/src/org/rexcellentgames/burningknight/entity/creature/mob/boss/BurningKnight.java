@@ -348,12 +348,14 @@ public class BurningKnight extends Boss {
 				items.add(new BurningKey());
 				items.add(Chest.generate(ItemRegistry.Quality.IRON_PLUS, Random.chance(50)));
 
-				for (int i = 0; i < Random.newInt(1, 4); i++) {
-					if (Player.instance != null && !Player.instance.isDead()) {
+				if (Player.instance != null && !Player.instance.isDead()) {
+					Point point = room.getCenter();
+
+					for (int i = 0; i < Random.newInt(2, 6); i++) {
 						HeartFx fx = new HeartFx();
 
-						fx.x = x + w / 2 + Random.newFloat(-4, 4);
-						fx.y = y + h / 2 + Random.newFloat(-4, 4);
+						fx.x = point.x * 16 + Random.newFloat(-4, 4);
+						fx.y = point.x * 16 + Random.newFloat(-4, 4);
 
 						Dungeon.area.add(fx);
 						LevelSave.add(fx);

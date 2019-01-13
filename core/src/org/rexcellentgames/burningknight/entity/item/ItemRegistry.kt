@@ -4,13 +4,6 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
 import org.rexcellentgames.burningknight.entity.item.active.*
-import org.rexcellentgames.burningknight.entity.item.active.DullBlade
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*
-import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
-import org.rexcellentgames.burningknight.entity.item.active.BombSummoner
-import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb
-import org.rexcellentgames.burningknight.entity.item.active.KillerItem
-import org.rexcellentgames.burningknight.entity.item.active.SharpBlade
 import org.rexcellentgames.burningknight.entity.item.autouse.ManaHeart
 import org.rexcellentgames.burningknight.entity.item.autouse.Map
 import org.rexcellentgames.burningknight.entity.item.autouse.MapGreenprints
@@ -296,7 +289,7 @@ object ItemRegistry {
 		"elemental_ring" to Pair(ElementalRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		"lava_bucket" to Pair(LavaBucket::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
 		"water_bucket" to Pair(WaterBucket::class.java, 0f, 1f, 1f, 1f, Quality.WOODEN),
-		"tech_eye" to Pair(TechEye::class.java, 2f, 1f, 1f, 1f, Quality.IRON),
+		"tech_eye" to Pair(TechEye::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		"eco_wand" to Pair(EcoWand::class.java, 1f, 0f, 1f, 0.1f, Quality.WOODEN),
 		"flippers" to Pair(Flippers::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"flame" to Pair(FlameThrower::class.java, 1f, 0.1f, 0.3f, 1f, Quality.GOLDEN),

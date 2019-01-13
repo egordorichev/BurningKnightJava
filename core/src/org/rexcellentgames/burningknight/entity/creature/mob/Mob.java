@@ -433,8 +433,19 @@ public class Mob extends Creature {
 						if (Chest.isVeganFine(item.getClass())) {
 							ItemHolder holder = new ItemHolder(item);
 
-							holder.x = this.x;
-							holder.y = this.y;
+							if (this instanceof Boss) {
+								Point point = room.getCenter();
+
+								holder.x = point.x * 16;
+								holder.y = point.y * 16;
+							} else {
+								holder.x = this.x;
+								holder.y = this.y;
+							}
+
+							holder.x += Random.newFloat(-4, 4);
+							holder.y += Random.newFloat(-4, 4);
+
 							holder.getItem().generate();
 
 							this.area.add(holder);
