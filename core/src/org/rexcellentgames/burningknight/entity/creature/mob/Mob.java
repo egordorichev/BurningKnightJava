@@ -440,6 +440,7 @@ public class Mob extends Creature {
 							this.area.add(holder);
 
 							LevelSave.add(holder);
+							holder.randomVelocity();
 						}
 					}
 				}

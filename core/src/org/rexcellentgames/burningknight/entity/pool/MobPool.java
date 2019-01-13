@@ -108,7 +108,7 @@ public class MobPool {
 			add(1f, -1, Clown.class);
 
 			if (Dungeon.depth > 1) {
-				add(1f, -1, Thief.class);
+				add(10000000000f, -1, Thief.class);
 			}
 		}
 

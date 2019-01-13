@@ -15,16 +15,13 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 import org.rexcellentgames.burningknight.entity.creature.player.Player
 import org.rexcellentgames.burningknight.entity.item.key.Key
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
-import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
-import org.rexcellentgames.burningknight.entity.level.Terrain
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom
 import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.game.state.InGameState
 import org.rexcellentgames.burningknight.physics.World
-import org.rexcellentgames.burningknight.util.CollisionHelper
 import org.rexcellentgames.burningknight.util.MathUtils
 import org.rexcellentgames.burningknight.util.Random
 import org.rexcellentgames.burningknight.util.Tween
@@ -83,7 +80,7 @@ open class ItemHolder : SaveableEntity {
   private var hh: Int = 0
   private var added: Boolean = false
 
-  public var al: Float = 0.toFloat()
+  var al: Float = 0.toFloat()
   private var sz = 1f
 
   fun createSimpleBody(x: Int, y: Int, w: Int, h: Int, type: BodyDef.BodyType, sensor: Boolean): Body {
@@ -95,9 +92,10 @@ open class ItemHolder : SaveableEntity {
 
   fun randomVelocity() {
     val a = Random.newFloat((Math.PI * 2).toFloat()).toDouble()
+		val f = Random.newFloat(60f, 150f)
 
-    this.velocity.x = (Math.cos(a) * 100f).toFloat()
-    this.velocity.y = (Math.sin(a) * 100f).toFloat()
+    this.velocity.x = (Math.cos(a) * f).toFloat()
+    this.velocity.y = (Math.sin(a) * f).toFloat()
   }
 
   fun velocityToMouse() {
@@ -346,6 +344,9 @@ open class ItemHolder : SaveableEntity {
   override fun onCollision(entity: Entity?) {
     super.onCollision(entity)
 
+    if (t < 0.01f) {
+      return;
+    }
 
     if (item is Key && !collided && Dungeon.depth == -3 && Ui.controls.size == 0) {
       Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"))

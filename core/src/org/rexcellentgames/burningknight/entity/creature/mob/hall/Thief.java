@@ -1,26 +1,33 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.GoldRing;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.StopWatch;
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.VampireRing;
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.NanoOrbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
+import org.rexcellentgames.burningknight.entity.level.Level;
+import org.rexcellentgames.burningknight.entity.level.entities.Door;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.util.file.FileWriter;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Thief extends Mob {
@@ -53,37 +60,9 @@ public class Thief extends Mob {
 		this.setStat("block_chance", 0.2f);
 	}
 
-	protected Item stolen;
-
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x, this.y, this.w, this.h, 0, this.a);
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-
-		if (reader.readBoolean()) {
-			try {
-				String name = reader.readString();
-				this.stolen = (Item) Class.forName(name).newInstance();
-				this.become("took");
-			} catch (Exception e) {
-
-			}
-		}
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-
-		writer.writeBoolean(stolen != null);
-
-		if (stolen != null) {
-			writer.writeString(stolen.getClass().getName());
-		}
 	}
 
 	@Override
@@ -104,6 +83,8 @@ public class Thief extends Mob {
 	public void render() {
 		if (Math.abs(this.velocity.x) > 1f) {
 			this.flipped = this.velocity.x < 0;
+		} else if (target != null) {
+			flipped = target.x < x;
 		}
 
 		float v = Math.abs(this.acceleration.x) + Math.abs(this.acceleration.y);
@@ -120,12 +101,7 @@ public class Thief extends Mob {
 
 		this.renderWithOutline(this.animation);
 
-		if (this.stolen != null) {
-			TextureRegion region = stolen.getSprite();
-			Graphics.render(region, this.x + (this.w - region.getRegionWidth()) + (flipped ? -8 : 6), this.y);
-		} else {
-			this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
-		}
+		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
@@ -140,94 +116,66 @@ public class Thief extends Mob {
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
-			case "idle": case "roam": return new IdleState();
-			case "chase": case "alerted": return new ChaseState();
-			case "unchase": return new UnchaseState();
+			case "idle": case "roam": case "alerted": return new IdleState();
 			case "attack": return new AttackState();
-			case "preattack": return new PreattackState();
-			case "wait": return new WaitState();
-			case "took": return new TookState();
 		}
 
 		return super.getAi(state);
 	}
 
-	public class TookState extends ThiefState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			self.setStat("block_chance", 0.1f);
+	public Vector2 direction = new Vector2();
+
+	@Override
+	public void onCollision(Entity entity) {
+		super.onCollision(entity);
+
+		if (state.equals("attack") && (entity == null || entity instanceof Level || entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Door)) {
+			become("idle");
+		}
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity == null || entity instanceof Level || entity instanceof RollingSpike || entity instanceof SolidProp || entity instanceof Door) {
+			return true;
 		}
 
-		@Override
-		public void onExit() {
-			super.onExit();
-			self.setStat("block_chance", 0.2f);
-		}
+		return super.shouldCollide(entity, contact, fixture);
+	}
 
+	public class AttackState extends ThiefState {
 		@Override
 		public void update(float dt) {
 			super.update(dt);
-
-			this.checkForPlayer();
-			self.checkForRun();
-
-			if (self.lastSeen != null) {
-				this.moveFrom(self.lastSeen, 15f, 10f);
-			}
+			float f = Math.min(40f, t * 40f);
+			acceleration.x = direction.x * f;
+			acceleration.y = direction.y * f;
 		}
 	}
 
 	public class IdleState extends ThiefState {
 		@Override
 		public void update(float dt) {
-			super.update(dt);
-
-			if (self.stolen != null) {
-				self.become("took");
-				return;
-			}
-
-			this.checkForPlayer();
-			self.checkForRun();
-		}
-	}
-
-	public class ChaseState extends ThiefState {
-		public static final float ATTACK_DISTANCE = 24f;
-
-		@Override
-		public void update(float dt) {
-			if (self.stolen != null) {
-				self.become("took");
-				return;
-			}
-
 			this.checkForPlayer();
 
-			if (self.lastSeen == null) {
-				return;
-			} else {
-				if (this.moveTo(Player.instance, 40f, ATTACK_DISTANCE)) {
-					self.become("preattack");
+			if (self.target != null && self.target.room == self.room) {
+				float dx = self.target.x + self.target.w / 2 - self.x - self.w / 2;
+				float dy = self.target.y + self.target.h / 2 - self.y - self.h / 2;
 
-					return;
+				float d = 16;
+
+				if (Math.abs(dy) < d || Math.abs(dx) < d) {
+					if (Math.abs(dx) > Math.abs(dy)) {
+						direction.x = dx < 0 ? -1 : 1;
+						direction.y = 0;
+					} else {
+						direction.y = dy < 0 ? -1 : 1;
+						direction.x = 0;
+					}
+
+					self.become("attack");
 				}
 			}
-
-			super.update(dt);
-		}
-	}
-
-	public void checkForRun() {
-		if (this.target == null) {
-			return;
-		}
-
-		float d = this.getDistanceTo(this.target.x + this.target.w / 2, this.target.y + this.target.h / 2);
-
-		if (d < 128f) {
-			this.become("unchase");
 		}
 	}
 
@@ -262,121 +210,10 @@ public class Thief extends Mob {
 		return items;
 	}
 
-	public class UnchaseState extends ThiefState {
-		private float delay;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-
-			delay = Random.newFloat(2f, 4f);
-			self.setStat("block_chance", 0.1f);
-		}
-
-		@Override
-		public void onExit() {
-			super.onExit();
-			self.setStat("block_chance", 0.2f);
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-			this.checkForPlayer();
-
-			if (this.t >= delay) {
-				self.become("wait");
-			} else if (self.lastSeen != null) {
-				this.moveFrom(self.lastSeen, 25f, 10f);
-			}
-		}
-	}
-
-	public class WaitState extends ThiefState {
-		private float delay;
-
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			delay = Random.newFloat(1f, 3f);
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			this.checkForPlayer();
-			self.checkForRun();
-			if (this.t >= delay) {
-				self.become("chase");
-			}
-		}
-	}
-
-	public class AttackState extends ThiefState {
-		private int count;
-		private float delay;
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (delay <= 0) {
-				if (count >= 3) {
-					self.become("unchase");
-					return;
-				}
-
-				delay = 0.5f;
-				count ++;
-				self.sword.use();
-			}
-
-			delay -= dt;
-		}
-	}
-
-
 	@Override
 	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 		this.playSfx("damage_thief");
-	}
-
-	@Override
-	public void onHit(Creature who) {
-		super.onHit(who);
-
-		/*
-		if (stolen == null && who instanceof Player && Random.chance(70)) {
-			Player player = (Player) who;
-
-			for (int i = 0; i < 6; i++) {
-				if (i != player.getInventory().active) {
-					Item item = player.getInventory().getSlot(i);
-
-					if (item != null && !item.isCursed() && Random.chance(30)) {
-						Log.info("Stolen " + item.getName());
-						stolen = item;
-						stolen.setOwner(this);
-						player.getInventory().setSlot(i, null);
-						this.become("took");
-						break;
-					}
-				}
-			}
-		}*/
-	}
-
-	public class PreattackState extends ThiefState {
-		@Override
-		public void update(float dt) {
-			super.update(dt);
-
-			if (this.t >= 0.5f) {
-				self.become("attack");
-			}
-		}
 	}
 
 	@Override
@@ -404,7 +241,6 @@ public class Thief extends Mob {
 		}
 
 		this.sword.update(dt * speedMod);
-
 		super.common();
 	}
 
@@ -413,14 +249,30 @@ public class Thief extends Mob {
 		super.deathEffects();
 		this.playSfx("death_thief");
 		deathEffect(killed);
+	}
 
-		if (stolen != null) {
-			ItemHolder holder = new ItemHolder(this.stolen);
-			
-			holder.x = this.x + (this.w - holder.w) / 2;
-			holder.y = this.y + (this.h - holder.h) / 2;
-			
-			Dungeon.area.add(holder);
+	@Override
+	public void onHit(Creature who) {
+		super.onHit(who);
+
+		if (who instanceof Player) {
+			Player player = (Player) who;
+
+			if (player.getMoney() > 0) {
+				int amount = Random.newInt(5, Math.min(player.getMoney(), 10));
+				player.setMoney(player.getMoney() - amount);
+
+				for (int i = 0; i < amount; i++) {
+					ItemHolder holder = new ItemHolder();
+
+					holder.x = this.x + w / 2 + Random.newFloat(-4, 4);
+					holder.y = this.y + h / 2 + Random.newFloat(-4, 4);
+					holder.setItem(new Gold());
+
+					Dungeon.area.add(holder.add());
+					holder.randomVelocity();
+				}
+			}
 		}
 	}
 }
