@@ -26,6 +26,8 @@ import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
+	public static int justUsed;
+
 	private Inventory inventory;
 	private Item currentSlot;
 	private int active = 0;
@@ -199,10 +201,14 @@ public class UiInventory extends UiEntity {
 						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
 							slot.setOwner(Player.instance);
 							slot.use();
+
+							UiInventory.justUsed = 2;
 						}
 					} else if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
 						slot.setOwner(Player.instance);
 						slot.use();
+
+						UiInventory.justUsed = 2;
 					}
 				}
 			}

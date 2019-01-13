@@ -130,6 +130,11 @@ public class BulletProjectile extends Projectile {
 			} else if (this.letter.equals("bullet-bolt")) {
 				second = false;
 				lightUp = false;
+			} else if (this.letter.equals("bullet-book")) {
+				lightUp = false;
+				second = false;
+				rotates = true;
+				rotationSpeed = 0.3f;
 			}
 		}
 
@@ -280,7 +285,7 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		return this.canBeRemoved && (entity == null || (entity instanceof SolidProp && !(entity instanceof Turret || entity instanceof Slab)) || entity instanceof Door);
+		return this.canBeRemoved && ((entity == null) || (entity instanceof SolidProp && !(entity instanceof Turret || entity instanceof Slab)) || entity instanceof Door);
 	}
 
 	@Override

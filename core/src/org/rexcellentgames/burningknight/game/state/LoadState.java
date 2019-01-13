@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
+import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -33,6 +34,7 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
+		UiInventory.justUsed = 0;
 		generating = false;
 		Dungeon.darkR = Dungeon.MAX_R;
 		Dungeon.dark = 1;

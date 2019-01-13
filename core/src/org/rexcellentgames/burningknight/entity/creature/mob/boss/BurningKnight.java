@@ -255,7 +255,7 @@ public class BurningKnight extends Boss {
 	public void restore() {
 		Log.error("restore");
 		this.pickedKey = false;
-		this.hpMax = (Dungeon.depth * 50) + 150;
+		this.hpMax = 1; // FIXME: just for testing // (Dungeon.depth * 50) + 150;
 		this.hp = this.hpMax;
 		this.rage = false;
 

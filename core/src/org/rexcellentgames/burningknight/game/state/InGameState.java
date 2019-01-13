@@ -409,6 +409,7 @@ public class InGameState extends State {
 
 	@Override
 	public void update(float dt) {
+		UiInventory.justUsed = Math.max(0, UiInventory.justUsed - 1);
 		Projectile.allDie = false;
 
 		if (Dungeon.depth == -2) {
