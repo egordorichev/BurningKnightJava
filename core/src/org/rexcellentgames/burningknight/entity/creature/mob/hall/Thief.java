@@ -259,7 +259,7 @@ public class Thief extends Mob {
 			Player player = (Player) who;
 
 			if (player.getMoney() > 0) {
-				int amount = Random.newInt(5, Math.min(player.getMoney(), 10));
+				int amount = Random.newInt(Math.min(player.getMoney(), 5), Math.min(player.getMoney(), 10));
 				player.setMoney(player.getMoney() - amount);
 
 				for (int i = 0; i < amount; i++) {

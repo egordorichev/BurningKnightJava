@@ -197,6 +197,7 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public static RegularLevel forDepth(int depth) {
+		/*
 		if (depth < 3) {
 			return new HallLevel();
 		} else if (depth < 5) {
@@ -210,12 +211,27 @@ public abstract class Level extends SaveableEntity {
 		} else if (depth < 13) {
 			return new CreepLevel();
 		}
+		*/
+		if (depth < 2) {
+			return new HallLevel();
+		} else if (depth < 3) {
+			return new DesertLevel();
+		} else if (depth < 4) {
+			return new ForestLevel();
+		} else if (depth < 5) {
+			return new LibraryLevel();
+		} else if (depth < 6) {
+			return new TechLevel();
+		} else if (depth < 7) {
+			return new CreepLevel();
+		}
 
 		return new BloodLevel();
 	}
 
 	public String getDepthAsCoolNum() {
-		return letters[(Dungeon.depth - 1) % 5];
+		// fixme: 2 if 2 levels
+		return letters[(Dungeon.depth - 1) % 1];
 	}
 
 	public String formatDepth() {

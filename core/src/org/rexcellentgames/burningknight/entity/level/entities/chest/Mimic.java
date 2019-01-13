@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
-import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
@@ -323,16 +322,65 @@ public class Mimic extends Mob {
 	}
 
 	public class AttackState extends MimicState {
-		private boolean did;
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (this.t >= 3f) {
+				self.become("close");
+			}
+		}
+	}
+
+	@Override
+	protected ArrayList<Item> getDrops() {
+		ArrayList<Item> drops = super.getDrops();
+
+		for (int i = 0; i < Random.newInt(3, 8); i++) {
+			ItemHolder item = new ItemHolder(new Gold());
+			
+			item.getItem().generate();
+
+			Dungeon.area.add(item);
+			LevelSave.add(item);
+		}
+
+		return drops;
+	}
+
+	public class CloseState extends MimicState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+
+			animation = open;
+			open.setBack(true);
+			open.setPaused(false);
+			open.setFrame(4);
+		}
+	}
+
+	public class WaitState extends MimicState {
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			animation = closed;
+		}
+
+		private int num;
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (this.t >= 1f && !did && self.target != null) {
-				did = true;
+			if (t >= 0.5f) {
+				if (num == 6) {
+					self.become("found");
+					return;
+				}
 
-				Tween.to(new Tween.Task(0.5f, 0.2f) {
+
+				Tween.to(new Tween.Task(0.5f, 0.1f) {
 					@Override
 					public float getValue() {
 						return sy;
@@ -345,15 +393,6 @@ public class Mimic extends Mob {
 
 					@Override
 					public void onEnd() {
-						for (int i = 0; i < 10; i++) {
-							PoofFx fx = new PoofFx();
-
-							fx.x = self.x + self.w / 2;
-							fx.y = self.y + self.h / 2;
-
-							Dungeon.area.add(fx);
-						}
-
 						BulletProjectile bullet = new BulletProjectile();
 
 						bullet.letter = "bullet-nano";
@@ -372,7 +411,7 @@ public class Mimic extends Mob {
 
 						Dungeon.area.add(bullet);
 
-						Tween.to(new Tween.Task(1f, 0.3f) {
+						Tween.to(new Tween.Task(1f, 0.1f) {
 							@Override
 							public float getValue() {
 								return sy;
@@ -418,60 +457,9 @@ public class Mimic extends Mob {
 					}
 				});
 
-				/*TFFx fx = new TFFx();
-
-				fx.x = self.x + self.w / 2;
-				fx.y = self.y + self.h / 2;
-
-				fx.to(self.getAngleTo(self.target.x + self.target.w / 2, self.target.y + self.target.h / 2));
-
-				Dungeon.area.add(fx);*/
+				t = 0;
+				num++;
 			}
-
-			if (this.t >= 5f) {
-				self.become("close");
-			}
-		}
-	}
-
-	@Override
-	protected ArrayList<Item> getDrops() {
-		ArrayList<Item> drops = super.getDrops();
-
-		for (int i = 0; i < Random.newInt(3, 8); i++) {
-			ItemHolder item = new ItemHolder(new Gold());
-			
-			item.getItem().generate();
-
-			Dungeon.area.add(item);
-			LevelSave.add(item);
-		}
-
-		return drops;
-	}
-
-	public class CloseState extends MimicState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-
-			animation = open;
-			open.setBack(true);
-			open.setPaused(false);
-			open.setFrame(4);
-		}
-	}
-
-	public class WaitState extends MimicState {
-		@Override
-		public void onEnter() {
-			super.onEnter();
-			animation = closed;
-		}
-
-		@Override
-		public void update(float dt) {
-			super.update(dt);
 
 			if (this.t >= 3f) {
 				self.become("found");

@@ -107,9 +107,9 @@ public class MobPool {
 			add(1f, -1, Knight.class);
 			add(1f, -1, Clown.class);
 
-			if (Dungeon.depth > 1) {
-				add(10000000000f, -1, Thief.class);
-			}
+			//if (Dungeon.depth > 1) {
+				add(1f, -1, Thief.class);
+			//}
 		}
 
 		if (Dungeon.level instanceof DesertLevel) {
@@ -117,9 +117,9 @@ public class MobPool {
 			add(1f, -1, Mummy.class);
 			add(1f, -1, Thief.class);
 
-			if (Dungeon.depth > 3) {
+			//if (Dungeon.depth > 3) {
 				add(0.5f, 1, Skeleton.class);
-			}
+			//}
 		}
 
 		if (Dungeon.level instanceof ForestLevel) {
