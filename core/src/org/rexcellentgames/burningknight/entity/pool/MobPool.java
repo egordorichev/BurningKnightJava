@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.util.Log;
@@ -68,7 +69,6 @@ public class MobPool {
 					dclasses.add(hub);
 				}
 
-				// not working?
 				chances.remove(classes.indexOf(hub));
 				classes.remove(hub);
 			}
@@ -96,10 +96,13 @@ public class MobPool {
 
 		add(0.25f, -1, MovingFly.class);
 		add(0.5f, 1, DiagonalFly.class);
-		add(0.15f, 1, BurningMan.class);
 		add(0.05f, 1, SupplyMan.class);
 		add(0.05f, 1, CoinMan.class);
 		add(0.05f, 1, BombMan.class);
+
+		if (!(Dungeon.level instanceof IceLevel)) {
+			add(0.15f, 1, BurningMan.class);
+		}
 
 		if (Dungeon.depth > 1) {
 			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);

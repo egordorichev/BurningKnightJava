@@ -398,7 +398,8 @@ public class Dungeon extends ApplicationAdapter {
 			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;
 
-			game.setState(to == 5 ? new WonState() : new LoadState());
+			// to == 5 ? new WonState() :
+			game.setState(new LoadState());
 
 			//Gdx.gl.glClearColor(0, 0, 0, 1);
 			//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));

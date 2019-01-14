@@ -37,6 +37,7 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -734,6 +735,10 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void addBuff(Buff buff) {
+		if (buff instanceof BurningBuff && Dungeon.level instanceof IceLevel) {
+			return;
+		}
+
 		if (this.canHaveBuff(buff)) {
 			Buff b = this.buffs.get(buff.getClass());
 

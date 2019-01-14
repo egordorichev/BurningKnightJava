@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -97,7 +98,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if ((level instanceof HallLevel) && Dungeon.depth > -1) {
+			if ((level instanceof HallLevel || level instanceof IceLevel) && Dungeon.depth > -1) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);
@@ -105,6 +106,19 @@ public class Painter {
 						if (level.liquidData[i] == Terrain.LAVA) {
 							level.liquidData[i] = 0;
 							level.set(i, Terrain.CHASM);
+						}
+					}
+				}
+			}
+
+			if ((level instanceof IceLevel)) {
+				for (int y = room.top; y <= room.bottom; y++) {
+					for (int x = room.left; x <= room.right; x++) {
+						int i = Level.toIndex(x, y);
+
+						if (level.liquidData[i] == Terrain.WATER) {
+							level.liquidData[i] = 0;
+							level.set(i, Terrain.ICE);
 						}
 					}
 				}
@@ -162,13 +176,14 @@ public class Painter {
 
 	private void paintWater(Level level, ArrayList<Room> rooms) {
 		boolean[] lake = Patch.generate(this.water, 5);
+		boolean ice = level instanceof IceLevel;
 
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
 				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
 				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C) && level.liquidData[i] == 0) {
-					level.set(i, Terrain.WATER);
+					level.set(i, ice ? Terrain.ICE : Terrain.WATER);
 				}
 			}
 		}
@@ -256,7 +271,7 @@ public class Painter {
 						}
 					}
 
-					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL && !(level instanceof IceLevel)) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 

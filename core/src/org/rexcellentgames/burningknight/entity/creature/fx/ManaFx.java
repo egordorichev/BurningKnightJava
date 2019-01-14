@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -35,6 +36,11 @@ public class ManaFx extends SaveableEntity {
 	private static Animation fullAnim = Animation.make("fx-star", "-full");
 	private static Animation halfAnim = Animation.make("fx-star", "-half");
 	private float waitT;
+
+	@Override
+	public void renderShadow() {
+		Graphics.shadow(x, y, w, h);
+	}
 
 	@Override
 	public void init() {

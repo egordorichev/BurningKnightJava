@@ -777,14 +777,6 @@ Settings:
 			}
 		}));
 
-		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
-			@Override
-			public void onClick() {
-				Settings.speedrun_mode = !Settings.speedrun_mode;
-				super.onClick();
-			}
-		}.setOn(Settings.speedrun_mode)));
-
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_timer", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5)) {
 			@Override
 			public void onClick() {

@@ -35,6 +35,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -64,7 +65,8 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#272727"),
 		Color.valueOf("#1a1932"),
-		Color.valueOf("#571c27")
+		Color.valueOf("#571c27"),
+		Color.valueOf("#92a1b9")
 	};
 
 	public Room entrance;
@@ -221,8 +223,10 @@ public abstract class Level extends SaveableEntity {
 		} else if (depth < 5) {
 			return new LibraryLevel();
 		} else if (depth < 6) {
-			return new TechLevel();
+			return new IceLevel();
 		} else if (depth < 7) {
+			return new TechLevel();
+		} else if (depth < 8) {
 			return new CreepLevel();
 		}
 
@@ -558,8 +562,7 @@ public abstract class Level extends SaveableEntity {
 		Dungeon.area.add(llll);
 		Dungeon.area.add(new SignsLevel());
 
-
-		float v = this instanceof LibraryLevel ? 0f : 0.2f;
+		float v = this instanceof LibraryLevel ? 0f : (this instanceof IceLevel ? 0.6f : 0.2f);
 		World.lights.setAmbientLight(v, v, v, 1f);
 	}
 
@@ -837,6 +840,10 @@ public abstract class Level extends SaveableEntity {
 
 	public void setOnFire(int i, boolean fire, boolean getWaterOut) {
 		if (!isValid(i)) {
+			return;
+		}
+
+		if (fire && this instanceof IceLevel) {
 			return;
 		}
 
@@ -1762,6 +1769,7 @@ public abstract class Level extends SaveableEntity {
 						if (m > -1) {
 							t = this.get(m);
 
+							/*
 							if (t != Terrain.CRACK && t != Terrain.WALL && (this.data[i] == Terrain.WALL || this.data[i] == Terrain.CRACK)) {
 								byte d = this.decor[i];
 
@@ -1780,7 +1788,7 @@ public abstract class Level extends SaveableEntity {
 									}
 
 								}
-							}
+							}*/
 						}
 					} else if (tile == Terrain.CHASM) {
 						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
@@ -1797,9 +1805,9 @@ public abstract class Level extends SaveableEntity {
 							Graphics.render(Terrain.chasmSides[2][(y + x * 2 - 1) % 3], x * 16, y * 16 - 24);
 						}
 
-						if (data[i + WIDTH] != Terrain.CHASM && data[i + WIDTH] != Terrain.WALL) {
+						/*if (data[i + WIDTH] != Terrain.CHASM && data[i + WIDTH] != Terrain.WALL) {
 							Graphics.render(Terrain.chasmSides[0][(y + x * 2 + 1) % 3], x * 16, y * 16 + 8);
-						}
+						}*/
 					}
 				}
 			}
