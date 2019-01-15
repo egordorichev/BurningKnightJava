@@ -137,7 +137,7 @@ public class Snowball extends Mob {
 			delay = Random.newFloat(0.4f, 1.5f);
 			float angle;
 
-			if (Random.chance(40)) {
+			if (Random.chance(40) || self.target == null || self.target.room != self.room) {
 				angle = Random.newFloat((float) (Math.PI * 2));
 			} else {
 				angle = self.getAngleTo(self.target.x + 8, self.target.y + 8);

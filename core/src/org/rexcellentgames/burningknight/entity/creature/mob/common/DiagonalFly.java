@@ -14,6 +14,9 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class DiagonalFly extends Fly {
 	public static Animation animations = Animation.make("actor-fly", "-brown");
+	public Animation getAnimation() {
+		return animations;
+	}
 
 	{
 		hpMax = 5;
@@ -24,10 +27,6 @@ public class DiagonalFly extends Fly {
 	@Override
 	public float getWeight() {
 		return 0.5f;
-	}
-
-	public Animation getAnimation() {
-		return animations;
 	}
 
 	protected boolean stop;
@@ -66,7 +65,7 @@ public class DiagonalFly extends Fly {
 				this.body.setLinearVelocity(0, 0);
 			} else {
 				float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
-				this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y);
+				this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x * 0.2f, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y * 0.2f);
 			}
 		}
 	}
