@@ -14,15 +14,13 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
-import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
-import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -117,9 +115,7 @@ public class MobPool {
 			//if (Dungeon.depth > 1) {
 				add(1f, -1, Thief.class);
 			//}
-		}
-
-		if (Dungeon.level instanceof DesertLevel) {
+		} else if (Dungeon.level instanceof DesertLevel) {
 			add(1f, -1, Archeologist.class);
 			add(1f, -1, Mummy.class);
 			add(1f, -1, Thief.class);
@@ -127,15 +123,11 @@ public class MobPool {
 			//if (Dungeon.depth > 3) {
 				add(1f, 1, Skeleton.class);
 			//}
-		}
-
-		if (Dungeon.level instanceof ForestLevel) {
+		} else if (Dungeon.level instanceof ForestLevel) {
 			add(1f, 1, Wombat.class);
 			add(1f, -1, Hedgehog.class);
 			add(1f, 2, Treeman.class);
-		}
-
-		if (Dungeon.level instanceof LibraryLevel) {
+		} else if (Dungeon.level instanceof LibraryLevel) {
 			add(1f, -1, Mage.class);
 			add(1f, -1, Cuok.class);
 			add(1f, -1, DiagonalCuok.class);
@@ -143,14 +135,10 @@ public class MobPool {
 			add(0.4f, -1, FourSideCrossCuok.class);
 			add(0.2f, 1, SpinningCuok.class);
 			add(1.5f, 1, Grandma.class);
-		}
-
-		// TMP
-		if (Dungeon.level instanceof TechLevel ||
-			Dungeon.level instanceof CreepLevel ||
-			Dungeon.level instanceof BloodLevel) {
-
-			add(1f, -1, Knight.class);
+		} else if (Dungeon.level instanceof IceLevel) {
+			add(1f, -1, IceElemental.class);
+			add(1f, 1, IceElemental.class, IceElemental.class);
+			add(0.5f, 1, IceElemental.class, IceElemental.class, IceElemental.class);
 		}
 	}
 }

@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
 import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
@@ -92,7 +93,7 @@ public class Mob extends Creature {
 	public void init() {
 		super.init();
 
-		if (!(this instanceof BurningKnight) && !(this instanceof Npc) && !(this instanceof Mimic)) {
+		if (!(this instanceof BurningKnight) && !(this instanceof Npc) && !(this instanceof Mimic) && !(this instanceof IceElemental)) {
 			all.add(this);
 		}
 
@@ -163,6 +164,10 @@ public class Mob extends Creature {
 		return w / 2;
 	}
 
+	public float getOy() {
+		return 0;
+	}
+
 	public void renderWithOutline(AnimationData data) {
 		TextureRegion region = data.getCurrent().frame;
 		float w = region.getRegionWidth();
@@ -181,7 +186,7 @@ public class Mob extends Creature {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, getOx(), 0, false, false, sx * (flipped ? -1f : 1f), sy);
+						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, getOx(), getOy(), false, false, sx * (flipped ? -1f : 1f), sy);
 					}
 				}
 			}
@@ -655,7 +660,7 @@ public class Mob extends Creature {
 		every.remove(this);
 	}
 
-	private boolean dd;
+	public boolean dd;
 
 	@Override
 	protected void die(boolean force) {

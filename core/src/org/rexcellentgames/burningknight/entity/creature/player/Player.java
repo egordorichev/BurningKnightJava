@@ -696,9 +696,9 @@ public class Player extends Creature {
 		if (entity instanceof ItemHolder) {
 			ItemHolder item = (ItemHolder) entity;
 
-			if (item.getItem() instanceof Coin) {
-				this.playSfx("coin");
+			Log.error("collide");
 
+			if (item.getItem() instanceof Coin) {
 				item.remove();
 				item.done = true;
 

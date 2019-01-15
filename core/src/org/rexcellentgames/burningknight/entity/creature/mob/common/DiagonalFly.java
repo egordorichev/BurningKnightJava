@@ -9,7 +9,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -51,7 +50,6 @@ public class DiagonalFly extends Fly {
 	public void update(float dt) {
 		super.update(dt);
 
-		// FIXME
 		if (this.body != null) {
 			this.velocity.x = this.body.getLinearVelocity().x;
 			this.velocity.y = this.body.getLinearVelocity().y;

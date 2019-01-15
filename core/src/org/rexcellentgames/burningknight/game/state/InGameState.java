@@ -407,8 +407,12 @@ public class InGameState extends State {
 	public static boolean newGame;
 	public static boolean portal;
 
+	private boolean set;
+
 	@Override
 	public void update(float dt) {
+		Dungeon.setBackground2((Level.colors[Dungeon.level.uid]));
+
 		UiInventory.justUsed = Math.max(0, UiInventory.justUsed - 1);
 		Projectile.allDie = false;
 

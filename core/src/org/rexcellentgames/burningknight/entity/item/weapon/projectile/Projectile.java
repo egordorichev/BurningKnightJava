@@ -23,7 +23,7 @@ public class Projectile extends StatefulEntity {
 	public boolean penetrates;
 
 	protected boolean broke;
-	protected Body body;
+	public Body body;
 
 	@Override
 	public void init() {

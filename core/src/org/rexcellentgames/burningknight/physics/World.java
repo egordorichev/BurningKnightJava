@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.ManaFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.PoisonFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.BurningMan;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.Mage;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.item.Item;
@@ -131,7 +132,7 @@ public class World {
 	private static void setBits(FixtureDef fixture, Entity owner) {
 		if (!(owner instanceof SolidProp) && (fixture.isSensor || owner instanceof HeartFx || owner instanceof Upgrade || owner instanceof Exit
 			|| owner instanceof PoisonFx || owner instanceof ItemHolder || owner instanceof Item || owner instanceof Projectile || owner instanceof Shell
-			|| owner instanceof ManaFx || owner instanceof BurningMan || owner instanceof Mage)) {
+			|| owner instanceof ManaFx || owner instanceof BurningMan || owner instanceof Mage || owner instanceof IceElemental)) {
 			fixture.filter.categoryBits = 0x0002;
 			fixture.filter.groupIndex = -1;
 			fixture.filter.maskBits = -1;
@@ -316,7 +317,7 @@ public class World {
 
 		Body body = world.createBody(def);
 		CircleShape poly = new CircleShape();
-		poly.setPosition(new Vector2(r, r));
+		poly.setPosition(new Vector2(r + x, r + y));
 
 		poly.setRadius(r);
 
@@ -349,6 +350,7 @@ public class World {
 
 		Body body = world.createBody(def);
 		CircleShape poly = new CircleShape();
+		poly.setPosition(new Vector2(x, y));
 
 		poly.setRadius(r);
 

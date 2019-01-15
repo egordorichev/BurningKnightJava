@@ -83,6 +83,6 @@ public class Firefly extends SaveableEntity {
 	private static Color color = Color.valueOf("#99e65f");
 	private static Color off = Color.valueOf("#134c4c");
 
-	private static Color colorIce = Color.valueOf("#0cf1ff");
+	public static Color colorIce = Color.valueOf("#0cf1ff");
 	private static Color offIce = Color.valueOf("#0069aa");
 }

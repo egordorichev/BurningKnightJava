@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SimplePart;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
@@ -38,7 +39,7 @@ public class BulletProjectile extends Projectile {
 	private static TextureRegion burst = Graphics.getTexture("bullet-thrust");
 	public TextureRegion sprite;
 	public float a;
-	private float ra;
+	public float ra;
 	public boolean remove;
 	public String letter;
 	public boolean circleShape;
@@ -296,7 +297,12 @@ public class BulletProjectile extends Projectile {
 				return this.canBeRemoved;
 			}
 		} else if (entity instanceof Mob) {
-			this.doHit(entity);
+			if (!(entity instanceof IceElemental)) {
+				this.doHit(entity);
+			} else {
+				return false;
+			}
+
 			return this.canBeRemoved;
 		}
 

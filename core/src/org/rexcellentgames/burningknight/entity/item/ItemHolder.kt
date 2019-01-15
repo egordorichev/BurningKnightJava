@@ -345,7 +345,7 @@ open class ItemHolder : SaveableEntity {
     super.onCollision(entity)
 
     if (t < 0.01f) {
-      return;
+      // return;
     }
 
     if (item is Key && !collided && Dungeon.depth == -3 && Ui.controls.size == 0) {
