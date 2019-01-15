@@ -29,7 +29,6 @@ public class Bare extends Mob {
 		appear = getAnimation().get("appear");
 		dissappear = getAnimation().get("dissappear");
 		animation = idle;
-		w = 21;
 	}
 
 	@Override

@@ -214,7 +214,10 @@ public class IceElemental extends Mob {
 			bullet.velocity.y = (float) (Math.sin(a) * f);
 			bullet.bad = true;
 
-			bullet.body.setLinearVelocity(bullet.velocity);
+			if (bullet.body != null) {
+				bullet.body.setLinearVelocity(bullet.velocity);
+			}
+
 			bullet.angle = (float) Math.toDegrees(a);
 			bullet.ra = a;
 		}
