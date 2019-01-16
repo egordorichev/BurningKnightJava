@@ -280,10 +280,10 @@ public class UiBanner extends Entity {
 
 		if (this.a > 0) {
 			Graphics.smallSimple.setColor(color.r, color.g, color.b, this.a);
-			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.UI_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 10);
+			Graphics.smallSimple.draw(Graphics.batch, this.text, Display.UI_WIDTH / 2 - (this.w1) / 2, this.y + 48 + this.h - 11);
 
 			if (this.extra != null) {
-				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.UI_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 10 - 12);
+				Graphics.smallSimple.draw(Graphics.batch, this.extra, Display.UI_WIDTH / 2 - (this.w2) / 2, this.y + 48 + this.h - 10 - 13);
 			}
 
 			Graphics.smallSimple.setColor(1, 1, 1, 1);

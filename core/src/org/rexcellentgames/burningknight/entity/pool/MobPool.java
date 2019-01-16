@@ -14,9 +14,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
-import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
-import org.rexcellentgames.burningknight.entity.creature.mob.ice.Snowball;
-import org.rexcellentgames.burningknight.entity.creature.mob.ice.SnowballFly;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
@@ -140,8 +138,12 @@ public class MobPool {
 		} else if (Dungeon.level instanceof IceLevel) {
 			add(1f, 2, IceElemental.class);
 			add(1.5f, -1, Snowball.class);
+			add(1f, -1, SnowballFly.class);
+			add(0.5f, -1, Snowflake.class);
+			add(0.5f, 1, Snowflake.class, Snowflake.class, Snowflake.class);
 
-			add(1000000f, -1, SnowballFly.class);
+			add(10000000000000000f, 1, Roller.class);
+
 		}
 	}
 }

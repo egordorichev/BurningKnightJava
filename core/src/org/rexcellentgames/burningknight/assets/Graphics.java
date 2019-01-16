@@ -163,7 +163,7 @@ public class Graphics {
 	}
 
 	public static void print(String s, BitmapFont font, float x, float y) {
-		font.draw(batch, s, x, y + (font == medium || font == mediumSimple ? 16 : 8));
+		font.draw(batch, s, x, y + (font == medium || font == mediumSimple ? 16 : 7));
 	}
 
 	public static void printCenter(String s, BitmapFont font, float x, float y) {

@@ -328,7 +328,7 @@ public class Dungeon extends ApplicationAdapter {
 		Random.random.setSeed(seed);
 
 		Log.info("Loading locale...");
-		Locale.load("en");
+		Locale.load("ru");
 
 		this.setupCursor();
 		Assets.init();
