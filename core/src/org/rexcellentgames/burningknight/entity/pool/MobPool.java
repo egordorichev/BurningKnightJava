@@ -141,8 +141,7 @@ public class MobPool {
 			add(1f, -1, SnowballFly.class);
 			add(0.5f, -1, Snowflake.class);
 			add(0.5f, 1, Snowflake.class, Snowflake.class, Snowflake.class);
-
-			add(10000000000000000f, 1, Roller.class);
+			add(1f, 1, Roller.class);
 
 		}
 	}

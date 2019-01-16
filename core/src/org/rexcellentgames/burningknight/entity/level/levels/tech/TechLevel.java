@@ -20,12 +20,12 @@ public class TechLevel extends RegularLevel {
 
 	@Override
 	public String getMusic() {
-		return Dungeon.depth == 0 ? "Gobbeon" : "Believer";
+		return Dungeon.depth == 0 ? "Gobbeon" : "Pirate bay";
 	}
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter().setGrass(0.25f).setWater(0);
+		return new HallPainter().setGrass(0f).setWater(0.4f);
 	}
 
 	@Override

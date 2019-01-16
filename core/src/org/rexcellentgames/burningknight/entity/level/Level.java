@@ -2085,11 +2085,15 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		if (flag == Terrain.BURNS) {
-			if ((b == Terrain.FLOOR_A || b == Terrain.FLOOR_B || b == Terrain.FLOOR_C) && Dungeon.level instanceof LibraryLevel) {
+			if (Dungeon.level instanceof TechLevel && (b == Terrain.FLOOR_B)) {
+				return false;
+			}
+
+			if (Dungeon.level instanceof LibraryLevel && (b == Terrain.FLOOR_A || b == Terrain.FLOOR_B || b == Terrain.FLOOR_C)) {
 				return true;
 			}
 
-			if ((b == Terrain.FLOOR_A || b == Terrain.FLOOR_B) && Dungeon.level instanceof ForestLevel) {
+			if (Dungeon.level instanceof ForestLevel && (b == Terrain.FLOOR_A || b == Terrain.FLOOR_B)) {
 				return true;
 			}
 		}

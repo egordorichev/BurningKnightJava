@@ -165,7 +165,7 @@ public class Roller extends Mob {
 			float f = Random.newFloat(200, 300);
 
 			self.velocity.x = (float) (Math.cos(angle) * f);
-			self.velocity.y = (float) (Math.cos(angle) * f);
+			self.velocity.y = (float) (Math.sin(angle) * f);
 			self.body.setLinearVelocity(self.velocity);
 		}
 

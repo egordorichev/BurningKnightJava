@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -271,7 +272,7 @@ public class Painter {
 						}
 					}
 
-					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL && !(level instanceof IceLevel)) {
+					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL && !(level instanceof IceLevel || level instanceof TechLevel)) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 
