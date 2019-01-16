@@ -68,6 +68,8 @@ public class DiagonalFly extends Fly {
 				this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x * 0.2f, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y * 0.2f);
 			}
 		}
+
+		common();
 	}
 
 	@Override

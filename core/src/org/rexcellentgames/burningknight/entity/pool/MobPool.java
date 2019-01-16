@@ -61,7 +61,7 @@ public class MobPool {
 		if (hub != null) {
 			hub.maxMatches -= 1;
 
-			if (hub.maxMatches == 0) {
+			if (hub.maxMatches == 1) {
 				if (!hub.once) {
 					dchances.add(chances.get(classes.indexOf(hub)));
 					dclasses.add(hub);

@@ -19,6 +19,10 @@ public class Random {
 		return random.nextFloat();
 	}
 
+	public static float newAngle() {
+		return newFloat((float) (Math.PI * 2));
+	}
+
 	public static int newInt(int max) {
 		return max > 0 ? (int) (random.nextFloat() * max) : 0;
 	}

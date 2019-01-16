@@ -150,7 +150,7 @@ public class InGameState extends State {
 			Audio.reset();
 		}
 
-		Audio.play(toPlay);
+		// Audio.play(toPlay);
 	}
 
 	public static String toPlay;
