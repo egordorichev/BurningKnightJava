@@ -578,22 +578,18 @@ public class UiInventory extends UiEntity {
 	}
 
 	public void renderOnPlayer(Player player, float of) {
-		if (player == null || player.isDead()) {
-			return;
-		}
-
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {
-			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped());
+			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped(), false);
 		}
 	}
 
 	public void renderBeforePlayer(Player player, float of) {
-		Item slot = this.inventory.getSlot(this.active);
+		Item slot = this.inventory.getSlot(this.active == 0 ? 1 : 0);
 
 		if (slot != null) {
-			slot.beforeRender(player.x, player.y + of, player.w, player.h, player.isFlipped());
+			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped(), true);
 		}
 	}
 }

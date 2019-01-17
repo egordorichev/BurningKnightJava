@@ -143,7 +143,7 @@ public class MobPool {
 			add(0.5f, -1, Snowflake.class);
 			add(0.5f, 1, Snowflake.class, Snowflake.class, Snowflake.class);
 			add(1f, 1, Roller.class);
-			add(100000000000f, 2, Gift.class);
+			add(1f, 2, Gift.class);
 		} else if (Dungeon.level instanceof TechLevel) {
 
 		}

@@ -46,9 +46,9 @@ public class SlashSword extends Weapon {
 
 	protected float lastAngle;
 
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	@Override
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		float angle = added;
-		float pure = 0;
 
 		if (this.owner != null) {
 			float an = (float) (owner.getWeaponAngle() - Math.PI);
@@ -57,8 +57,6 @@ public class SlashSword extends Weapon {
 			float a = (float) Math.toDegrees(this.lastAngle);
 
 			angle += (flipped ? a : -a);
-			pure = a - 180;
-
 			angle = flipped ? angle : 180 - angle;
 		}
 
@@ -68,7 +66,7 @@ public class SlashSword extends Weapon {
 		float yy = y + h / 4 + moveY;
 
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
-		angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, false, false, flipped ? -1 : 1, 1);
+		back ? (flipped ? -45 : 45) : angle, sprite.getRegionWidth() / 2 + this.ox, this.oy, false, false, flipped ? -1 : 1, 1);
 
 		if (this.body != null) {
 			float a = (float) Math.toRadians(angle);

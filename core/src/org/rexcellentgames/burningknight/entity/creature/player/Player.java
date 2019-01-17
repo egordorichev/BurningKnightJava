@@ -578,7 +578,7 @@ public class Player extends Creature {
 				id += 8;
 			}
 
-			if (this.ui != null) {
+			if (this.ui != null && !isRolling()) {
 				this.ui.renderBeforePlayer(this, of);
 			}
 

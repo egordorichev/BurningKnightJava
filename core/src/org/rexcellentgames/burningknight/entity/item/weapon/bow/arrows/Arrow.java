@@ -9,9 +9,4 @@ public class Arrow extends Item {
 	}
 
 	public int damage;
-
-	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
-
-	}
 }

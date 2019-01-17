@@ -212,7 +212,7 @@ public class Gun extends WeaponBase {
 	public boolean showRedLine;
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		if (!s) {
 			s = true;
 
@@ -231,8 +231,12 @@ public class Gun extends WeaponBase {
 		this.lastAngle = an;
 		float a = (float) Math.toDegrees(this.lastAngle);
 
-		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, a + textureA, this.origin.x + this.mod, this.origin.y,
-			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : flipped ? -this.sy : this.sy);
+		if (back) {
+			flipped = !flipped;
+		}
+
+		this.renderAt(x + w / 2 + (flipped ? -7 : 7), y + h / 4 + this.owner.z, back ? (flipped ? 45 + 90 : 45 ) : (a + textureA), this.origin.x + this.mod, this.origin.y,
+			false, false, textureA == 0 ? this.sx : flipped ? -this.sx : this.sx, textureA != 0 ? this.sy : (flipped) ? -this.sy : this.sy);
 
 		x = x + w / 2 + (flipped ? -7 : 7);
 		y = y + h / 4 + this.owner.z;
@@ -240,7 +244,7 @@ public class Gun extends WeaponBase {
 		float xx = x + getAimX(0, 0);
 		float yy = y + getAimY(0, 0);
 
-		if (this.showRedLine || (this.owner instanceof Player && ((Player) this.owner).hasRedLine)) {
+		if (!back && (this.showRedLine || (this.owner instanceof Player && ((Player) this.owner).hasRedLine))) {
 			float d = Display.GAME_WIDTH * 2;
 			closestFraction = 1f;
 			last.x = -1;

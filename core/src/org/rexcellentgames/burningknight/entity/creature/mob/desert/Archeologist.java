@@ -275,7 +275,7 @@ public class Archeologist extends Mob {
 		}
 
 		this.renderWithOutline(this.animation);
-		this.weapon.render(this.x, this.y, this.w, this.h, this.flipped);
+		this.weapon.render(this.x, this.y, this.w, this.h, this.flipped, false);
 		super.renderStats();
 	}
 

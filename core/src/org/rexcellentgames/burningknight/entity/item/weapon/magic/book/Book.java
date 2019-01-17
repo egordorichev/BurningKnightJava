@@ -8,7 +8,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class Book extends Wand {
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		float angle = 0;
 
 		if (this.owner != null) {
@@ -29,7 +29,7 @@ public class Book extends Wand {
 		float yy = y + h / 4;
 
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
-			angle, 0, 0, false, false, flipped ? -sx : sx, sy);
+			back ? (flipped ? -45 : 45) : angle, 0, 0, false, false, flipped ? -sx : sx, sy);
 	}
 
 	@Override

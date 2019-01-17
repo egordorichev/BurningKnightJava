@@ -1,9 +1,12 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.ice;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -38,9 +41,17 @@ public class Roller extends Mob {
 	public void init() {
 		super.init();
 
-		flying = true;
 		this.body = World.createCircleBody(this, 0, 0, 10, BodyDef.BodyType.DynamicBody, false, 0.9f);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity instanceof Level) {
+			return true;
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
 	}
 
 	@Override

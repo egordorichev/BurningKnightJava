@@ -198,7 +198,7 @@ public class Clown extends Mob {
 
 		if (guitar != null) {
 			Graphics.batch.setColor(1, 1, 1, this.a);
-			this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
+			this.guitar.render(this.x, this.y, this.w, this.h, this.flipped, false);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);

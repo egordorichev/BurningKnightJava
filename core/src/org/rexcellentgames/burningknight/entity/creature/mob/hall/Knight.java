@@ -127,7 +127,7 @@ public class Knight extends Mob {
 		this.renderWithOutline(this.animation);
 		Graphics.batch.setColor(1, 1, 1, this.a);
 
-		this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+		this.sword.render(this.x, this.y, this.w, this.h, this.flipped, false);
 		Graphics.batch.setColor(1, 1, 1, 1);
 		super.renderStats();
 	}
