@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.LavaFx;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
@@ -1040,6 +1041,7 @@ public abstract class Level extends SaveableEntity {
 				for (int x = Math.max(0, sx); x < Math.min(fxx, getWidth()); x++) {
 					int i = x + y * getWidth();
 					int info = this.info[i];
+
 					if (BitHelper.isBitSet(info, 0)) {
 						// Burning
 
@@ -1081,6 +1083,10 @@ public abstract class Level extends SaveableEntity {
 
 								Dungeon.area.add(fx);
 							}
+						}
+
+						if (this.liquidData[i] == Terrain.LAVA && Random.chance(2f)) {
+							Dungeon.area.add(new LavaFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 						}
 					}
 				}

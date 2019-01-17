@@ -57,11 +57,11 @@ public class GrassBreakFx extends Entity {
 
 	@Override
 	public void render() {
-		Graphics.startShape();
+		Graphics.startAlphaShape();
 		float s = this.size;
-		Graphics.shape.setColor(0.1f, g, 0.1f, 1f);
+		Graphics.shape.setColor(0.1f, g, 0.1f, 0.4f);
 		Graphics.shape.rect(this.x, this.y, s, s, this.size,
 			this.size, 1, 1, this.angle);
-		Graphics.endShape();
+		Graphics.endAlphaShape();
 	}
 }

@@ -28,8 +28,12 @@ public class Book extends Wand {
 		float xx = x + w / 2 + (flipped ? 0 : w / 4);
 		float yy = y + h / 4;
 
+		if (back) {
+			flipped = !flipped;
+		}
+
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() / 2 : 0), yy,
-			back ? (flipped ? -45 : 45) : angle, 0, 0, false, false, flipped ? -sx : sx, sy);
+			back ? (flipped ? -15 : 15) : angle, 0, 0, false, false, flipped ? -sx : sx, sy);
 	}
 
 	@Override

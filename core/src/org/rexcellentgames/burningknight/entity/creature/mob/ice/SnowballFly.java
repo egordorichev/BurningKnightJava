@@ -4,6 +4,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
@@ -37,10 +38,12 @@ public class SnowballFly extends DiagonalFly {
 	public void deathEffects() {
 		super.deathEffects();
 
-		Snowball snowball = new Snowball();
-		snowball.x = this.x;
-		snowball.y = this.y;
-		Dungeon.area.add(snowball.add());
+		if (touches[Terrain.FLOOR_A] || touches[Terrain.FLOOR_B] || touches[Terrain.FLOOR_C] || touches[Terrain.FLOOR_D]) {
+			Snowball snowball = new Snowball();
+			snowball.x = this.x;
+			snowball.y = this.y;
+			Dungeon.area.add(snowball.add());
+		}
 	}
 
 	@Override
