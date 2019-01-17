@@ -194,7 +194,7 @@ public class Shopkeeper extends Npc {
 		animation.render(this.x, this.y, this.flipped);
 
 		if (this.shotgun != null) {
-			this.shotgun.render(this.x, this.y, this.w, this.h, this.flipped);
+			this.shotgun.render(this.x, this.y, this.w, this.h, this.flipped, false);
 		}
 
 		super.renderStats();

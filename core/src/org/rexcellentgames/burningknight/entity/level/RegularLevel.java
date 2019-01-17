@@ -1,15 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
@@ -121,7 +113,7 @@ public abstract class RegularLevel extends Level {
 					MobPool.instance.initForRoom();
 
 					while (weight > 0) {
-						if (GameSave.runId == 0 && Dungeon.depth <= 2) {
+						/*if (GameSave.runId == 0 && Dungeon.depth <= 2) {
 							int id = room.id;
 							Mob mob = null;
 
@@ -157,7 +149,7 @@ public abstract class RegularLevel extends Level {
 
 							spawnMob(mob == null ? new DiagonalFly() : mob, room, weight);
 							weight -= 1;
-						} else {
+						} else {*/
 							MobHub mobs = MobPool.instance.generate();
 
 							for (Class<? extends Mob> m : mobs.types) {
@@ -167,7 +159,7 @@ public abstract class RegularLevel extends Level {
 									e.printStackTrace();
 								}
 							}
-						}
+						// }
 					}
 				}
 			}
