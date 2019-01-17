@@ -1,0 +1,63 @@
+{ "frames": {
+   "actor_gift 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 7, "w": 16, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_gift 1.ase": {
+    "frame": { "x": 16, "y": 0, "w": 16, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 8, "w": 16, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_gift 2.ase": {
+    "frame": { "x": 32, "y": 0, "w": 16, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 8, "w": 16, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_gift 3.ase": {
+    "frame": { "x": 48, "y": 0, "w": 16, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 13, "w": 16, "h": 7 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_gift 4.ase": {
+    "frame": { "x": 64, "y": 0, "w": 8, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 11, "y": 11, "w": 8, "h": 9 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_gift 5.ase": {
+    "frame": { "x": 72, "y": 0, "w": 8, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 13, "y": 10, "w": 8, "h": 9 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "RGBA8888",
+  "size": { "w": 80, "h": 16 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 0, "direction": "forward" },
+   { "name": "hurt", "from": 1, "to": 2, "direction": "forward" },
+   { "name": "dead", "from": 3, "to": 5, "direction": "forward" }
+  ]
+ }
+}

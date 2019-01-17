@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -142,6 +143,8 @@ public class MobPool {
 			add(0.5f, -1, Snowflake.class);
 			add(0.5f, 1, Snowflake.class, Snowflake.class, Snowflake.class);
 			add(1f, 1, Roller.class);
+			add(100000000000f, 2, Gift.class);
+		} else if (Dungeon.level instanceof TechLevel) {
 
 		}
 	}
