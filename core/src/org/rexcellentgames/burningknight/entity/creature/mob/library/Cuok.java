@@ -69,13 +69,6 @@ public class Cuok extends Mob {
 
 	@Override
 	public void render() {
-		if (this.target != null) {
-			this.flipped = this.target.x < this.x;
-		} else {
-			if (Math.abs(this.velocity.x) > 1f) {
-				this.flipped = this.velocity.x < 0;
-			}
-		}
 
 		if (this.dead) {
 			this.animation = killed;
