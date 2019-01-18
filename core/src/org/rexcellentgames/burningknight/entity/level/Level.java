@@ -1023,7 +1023,7 @@ public abstract class Level extends SaveableEntity {
 		return  BitHelper.getNumber(info, 10, 3) == type;
 	}
 
-	private void doEffects() {
+	protected void doEffects() {
 		if (this.lastFlame == 0) {
 			OrthographicCamera camera = Camera.game;
 			float zoom = camera.zoom;
