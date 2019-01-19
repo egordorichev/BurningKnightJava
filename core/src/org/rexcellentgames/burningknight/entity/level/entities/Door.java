@@ -96,16 +96,6 @@ public class Door extends SaveableEntity {
 		super.init();
 		all.add(this);
 
-		if (!this.vertical) {
-			this.animation = bkDoor ? vertAnimationFire.get("idle") : vertAnimation.get("idle");
-			this.y -= 8;
-		} else {
-			this.animation = bkDoor ? horizAnimationFire.get("idle") : horizAnimation.get("idle");
-			this.x += 4;
-		}
-
-		this.animation.setAutoPause(true);
-		this.animation.setPaused(true);
 	}
 
 	public Door(int x, int y, boolean vertical) {
@@ -126,6 +116,19 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		if (this.animation == null) {
+			if (!this.vertical) {
+				this.animation = bkDoor ? vertAnimationFire.get("idle") : vertAnimation.get("idle");
+				this.y -= 8;
+			} else {
+				this.animation = bkDoor ? horizAnimationFire.get("idle") : horizAnimation.get("idle");
+				this.x += 4;
+			}
+
+			this.animation.setAutoPause(true);
+			this.animation.setPaused(true);
+		}
+
 		if (this.sensor == null) {
 			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
 				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, false);
@@ -467,6 +470,10 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void render() {
+		if (animation == null) {
+			return;
+		}
+
 		if (this.key != null && this.key != KeyB.class && this.keyRegion == null) {
 			try {
 				Key key = this.key.newInstance();

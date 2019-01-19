@@ -66,6 +66,7 @@ public class Mob extends Creature {
 	protected State ai;
 	public boolean stupid = false;
 	protected Prefix prefix;
+	public boolean noLoot;
 
 	private static TextureRegion hideSign = Graphics.getTexture("ui-hide");
 	private static TextureRegion noticeSign = Graphics.getTexture("ui-notice");
@@ -246,6 +247,8 @@ public class Mob extends Creature {
 			this.prefix = PrefixPool.instance.getModifier(id - 1);
 			this.prefix.apply(this);
 		}
+
+		noLoot = reader.readBoolean();
 	}
 
 	protected boolean ignoreRooms;
@@ -259,6 +262,8 @@ public class Mob extends Creature {
 		} else {
 			writer.writeInt16((short) (this.prefix.id + 1));
 		}
+
+		writer.writeBoolean(noLoot);
 	}
 
 	private float closestFraction = 1.0f;
@@ -431,7 +436,7 @@ public class Mob extends Creature {
 
 				this.drop = false;
 
-				if (!noDrop) {
+				if (!noDrop && !noLoot) {
 					ArrayList<Item> items = this.getDrops();
 
 					for (Item item : items) {

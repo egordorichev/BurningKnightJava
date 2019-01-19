@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
+import org.rexcellentgames.burningknight.entity.creature.mob.tech.Factory;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Vacuum;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
@@ -146,7 +147,8 @@ public class MobPool {
 			add(1f, 1, Roller.class);
 			add(1f, 2, Gift.class);
 		} else if (Dungeon.level instanceof TechLevel) {
-			add(10000000000000f, -1, Vacuum.class);
+			add(1f, -1, Vacuum.class);
+			add(1f, 2, Factory.class);
 		}
 	}
 }

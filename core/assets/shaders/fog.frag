@@ -24,5 +24,5 @@ void main() {
 
     float v = color.r * md;
 
-    gl_FragColor = vec4(v, v, v, color.r * 0.5);
+    gl_FragColor = vec4(v, v, v, color.r * 0.4);
 }

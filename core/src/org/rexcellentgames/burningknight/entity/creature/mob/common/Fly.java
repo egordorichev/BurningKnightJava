@@ -2,9 +2,13 @@ package org.rexcellentgames.burningknight.entity.creature.mob.common;
 
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import com.badlogic.gdx.physics.box2d.Contact;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
+import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -101,6 +105,15 @@ public class Fly extends Mob {
 	@Override
 	public void renderShadow() {
 		Graphics.shadow(x + 3, y, w - 6, h + 4, 4);
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity instanceof RollingSpike || entity instanceof SolidProp) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
 	}
 
 	@Override

@@ -130,7 +130,7 @@ public class Vacuum extends Mob {
 			this.velocity.y = this.body.getLinearVelocity().y;
 
 			float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
-			this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod, ((float) Math.sin(a)) * 32 * Mob.speedMod);
+			this.body.setLinearVelocity(((float) Math.cos(a)) * 20 * Mob.speedMod, ((float) Math.sin(a)) * 20 * Mob.speedMod);
 		}
 
 		if (Player.instance.room == room) {

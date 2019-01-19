@@ -798,9 +798,7 @@ public class InGameState extends State {
 
 			Graphics.batch.begin();
 
-			Graphics.batch.setColor(1, 1, 1, 0.5f);
 			Graphics.render(noise, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y - Display.GAME_HEIGHT / 2, 0, 0, 0, false, false);
-			Graphics.batch.setColor(1, 1, 1, 1);
 
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
