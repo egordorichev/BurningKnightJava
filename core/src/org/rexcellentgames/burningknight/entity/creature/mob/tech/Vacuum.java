@@ -16,7 +16,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
 
-public class Vacuum extends Mob {
+public class Vacuum extends Bot {
 	public static Animation animations = Animation.make("actor-vacum", "-normal");
 	private AnimationData idle;
 	private AnimationData killed;

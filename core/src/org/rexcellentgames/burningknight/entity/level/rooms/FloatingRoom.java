@@ -82,6 +82,10 @@ public class FloatingRoom extends RegularRoom {
 			pos.x += dir.x;
 			pos.y += dir.y;
 
+			if (pos.x < 2 || pos.y < 2 || pos.x > 61 || pos.y > 61) {
+				return;
+			}
+
 			if (numDiggers < 6 && Random.chance(diggerChance)) {
 				newDigger((int) pos.x, (int) pos.y);
 			}

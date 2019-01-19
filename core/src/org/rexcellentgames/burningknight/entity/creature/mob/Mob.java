@@ -305,20 +305,20 @@ public class Mob extends Creature {
 		float x2 = player.x + player.w / 2;
 		float y2 = player.y + player.h / 2;
 
-		/*closestFraction = 1f;
+		return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), ignore) == 0;
+	}
 
-		if (x != x2 || y != y2) {
-			World.world.rayCast(callback, x, y, x2, y2);
-		} else {
-			return true;
+	public boolean canSeePoint(Point player) {
+		if (player == null) {
+			return false;
 		}
-		*/
 
-		//if (last == player) {
-			return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), ignore) == 0;
-		//}
+		float x = this.x + this.w / 2;
+		float y = this.y + this.h / 2;
+		float x2 = player.x;
+		float y2 = player.y;
 
-		//return false;
+		return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), 0) == 0;
 	}
 
 	protected void assignTarget() {
@@ -332,6 +332,10 @@ public class Mob extends Creature {
 	public Point getCloser(Point target) {
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
+
+		if (to == from) {
+			return target;
+		}
 
 		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
 			to -= Level.getWidth();
@@ -725,7 +729,7 @@ public class Mob extends Creature {
 							}
 						}
 
-						if (Player.instance != null && !Player.instance.isDead() && !force && Random.chance(20)) {
+						if (Player.instance != null && !Player.instance.isDead() && !force && Random.chance(20) && !noLoot) {
 							HeartFx fx = new HeartFx();
 
 							fx.x = x + w / 2 + Random.newFloat(-4, 4);

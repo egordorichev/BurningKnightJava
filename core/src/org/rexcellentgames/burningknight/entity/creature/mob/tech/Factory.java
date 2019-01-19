@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class Factory extends Mob {
+public class Factory extends Bot {
 	public static Animation animations = Animation.make("actor-factory", "-normal");
 	private AnimationData idle;
 	private AnimationData killed;

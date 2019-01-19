@@ -150,7 +150,8 @@ public class MobPool {
 		} else if (Dungeon.level instanceof TechLevel) {
 			add(1f, -1, Vacuum.class);
 			add(1f, 2, Factory.class);
-			add(1f, 1, Repair.class);
+			add(0.5f, 1, Factory.class, Repair.class);
+			add(0.5f, 1, Vacuum.class, Repair.class);
 		}
 	}
 }
