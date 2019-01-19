@@ -35,7 +35,6 @@ public class Bare extends Mob {
 	public void init() {
 		super.init();
 
-		flying = true;
 		this.body = this.createSimpleBody(7, 0, 7, 14, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}

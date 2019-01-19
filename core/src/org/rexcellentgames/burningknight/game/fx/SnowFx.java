@@ -34,6 +34,7 @@ public class SnowFx extends Entity {
 		mod = Random.newFloat(0.2f, 1f);
 		fl = Random.newFloat(0.5f, 1.5f);
 		rot = Random.newFloat(-1, 1);
+		sm = Random.newFloat(0.7f, 2f);
 	}
 
 	@Override
@@ -54,10 +55,11 @@ public class SnowFx extends Entity {
 		} else {
 			this.t += dt;
 			this.x += Math.cos(this.t * this.fl) * this.mod;
-			this.y -= this.scale * dt * 60;
+			this.y -= this.scale * dt * 60 * sm;
 		}
 	}
 
+	private float sm;
 	public float tar;
 	private float al = 1;
 	private float onTar;

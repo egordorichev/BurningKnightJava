@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.common;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -26,10 +27,17 @@ public class Fly extends Mob {
 	}
 
 	@Override
+	protected void onHurt(int a, Entity creature) {
+		super.onHurt(a, creature);
+		this.playSfx("damage_clown");
+	}
+
+	@Override
 	public void deathEffects() {
 		super.deathEffects();
 
 		deathEffect(killed);
+		this.playSfx("death_clown");
 		body.setLinearVelocity(new Vector2());
 		poof();
 	}

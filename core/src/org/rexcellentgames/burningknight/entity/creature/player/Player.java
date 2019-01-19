@@ -651,6 +651,8 @@ public class Player extends Creature {
 					0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 			}
 
+			Graphics.batch.setColor(1, 1, 1, 1);
+
 			if (shade || this.fa > 0) {
 				Graphics.batch.end();
 				Graphics.batch.setShader(null);
@@ -1102,7 +1104,7 @@ public class Player extends Creature {
 		light.setActive(true);
 		light.attachToBody(body, 8, 8, 0);
 		light.setPosition(x + 8, y + 8);
-		light.setDistance((float) (180));
+		light.setDistance(180);
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
@@ -1344,17 +1346,17 @@ public class Player extends Creature {
 					float f = 80;
 					ignoreAcceleration = true;
 
-					if (acceleration.len() > 1f) {
+					/*if (acceleration.len() > 1f) {
 						double a = (Math.atan2(acceleration.y, acceleration.x));
 
 						acceleration.x = (float) Math.cos(a) * speed * f;
 						acceleration.y = (float) Math.sin(a) * speed * f;
-					} else {
+					} else {*/
 						double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
 						acceleration.x = (float) Math.cos(a) * speed * f;
 						acceleration.y = (float) Math.sin(a) * speed * f;
-					}
+					// }
 
 					for (int i = 0; i < 3; i++) {
 						PoofFx fx = new PoofFx();
