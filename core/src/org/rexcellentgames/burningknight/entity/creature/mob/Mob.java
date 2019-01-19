@@ -211,7 +211,7 @@ public class Mob extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		Graphics.render(region, x + w / 2, y + z, 0, getOx(), 0, false, false, sx * (flipped ? -1 : 1), sy);
+		Graphics.render(region, (int) Math.round(x + w / 2), (int) Math.round(y + z), 0, getOx(), 0, false, false, sx * (flipped ? -1 : 1), sy);
 
 		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;

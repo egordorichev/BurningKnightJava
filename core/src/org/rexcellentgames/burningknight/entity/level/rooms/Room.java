@@ -195,6 +195,10 @@ public abstract class Room extends Rect implements GraphNode {
 
 			point = getRandomCell();
 
+			if (connected.size() == 0) {
+				return point;
+			}
+
 			for (Door door : connected.values()) {
 				int dx = (int) (door.x - point.x);
 				int dy = (int) (door.y - point.y);

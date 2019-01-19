@@ -14,7 +14,9 @@ import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.entity.level.rooms.FloatingRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.TutorialChasmRoom;
@@ -113,53 +115,15 @@ public abstract class RegularLevel extends Level {
 					MobPool.instance.initForRoom();
 
 					while (weight > 0) {
-						/*if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-							int id = room.id;
-							Mob mob = null;
+						MobHub mobs = MobPool.instance.generate();
 
-							if (Dungeon.depth == 1) {
-								switch (id) {
-									case 1: mob = new Fly(); break;
-									case 2: mob = new MovingFly(); break;
-									case 3: mob = weight == 2 ? new DiagonalFly() : new MovingFly(); break;
-									case 4: mob = new Knight(); weight = 1; break;
-									case 5: mob = weight == 2 ? new DiagonalShotFly() : (weight == 3 ? new RangedKnight() : new DiagonalFly()); break;
-								}
-							} else {
-								switch (id) {
-									case 1: mob = new Clown(); break;
-									case 2: mob = weight == 1 ? new Knight() : new Thief(); break;
-									case 3: mob = weight == 2 ? new Clown() : (weight == 1 ? new RangedKnight() : new Knight());  break;
-									default: {
-										MobHub mobs = MobPool.instance.generate();
-
-										for (Class<? extends Mob> m : mobs.types) {
-											try {
-												weight = spawnMob(m.newInstance(), room, weight);
-											} catch (InstantiationException | IllegalAccessException e) {
-												e.printStackTrace();
-											}
-										}
-
-										continue;
-									}
-								}
+						for (Class<? extends Mob> m : mobs.types) {
+							try {
+								weight = spawnMob(m.newInstance(), room, weight);
+							} catch (InstantiationException | IllegalAccessException e) {
+								e.printStackTrace();
 							}
-
-
-							spawnMob(mob == null ? new DiagonalFly() : mob, room, weight);
-							weight -= 1;
-						} else {*/
-							MobHub mobs = MobPool.instance.generate();
-
-							for (Class<? extends Mob> m : mobs.types) {
-								try {
-									weight = spawnMob(m.newInstance(), room, weight);
-								} catch (InstantiationException | IllegalAccessException e) {
-									e.printStackTrace();
-								}
-							}
-						// }
+						}
 					}
 				}
 			}
@@ -297,6 +261,11 @@ public abstract class RegularLevel extends Level {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
 
+		if (this instanceof CreepLevel) {
+			rooms.add(new FloatingRoom());
+			return rooms;
+		}
+
 		if (GameSave.runId == 0 && Dungeon.depth == 1) {
 			rooms.add(new TutorialChasmRoom());
 			Log.info("Added tutorial chasm room");
@@ -404,7 +373,7 @@ public abstract class RegularLevel extends Level {
 	protected abstract Painter getPainter();
 
 	protected Builder getBuilder() {
-		if (Dungeon.depth <= -1) {
+		if (Dungeon.depth <= -1 || this instanceof CreepLevel) {
 			return new SingleRoomBuilder();
 		} else {
 			LineBuilder builder = new LineBuilder();
@@ -422,7 +391,6 @@ public abstract class RegularLevel extends Level {
 		}
 	}
 
-	// fixme: get straight line on first run
 	protected int getNumRegularRooms() {
 		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 5 : Random.newInt(3, 5));
 	}

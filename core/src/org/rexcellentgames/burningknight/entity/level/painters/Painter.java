@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Bush;
 import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
@@ -323,32 +324,34 @@ public class Painter {
 
 				level.setDecor((int) d.x, (int) d.y + 1, (byte) 0);
 
-				byte t = level.get((int) d.x, (int) d.y);
-				boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
+				if (!(level instanceof CreepLevel)) {
+					byte t = level.get((int) d.x, (int) d.y);
+					boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
 
-				if (t != Terrain.FLOOR_A && t != Terrain.FLOOR_B && t != Terrain.FLOOR_C && t != Terrain.FLOOR_D && t != Terrain.CRACK && gt) {
-					org.rexcellentgames.burningknight.entity.level.entities.Door door = new org.rexcellentgames.burningknight.entity.level.entities.Door(
-						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
+					if (t != Terrain.FLOOR_A && t != Terrain.FLOOR_B && t != Terrain.FLOOR_C && t != Terrain.FLOOR_D && t != Terrain.CRACK && gt) {
+						org.rexcellentgames.burningknight.entity.level.entities.Door door = new org.rexcellentgames.burningknight.entity.level.entities.Door(
+							(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
-					if (d.getType() == Door.Type.REGULAR) {
-						d.setType(Door.Type.ENEMY);
+						if (d.getType() == Door.Type.REGULAR) {
+							d.setType(Door.Type.ENEMY);
+						}
+
+						door.autoLock = (d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.BOSS);
+						door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
+
+						if (d.getType() == Door.Type.LEVEL_LOCKED) {
+							door.key = BurningKey.class;
+						} else if (d.getType() == Door.Type.LOCKED) {
+							door.key = KeyC.class;
+						} else if (d.getType() == Door.Type.BOSS) {
+							door.bkDoor = true;
+						}
+
+						door.lockable = door.lock;
+
+						door.add();
+						Dungeon.area.add(door);
 					}
-
-					door.autoLock = (d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.BOSS);
-					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
-
-					if (d.getType() == Door.Type.LEVEL_LOCKED) {
-						door.key = BurningKey.class;
-					} else if (d.getType() == Door.Type.LOCKED) {
-						door.key = KeyC.class;
-					} else if (d.getType() == Door.Type.BOSS) {
-						door.bkDoor = true;
-					}
-
-					door.lockable = door.lock;
-
-					door.add();
-					Dungeon.area.add(door);
 				}
 
 				if (d.getType() == Door.Type.SECRET) {

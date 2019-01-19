@@ -17,6 +17,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Factory;
+import org.rexcellentgames.burningknight.entity.creature.mob.tech.Repair;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Vacuum;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
@@ -64,7 +65,7 @@ public class MobPool {
 		if (hub != null) {
 			hub.maxMatches -= 1;
 
-			if (hub.maxMatches == 1) {
+			if (hub.maxMatches == 0) {
 				if (!hub.once) {
 					dchances.add(chances.get(classes.indexOf(hub)));
 					dclasses.add(hub);
@@ -149,6 +150,7 @@ public class MobPool {
 		} else if (Dungeon.level instanceof TechLevel) {
 			add(1f, -1, Vacuum.class);
 			add(1f, 2, Factory.class);
+			add(1f, 1, Repair.class);
 		}
 	}
 }

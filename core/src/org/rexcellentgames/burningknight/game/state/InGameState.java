@@ -553,7 +553,8 @@ public class InGameState extends State {
 
 					@Override
 					public void onEnd() {
-						Dungeon.newGame();
+						int level = Dungeon.depth;
+						Dungeon.newGame(true, level);
 						Dungeon.setBackground2(new Color(0, 0, 0, 1));
 					}
 				});

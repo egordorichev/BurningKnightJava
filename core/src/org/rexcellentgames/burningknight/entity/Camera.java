@@ -11,6 +11,7 @@ import org.rexcellentgames.burningknight.Noise;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
+import org.rexcellentgames.burningknight.entity.level.rooms.FloatingRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -150,7 +151,7 @@ public class Camera extends Entity {
 					camPosition = camPosition.lerp(new Vector2(mousePosition.x, mousePosition.y), dt * speed * 0.25f);
 					Player p = (Player) target;
 
-					if (p.room != null && p.room.lastNumEnemies > 0) {
+					if (p.room != null && p.room.lastNumEnemies > 0 && !(p.room instanceof FloatingRoom)) {
 						camPosition = camPosition.lerp(new Vector2(p.room.getCenter().x * 16 + 8, p.room.getCenter().y * 16 + 8), dt * speed * 0.5f);
 					}
 				}
