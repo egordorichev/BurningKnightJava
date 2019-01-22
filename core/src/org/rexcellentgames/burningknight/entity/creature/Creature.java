@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.BurningMan;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
+import org.rexcellentgames.burningknight.entity.creature.mob.tech.Tank;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
@@ -323,8 +324,8 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		if (!this.isFlying() && this.touches[Terrain.WATER] && !ignoreWater() && (!(this instanceof Player) || !((Player) this).isRolling())) {
-			this.velocity.y -= dt * 600;
+		if (!this.isFlying() && this.touches[Terrain.WATER] && !ignoreWater() && !(this instanceof Tank) && (!(this instanceof Player) || !((Player) this).isRolling())) {
+			this.velocity.y -= dt * 300;
 		}
 
 		if (this instanceof Player && ((Player) this).isRolling()) {

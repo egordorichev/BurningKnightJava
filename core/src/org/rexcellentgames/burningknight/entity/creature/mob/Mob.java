@@ -176,6 +176,8 @@ public class Mob extends Creature {
 		return 0;
 	}
 
+	public boolean flippedVert;
+
 	public void renderWithOutline(AnimationData data) {
 		TextureRegion region = data.getCurrent().frame;
 		float w = region.getRegionWidth();
@@ -194,7 +196,7 @@ public class Mob extends Creature {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, getOx(), getOy(), false, false, sx * (flipped ? -1f : 1f), sy);
+						Graphics.render(region, x + xx + w / 2, y + z + yy + getOy(), 0, getOx(), getOy(), false, false, sx * (flipped ? -1f : 1f), sy * (flippedVert ? -1 : 1));
 					}
 				}
 			}
@@ -218,7 +220,7 @@ public class Mob extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		Graphics.render(region, (int) Math.round(x + w / 2), (int) Math.round(y + z), 0, getOx(), 0, false, false, sx * (flipped ? -1 : 1), sy);
+		Graphics.render(region, Math.round(x + w / 2), Math.round(y + z) + getOy(), 0, getOx(), getOy(), false, false, sx * (flipped ? -1 : 1), sy * (flippedVert ? -1 : 1));
 
 		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
