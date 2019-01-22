@@ -16,6 +16,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
+import org.rexcellentgames.burningknight.entity.creature.mob.tech.Batterfly;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Factory;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Repair;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Vacuum;
@@ -152,6 +153,8 @@ public class MobPool {
 			add(1f, 2, Factory.class);
 			add(0.5f, 1, Factory.class, Repair.class);
 			add(0.5f, 1, Vacuum.class, Repair.class);
+			add(1f, -1, Batterfly.class);
+			add(0.5f, -1, Batterfly.class, Batterfly.class, Batterfly.class);
 		}
 	}
 }

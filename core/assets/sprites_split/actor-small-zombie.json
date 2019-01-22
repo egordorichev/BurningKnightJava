@@ -1,0 +1,120 @@
+{ "frames": {
+   "actor_small_zombie 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 7, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 1.ase": {
+    "frame": { "x": 10, "y": 0, "w": 10, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 8, "w": 10, "h": 8 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 2.ase": {
+    "frame": { "x": 20, "y": 0, "w": 10, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 8, "w": 10, "h": 8 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 3.ase": {
+    "frame": { "x": 30, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 7, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 4.ase": {
+    "frame": { "x": 40, "y": 0, "w": 9, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 6, "w": 9, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 5.ase": {
+    "frame": { "x": 49, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 6, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 6.ase": {
+    "frame": { "x": 59, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 7, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 7.ase": {
+    "frame": { "x": 69, "y": 0, "w": 9, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 4, "y": 7, "w": 9, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 8.ase": {
+    "frame": { "x": 78, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 7, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 9.ase": {
+    "frame": { "x": 88, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 7, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 10.ase": {
+    "frame": { "x": 98, "y": 0, "w": 10, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 3, "y": 7, "w": 10, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 11.ase": {
+    "frame": { "x": 108, "y": 0, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 4, "y": 7, "w": 6, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   },
+   "actor_small_zombie 12.ase": {
+    "frame": { "x": 114, "y": 0, "w": 6, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 7, "w": 6, "h": 9 },
+    "sourceSize": { "w": 16, "h": 16 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "RGBA8888",
+  "size": { "w": 120, "h": 9 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "run", "from": 4, "to": 8, "direction": "forward" },
+   { "name": "hurt", "from": 9, "to": 10, "direction": "forward" },
+   { "name": "dead", "from": 11, "to": 12, "direction": "forward" }
+  ]
+ }
+}

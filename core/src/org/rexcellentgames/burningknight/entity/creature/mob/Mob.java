@@ -23,6 +23,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
 import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
@@ -54,6 +55,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mob extends Creature {
+	public static int maxId;
+	private int id;
+
 	public Point lastSeen;
 	public static boolean challenge;
 	public static float speedMod = 1f;
@@ -93,6 +97,9 @@ public class Mob extends Creature {
 	@Override
 	public void init() {
 		super.init();
+
+		id = maxId;
+		maxId ++;
 
 		if (!(this instanceof BurningKnight) && !(this instanceof Npc) && !(this instanceof Mimic) && !(this instanceof IceElemental)) {
 			all.add(this);
@@ -570,7 +577,7 @@ public class Mob extends Creature {
 		this.invt = Math.max(0, this.invt - dt);
 		this.invtt = Math.max(0, this.invtt - dt);
 
-		if (!this.dead && !(this instanceof Boss)) {
+		if (!this.dead && !(this instanceof Boss || this instanceof Fly)) {
 			if (this.velocity.x < 0) {
 				this.flipped = true;
 			} else if (this.velocity.x > 0) {
@@ -1107,4 +1114,9 @@ public class Mob extends Creature {
 	}
 
 	public boolean saw;
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
 }

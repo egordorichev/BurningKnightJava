@@ -1,0 +1,95 @@
+{ "frames": {
+   "actor_mother 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 13, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 11, "w": 13, "h": 13 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 1.ase": {
+    "frame": { "x": 13, "y": 0, "w": 13, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 11, "w": 13, "h": 13 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 2.ase": {
+    "frame": { "x": 26, "y": 0, "w": 14, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 12, "w": 14, "h": 12 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 3.ase": {
+    "frame": { "x": 40, "y": 0, "w": 14, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 12, "w": 14, "h": 12 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 4.ase": {
+    "frame": { "x": 54, "y": 0, "w": 14, "h": 12 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 6, "y": 12, "w": 14, "h": 12 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 5.ase": {
+    "frame": { "x": 68, "y": 0, "w": 13, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 11, "w": 13, "h": 13 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 6.ase": {
+    "frame": { "x": 81, "y": 0, "w": 13, "h": 13 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 11, "w": 13, "h": 13 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 7.ase": {
+    "frame": { "x": 94, "y": 0, "w": 7, "h": 4 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 20, "w": 7, "h": 4 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 8.ase": {
+    "frame": { "x": 101, "y": 0, "w": 9, "h": 7 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 7, "y": 17, "w": 9, "h": 7 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   },
+   "actor_mother 9.ase": {
+    "frame": { "x": 110, "y": 0, "w": 7, "h": 6 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 18, "w": 7, "h": 6 },
+    "sourceSize": { "w": 24, "h": 24 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "RGBA8888",
+  "size": { "w": 117, "h": 13 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 4, "direction": "forward" },
+   { "name": "hurt", "from": 5, "to": 6, "direction": "forward" },
+   { "name": "dead", "from": 7, "to": 9, "direction": "forward" }
+  ]
+ }
+}
