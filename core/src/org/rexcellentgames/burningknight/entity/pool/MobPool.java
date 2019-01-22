@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.pool;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.blood.Zombie;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
@@ -17,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.*;
+import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
@@ -152,8 +154,9 @@ public class MobPool {
 			add(0.5f, 1, Vacuum.class, Repair.class);
 			add(1f, -1, Batterfly.class);
 			add(0.5f, -1, Batterfly.class, Batterfly.class, Batterfly.class);
-
-			add(100000000000f, -1, Tank.class);
+			add(1f, -1, Tank.class);
+		} else if (Dungeon.level instanceof BloodLevel) {
+			add(1000000000000f, -1, Zombie.class);
 		}
 	}
 }

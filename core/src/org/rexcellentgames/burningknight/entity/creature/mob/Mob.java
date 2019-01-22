@@ -965,6 +965,17 @@ public class Mob extends Creature {
 			return false;
 		}
 
+		public boolean moveRightTo(Point point, float s, float d) {
+			float ds = self.moveToPoint(point.x + 8, point.y + 8, s);
+			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
+
+			if (ds < 4f || dd < d) {
+				return dd <= d;
+			}
+
+			return false;
+		}
+
 		public boolean moveTo(Point point, float s, float d) {
 			if (this.nextPathPoint == null) {
 				this.nextPathPoint = self.getCloser(point);

@@ -22,16 +22,16 @@ import java.util.ArrayList;
 
 public class Clown extends Mob {
 	public static Animation animations = Animation.make("actor-clown", "-purple");
+	public Animation getAnimation() {
+		return animations;
+	}
+
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData animation;
 	private Guitar guitar;
-
-	public Animation getAnimation() {
-		return animations;
-	}
 
 	{
 		hpMax = 9;

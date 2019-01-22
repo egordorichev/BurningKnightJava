@@ -228,15 +228,15 @@ public abstract class Level extends SaveableEntity {
 		} else if (depth < 7) {
 			return new TechLevel();
 		} else if (depth < 8) {
-			return new CreepLevel();
+			return new BloodLevel();
 		}
 
-		return new BloodLevel();
+		return new CreepLevel();
 	}
 
 	public String getDepthAsCoolNum() {
 		// fixme: 2 if 2 levels
-		return letters[(Dungeon.depth - 1) % 1];
+		return letters[0]; // (Dungeon.depth - 1) % 1
 	}
 
 	public String formatDepth() {

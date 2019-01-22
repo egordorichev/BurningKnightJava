@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 public class BloodLevel extends RegularLevel {
 	public BloodLevel() {
 		Terrain.loadTextures(6);
-
 		this.uid = 6;
 	}
 
@@ -26,6 +25,6 @@ public class BloodLevel extends RegularLevel {
 
 	@Override
 	protected Painter getPainter() {
-		return new HallPainter().setGrass(0.35f).setWater(0.35f);
+		return new HallPainter().setGrass(0f).setWater(0.35f);
 	}
 }
