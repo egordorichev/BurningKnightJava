@@ -1,9 +1,12 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.tech;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.Mine;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
@@ -145,6 +148,7 @@ public class Tank extends Bot {
 
 		private float delay;
 		private Point dir;
+		private float last;
 
 		public void selectDir() {
 			t = 0;
@@ -166,11 +170,22 @@ public class Tank extends Bot {
 				dir.y = 0;
 				dir.x = Random.chance(50) ? -1 : 1;
 			}
+
+			if (last <= 0 && Player.instance.room == self.room) {
+				Mine mine = new Mine();
+				mine.x = self.x;
+				mine.y = self.y;
+				Dungeon.area.add(mine.add());
+
+				last = 1f;
+			}
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
+
+			last -= dt;
 
 			if (t >= delay) {
 				selectDir();
