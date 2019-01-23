@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.blood;
 
 import com.badlogic.gdx.physics.box2d.BodyDef;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -10,10 +11,9 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 
-public class Zombie extends Mob {
-	public static Animation animations = Animation.make("actor-small-zombie", "-normal");
+public class Mother extends Mob {
+	public static Animation animations = Animation.make("actor-mother", "-normal");
 	private AnimationData idle;
-	private AnimationData run;
 	private AnimationData killed;
 	private AnimationData hurt;
 	private AnimationData animation;
@@ -26,7 +26,6 @@ public class Zombie extends Mob {
 		hpMax = 16;
 
 		idle = getAnimation().get("idle");
-		run = getAnimation().get("run");
 		hurt = getAnimation().get("hurt");
 		killed = getAnimation().get("dead");
 		animation = idle;
@@ -36,10 +35,7 @@ public class Zombie extends Mob {
 	public void init() {
 		super.init();
 
-		w = 8;
-		h = 8;
-
-		this.body = this.createSimpleBody(0, 0, 8, 8, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(2, 0, 12, 12, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
@@ -51,16 +47,18 @@ public class Zombie extends Mob {
 
 	@Override
 	public void render() {
-		if (Math.abs(this.velocity.x) > 1f) {
-			this.flipped = this.velocity.x < 0;
+		if (this.target != null) {
+			this.flipped = this.target.x < this.x;
+		} else {
+			if (Math.abs(this.velocity.x) > 1f) {
+				this.flipped = this.velocity.x < 0;
+			}
 		}
 
 		if (this.dead) {
 			this.animation = killed;
 		} else if (this.invt > 0) {
 			this.animation = hurt;
-		} else if (this.acceleration.len2() > 1) {
-			this.animation = run;
 		} else {
 			this.animation = idle;
 		}
@@ -73,6 +71,7 @@ public class Zombie extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
+
 		animation.update(dt);
 		super.common();
 	}
@@ -80,6 +79,13 @@ public class Zombie extends Mob {
 	@Override
 	protected void deathEffects() {
 		super.deathEffects();
+
+		for (int i = 0; i < Random.newInt(3, 6); i++) {
+			Mob mob = Random.chance(70) ? new Zombie() : new BigZombie();
+			mob.x = this.x + Random.newFloat(-8, 16);
+			mob.y = this.y + Random.newFloat(-8, 16);
+			Dungeon.area.add(mob.add());
+		}
 
 		this.playSfx("death_clown");
 		deathEffect(killed);
@@ -101,7 +107,7 @@ public class Zombie extends Mob {
 		return super.getAi(state);
 	}
 
-	public class IdleState extends Mob.State<Zombie> {
+	public class IdleState extends Mob.State<Mother> {
 		private float delay;
 
 		@Override
@@ -116,9 +122,9 @@ public class Zombie extends Mob {
 				t += dt;
 
 				if (self.canSee(Player.instance)) {
-					moveRightTo(Player.instance, 25f, 4f);
+					moveRightTo(Player.instance, 9f, 4f);
 				} else {
-					moveTo(Player.instance, 25f, 4f);
+					moveTo(Player.instance, 9f, 4f);
 				}
 
 				if (self.room != null && Player.instance.room == self.room) {
@@ -146,7 +152,7 @@ public class Zombie extends Mob {
 		}
 	}
 
-	public class TiredState extends Mob.State<Zombie> {
+	public class TiredState extends Mob.State<Mother> {
 		private float delay;
 
 		@Override

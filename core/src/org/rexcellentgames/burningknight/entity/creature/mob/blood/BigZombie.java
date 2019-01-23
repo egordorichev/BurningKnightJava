@@ -42,7 +42,7 @@ public class BigZombie extends Mob {
 	public void init() {
 		super.init();
 
-		this.body = this.createSimpleBody(0, 0, 16, 16, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(3, 0, 16 - 6, 12, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
@@ -137,7 +137,7 @@ public class BigZombie extends Mob {
 
 				if (self.room != null && Player.instance.room == self.room) {
 					for (Mob mob : Mob.all) {
-						if (mob != self && mob.room == self.room && mob instanceof BigZombie) {
+						if (mob != self && mob.room == self.room) {
 							float x = mob.x + mob.w / 2 + mob.velocity.x * dt * 10;
 							float y = mob.y + mob.h / 2 + mob.velocity.y * dt * 10;
 							float d = self.getDistanceTo(x, y);
