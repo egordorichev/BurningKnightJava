@@ -11,7 +11,7 @@ import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class Zombie extends Mob {
-	public static Animation animations = Animation.make("actor-zombie", "-normal");
+	public static Animation animations = Animation.make("actor-small-zombie", "-normal");
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData killed;
@@ -36,7 +36,10 @@ public class Zombie extends Mob {
 	public void init() {
 		super.init();
 
-		this.body = this.createSimpleBody(0, 0, 12, 12, BodyDef.BodyType.DynamicBody, false);
+		w = 8;
+		h = 8;
+
+		this.body = this.createSimpleBody(0, 0, 8, 8, BodyDef.BodyType.DynamicBody, false);
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
 	}
 
@@ -70,7 +73,6 @@ public class Zombie extends Mob {
 	@Override
 	public void update(float dt) {
 		super.update(dt);
-
 		animation.update(dt);
 		super.common();
 	}
@@ -105,7 +107,7 @@ public class Zombie extends Mob {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-			delay = Random.newFloat(10f, 15f);
+			delay = Random.newFloat(2f, 6f);
 		}
 
 		@Override
@@ -114,9 +116,9 @@ public class Zombie extends Mob {
 				t += dt;
 
 				if (self.canSee(Player.instance)) {
-					moveRightTo(Player.instance, 7f, 4f);
+					moveRightTo(Player.instance, 25f, 4f);
 				} else {
-					moveTo(Player.instance, 7f, 4f);
+					moveTo(Player.instance, 25f, 4f);
 				}
 
 				if (self.room != null && Player.instance.room == self.room) {
@@ -157,7 +159,7 @@ public class Zombie extends Mob {
 		public void update(float dt) {
 			super.update(dt);
 
-			if (delay >= dt) {
+			if (t >= delay) {
 				self.become("idle");
 			}
 		}

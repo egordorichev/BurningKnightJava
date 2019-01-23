@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.pool;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.blood.BigZombie;
 import org.rexcellentgames.burningknight.entity.creature.mob.blood.Zombie;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
@@ -156,7 +157,8 @@ public class MobPool {
 			add(0.5f, -1, Batterfly.class, Batterfly.class, Batterfly.class);
 			add(1f, -1, Tank.class);
 		} else if (Dungeon.level instanceof BloodLevel) {
-			add(1000000000000f, -1, Zombie.class);
+			add(1f, -1, Zombie.class);
+			add(1000000000000f, -1, BigZombie.class);
 		}
 	}
 }

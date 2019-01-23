@@ -66,7 +66,7 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#272727"),
 		Color.valueOf("#1a1932"),
-		Color.valueOf("#571c27"),
+		Color.valueOf("#3b1443"),
 		Color.valueOf("#92a1b9")
 	};
 
@@ -563,7 +563,7 @@ public abstract class Level extends SaveableEntity {
 		Dungeon.area.add(llll);
 		Dungeon.area.add(new SignsLevel());
 
-		float v = this instanceof LibraryLevel ? 0f : (this instanceof IceLevel || this instanceof CreepLevel ? 0.6f : 0.2f);
+		float v = this instanceof LibraryLevel ? 0f : (this instanceof IceLevel || this instanceof CreepLevel ? 0.6f : 0.3f);
 		World.lights.setAmbientLight(v, v, v, 1f);
 	}
 
