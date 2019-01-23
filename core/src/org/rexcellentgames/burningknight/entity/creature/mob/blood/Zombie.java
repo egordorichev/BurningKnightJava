@@ -118,7 +118,7 @@ public class Zombie extends Mob {
 				} else {
 					moveTo(Player.instance, 7f, 4f);
 				}
-				
+
 				if (self.room != null && Player.instance.room == self.room) {
 					for (Mob mob : Mob.all) {
 						if (mob != self && mob.room == self.room && mob instanceof Zombie) {
