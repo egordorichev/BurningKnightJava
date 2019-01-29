@@ -35,6 +35,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -288,8 +289,6 @@ public class BurningKnight extends Boss {
 		boolean def = reader.readBoolean();
 		deathDepth = reader.readInt16();
 
-		Log.error(deathDepth + " " + Dungeon.depth);
-
 		if (deathDepth != Dungeon.depth) {
 			restore();
 			deathDepth = Dungeon.depth;
@@ -346,17 +345,17 @@ public class BurningKnight extends Boss {
 			if (this.invt <= 0) {
 				ArrayList<Item> items = new ArrayList<>();
 				items.add(Chest.generate(ItemRegistry.Quality.IRON_PLUS, Random.chance(50)));
-				Point point = room.getCenter();
 
-				// fixme: not working
 				if (Player.instance != null && !Player.instance.isDead()) {
 					for (int i = 0; i < Random.newInt(2, 6); i++) {
 						HeartFx fx = new HeartFx();
 
-						fx.x = point.x * 16 + Random.newFloat(-4, 4);
-						fx.y = point.x * 16 + Random.newFloat(-4, 4);
+						fx.x = x + w / 2 + Random.newFloat(-4, 4);
+						fx.y = y + h / 2 + Random.newFloat(-4, 4);
 
-						Dungeon.area.add(fx.add());
+						Dungeon.area.add(fx);
+						LevelSave.add(fx);
+
 						fx.randomVelocity();
 					}
 				}
@@ -385,13 +384,25 @@ public class BurningKnight extends Boss {
 
 				this.become("defeated");
 				this.dest = false;
+				Point point = room.getCenter();
+
+				point.x *= 16;
+				point.y *= 16;
+
+				if (Player.instance.getDistanceTo(point.x, point.y) < 64) {
+					point.y += Random.chance(50) ? 64 : -64;
+				}
 
 				Portal exit = new Portal();
 
-				exit.x = point.x * 16;
-				exit.y = point.y * 16;
+				exit.x = point.x;
+				exit.y = point.y;
 
-				Dungeon.level.set((int) point.x, (int) point.y, Terrain.PORTAL);
+				Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.DIRT);
+
+				Dungeon.level.set((int) point.x / 16, (int) point.y / 16, Terrain.PORTAL);
+				Dungeon.level.tileRegion((int) point.x / 16 - 1, (int) point.y / 16 - 1);
+
 				LevelSave.add(exit);
 				Dungeon.area.add(exit);
 
