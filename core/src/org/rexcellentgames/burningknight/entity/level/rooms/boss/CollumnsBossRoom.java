@@ -16,7 +16,7 @@ public class CollumnsBossRoom extends BossRoom {
 		byte tile = Random.chance(50) ? Terrain.WALL : (Random.chance(60) ? Terrain.CHASM : Terrain.LAVA);
 
 		int pillarInset = minDim >= 12 ? 2 : 1;
-		int pillarSize = (minDim - 6)/(pillarInset + 1);
+		int pillarSize = (minDim - 6)/(pillarInset + 1) - 2;
 
 		float xSpaces = getWidth() - 2*pillarInset - pillarSize - 2;
 		float ySpaces = getHeight() - 2*pillarInset - pillarSize - 2;

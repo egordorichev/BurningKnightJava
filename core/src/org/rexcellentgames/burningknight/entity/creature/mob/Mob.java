@@ -342,10 +342,6 @@ public class Mob extends Creature {
 		int from = (int) (Math.floor((this.x + this.w / 2) / 16) + Math.floor((this.y + 12) / 16) * Level.getWidth());
 		int to = (int) (Math.floor((target.x + this.w / 2) / 16) + Math.floor((target.y + 12) / 16) * Level.getWidth());
 
-		if (to == from) {
-			return target;
-		}
-
 		if (!Dungeon.level.checkFor(to, Terrain.PASSABLE)) {
 			to -= Level.getWidth();
 		}

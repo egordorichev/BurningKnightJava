@@ -592,7 +592,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.w / 4f, this.y, this.w / 2f, this.h / 2f, 5f, this.a);
+		Graphics.shadow(this.x + w / 4, this.y - 3, this.w / 3, this.h / 2f, 5f, this.a);
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -1446,7 +1446,7 @@ public class BurningKnight extends Boss {
 			}
 
 			if (t >= 2f && num >= 3) {
-				// self.become("chase");
+				self.become("chase");
 			}
 
 			last -= dt;
