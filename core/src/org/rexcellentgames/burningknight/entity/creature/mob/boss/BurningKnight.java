@@ -33,6 +33,8 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletPro
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -254,12 +256,23 @@ public class BurningKnight extends Boss {
 		this.tp(0, 0);
 
 		light = World.newLight(256, new Color(1, 0f, 0, 1f), 128, x, y);
+
+		setPattern();
+	}
+
+	private void setPattern() {
+		if (Dungeon.level instanceof HallLevel) {
+			pat = new BossPattern();
+		} else if (Dungeon.level instanceof DesertLevel) {
+
+		} else {
+			pat = new BossPattern();
+		}
 	}
 
 	public void restore() {
-		Log.error("restore");
 		this.pickedKey = false;
-		this.hpMax = 1; // FIXME: just for testing // (Dungeon.depth * 50) + 150;
+		this.hpMax = (Dungeon.depth * 40) + 150;
 		this.hp = this.hpMax;
 		this.rage = false;
 
@@ -775,57 +788,18 @@ public class BurningKnight extends Boss {
 
 	private int lastAttack;
 	private int pattern = -1;
+	private BossPattern pat;
 
 	public class PreattackState extends BKState {
 		@Override
-		public void onEnter() {
-			super.onEnter();
-
-			if (pattern == -1) {
+		public void update(float dt) {
+			int i = lastAttack % pat.getNumAttacks();
+			if (i == 0) {
 				pattern = Random.newInt(3);
 			}
-		}
 
-		@Override
-		public void update(float dt) {
-			// if (this.t >= 1f) {
-				int i = lastAttack % 3;
-
-				if (self.pattern == 0) {
-					if (i == 0) {
-						self.become("laserAttack");
-					} else if (i == 1) {
-						self.become("missileAttack");
-					} else {
-						self.become("laserAimAttack");
-						pattern = Random.newInt(3);
-					}
-				} else if (self.pattern == 1) {
-					if (i == 0) {
-						self.become("autoAttack");
-					} else if (i == 1) {
-						self.become("missileAttack");
-					} else {
-						self.become("spawnAttack");
-						pattern = Random.newInt(3);
-					}
-				} else if (self.pattern == 2) {
-					if (i == 0) {
-						self.become("autoAttack");
-					} else if (i == 1) {
-						self.become("spawnAttack");
-					} else {
-						self.become("laserAimAttack");
-						pattern = Random.newInt(3);
-					}
-				}
-
-				lastAttack++;
-
-				// return;
-			// }
-
-			// super.update(dt);
+			self.become(pat.getState(pattern, i));
+			lastAttack++;
 		}
 	}
 
@@ -1197,10 +1171,13 @@ public class BurningKnight extends Boss {
 			center.x *= 16;
 			center.y *= 16;
 
+			cn = Random.newInt(3, 6);
+
 			MobPool.instance.initForFloor();
 			MobPool.instance.initForRoom();
 		}
 
+		private int cn;
 		private Point center;
 		private int num;
 		private boolean reached;
@@ -1218,10 +1195,13 @@ public class BurningKnight extends Boss {
 				return;
 			}
 
-			float x = self.x + self.w / 2;
-			float y = self.y + self.h / 2;
+			if (num < cn && this.t > num * 0.5f + 1f) {
+				Point point = self.room.getRandomFreeCell();
 
-			if (num < 4 && this.t > num * 0.5f + 1f) {
+				if (point == null) {
+					return;
+				}
+
 				Mob mob = null;
 
 				try {
@@ -1239,10 +1219,8 @@ public class BurningKnight extends Boss {
 					}
 				}
 
-				double a = Math.PI * 2 * (num * 0.25f);
-
-				mob.x = (float) (Math.cos(a) * 96) + x;
-				mob.y = (float) (Math.sin(a) * 96) + y;
+				mob.x = point.x * 16 + Random.newFloat(-8, 8);
+				mob.y = point.y * 16 + Random.newFloat(-8, 8);
 				mob.noDrop = true;
 
 				mob.poof();
@@ -1252,12 +1230,12 @@ public class BurningKnight extends Boss {
 				return;
 			}
 
-			if (num == 4) {
-				for (Mob mob : Mob.all) {
+			if (num == cn && this.t > num * 0.5f + 1f) {
+				/*for (Mob mob : Mob.all) {
 					if (mob.room == self.room) {
 						return;
 					}
-				}
+				}*/
 
 				self.become("chase");
 			}
@@ -1387,9 +1365,11 @@ public class BurningKnight extends Boss {
 						if (!brokeWeapon) {
 							for (int i = 0; i < 8; i++) {
 								BulletProjectile ball = new BulletProjectile();
+								boolean fast = i % 2 == 0;
+								float vel = fast ? 70 : 40;
 
 								float a = (float) (i * Math.PI / 4);
-								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
+								ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(vel * Mob.shotSpeedMod);
 
 								ball.x = (this.x);
 								ball.y = (this.y);
@@ -1404,17 +1384,17 @@ public class BurningKnight extends Boss {
 				};
 
 				ball.depth = 17;
-				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8);
+				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8) + Random.newFloat(-0.3f, 0.3f);
 				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(40f * Mob.shotSpeedMod);
-				ball.x = (float) (self.x + self.w / 2);
-				ball.y = (float) (self.y + self.h - 8);
+				ball.x = (self.x + self.w / 2);
+				ball.y = (self.y + self.h - 8);
 				ball.damage = 2;
 				ball.bad = true;
 				ball.auto = true;
-				ball.delay = 1f;
+				ball.delay = 0.5f;
 				ball.alp = 0;
 
-				Tween.to(new Tween.Task(1, 1) {
+				Tween.to(new Tween.Task(1, 0.5f) {
 					@Override
 					public float getValue() {
 						return ball.alp;
@@ -1450,7 +1430,7 @@ public class BurningKnight extends Boss {
 			}
 
 			if (last <= 0) {
-				last = 3f;
+				last = 2f;
 				t = 0;
 
 				laser = new Laser();
@@ -1470,15 +1450,16 @@ public class BurningKnight extends Boss {
 				laser.owner = self;
 
 				Dungeon.area.add(laser);
-			} else if (t >= 2.3f && !laser.removing) {
+			} else if (t >= 1.95f && !laser.removing) {
 				laser.remove();
+				last = 0;
 				num ++;
 			} else if (laser.al == 1) {
 				laser.huge = true;
 				laser.fake = false;
 			}
 
-			if (t >= 3f && num == 3) {
+			if (t >= 2f && num == 3) {
 				self.become("chase");
 			}
 

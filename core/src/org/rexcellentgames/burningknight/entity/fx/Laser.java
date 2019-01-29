@@ -55,7 +55,7 @@ public class Laser extends Entity {
 	public void init() {
 		super.init();
 
-		Tween.to(new Tween.Task(1, fake ? 1f : 0.1f) {
+		Tween.to(new Tween.Task(1, fake ? 0.4f : 0.1f) {
 			@Override
 			public float getValue() {
 				return al;

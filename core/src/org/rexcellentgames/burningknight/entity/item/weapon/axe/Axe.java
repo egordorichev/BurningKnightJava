@@ -92,6 +92,7 @@ public class Axe extends Weapon {
 			}
 		}
 
+
 		TextureRegion sprite = this.getSprite();
 
 		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);

@@ -38,6 +38,7 @@ public class SlashSword extends Weapon {
 		delayA = 0.15f;
 		timeB = 0.2f;
 		delayB = 0.1f;
+		penetrates = true;
 		timeC = 0.3f;
 
 		useTime = timeA + delayA + timeB + delayB + timeC;
