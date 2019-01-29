@@ -488,7 +488,7 @@ public class Player extends Creature {
 			Graphics.render(balloon, this.x + (16 - balloon.getRegionWidth()) / 2 + bx + balloon.getRegionWidth() / 2, this.y + of + 32 + by, a, balloon.getRegionWidth() / 2, 0, false, false);
 		}
 		
-		if (last != null && count == 1) {
+		if (last != null && count == 1 && !Ui.hideUi) {
 			float dx = last.x + last.w / 2 - this.x - this.w / 2;
 			float dy = last.y + last.h / 2 - this.y - this.h / 2;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
@@ -770,7 +770,7 @@ public class Player extends Creature {
 
 				this.holders.add(item);
 
-				if (this.pickupFx == null && !Ui.hideUi) {
+				if (this.pickupFx == null) {
 					this.pickupFx = new ItemPickupFx(item, this);
 					this.area.add(this.pickupFx);
 				}

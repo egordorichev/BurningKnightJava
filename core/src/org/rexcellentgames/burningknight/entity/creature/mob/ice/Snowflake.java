@@ -4,7 +4,6 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.forest.Treeman;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -24,7 +23,7 @@ public class Snowflake extends Mob {
 	}
 
 	{
-		hpMax = 32;
+		hpMax = 12;
 
 		idle = getAnimation().get("idle");
 		hurt = getAnimation().get("hurt");

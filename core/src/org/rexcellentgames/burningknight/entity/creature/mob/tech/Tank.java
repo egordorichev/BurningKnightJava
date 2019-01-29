@@ -61,7 +61,9 @@ public class Tank extends Bot {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Level || entity == null || entity instanceof Door || entity instanceof SolidProp || entity instanceof RollingSpike) {
-			((IdleState)this.ai).selectDir();
+			if (this.ai != null) {
+				((IdleState)this.ai).selectDir();
+			}
 		}
 
 		super.onCollision(entity);

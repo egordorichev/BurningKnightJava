@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiAchievement extends Entity {
@@ -89,6 +90,10 @@ public class UiAchievement extends Entity {
 
 	@Override
 	public void render() {
+		if (Ui.hideUi) {
+			return;
+		}
+
 		boolean missing = icon == Item.missing;
 
 		Graphics.batch.setColor(1, 1, 1, 1);

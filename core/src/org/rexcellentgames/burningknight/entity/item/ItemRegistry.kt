@@ -90,13 +90,13 @@ object ItemRegistry {
 
   val items = mapOf(
 	  // Permanent upgrades
-	  "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),
-	  "totally_shop" to Pair(TotallyShop::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 5),
-	  "start_with_health_potion" to Pair(StartWithHealthPotion::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 3),
+	  // "extra_heart" to Pair(ExtraHeart::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 10),
+	  // "totally_shop" to Pair(TotallyShop::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 5),
+	  // "start_with_health_potion" to Pair(StartWithHealthPotion::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 3),
 	  // "starting_armor" to Pair(StartingArmor::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 1),
-	  "more_gold" to Pair(MoreGold::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 15),
+	  // "more_gold" to Pair(MoreGold::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 15),
 	  // "extra_upgrade" to Pair(ExtraUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 8),
-	  "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
+	  // "better_chest_chance" to Pair(BetterChestChance::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.PERMANENT, 12),
 
 		// Decor
 	  "cowboy_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 10),

@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiBanner extends Entity {
@@ -260,6 +261,10 @@ public class UiBanner extends Entity {
 
 	@Override
 	public void render() {
+		if (Ui.hideUi) {
+			return;
+		}
+
 		float x = Display.UI_WIDTH / 2 - this.w / 2;
 		float y = this.y + 48;
 

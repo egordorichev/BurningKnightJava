@@ -10,8 +10,6 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.Contact;
-import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -73,7 +71,6 @@ public class BurningKnight extends Boss {
 	public boolean pickedKey;
 	private PointLight light;
 
-
 	{
 		texture = "ui-bkbar-skull";
 		hpMax = 200;
@@ -101,10 +98,16 @@ public class BurningKnight extends Boss {
 	}
 
 	@Override
+	public void knockBackFrom(Entity from, float force) {
+
+	}
+
+	@Override
 	protected void onHurt(int am, Entity from) {
 		super.onHurt(am, from);
 		this.playSfx("BK_hurt_" + Random.newInt(1, 6));
 	}
+
 	private float dtx;
 	private float dty;
 
@@ -554,6 +557,12 @@ public class BurningKnight extends Boss {
 		// Graphics.print(this.state, Graphics.small, x, y);
 	}
 
+	@Override
+	public void initStats() {
+		super.initStats();
+		setStat("knockback", 0);
+	}
+
 	private float time;
 	private float lastFrame;
 
@@ -779,7 +788,7 @@ public class BurningKnight extends Boss {
 
 		@Override
 		public void update(float dt) {
-			if (this.t >= 1f) {
+			// if (this.t >= 1f) {
 				int i = lastAttack % 3;
 
 				if (self.pattern == 0) {
@@ -813,10 +822,10 @@ public class BurningKnight extends Boss {
 
 				lastAttack++;
 
-				return;
-			}
+				// return;
+			// }
 
-			super.update(dt);
+			// super.update(dt);
 		}
 	}
 

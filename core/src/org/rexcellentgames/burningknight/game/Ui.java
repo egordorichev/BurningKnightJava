@@ -444,6 +444,10 @@ public class Ui {
 	}
 
 	public static void renderSaveIcon(float upscale) {
+		if (Ui.hideUi) {
+			return;
+		}
+
 		// saveAlpha = 1;
 
 		if (saveAlpha > 0.05f) {

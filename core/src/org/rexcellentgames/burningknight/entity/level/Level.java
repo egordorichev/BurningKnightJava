@@ -2137,9 +2137,9 @@ public abstract class Level extends SaveableEntity {
 				this.data[i] = v;
 			}
 
-			if (v == Terrain.CHASM) {
+			// if (v == Terrain.CHASM) {
 				this.liquidData[i] = 0;
-			}
+			// }
 		}
 	}
 

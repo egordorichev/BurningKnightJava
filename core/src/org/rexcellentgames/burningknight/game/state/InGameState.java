@@ -461,8 +461,8 @@ public class InGameState extends State {
 
 						if (Dungeon.depth == -2) {
 							Dungeon.goToSelect = true;
-						} else if (Dungeon.depth == 4) {
-							Dungeon.game.setState(new WonState());
+						/*} else if (Dungeon.depth == 4) {
+							Dungeon.game.setState(new WonState());*/
 						} else {
 							Dungeon.goToLevel(Dungeon.depth + 1);
 							Player.instance.rotating = false;
@@ -585,10 +585,11 @@ public class InGameState extends State {
 			} else if (Input.instance.wasPressed("F7")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof BossRoom && room != Player.instance.room) {
-
 						Point point = room.getRandomFreeCell();
 
-						Player.instance.tp(point.x * 16, point.y * 16);
+						if (point != null) {
+							Player.instance.tp(point.x * 16, point.y * 16);
+						}
 
 						break;
 					}
@@ -650,7 +651,7 @@ public class InGameState extends State {
 
 					@Override
 					public void onEnd() {
-						if (Player.instance.getHp() > 1) {
+						if (Player.instance.getHp() + Player.instance.getGoldenHearts() + Player.instance.getIronHearts() > 1) {
 							Tween.to(new Tween.Task(0, 0.4f) {
 								@Override
 								public float getValue() {

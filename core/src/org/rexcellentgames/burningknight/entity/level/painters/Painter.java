@@ -25,7 +25,6 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Painter {
 	private float grass = 0f;
@@ -549,7 +548,9 @@ public class Painter {
 			}
 
 			int cell = x + (w - (int) rowW) / 2 + ((y + i) * Level.getWidth());
-			Arrays.fill(liquid ? level.liquidData : level.data, cell, cell + (int) rowW, value);
+			for (int j = cell; j < cell + rowW; j++) {
+				level.set(j, value);
+			}
 		}
 	}
 
