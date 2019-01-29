@@ -10,7 +10,6 @@ import com.badlogic.gdx.graphics.g2d.PolygonSpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.EarClippingTriangulator;
 import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
@@ -97,7 +96,7 @@ public class BloodSplatFx extends Entity {
 
 		t += dt;
 
-		if (Settings.quality == 0 && this.t >= 5f) {
+		if (this.t >= 15f) {
 			this.alp -= dt * 0.3f;
 
 			if (this.alp <= 0) {

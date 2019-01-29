@@ -50,6 +50,7 @@ public class Portal extends SaveableEntity {
 	@Override
 	public void init() {
 		super.init();
+		depth = -1;
 
 		this.body = World.createSimpleBody(this, 4, 4, 8, 8, BodyDef.BodyType.DynamicBody, true);
 
@@ -59,24 +60,12 @@ public class Portal extends SaveableEntity {
 
 		light = World.newLight(64, new Color(1, 1, 1, 1), 64, 0, 0);
 		light.setPosition(this.x + 8, this.y + 8);
-
-		if (Level.GENERATED) {
-			this.addSelf();
-		}
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
 		this.body = World.removeBody(this.body);
-	}
-
-	private void addSelf() {
-		Log.info("Checking for exit ladder");
-
-		if (Dungeon.loadType != Entrance.LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
-			// Log.info("Set exit ladder!");
-		}
 	}
 
 	@Override
@@ -140,7 +129,6 @@ public class Portal extends SaveableEntity {
 		super.update(dt);
 
 		this.t += dt;
-		depth = -9;
 
 		last += dt;
 
@@ -174,10 +162,7 @@ public class Portal extends SaveableEntity {
 		super.load(reader);
 
 		this.type = reader.readByte();
-
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
-		this.addSelf();
-
 		light.setPosition(this.x + 8, this.y + 8);
 	}
 

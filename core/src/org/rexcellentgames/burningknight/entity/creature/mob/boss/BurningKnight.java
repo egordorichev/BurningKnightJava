@@ -27,13 +27,13 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.*;
 import org.rexcellentgames.burningknight.entity.item.*;
-import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
-import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
@@ -70,7 +70,6 @@ public class BurningKnight extends Boss {
 	private long sid;
 	private static Sound sfx;
 	private BKSword sword;
-	public boolean pickedKey;
 	private PointLight light;
 
 	{
@@ -122,7 +121,6 @@ public class BurningKnight extends Boss {
 		this.rage = true;
 		this.unhittable = true;
 		this.ignoreRooms = true;
-		this.pickedKey = false;
 
 		for (Mob mob : Mob.all) {
 			if (mob.room == Player.instance.room) {
@@ -263,15 +261,14 @@ public class BurningKnight extends Boss {
 	private void setPattern() {
 		if (Dungeon.level instanceof HallLevel) {
 			pat = new BossPattern();
-		} else if (Dungeon.level instanceof DesertLevel) {
-
 		} else {
 			pat = new BossPattern();
 		}
 	}
 
 	public void restore() {
-		this.pickedKey = false;
+		Log.error("Restore bk");
+
 		this.hpMax = (Dungeon.depth * 40) + 150;
 		this.hp = this.hpMax;
 		this.rage = false;
@@ -288,30 +285,17 @@ public class BurningKnight extends Boss {
 		}
 
 		this.rage = reader.readBoolean();
-		this.pickedKey = reader.readBoolean();
 		boolean def = reader.readBoolean();
 		deathDepth = reader.readInt16();
+
+		Log.error(deathDepth + " " + Dungeon.depth);
 
 		if (deathDepth != Dungeon.depth) {
 			restore();
 			deathDepth = Dungeon.depth;
-		}
-
-		if (def && !this.pickedKey) {
+		} else if (def) {
 			this.rage = true;
 			this.become("defeated");
-		} if (this.rage && this.pickedKey) {
-			this.ignoreRooms = true;
-			this.attackTp = true;
-			this.findStartPoint();
-			this.rage = true;
-			this.dead = false;
-			Dungeon.flash(Color.WHITE, 0.05f);
-			this.deathDepth = Dungeon.depth;
-			this.done = false;
-			this.unhittable = true;
-			this.ignoreRooms = true;
-			this.become("appear");
 		}
 	}
 
@@ -328,7 +312,6 @@ public class BurningKnight extends Boss {
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 		writer.writeBoolean(this.rage);
-		writer.writeBoolean(this.pickedKey);
 		writer.writeBoolean(this.state.equals("defeated"));
 		writer.writeInt16((short) deathDepth);
 	}
@@ -362,20 +345,18 @@ public class BurningKnight extends Boss {
 
 			if (this.invt <= 0) {
 				ArrayList<Item> items = new ArrayList<>();
-				items.add(new BurningKey());
 				items.add(Chest.generate(ItemRegistry.Quality.IRON_PLUS, Random.chance(50)));
+				Point point = room.getCenter();
 
+				// fixme: not working
 				if (Player.instance != null && !Player.instance.isDead()) {
-					Point point = room.getCenter();
-
 					for (int i = 0; i < Random.newInt(2, 6); i++) {
 						HeartFx fx = new HeartFx();
 
 						fx.x = point.x * 16 + Random.newFloat(-4, 4);
 						fx.y = point.x * 16 + Random.newFloat(-4, 4);
 
-						Dungeon.area.add(fx);
-						LevelSave.add(fx);
+						Dungeon.area.add(fx.add());
 						fx.randomVelocity();
 					}
 				}
@@ -387,10 +368,10 @@ public class BurningKnight extends Boss {
 					holder.y = this.y;
 					holder.getItem().generate();
 
-					this.area.add(holder);
+					this.area.add(holder.add());
 
 					Camera.follow(holder, false);
-					LevelSave.add(holder);
+					holder.randomVelocity();
 				}
 
 				Tween.to(new Tween.Task(0, 2f) {
@@ -404,6 +385,15 @@ public class BurningKnight extends Boss {
 
 				this.become("defeated");
 				this.dest = false;
+
+				Portal exit = new Portal();
+
+				exit.x = point.x * 16;
+				exit.y = point.y * 16;
+
+				Dungeon.level.set((int) point.x, (int) point.y, Terrain.PORTAL);
+				LevelSave.add(exit);
+				Dungeon.area.add(exit);
 
 				Player.instance.setUnhittable(false);
 				Input.instance.blocked = false;
@@ -519,6 +509,8 @@ public class BurningKnight extends Boss {
 			this.animation = anim;
 		}
 
+		float ox = getOx();
+
 		Graphics.batch.end();
 		Mob.shader.begin();
 		Mob.shader.setUniformf("u_color", new Vector3(1, 0.3f, 0.3f));
@@ -538,7 +530,7 @@ public class BurningKnight extends Boss {
 			}
 
 			TextureRegion r = this.idle.getFrames().get(Math.min(1, point.frame)).frame;
-			Graphics.render(r, point.x + this.w / 2, point.y + this.h / 2, 0, r.getRegionWidth() / 2, r.getRegionHeight() / 2, false, false, point.flipped ? -s : s, s);
+			Graphics.render(r, point.x + ox, point.y + this.h / 2, 0, ox, r.getRegionHeight() / 2, false, false, point.flipped ? -s : s, s);
 		}
 
 		Graphics.batch.end();
@@ -557,7 +549,7 @@ public class BurningKnight extends Boss {
 
 		TextureRegion reg = this.animation.getCurrent().frame;
 
-		Graphics.render(reg, this.x + this.w / 2, this.y + this.h / 2, 0, reg.getRegionWidth() / 2, reg.getRegionHeight() / 2, false, false, this.flipped ? -1 : 1, 1);
+		Graphics.render(reg, this.x + ox, this.y + this.h / 2, 0, ox, reg.getRegionHeight() / 2, false, false, this.flipped ? -1 : 1, 1);
 
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
@@ -1175,6 +1167,18 @@ public class BurningKnight extends Boss {
 
 			MobPool.instance.initForFloor();
 			MobPool.instance.initForRoom();
+
+			int count = 0;
+
+			for (Mob mob : Mob.all) {
+				if (mob.room == self.room) {
+					count++;
+				}
+			}
+
+			if (count >= 8f) {
+				self.become("autoAttack");
+			}
 		}
 
 		private int cn;
@@ -1231,15 +1235,14 @@ public class BurningKnight extends Boss {
 			}
 
 			if (num == cn && this.t > num * 0.5f + 1f) {
-				/*for (Mob mob : Mob.all) {
-					if (mob.room == self.room) {
-						return;
-					}
-				}*/
-
 				self.become("chase");
 			}
 		}
+	}
+
+	@Override
+	public float getOx() {
+		return 18.5f;
 	}
 
 	public class DefeatedState extends BKState {
@@ -1252,11 +1255,9 @@ public class BurningKnight extends Boss {
 			self.rage = true;
 			self.unhittable = true;
 			self.ignoreRooms = true;
-			self.pickedKey = false;
 			self.tp(-1000, -1000);
 
 			if (!Player.instance.didGetHit()) {
-				Log.error("UNLOCK");
 				Achievements.unlock(Achievements.DONT_GET_HIT_IN_BOSS_FIGHT);
 			}
 		}
@@ -1294,15 +1295,6 @@ public class BurningKnight extends Boss {
 		private int num;
 
 		@Override
-		public void onEnter() {
-			super.onEnter();
-
-			self.lookUp.setFrame(0);
-			self.lookUp.setPaused(false);
-			self.anim = self.lookUp;
-		}
-
-		@Override
 		public void update(float dt) {
 			super.update(dt);
 
@@ -1310,23 +1302,13 @@ public class BurningKnight extends Boss {
 				if (this.t >= 2f) {
 					num++;
 
-					if (this.num == 7) {
-
-					} else if (num == 6) {
-						self.lookDown.setFrame(0);
-						self.lookDown.setPaused(false);
-						self.anim = self.lookDown;
-
-						return;
-					}
-
 					this.t = 0;
 
 					MissileProjectile missile = new MissileProjectile();
 					missile.to = Player.instance;
 					missile.bad = true;
 					missile.owner = self;
-					missile.x = self.x + self.w / 2 + (self.flipped ? -4 : 4);
+					missile.x = self.x + self.getOx();
 					missile.y = self.y + self.h - 16;
 					Dungeon.area.add(missile);
 
@@ -1334,8 +1316,7 @@ public class BurningKnight extends Boss {
 					appear.missile = missile;
 					Dungeon.area.add(appear);
 				}
-			} else if (self.anim == self.lookDown) { //  && self.lookDown.isPaused()
-				self.anim = self.idle;
+			} else {
 				self.become(self.rage ? "chase" : "preattack");
 			}
 		}
@@ -1450,7 +1431,7 @@ public class BurningKnight extends Boss {
 				laser.owner = self;
 
 				Dungeon.area.add(laser);
-			} else if (t >= 1.95f && !laser.removing) {
+			} else if (t >= 2f && !laser.removing) {
 				laser.remove();
 				last = 0;
 				num ++;
@@ -1459,7 +1440,7 @@ public class BurningKnight extends Boss {
 				laser.fake = false;
 			}
 
-			if (t >= 2f && num == 3) {
+			if (t >= 2f && num >= 3) {
 				self.become("chase");
 			}
 

@@ -275,7 +275,7 @@ public abstract class RegularLevel extends Level {
 			this.entrance = EntranceRoomPool.instance.generate();
 			this.exit = BossRoomPool.instance.generate(); // : EntranceRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
-			rooms.add(new BossEntranceRoom());
+			// rooms.add(new BossEntranceRoom());
 
 			rooms.add(this.entrance);
 			rooms.add(this.exit);
