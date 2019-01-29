@@ -47,6 +47,9 @@ public class LoadState extends State {
 		"Dodge this!",
 		"I think that knight wanted to say something",
 		"...",
+		"Are we there yet?",
+		"Generating secrets...",
+		"Hiding secrets...",
 		"I'm hungry",
 		"/!\\ /!\\ /!\\",
 		"Saving is important",
@@ -58,7 +61,10 @@ public class LoadState extends State {
 		"QWERTY",
 		"F2",
 		"Generating generators",
-		"Waking up"
+		"Waking up",
+		"Deleting the saves",
+		"Preparing to start",
+		"Looking for an excuse"
 	));
 
 	@Override
@@ -280,9 +286,6 @@ public class LoadState extends State {
 			Graphics.print("Generating... " + i + "%",
 				Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Graphics.medium.setColor(1, 1, 1, 1);
-		}
-
-		if (!error || generating) {
 			Graphics.small.setColor(1, 1, 1, al);
 			Graphics.print(joke,
 				Graphics.small, (Display.UI_HEIGHT - 16) / 2 - 16);

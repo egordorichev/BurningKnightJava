@@ -8,7 +8,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
-import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
@@ -120,7 +119,7 @@ public class Inventory {
 
 		if (item instanceof WeaponBase) {
 			for (int i = 0; i < 3; i++) {
-				if (this.isEmpty(i) && (i != 2 || item instanceof ActiveItem)) {
+				if (this.isEmpty(i) && (i != 2)) {
 					this.setSlot(i, item);
 					item.setOwner(Player.instance);
 					item.onPickup();

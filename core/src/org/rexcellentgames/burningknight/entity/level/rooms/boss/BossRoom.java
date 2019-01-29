@@ -95,22 +95,22 @@ public class BossRoom extends EntranceRoom {
 
 	@Override
 	public int getMinWidth() {
-		return 18;
+		return 18 + 5;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 18;
+		return 18 + 5;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 26;
+		return 36;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 26;
+		return 36;
 	}
 
 	@Override

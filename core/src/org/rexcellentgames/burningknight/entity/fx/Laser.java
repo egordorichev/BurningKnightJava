@@ -286,9 +286,9 @@ public class Laser extends Entity {
 		super.onCollision(entity);
 
 		if (entity instanceof Creature && entity != this.owner && (entity instanceof Mob) != this.bad) {
-			if (!fake) {
-				this.colliding.add((Creature) entity);
+			this.colliding.add((Creature) entity);
 
+			if (!fake) {
 				HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, true);
 
 				if (fx != null) {

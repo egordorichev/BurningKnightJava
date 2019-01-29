@@ -320,6 +320,15 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void update(float dt) {
+		knockback.x = 0;
+		knockback.y = 0;
+
+		if (this.target == null) {
+			this.assignTarget();
+		} else {
+			this.flipped = this.target.x + this.target.w / 2 < this.x + this.w / 2;
+		}
+
 		if (this.animation != null) {
 			this.animation.update(dt * speedMod);
 		}
@@ -419,16 +428,6 @@ public class BurningKnight extends Boss {
 		this.activityTimer += dt;
 		this.time += dt;
 
-		if (this.acceleration.len() > 9.9f) {
-			this.flipped = this.acceleration.x < 0;
-		} else {
-			if (this.velocity.x < 0) {
-				this.flipped = true;
-			} else if (this.velocity.x > 0) {
-				this.flipped = false;
-			}
-		}
-
 		if (!this.state.equals("defeated")) {
 			super.update(dt);
 		}
@@ -471,11 +470,6 @@ public class BurningKnight extends Boss {
 
 		this.t += dt * speedMod;
 
-		if (this.target == null) {
-			this.assignTarget();
-		} else {
-			this.flipped = this.target.x + this.target.w / 2 < this.x + this.w / 2;
-		}
 
 		if (this.dead) {
 			super.common();
@@ -1452,7 +1446,7 @@ public class BurningKnight extends Boss {
 			}
 
 			if (t >= 2f && num >= 3) {
-				self.become("chase");
+				// self.become("chase");
 			}
 
 			last -= dt;
@@ -1482,9 +1476,7 @@ public class BurningKnight extends Boss {
 			laser.x = x;
 			laser.y = y;
 			laser.a = (float) Math.toDegrees(an - Math.PI / 2) + (Random.chance(50) ? 10 : -10);
-
 			laser.huge = false;
-
 			laser.w = 32f;
 			laser.bad = true;
 			laser.damage = 2;
@@ -1528,7 +1520,6 @@ public class BurningKnight extends Boss {
 					if (!this.removed) {
 						removed = true;
 						laser.remove();
-					} else if (this.laser.dead) {
 						self.become("chase");
 					}
 				}

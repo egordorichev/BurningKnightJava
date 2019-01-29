@@ -504,7 +504,7 @@ public class InGameState extends State {
 			this.time += dt;
 			this.lastSave += dt;
 
-			if (lastSave >= 60f) {
+			if (lastSave >= 180f) {
 				lastSave = 0;
 				SaveManager.saveGame();
 			}

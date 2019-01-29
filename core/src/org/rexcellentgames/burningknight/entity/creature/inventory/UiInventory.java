@@ -290,7 +290,7 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi) {
+		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi || Player.instance == null || Player.instance.isDead()) {
 			return;
 		}
 

@@ -249,7 +249,7 @@ public abstract class Level extends SaveableEntity {
 		} else if (Dungeon.depth == 0) {
 			return Locale.get("beginning");
 		} else {
-			return getName() + " " + getDepthAsCoolNum();
+			return getName();// + " " + getDepthAsCoolNum();
 		}
 	}
 
