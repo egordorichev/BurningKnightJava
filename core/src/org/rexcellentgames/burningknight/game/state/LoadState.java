@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
@@ -27,13 +28,43 @@ import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.PathFinder;
+import org.rexcellentgames.burningknight.util.Random;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LoadState extends State {
 	private boolean ready = false;
 	public static boolean fromSelect;
 
+	private static ArrayList<String> jokes = new ArrayList<>(Arrays.asList(
+		"Please stand by",
+		"Press X",
+		"Generating trouble",
+		"Looking cool",
+		"Get em!",
+		"Terraforming mars",
+		"Dodge this!",
+		"I think that knight wanted to say something",
+		"...",
+		"I'm hungry",
+		"/!\\ /!\\ /!\\",
+		"Saving is important",
+		"Cooling down",
+		"Heating up",
+		"Adding some drama",
+		"Melee weapons can reflect bullets",
+		"You better get digging",
+		"QWERTY",
+		"F2",
+		"Generating generators",
+		"Waking up"
+	));
+
 	@Override
 	public void init() {
+		joke = jokes.get(Random.newInt(jokes.size()));
+
 		UiInventory.justUsed = 0;
 		generating = false;
 		Dungeon.darkR = Dungeon.MAX_R;
@@ -57,7 +88,7 @@ public class LoadState extends State {
 			return;
 		}
 
-		progress += dt * 0.6f;
+		progress += Version.debug ? dt * 1f : dt * 0.3f;
 
 		if (runM) {
 			runM = false;
@@ -213,6 +244,7 @@ public class LoadState extends State {
 	private float ew;
 	private float progress;
 	public static boolean generating = false;
+	private String joke;
 
 	@Override
 	public void renderUi() {
@@ -248,6 +280,13 @@ public class LoadState extends State {
 			Graphics.print("Generating... " + i + "%",
 				Graphics.medium, (Display.UI_HEIGHT - 16) / 2 - 8);
 			Graphics.medium.setColor(1, 1, 1, 1);
+		}
+
+		if (!error || generating) {
+			Graphics.small.setColor(1, 1, 1, al);
+			Graphics.print(joke,
+				Graphics.small, (Display.UI_HEIGHT - 16) / 2 - 16);
+			Graphics.small.setColor(1, 1, 1, 1);
 		}
 
 		Ui.ui.renderCursor();

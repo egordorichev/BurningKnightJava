@@ -1413,7 +1413,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			float x = self.x + self.w / 2;
+			float x = self.x + getOx();
 			float y = self.y + self.h + self.z - 12;
 
 			if (laser != null) {
@@ -1474,7 +1474,7 @@ public class BurningKnight extends Boss {
 		@Override
 		public void onEnter() {
 			laser = new Laser();
-			float x = self.x + self.w / 2;
+			float x = self.x + getOx();
 			float y = self.y + self.h + self.z - 12;
 			double an = self.getAngleTo(self.getAim().x, self.getAim().y);
 
@@ -1497,7 +1497,7 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			float x = self.x + self.w / 2;
+			float x = self.x + getOx();
 			float y = self.y + self.h + self.z - 12;
 
 			laser.x = x;
