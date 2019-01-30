@@ -112,11 +112,11 @@ public class MobPool {
 			add(1f, -1, RangedKnight.class);
 			add(1f, -1, Knight.class);
 			add(1f, -1, Clown.class);
-			add(1f, -1, Thief.class);
+			add(0.6f, -1, Thief.class);
 		} else if (d == 2) {
 			add(1f, -1, Archeologist.class);
 			add(1f, -1, Mummy.class);
-			add(1f, -1, Thief.class);
+			add(0.5f, -1, Thief.class);
 			add(1f, 1, Skeleton.class);
 		} else if (d == 3) {
 			add(1f, 1, Wombat.class);

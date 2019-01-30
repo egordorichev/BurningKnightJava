@@ -792,6 +792,11 @@ public class BurningKnight extends Boss {
 	public class PreattackState extends BKState {
 		@Override
 		public void update(float dt) {
+			if (self.dl > 0) {
+				self.dl -= dt;
+				return;
+			}
+
 			int i = lastAttack % pat.getNumAttacks();
 			if (i == 0) {
 				pattern = Random.newInt(3);
@@ -1083,6 +1088,8 @@ public class BurningKnight extends Boss {
 		Achievements.unlock(Achievements.KILL_BK);
 	}
 
+	private float dl;
+
 	public class UnactiveState extends BKState {
 		@Override
 		public void onEnter() {
@@ -1120,6 +1127,7 @@ public class BurningKnight extends Boss {
 					(Player.instance.room.top + Player.instance.room.getHeight() / 2) * 16);
 				self.become("fadeIn");
 				self.a = 0;
+				self.dl = 1f;
 
 				Camera.follow(self, false);
 				Camera.shake(8);

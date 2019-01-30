@@ -40,7 +40,8 @@ public class DesktopLauncher {
 
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
 
-		Dungeon.title = "Burning Knight " + Version.asString() + ": " + generateTitle();
+		//  + Version.asString()
+		Dungeon.title = "Burning Knight: " + generateTitle();
 
 		config.title = Dungeon.title;
 		config.width = Display.GAME_WIDTH * SCALE;

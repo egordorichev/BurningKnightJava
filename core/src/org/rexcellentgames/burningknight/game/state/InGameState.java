@@ -153,9 +153,9 @@ public class InGameState extends State {
 
 		// Audio.play(toPlay);
 
-		if (Dungeon.depth > 0) {
+		/*if (Dungeon.depth > 0) {
 			horn();
-		}
+		}*/
 	}
 
 	public static String toPlay;
@@ -886,7 +886,8 @@ public class InGameState extends State {
 		if (portalMod < 1) {
 			renderPortalOpen();
 		}
-
+		
+		Achievements.render();
 		Ui.ui.renderCursor();
 	}
 

@@ -675,8 +675,6 @@ public class Dungeon extends ApplicationAdapter {
 			Graphics.print(time, Graphics.small, 2 + fpsY, Display.UI_HEIGHT - timerY + 8);
 		}
 
-		Achievements.render();
-
 		Graphics.batch.end();
 		Graphics.shadows.end();
 

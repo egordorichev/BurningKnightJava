@@ -90,7 +90,8 @@ public class LoadState extends State {
 		"Let's do this",
 		"Let's go",
 		"YOOOOOO",
-		"Go go go"
+		"Go go go",
+		"Делаем вид что это что-то значит"
 	));
 
 	@Override

@@ -104,13 +104,7 @@ public abstract class RegularLevel extends Level {
 
 			for (Room room : this.rooms) {
 				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
-					float weight;
-
-					if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-						weight = room.id;
-					} else {
-						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 150) * Player.mobSpawnModifier);
-					}
+					float weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 150) * Player.mobSpawnModifier);
 
 					MobPool.instance.initForRoom();
 
