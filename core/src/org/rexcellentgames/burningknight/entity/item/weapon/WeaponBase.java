@@ -145,14 +145,6 @@ public class WeaponBase extends Item {
 			builder.append("[gray]");
 		}
 
-		if (this.useSpeedStr == null) {
-			this.useSpeedStr = this.getUseSpeedAsString();
-		}
-
-		builder.append("\n[brown]");
-		builder.append(this.useSpeedStr);
-		builder.append("[gray]");
-
 		return builder;
 	}
 

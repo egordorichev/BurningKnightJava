@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -270,7 +271,7 @@ public class BurningKnight extends Boss {
 	public void restore() {
 		Log.error("Restore bk");
 
-		this.hpMax = (Dungeon.depth * 40) + 150;
+		this.hpMax = (Dungeon.depth * 30) + 100;
 		this.hp = this.hpMax;
 		this.rage = false;
 
@@ -397,9 +398,10 @@ public class BurningKnight extends Boss {
 
 				point.x *= 16;
 				point.y *= 16;
+				point.y -= 64;
 
 				if (Player.instance.getDistanceTo(point.x, point.y) < 64) {
-					point.y += Random.chance(50) ? 64 : -64;
+					point.y += 128;
 				}
 
 				Portal exit = new Portal();
@@ -486,7 +488,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		return !(buff instanceof BurningBuff);
+		return !(buff instanceof BurningBuff || buff instanceof FreezeBuff);
 	}
 
 	public static ShaderProgram shader;

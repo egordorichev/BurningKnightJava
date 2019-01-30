@@ -237,7 +237,7 @@ public class DesktopLauncher {
 		"We didn't start the fire - @brephenson",
 		"I'm a slow burner - @dollarone",
 		"I'm on fire! - @dollarone",
-		"The Knight is lava  - @dollarone",
+		"The Knight is lava - @dollarone",
 		"Hello fire, my old friend - @dollarone",
 		"I'm here to talk with you again",
 		"Hot n' spicy! - @dollarone",

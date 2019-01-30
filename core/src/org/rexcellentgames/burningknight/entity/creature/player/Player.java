@@ -49,6 +49,7 @@ import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
+import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
@@ -912,7 +913,7 @@ public class Player extends Creature {
 					this.playSfx("pickup_item");
 					return false;
 				}
-			} else if (item.getItem() instanceof ActiveItem|| item.getItem() instanceof Consumable) {
+			} else if (item.getItem() instanceof ActiveItem || (item.getItem() instanceof Consumable && !(item.getItem() instanceof Autouse))) {
 				if (inventory.getSlot(2) == null) {
 					inventory.setSlot(2, item.getItem());
 

@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -151,6 +152,10 @@ public class InGameState extends State {
 		}
 
 		// Audio.play(toPlay);
+
+		if (Dungeon.depth > 0) {
+			horn();
+		}
 	}
 
 	public static String toPlay;
@@ -382,6 +387,18 @@ public class InGameState extends State {
 		water.pause();
 	}
 
+	private long hsfx = -1;
+
+	private void horn() {
+		if (Settings.sfx == 0) {
+			return;
+		}
+
+		Sound sound = Audio.getSound("airhorn");
+		sound.stop(hsfx);
+		hsfx = sound.play(Settings.sfx);
+	}
+
 	private float last;
 	public static boolean burning;
 	public static boolean flow;
@@ -523,6 +540,10 @@ public class InGameState extends State {
 				lightUp(room);
 				break;
 			}
+		}
+
+		if (Input.instance.wasPressed("F")) {
+			horn();
 		}
 		
 		if (Version.debug) {
