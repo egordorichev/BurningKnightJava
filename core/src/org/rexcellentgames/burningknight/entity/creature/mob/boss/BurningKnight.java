@@ -46,6 +46,8 @@ import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
+import org.rexcellentgames.burningknight.entity.pattern.BulletPattern;
+import org.rexcellentgames.burningknight.entity.pattern.RectBulletPattern;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -1814,6 +1816,91 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	public class TpntackState extends BKState {
+		private int cn;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			cn = Random.newInt(3, 6);
+		}
+
+		private int nm;
+		private float last;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			last -= dt;
+
+			if (last <= 0) {
+				last = 3f;
+				nm ++;
+
+				Point point = self.room.getRandomFreeCell();
+
+				if (point != null) {
+					self.tp(point.x * 16, point.y * 16);
+				}
+
+				RectBulletPattern pattern = new RectBulletPattern();
+
+				for (int i = 0; i < 4; i++) {
+					pattern.addBullet(newProjectile());
+				}
+
+				BulletPattern.fire(pattern, self.x + getOx(), self.y + h / 2, self.getAngleTo(self.target.x + 8, self.target.y + 8), 40f);
+
+				if (nm >= cn) {
+					self.become("preattack");
+				}
+			}
+		}
+	}
+
+	public BulletProjectile newProjectile() {
+		BulletProjectile bullet = new BulletProjectile(){
+			@Override
+			protected void onDeath() {
+				super.onDeath();
+
+				if (!brokeWeapon) {
+					BulletProjectile ball = new BulletProjectile();
+					boolean fast = i % 2 == 0;
+					float a = getAngleTo(Player.instance.x + 8, Player.instance.y + 8);
+
+					ball.velocity = new Point((float)Math.cos(a), (float) Math.sin(a)).mul((fast ? 3 : 2) * 40 * Mob.shotSpeedMod);
+
+					ball.x = (this.x);
+					ball.y = (this.y);
+					ball.damage = 2;
+					ball.bad = true;
+
+					ball.letter = "bullet-nano";
+					Dungeon.area.add(ball);
+				}
+			}
+		};
+
+		bullet.sprite = Graphics.getTexture("bullet-nano");
+
+		bullet.damage = 1;
+		bullet.letter = "bullet-nano";
+		bullet.owner = this;
+		bullet.bad = true;
+		bullet.dissappearWithTime = true;
+
+		float a = 0; // getAngleTo(target.x + 8, target.y + 8);
+
+		bullet.x = x;
+		bullet.y = y;
+		bullet.velocity.x = (float) (Math.cos(a));
+		bullet.velocity.y = (float) (Math.sin(a));
+
+		return bullet;
+	}
+
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
@@ -1839,6 +1926,7 @@ public class BurningKnight extends Boss {
 			case "spawnAttack": return new SpawnAttack();
 			case "rangedAttack": return new RangedAttackState();
 			case "explode": return new ExplodeState();
+			case "tpntack": return new TpntackState();
 		}
 
 		return super.getAi(state);

@@ -8,21 +8,21 @@ public class DesertPattern extends BossPattern {
 
 	@Override
 	public String get00() {
-		return "chase";
+		return "tpntack";
 	}
 
 	@Override
 	public String get01() {
-		return "chase";
+		return "tpntack";
 	}
 
 	@Override
 	public String get02() {
-		return "chase";
+		return "tpntack";
 	}
 
 	@Override
 	public String getState(int pat, int i) {
-		return "chase";
+		return "tpntack";
 	}
 }

@@ -51,7 +51,7 @@ public class Console implements InputProcessor {
 
 	public void render() {
 		if (this.open) {
-			Graphics.print(this.input + "|", Graphics.medium, 2, 20);
+			Graphics.print(this.input + "|", Graphics.small, 2, 2);
 		}
 	}
 
