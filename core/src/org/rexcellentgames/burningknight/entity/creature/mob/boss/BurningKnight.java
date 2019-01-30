@@ -28,6 +28,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.*;
 import org.rexcellentgames.burningknight.entity.item.*;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
@@ -35,6 +36,7 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectil
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -263,6 +265,8 @@ public class BurningKnight extends Boss {
 	private void setPattern() {
 		if (Dungeon.level instanceof HallLevel) {
 			pat = new BossPattern();
+		} else if (Dungeon.level instanceof DesertLevel) {
+			pat = new DesertPattern();
 		} else {
 			pat = new BossPattern();
 		}
@@ -410,6 +414,7 @@ public class BurningKnight extends Boss {
 				exit.x = point.x;
 				exit.y = point.y;
 
+				Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.FLOOR_D);
 				Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.DIRT);
 
 				Dungeon.level.set((int) point.x / 16, (int) point.y / 16, Terrain.PORTAL);
@@ -595,7 +600,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + w / 4, this.y - 3, this.w / 3, this.h / 2f, 5f, this.a);
+
 	}
 
 	public class BKState extends State<BurningKnight> {
@@ -725,16 +730,18 @@ public class BurningKnight extends Boss {
 		@Override
 		public void onEnter() {
 			super.onEnter();
-
 			this.delay = Random.newFloat(5f, 7f);
 		}
 
 		@Override
 		public void update(float dt) {
-			if (!self.rage) {
+			if (this.flyTo(Player.instance, 30, 16f)) {
+				self.become("explode");
+				return;
+			}
+
+			if (t >= delay) {
 				self.become("preattack");
-			} else if (this.flyTo(Player.instance, 30, 48f)) {
-				self.become("missileAttack");
 				return;
 			}
 
@@ -799,6 +806,7 @@ public class BurningKnight extends Boss {
 			}
 
 			int i = lastAttack % pat.getNumAttacks();
+
 			if (i == 0) {
 				pattern = Random.newInt(3);
 			}
@@ -1140,35 +1148,6 @@ public class BurningKnight extends Boss {
 				}
 			}
 		}
-	}
-
-	@Override
-	protected State getAi(String state) {
-		switch (state) {
-			case "idle": return new IdleState();
-			case "appear": return new AppearState();
-			case "roam": return new RoamState();
-			case "alerted": return new AlertedState();
-			case "chase": case "fleeing": return new ChaseState();
-			case "dash": return new DashState();
-			case "preattack": return new PreattackState();
-			case "attack": return new AttackState();
-			case "fadeIn": return new FadeInState();
-			case "fadeOut": return new FadeOutState();
-			case "dialog": return new DialogState();
-			case "wait": return new WaitState();
-			case "unactive": return new UnactiveState();
-			case "missileAttack": return new MissileAttackState();
-			case "autoAttack": return new NewAttackState();
-			case "laserAttack": return new LaserAttackState();
-			case "laserAimAttack": return new LaserAimAttackState();
-			case "await": return new AwaitState();
-			case "defeated": return new DefeatedState();
-			case "spawnAttack": return new SpawnAttack();
-			case "rangedAttack": return new RangedAttackState();
-		}
-
-		return super.getAi(state);
 	}
 
 	public class SpawnAttack extends BKState {
@@ -1785,5 +1764,83 @@ public class BurningKnight extends Boss {
 				return;
 			}
 		}
+	}
+
+	public class ExplodeState extends BKState {
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			Explosion.make(self.x + self.w / 2, self.y + self.h / 2, true);
+
+			for (int i = 0; i < Dungeon.area.getEntities().size(); i++) {
+				Entity entity = Dungeon.area.getEntities().get(i);
+
+				if (entity instanceof Creature && entity != self) {
+					Creature creature = (Creature) entity;
+
+					if (creature.getDistanceTo(self.x + w / 2, self.y + h / 2) < 24f) {
+						if (!creature.explosionBlock) {
+							if (creature instanceof Player) {
+								creature.modifyHp(-1000, self, true);
+							} else {
+								creature.modifyHp(-Math.round(Random.newFloatDice(20 / 3 * 2, 20)), self, true);
+							}
+						}
+
+						float a = (float) Math.atan2(creature.y + creature.h / 2 - self.y - 8, creature.x + creature.w / 2 - self.x - 8);
+
+						float knockbackMod = creature.getStat("knockback");
+						creature.knockback.x += Math.cos(a) * 10f * knockbackMod;
+						creature.knockback.y += Math.sin(a) * 10f * knockbackMod;
+					}
+				} else if (entity instanceof BombEntity) {
+					BombEntity b = (BombEntity) entity;
+
+					float a = (float) Math.atan2(b.y - self.y, b.x - self.x) + Random.newFloat(-0.5f, 0.5f);
+
+					b.vel.x += Math.cos(a) * 200f;
+					b.vel.y += Math.sin(a) * 200f;
+				}
+			}
+
+			Point point = self.room.getRandomFreeCell();
+
+			if (point != null) {
+				self.tp(point.x * 16, point.y * 16);
+			}
+
+			self.become("preattack");
+		}
+	}
+
+	@Override
+	protected State getAi(String state) {
+		switch (state) {
+			case "idle": return new IdleState();
+			case "appear": return new AppearState();
+			case "roam": return new RoamState();
+			case "alerted": return new AlertedState();
+			case "chase": case "fleeing": return new ChaseState();
+			case "dash": return new DashState();
+			case "preattack": return new PreattackState();
+			case "attack": return new AttackState();
+			case "fadeIn": return new FadeInState();
+			case "fadeOut": return new FadeOutState();
+			case "dialog": return new DialogState();
+			case "wait": return new WaitState();
+			case "unactive": return new UnactiveState();
+			case "missileAttack": return new MissileAttackState();
+			case "autoAttack": return new NewAttackState();
+			case "laserAttack": return new LaserAttackState();
+			case "laserAimAttack": return new LaserAimAttackState();
+			case "await": return new AwaitState();
+			case "defeated": return new DefeatedState();
+			case "spawnAttack": return new SpawnAttack();
+			case "rangedAttack": return new RangedAttackState();
+			case "explode": return new ExplodeState();
+		}
+
+		return super.getAi(state);
 	}
 }

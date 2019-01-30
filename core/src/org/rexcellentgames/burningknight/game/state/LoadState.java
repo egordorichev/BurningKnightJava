@@ -91,7 +91,13 @@ public class LoadState extends State {
 		"Let's go",
 		"YOOOOOO",
 		"Go go go",
-		"Делаем вид что это что-то значит"
+		"Делаем вид что это что-то значит",
+		"Loading terrain",
+		"Building terrain",
+		"Googling",
+		"Help me",
+		"SOS",
+		"Are we lost?"
 	));
 
 	@Override
