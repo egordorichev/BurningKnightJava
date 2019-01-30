@@ -22,7 +22,7 @@ public class HpFx extends Entity {
 		this.text = String.valueOf(Math.abs(change));
 		this.block = block;
 
-		Graphics.layout.setText(Graphics.medium, text);
+		Graphics.layout.setText(Graphics.small, text);
 
 		if (this.block) {
 			this.x = creature.x + creature.w / 2;
@@ -94,9 +94,9 @@ public class HpFx extends Entity {
 		} else {
 			Color color = this.low ? (this.crit ? orange : bad) : good;
 
-			Graphics.medium.setColor(color.r * c, color.g * c, color.b * c, this.a);
-			Graphics.write(this.text, Graphics.medium, this.x, this.y - 16);
-			Graphics.medium.setColor(1, 1, 1, 1);
+			Graphics.small.setColor(color.r * c, color.g * c, color.b * c, this.a);
+			Graphics.print(this.text, Graphics.small, this.x, this.y - 16);
+			Graphics.small.setColor(1, 1, 1, 1);
 		}
 	}
 

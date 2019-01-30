@@ -6,10 +6,6 @@ public class BossPattern {
 	}
 
 	public String getState(int pat, int i) {
-		if (true) { // fixme: remove;
-			return "spin";
-		}
-
 		if (pat == 0) {
 			if (i == 0) {
 				return get00();

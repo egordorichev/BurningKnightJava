@@ -187,7 +187,7 @@ public class BulletProjectile extends Projectile {
 
 		Graphics.batch.end();
 		RectFx.shader.begin();
-		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= 4f && (this.t - 4f) % 0.3f > 0.15f) ? 1 : 0);
+		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= ds && (this.t - ds) % 0.3f > 0.15f) ? 1 : 0);
 
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);
@@ -332,6 +332,8 @@ public class BulletProjectile extends Projectile {
 		}
 	}
 
+	public float ds = 4f;
+
 	@Override
 	protected void onHit(Entity entity) {
 		if (toApply != null) {
@@ -364,7 +366,7 @@ public class BulletProjectile extends Projectile {
 			this.anim.update(dt);
 		}
 
-		if (this.dissappearWithTime && this.t >= 5f) {
+		if (this.dissappearWithTime && this.t >= ds + 1) {
 			this.death();
 			this.remove = true;
 			this.broke = true;

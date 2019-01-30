@@ -265,7 +265,10 @@ public class DesktopLauncher {
 		"Rex",
 		"¯\\_(ツ)_/¯",
 		"☉_☉",
-		"⌐■-■"
+		"⌐■-■",
+		"Open fire",
+		"In case of fire break the monitor",
+		"In case of fire backup the saves"
 	));
 
 	private static String[] birthdayTitles = new String[] {

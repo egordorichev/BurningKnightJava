@@ -32,7 +32,7 @@ public class UiAchievement extends Entity {
 		super.init();
 
 		this.w = 0;
-		Graphics.layout.setText(Graphics.small, this.text);
+		Graphics.layout.setText(this.extra != null ? Graphics.medium : Graphics.small, this.text);
 		float w1 = Graphics.layout.width;
 
 		if (this.extra != null) {
