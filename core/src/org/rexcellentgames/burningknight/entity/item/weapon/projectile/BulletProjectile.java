@@ -95,15 +95,27 @@ public class BulletProjectile extends Projectile {
 			this.h = sprite.getRegionHeight();
 		}
 
-		light = World.newLight(32, new Color(1, 0, 0, 1f), 64, x, y, false);
+		if (!noLight) {
+			light = World.newLight(32, new Color(1, 0, 0, 1f), 64, x, y, false);
+
+			if (letter != null) {
+				switch (this.letter) {
+					case "bullet-a":
+					case "bullet-missile":
+						light.setColor(1, 1, 0, 1);
+						break;
+					case "bullet-bill":
+						light.setColor(0, 1, 0.3f, 1);
+						lightUp = false;
+						break;
+					case "bullet-snow":
+						light.setColor(0.5f, 1, 1, 1);
+						break;
+				}
+			}
+		}
 
 		if (this.letter != null) {
-			switch (this.letter) {
-				case "bullet-a": case "bullet-missile": light.setColor(1, 1, 0, 1); break;
-				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
-				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
-			}
-
 			if (this.letter.equals("bullet-rekt")) {
 				second = true;
 				noRotation = false;
@@ -155,6 +167,8 @@ public class BulletProjectile extends Projectile {
 
 	public boolean rectShape;
 	public boolean canBeRemoved = true;
+
+	public boolean noLight;
 
 	public void countRemove() {
 
@@ -335,7 +349,11 @@ public class BulletProjectile extends Projectile {
 	public void logic(float dt) {
 		if (this.delay > 0) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
-			light.setPosition(x, y);
+
+			if (!noLight) {
+				light.setPosition(x, y);
+			}
+
 			this.delay -= dt;
 			return;
 		}
@@ -413,7 +431,10 @@ public class BulletProjectile extends Projectile {
 
 		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 
-		light.setPosition(x, y);
+
+		if (!noLight) {
+			light.setPosition(x, y);
+		}
 	}
 
 	public BulletPattern pattern;

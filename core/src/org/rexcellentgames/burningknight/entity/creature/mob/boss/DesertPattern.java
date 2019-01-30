@@ -3,12 +3,12 @@ package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 public class DesertPattern extends BossPattern {
 	@Override
 	public int getNumAttacks() {
-		return 1;
+		return 2;
 	}
 
 	@Override
 	public String get00() {
-		return "tpntack";
+		return "chase";
 	}
 
 	@Override
@@ -18,11 +18,21 @@ public class DesertPattern extends BossPattern {
 
 	@Override
 	public String get02() {
+		return "spawnAttack";
+	}
+
+	@Override
+	public String get10() {
+		return "chase";
+	}
+
+	@Override
+	public String get11() {
 		return "tpntack";
 	}
 
 	@Override
-	public String getState(int pat, int i) {
-		return "tpntack";
+	public String get12() {
+		return "spin";
 	}
 }
