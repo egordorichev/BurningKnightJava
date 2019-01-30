@@ -86,6 +86,7 @@ public class BurningKnight extends Boss {
 		h = 30;
 		depth = 16;
 		alwaysActive = true;
+		alwaysRender = true;
 		speed = 2;
 		maxSpeed = 100;
 		setFlying(true);
@@ -529,7 +530,7 @@ public class BurningKnight extends Boss {
 		Graphics.batch.end();
 		Mob.shader.begin();
 		Mob.shader.setUniformf("u_color", new Vector3(1, 0.3f, 0.3f));
-		Mob.shader.setUniformf("u_a", this.a / 2);
+		Mob.shader.setUniformf("u_a", 0.5f);
 		Mob.shader.end();
 		Graphics.batch.setShader(Mob.shader);
 		Graphics.batch.begin();
@@ -1838,23 +1839,53 @@ public class BurningKnight extends Boss {
 				last = 3f;
 				nm ++;
 
-				Point point = self.room.getRandomFreeCell();
+				Tween.to(new Tween.Task(0, 0.5f) {
+					@Override
+					public float getValue() {
+						return self.a;
+					}
 
-				if (point != null) {
-					self.tp(point.x * 16, point.y * 16);
-				}
+					@Override
+					public void setValue(float value) {
+						self.a = value;
+					}
 
-				RectBulletPattern pattern = new RectBulletPattern();
+					@Override
+					public void onEnd() {
+						Point point = self.room.getRandomFreeCell();
 
-				for (int i = 0; i < 4; i++) {
-					pattern.addBullet(newProjectile());
-				}
+						if (point != null) {
+							self.tp(point.x * 16, point.y * 16);
+						}
 
-				BulletPattern.fire(pattern, self.x + getOx(), self.y + h / 2, self.getAngleTo(self.target.x + 8, self.target.y + 8), 40f);
+						Tween.to(new Tween.Task(1, 0.5f) {
+							@Override
+							public float getValue() {
+								return self.a;
+							}
 
-				if (nm >= cn) {
-					self.become("preattack");
-				}
+							@Override
+							public void setValue(float value) {
+								self.a = value;
+							}
+
+							@Override
+							public void onEnd() {
+								RectBulletPattern pattern = new RectBulletPattern();
+
+								for (int i = 0; i < 4; i++) {
+									pattern.addBullet(newProjectile());
+								}
+
+								BulletPattern.fire(pattern, self.x + getOx(), self.y + h / 2, self.getAngleTo(self.target.x + 8, self.target.y + 8), 40f);
+
+								if (nm >= cn) {
+									self.become("preattack");
+								}
+							}
+						});
+					}
+				});
 			}
 		}
 	}
@@ -1868,7 +1899,7 @@ public class BurningKnight extends Boss {
 				if (!brokeWeapon) {
 					BulletProjectile ball = new BulletProjectile();
 					boolean fast = i % 2 == 0;
-					float a = getAngleTo(Player.instance.x + 8, Player.instance.y + 8);
+					float a = getAngleTo(Player.instance.x + 8, Player.instance.y + 8) + Random.newFloat(-0.1f, 0.1f);
 
 					ball.velocity = new Point((float)Math.cos(a), (float) Math.sin(a)).mul((fast ? 3 : 2) * 40 * Mob.shotSpeedMod);
 
