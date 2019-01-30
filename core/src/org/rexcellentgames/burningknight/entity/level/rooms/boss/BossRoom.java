@@ -57,6 +57,8 @@ public class BossRoom extends EntranceRoom {
 			paintTunnels(level, false);
 		}
 
+		paintTunnels(level, true);
+
 		if (Random.chance(50)) {
 			int n = Math.min(getWidth() / 2, getHeight() / 2) - Random.newInt(2, 6);
 

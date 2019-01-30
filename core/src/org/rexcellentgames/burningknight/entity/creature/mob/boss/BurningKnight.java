@@ -392,6 +392,7 @@ public class BurningKnight extends Boss {
 
 				this.invt = 0;
 
+				Achievements.unlock(Achievements.KILL_BK);
 				this.become("defeated");
 				this.dest = false;
 				Point point = room.getCenter();
@@ -1085,7 +1086,7 @@ public class BurningKnight extends Boss {
 		deathEffect(killed);
 		PlayerSave.remove(this);
 
-		Achievements.unlock(Achievements.KILL_BK);
+		Achievements.unlock(Achievements.REALLY_KILL_BK);
 	}
 
 	private float dl;
@@ -1314,7 +1315,7 @@ public class BurningKnight extends Boss {
 			super.update(dt);
 
 			if (num < 7) {
-				if (this.t >= 2f) {
+				if (this.t >= 1.5f) {
 					num++;
 
 					this.t = 0;

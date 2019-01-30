@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.consumable.scroll;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.fx.CurseFx;
 import org.rexcellentgames.burningknight.entity.fx.UpgradeFx;
-import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class ScrollOfUpgrade extends Scroll {
@@ -19,8 +18,6 @@ public class ScrollOfUpgrade extends Scroll {
 		super.use();
 
 		this.owner.playSfx("health_up");
-
-		Achievements.unlock(Achievements.UPGRADE);
 
 		for (int i = 0; i < 10; i++) {
 			UpgradeFx fx = new UpgradeFx();

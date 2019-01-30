@@ -297,20 +297,6 @@ public class UiInventory extends UiEntity {
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 
-		boolean empty = false;
-
-		for (int i = this.inventory.getSize() - 1; i >= 0; i--) {
-			if (this.inventory.getSlot(i) == null) {
-				empty = true;
-				break;
-			}
-		}
-
-		if (!empty) {
-			Achievements.unlock(Achievements.FILL_UP_INVENTORY);
-			Achievements.unlock(Achievements.UNLOCK_BACKPACK);
-		}
-
 		float y = -3;
 		float x = 32;
 

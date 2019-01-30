@@ -11,12 +11,10 @@ import org.rexcellentgames.burningknight.entity.item.consumable.food.Apple
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread
 import org.rexcellentgames.burningknight.entity.item.consumable.food.ManaInABottle
 import org.rexcellentgames.burningknight.entity.item.consumable.food.Pill
-import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey
 import org.rexcellentgames.burningknight.entity.item.key.KeyA
 import org.rexcellentgames.burningknight.entity.item.key.KeyB
 import org.rexcellentgames.burningknight.entity.item.key.KeyC
-import org.rexcellentgames.burningknight.entity.item.permanent.*
 import org.rexcellentgames.burningknight.entity.item.pet.orbital.*
 import org.rexcellentgames.burningknight.entity.item.reference.*
 import org.rexcellentgames.burningknight.entity.item.tool.LavaBucket
@@ -283,7 +281,6 @@ object ItemRegistry {
 		"mimic_summoner" to Pair(MimicSummoner::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN, Achievements.UNLOCK_MIMIC_SUMMONER),
 		"fire_boots" to Pair(FireBoots::class.java, 1f, 1f, 1f, 1f, Quality.IRON),
 		"ice_boots" to Pair(IceBoots::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
-		"upgrade" to Pair(ScrollOfUpgrade::class.java, 0f, 1f, 1f, 1f, Quality.GOLDEN, Achievements.UPGRADE),
 		"ice_skates" to Pair(IceSkates::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"scissors" to Pair(Scissors::class.java, 1f, 1f, 1f, 1f, Quality.WOODEN),
 		"elemental_ring" to Pair(ElementalRing::class.java, 1f, 1f, 1f, 1f, Quality.IRON),

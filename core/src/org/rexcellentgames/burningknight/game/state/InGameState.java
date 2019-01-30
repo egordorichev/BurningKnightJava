@@ -25,9 +25,13 @@ import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
@@ -106,6 +110,14 @@ public class InGameState extends State {
 			Achievements.unlock(Achievements.UNLOCK_DEW_VIAL);
 		} else if (Dungeon.level instanceof LibraryLevel) {
 			Achievements.unlock(Achievements.REACH_LIBRARY);
+		} else if (Dungeon.level instanceof ForestLevel) {
+			Achievements.unlock(Achievements.REACH_FOREST);
+		} else if (Dungeon.level instanceof BloodLevel) {
+			Achievements.unlock(Achievements.REACH_BLOOD);
+		} else if (Dungeon.level instanceof IceLevel) {
+			Achievements.unlock(Achievements.REACH_ICE);
+		} else if (Dungeon.level instanceof TechLevel) {
+			Achievements.unlock(Achievements.REACH_TECH);
 		}
 
 		if (BurningKnight.instance == null && !GameSave.defeatedBK && Dungeon.depth > -1) {
@@ -881,14 +893,16 @@ public class InGameState extends State {
 
 			Camera.ui.translate(-settingsX, -this.mv);
 			Camera.ui.update();
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		}
 
 		if (portalMod < 1) {
 			renderPortalOpen();
 		}
-		
+
 		Achievements.render();
 		Ui.ui.renderCursor();
+		Ui.renderSaveIcon(1);
 	}
 
 	private void setupUi() {

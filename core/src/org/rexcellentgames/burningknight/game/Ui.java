@@ -448,8 +448,6 @@ public class Ui {
 			return;
 		}
 
-		// saveAlpha = 1;
-
 		if (saveAlpha > 0.05f) {
 			upscale = Math.max(1, upscale * 0.7f);
 			Graphics.batch.setColor(1, 1, 1, (float) Math.max(0, saveAlpha + Math.sin(Dungeon.time * 8) * 0.1f - 0.1f));

@@ -651,7 +651,6 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.begin();
 
 		game.renderUi();
-		Ui.renderSaveIcon(upscale);
 
 		if (fpsY > 0) {
 			int f = Gdx.graphics.getFramesPerSecond();
