@@ -22,6 +22,7 @@ import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.ui.UiButton;
@@ -125,6 +126,14 @@ public class LoadState extends State {
 		if (this.ready) {
 			Dungeon.game.setState(new InGameState());
 			return;
+		}
+
+		if (Input.instance.wasPressed("F")) {
+			InGameState.horn();
+		}
+
+		if (Input.instance.wasPressed("pause")) {
+			InGameState.triggerPause = true;
 		}
 
 		progress += Version.debug ? dt * 1f : dt * 0.3f;

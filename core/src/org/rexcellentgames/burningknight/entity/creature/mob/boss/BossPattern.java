@@ -6,6 +6,10 @@ public class BossPattern {
 	}
 
 	public String getState(int pat, int i) {
+		if (true) { // fixme: remove
+			return "tear";
+		}
+
 		if (pat == 0) {
 			if (i == 0) {
 				return get00();

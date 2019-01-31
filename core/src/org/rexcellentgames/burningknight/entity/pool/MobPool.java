@@ -119,7 +119,7 @@ public class MobPool {
 			add(0.5f, -1, Thief.class);
 			add(1f, 1, Skeleton.class);
 		} else if (d == 3) {
-			add(1f, 1, Wombat.class);
+			add(0.5f, 1, Wombat.class);
 			add(1f, -1, Hedgehog.class);
 			add(1f, 2, Treeman.class);
 		} else if (d == 4) {

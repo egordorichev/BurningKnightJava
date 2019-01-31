@@ -16,5 +16,9 @@ public class NanoPattern extends BulletPattern {
 
 		bullet.x = (float) (Math.cos(a) * radius) + x;
 		bullet.y = (float) (Math.sin(a) * radius) + y;
+
+		if (i % 8 == 0) {
+			bullet.done = true;
+		}
 	}
 }

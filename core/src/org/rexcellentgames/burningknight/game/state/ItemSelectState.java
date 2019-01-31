@@ -27,6 +27,7 @@ import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.StartingItem;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Random;
@@ -210,6 +211,15 @@ public class ItemSelectState extends State {
 		Camera.ui.update();
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Ui.ui.renderCursor();
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (Input.instance.wasPressed("F")) {
+			InGameState.horn();
+		}
 	}
 
 	private static boolean picked;

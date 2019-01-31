@@ -37,6 +37,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -271,6 +272,8 @@ public class BurningKnight extends Boss {
 			pat = new BossPattern();
 		} else if (Dungeon.level instanceof DesertLevel) {
 			pat = new DesertPattern();
+		} else if (Dungeon.level instanceof ForestLevel) {
+			pat = new ForestBossPattern();
 		} else {
 			pat = new BossPattern();
 		}
@@ -2163,6 +2166,50 @@ public class BurningKnight extends Boss {
 		}
 	}
 
+	public class TearState extends BKState {
+		private float last;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			last -= dt;
+
+			if (last <= 0) {
+				last = 0.2f;
+
+				BulletProjectile bullet = new BulletProjectile();
+
+				bullet.sprite = Graphics.getTexture("bullet-rekt");
+
+				bullet.damage = 1;
+				bullet.letter = "bullet-rekt";
+				bullet.owner = self;
+				bullet.bad = true;
+				bullet.bounce = 5;
+				bullet.ds = 2f;
+				bullet.second = false;
+				bullet.noLight = true;
+				// fixme: make em bounce
+
+				float a = getAngleTo(self.target.x + 8, self.target.y + 8);
+				float s = 60 * Mob.shotSpeedMod;
+
+				bullet.noLight = true;
+				bullet.x = x;
+				bullet.y = y;
+				bullet.velocity.x = (float) (Math.cos(a)) * s;
+				bullet.velocity.y = (float) (Math.sin(a)) * s;
+
+				Dungeon.area.add(bullet);
+			}
+
+			if (t >= 5f) {
+				self.become("preattack");
+			}
+		}
+	}
+
 	@Override
 	protected State getAi(String state) {
 		switch (state) {
@@ -2192,6 +2239,7 @@ public class BurningKnight extends Boss {
 			case "spin": return new SpinState();
 			case "skull": return new SkullState();
 			case "nano": return new NanoState();
+			case "tear": return new TearState();
 		}
 
 		return super.getAi(state);

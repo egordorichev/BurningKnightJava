@@ -60,6 +60,7 @@ public class BulletProjectile extends Projectile {
 	public boolean renderCircle = true;
 	public boolean brokeWeapon = false;
 	public float alp = 1f;
+	public int bounce;
 
 	protected PointLight light;
 
@@ -160,6 +161,11 @@ public class BulletProjectile extends Projectile {
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, (float) (ra));
 			this.body.setBullet(true);
+			this.body.setLinearVelocity(velocity);
+
+			if (bounce > 0) {
+				body.getFixtureList().get(0).setRestitution(1f);
+			}
 		}
 
 		penetrates = !canBeRemoved;
@@ -304,6 +310,25 @@ public class BulletProjectile extends Projectile {
 	}
 
 	@Override
+	public void onCollisionEnd(Entity entity) {
+
+	}
+
+	@Override
+	public void brak() {
+		if (bounce > 0) {
+			//velocity.x *= -1;
+			//velocity.y *= -1;
+		}
+
+		bounce --;
+
+		if (bounce < 0) {
+			super.brak();
+		}
+	}
+
+	@Override
 	protected boolean hit(Entity entity) {
 		if (this.bad) {
 			if (entity instanceof Player && !((Player) entity).isRolling()) {
@@ -349,6 +374,11 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
+		if (bounce > 0) {
+			//this.velocity.x = this.body.getLinearVelocity().x;
+			//this.velocity.y = this.body.getLinearVelocity().y;
+		}
+
 		if (this.delay > 0) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 
@@ -428,11 +458,10 @@ public class BulletProjectile extends Projectile {
 			this.x += this.velocity.x * dt;
 			this.y += this.velocity.y * dt;
 
-			this.body.setLinearVelocity(this.velocity);
+			//this.body.setLinearVelocity(this.velocity);
 		}
 
-		World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
-
+		//World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 
 		if (!noLight) {
 			light.setPosition(x, y);
@@ -456,11 +485,15 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity == null) {
+			return true;
+		}
+
 		if (entity instanceof Orbital) {
 			return true;
 		}
 
-		if (entity != null && !((entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad))) {
+		if (!((entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad))) {
 			return false;
 		}
 

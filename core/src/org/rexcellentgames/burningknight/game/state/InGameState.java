@@ -399,9 +399,9 @@ public class InGameState extends State {
 		water.pause();
 	}
 
-	private long hsfx = -1;
+	private static long hsfx = -1;
 
-	private void horn() {
+	public static void horn() {
 		if (Settings.sfx == 0) {
 			return;
 		}
@@ -438,8 +438,18 @@ public class InGameState extends State {
 
 	private boolean set;
 
+	public static boolean triggerPause;
+	private float t;
+
 	@Override
 	public void update(float dt) {
+		t += dt;
+
+		if (t >= 0.1f && triggerPause && !isPaused()) {
+			triggerPause = false;
+			setPaused(true);
+		}
+
 		Dungeon.setBackground2((Level.colors[Dungeon.level.uid]));
 
 		UiInventory.justUsed = Math.max(0, UiInventory.justUsed - 1);
