@@ -8,7 +8,7 @@ public class ForestBossPattern extends BossPattern {
 
 	@Override
 	public String get00() {
-		return "chase";
+		return "tear";
 	}
 
 	@Override

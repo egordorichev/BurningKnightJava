@@ -336,7 +336,7 @@ public class BurningKnight extends Boss {
 		knockback.y = 0;
 
 		if (this.target == null) {
-			this.assignTarget();
+			target = Player.instance;
 		} else {
 			this.flipped = this.target.x + this.target.w / 2 < this.x + this.w / 2;
 		}
@@ -2175,24 +2175,23 @@ public class BurningKnight extends Boss {
 
 			last -= dt;
 
-			if (last <= 0) {
-				last = 0.2f;
+			if (last <= 0 && t <= 5f) {
+				last = 0.1f;
 
 				BulletProjectile bullet = new BulletProjectile();
 
-				bullet.sprite = Graphics.getTexture("bullet-rekt");
+				bullet.letter = "bullet-c";
+				bullet.sprite = Graphics.getTexture(bullet.letter);
 
 				bullet.damage = 1;
-				bullet.letter = "bullet-rekt";
 				bullet.owner = self;
 				bullet.bad = true;
 				bullet.bounce = 3;
 				bullet.ds = 2f;
-				bullet.second = false;
 				bullet.noLight = true;
 
 				float a = getAngleTo(self.target.x + 8, self.target.y + 8) + Random.newFloat(-0.1f, 0.1f);
-				float s = 60 * Mob.shotSpeedMod;
+				float s = (60 + Random.newFloat(-20f, 10f)) * Mob.shotSpeedMod;
 
 				bullet.ra = a;
 				bullet.a = (float) Math.toDegrees(a);
@@ -2207,6 +2206,54 @@ public class BurningKnight extends Boss {
 
 			if (t >= 5f) {
 				self.become("preattack");
+			}
+		}
+	}
+
+	public class CircState extends BKState {
+		private float last;
+		private int m;
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			last -= dt;
+
+			if (t >= 5.5f) {
+				self.become("preattack");
+				return;
+			}
+
+			if (last <= 0) {
+				m++;
+				last = 1f;
+				float s = 20 * Mob.shotSpeedMod;
+				int cn = 32;
+
+				for (int i = 0; i < cn; i++) {
+					if ((i + (m % 2 * 4)) % 8 <= 1) {
+						continue;
+					}
+
+					float a = (float) (((float) i) / cn * Math.PI * 2);
+					BulletProjectile bullet = new BulletProjectile();
+
+					bullet.sprite = Graphics.getTexture("bullet-rect");
+
+					bullet.noLight = true;
+					bullet.damage = 1;
+					bullet.letter = "bullet-rect";
+					bullet.owner = self;
+					bullet.bad = true;
+
+					bullet.x = x + getOx();
+					bullet.y = y + h / 2;
+					bullet.velocity.x = (float) (Math.cos(a)) * s;
+					bullet.velocity.y = (float) (Math.sin(a)) * s;
+
+					Dungeon.area.add(bullet);
+				}
 			}
 		}
 	}
@@ -2241,6 +2288,7 @@ public class BurningKnight extends Boss {
 			case "skull": return new SkullState();
 			case "nano": return new NanoState();
 			case "tear": return new TearState();
+			case "circ": return new CircState();
 		}
 
 		return super.getAi(state);

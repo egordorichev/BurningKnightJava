@@ -7,7 +7,7 @@ public class BossPattern {
 
 	public String getState(int pat, int i) {
 		if (true) { // fixme: remove
-			return "tear";
+			return "circ";
 		}
 
 		if (pat == 0) {
