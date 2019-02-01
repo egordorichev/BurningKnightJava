@@ -57,36 +57,12 @@ public class Projectile extends StatefulEntity {
 			return;
 		}
 
-		/*
-			this.velocity.x = this.body.getLinearVelocity().x;
-			this.velocity.y = this.body.getLinearVelocity().y;
-
-			if (lastVel == null && stop) {
-				lastVel = new Vector2(velocity.x, velocity.y);
-			} else if (!stop && lastVel != null) {
-				velocity.x = lastVel.x;
-				velocity.y = lastVel.y;
-				lastVel = null;
-			}
-
-			if (stop) {
-				this.body.setLinearVelocity(0, 0);
-			} else {
-				float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
-				this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x * 0.2f, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y * 0.2f);
-			}
-		 */
-
 		if (this.body != null && !ignoreBodyPos) {
-
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
-
-			//this.velocity.x = this.body.getLinearVelocity().x;
-			//this.velocity.y = this.body.getLinearVelocity().y;
 		}
 
-		// this.logic(dt);
+		this.logic(dt);
 
 		if (this.body != null && !this.ignoreVel) {
 			//float a = (float) Math.atan2(this.velocity.y, this.velocity.x);

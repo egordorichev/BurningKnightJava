@@ -92,7 +92,7 @@ public class MobPool {
 		clear();
 
 		add(0.25f, -1, MovingFly.class);
-		add(0.5f, 1, DiagonalFly.class);
+		add(10000.5f, 1, DiagonalFly.class);
 		add(0.05f, 1, SupplyMan.class);
 		add(0.05f, 1, CoinMan.class);
 		add(0.05f, 1, BombMan.class);

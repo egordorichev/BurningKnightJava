@@ -118,7 +118,6 @@ public class BulletProjectile extends Projectile {
 
 		if (this.letter != null) {
 			if (this.letter.equals("bullet-rekt")) {
-				second = true;
 				noRotation = false;
 			} else if (this.letter.equals("bullet-bone")) {
 				this.depth = 16;
@@ -153,20 +152,15 @@ public class BulletProjectile extends Projectile {
 		}
 
 		if ((this.w == this.h || circleShape) && !rectShape) {
-			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, true);
+			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, bounce == 0);
 		} else {
-			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, true);
+			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, bounce == 0);
 		}
 
-		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(this.x, this.y, (float) (ra));
-			this.body.setBullet(true);
-			this.body.setLinearVelocity(velocity);
-
-			if (bounce > 0) {
-				body.getFixtureList().get(0).setRestitution(1f);
-			}
-		}
+		body.getFixtureList().get(0).setRestitution(1f);
+		body.setTransform(x, y, ra);
+		body.setBullet(true);
+		body.setLinearVelocity(this.velocity);
 
 		penetrates = !canBeRemoved;
 	}
@@ -194,6 +188,7 @@ public class BulletProjectile extends Projectile {
 		Graphics.batch.end();
 		RectFx.shader.begin();
 		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= ds && (this.t - ds) % 0.3f > 0.15f) ? 1 : 0);
+		alp = 1;
 
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);
@@ -238,6 +233,8 @@ public class BulletProjectile extends Projectile {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+		Graphics.batch.setColor(1, 1, 1, 1);
+
 	}
 
 	@Override
@@ -310,17 +307,7 @@ public class BulletProjectile extends Projectile {
 	}
 
 	@Override
-	public void onCollisionEnd(Entity entity) {
-
-	}
-
-	@Override
 	public void brak() {
-		if (bounce > 0) {
-			//velocity.x *= -1;
-			//velocity.y *= -1;
-		}
-
 		bounce --;
 
 		if (bounce < 0) {
@@ -374,11 +361,6 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void logic(float dt) {
-		if (bounce > 0) {
-			//this.velocity.x = this.body.getLinearVelocity().x;
-			//this.velocity.y = this.body.getLinearVelocity().y;
-		}
-
 		if (this.delay > 0) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 
@@ -432,12 +414,8 @@ public class BulletProjectile extends Projectile {
 			}
 		}
 
-		this.ra = (float) Math.atan2(this.velocity.y, this.velocity.x);
-
 		if (this.rotates) {
 			this.a += dt * 360 * 2 * dir * rotationSpeed;
-		} else {
-			this.a = (float) Math.toDegrees(this.ra);
 		}
 
 		this.control();
@@ -498,5 +476,19 @@ public class BulletProjectile extends Projectile {
 		}
 
 		return super.shouldCollide(null, contact, fixture);
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (this.body != null) {
+			this.velocity.x = this.body.getLinearVelocity().x;
+			this.velocity.y = this.body.getLinearVelocity().y;
+
+			ra = (float) Math.atan2(this.velocity.y, this.velocity.x);
+			a = (float) Math.toDegrees(ra);
+			body.setTransform(x, y, ra);
+		}
 	}
 }

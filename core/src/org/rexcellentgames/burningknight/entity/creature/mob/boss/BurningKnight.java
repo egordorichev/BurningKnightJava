@@ -2186,18 +2186,19 @@ public class BurningKnight extends Boss {
 				bullet.letter = "bullet-rekt";
 				bullet.owner = self;
 				bullet.bad = true;
-				bullet.bounce = 5;
+				bullet.bounce = 3;
 				bullet.ds = 2f;
 				bullet.second = false;
 				bullet.noLight = true;
-				// fixme: make em bounce
 
-				float a = getAngleTo(self.target.x + 8, self.target.y + 8);
+				float a = getAngleTo(self.target.x + 8, self.target.y + 8) + Random.newFloat(-0.1f, 0.1f);
 				float s = 60 * Mob.shotSpeedMod;
 
+				bullet.ra = a;
+				bullet.a = (float) Math.toDegrees(a);
 				bullet.noLight = true;
-				bullet.x = x;
-				bullet.y = y;
+				bullet.x = x + getOx();
+				bullet.y = y + h / 2;
 				bullet.velocity.x = (float) (Math.cos(a)) * s;
 				bullet.velocity.y = (float) (Math.sin(a)) * s;
 
