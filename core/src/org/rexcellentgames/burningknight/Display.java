@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight;
 public class Display {
 	public static final int GAME_WIDTH = 320;
 	public static final int GAME_HEIGHT = 180;
-	public static final float VIEWPORT = ((float) GAME_HEIGHT) / GAME_WIDTH;
 	public static final float UI_SCALE = 1.5f;
 	public static int UI_WIDTH = (int) (GAME_WIDTH * UI_SCALE);
 	public static int UI_HEIGHT = (int) (GAME_HEIGHT * UI_SCALE);

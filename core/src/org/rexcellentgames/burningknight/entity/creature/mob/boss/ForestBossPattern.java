@@ -3,7 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.boss;
 public class ForestBossPattern extends BossPattern {
 	@Override
 	public int getNumAttacks() {
-		return 1;
+		return 3;
 	}
 
 	@Override
@@ -18,17 +18,17 @@ public class ForestBossPattern extends BossPattern {
 
 	@Override
 	public String get02() {
-		return "spawnAttack";
+		return "circ";
 	}
 
 	@Override
 	public String get10() {
-		return "nano";
+		return "circ";
 	}
 
 	@Override
 	public String get11() {
-		return "tpntack";
+		return "four";
 	}
 
 	@Override
@@ -38,16 +38,16 @@ public class ForestBossPattern extends BossPattern {
 
 	@Override
 	public String get20() {
-		return "spin";
+		return "tear";
 	}
 
 	@Override
 	public String get21() {
-		return "nano";
+		return "four";
 	}
 
 	@Override
 	public String get22() {
-		return "spawnAttack";
+		return "circ";
 	}
 }
