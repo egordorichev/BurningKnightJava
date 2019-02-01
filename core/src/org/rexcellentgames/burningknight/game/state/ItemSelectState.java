@@ -185,6 +185,10 @@ public class ItemSelectState extends State {
 				uiY = value;
 			}
 		});
+
+		if (!ur && !um && mage.size() == 0) {
+			fastPick(mage.get(0), Player.Type.WIZARD);
+		}
 	}
 
 	@Override
@@ -220,6 +224,10 @@ public class ItemSelectState extends State {
 		if (Input.instance.wasPressed("F")) {
 			InGameState.horn();
 		}
+		
+		if (Input.instance.wasPressed("pause")) {
+			InGameState.triggerPause = true;
+		}
 	}
 
 	private static boolean picked;
@@ -246,13 +254,17 @@ public class ItemSelectState extends State {
 			public void onEnd() {
 				super.onEnd();
 
-				Player.toSet = tp;
-				GlobalSave.put("last_class", Player.toSet.id);
-				Player.startingItem = item;
-
-				LoadState.fromSelect = true;
-				Dungeon.game.setState(new LoadState());
+				fastPick(item, tp);
 			}
 		});
+	}
+
+	public static void fastPick(Item item, Player.Type tp) {
+		Player.toSet = tp;
+		GlobalSave.put("last_class", Player.toSet.id);
+		Player.startingItem = item;
+
+		LoadState.fromSelect = true;
+		Dungeon.game.setState(new LoadState());
 	}
 }
