@@ -32,6 +32,7 @@ import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -262,10 +263,11 @@ public class BulletProjectile extends Projectile {
 				double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
 
 				if (pattern != null) {
+					Log.error("Remove from pattern");
 					pattern.removeBullet(this);
 					ignoreVel = false;
 					ignoreBodyPos = false;
-					d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.velocity.y);
+					// d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.velocity.y);
 					Dungeon.area.add(this, true);
 				}
 
@@ -430,13 +432,14 @@ public class BulletProjectile extends Projectile {
 			float f = 60f;
 			this.velocity.x = (float) (Math.cos(this.angle) * f);
 			this.velocity.y = (float) (Math.sin(this.angle) * f);
+
+			this.body.setLinearVelocity(this.velocity);
 		}
 
-		if (delay <= 0 && pattern == null) {
+		if (this.bounce == 0) {
 			this.x += this.velocity.x * dt;
 			this.y += this.velocity.y * dt;
-
-			//this.body.setLinearVelocity(this.velocity);
+			this.body.setTransform(this.x, this.y, ra);
 		}
 
 		//World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);

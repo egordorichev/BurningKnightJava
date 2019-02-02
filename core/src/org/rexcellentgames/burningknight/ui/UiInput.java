@@ -89,6 +89,12 @@ public class UiInput extends UiEntity implements InputProcessor {
 	}
 
 	@Override
+	public void destroy() {
+		super.destroy();
+		org.rexcellentgames.burningknight.game.input.Input.multiplexer.removeProcessor(this);
+	}
+
+	@Override
 	public boolean keyTyped(char character) {
 		if (this.open && isPrintableChar(character)) {
 			this.input += character;

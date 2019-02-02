@@ -201,7 +201,7 @@ public class Cuok extends Mob {
 		bullet.y = y + 4;
 		bullet.renderCircle = false;
 
-		float d = 30f;
+		float d = 60f;
 
 		bullet.velocity.x = (float) (Math.cos(a) * d);
 		bullet.velocity.y = (float) (Math.sin(a) * d);

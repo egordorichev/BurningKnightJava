@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class BossRoom extends EntranceRoom {
 	protected boolean alwaysElipse;
@@ -93,6 +94,11 @@ public class BossRoom extends EntranceRoom {
 				paintTunnel(level, Terrain.randomFloor());
 			}
 		}
+	}
+
+	@Override
+	protected Point getDoorCenter() {
+		return getCenter();
 	}
 
 	@Override

@@ -39,7 +39,6 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 public abstract class RegularLevel extends Level {
 	public static Entrance ladder;
@@ -207,11 +206,10 @@ public abstract class RegularLevel extends Level {
 	@SuppressWarnings("unchecked")
 	protected void build() {
 		Builder builder = this.getBuilder();
-
 		ArrayList<Room> rooms = this.createRooms();
 
 		if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-			Collections.shuffle(rooms);
+			// Collections.shuffle(rooms);
 		}
 
 		int attempt = 0;
@@ -243,7 +241,7 @@ public abstract class RegularLevel extends Level {
 					rooms = this.createRooms();
 
 					if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-						Collections.shuffle(rooms);
+						// Collections.shuffle(rooms);
 					}
 				}
 

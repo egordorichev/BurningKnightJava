@@ -12,7 +12,6 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 
 public class RegularBuilder extends Builder {
@@ -67,7 +66,7 @@ public class RegularBuilder extends Builder {
 			this.weightRooms(this.multiConnection);
 
 			if (GameSave.runId != 0 || Dungeon.depth != 1) {
-				Collections.shuffle(this.multiConnection);
+				// Collections.shuffle(this.multiConnection);
 			}
 
 			this.multiConnection = new ArrayList<>(new LinkedHashSet<>(this.multiConnection));

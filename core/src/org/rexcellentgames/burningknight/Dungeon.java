@@ -320,7 +320,7 @@ public class Dungeon extends ApplicationAdapter {
 		Achievements.init();
 		Settings.load();
 
-		long seed = System.currentTimeMillis();
+		long seed = -10; // System.currentTimeMillis();
 
 		org.rexcellentgames.burningknight.entity.Camera camera = new org.rexcellentgames.burningknight.entity.Camera();
 

@@ -92,7 +92,7 @@ public class BulletPattern extends Entity {
 			doLogic(b, i);
 			b.update(dt);
 
-			if (b.done) {
+			if (b.done || b.brokeWeapon) {
 				onBulletRemove(b);
 				b.destroy();
 				bullets.remove(b);

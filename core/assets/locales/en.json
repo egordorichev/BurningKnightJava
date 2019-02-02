@@ -588,5 +588,6 @@
 	"class_ranged_desc" : "Guns up!",
 	"class_melee" : "Melee class unlocked!",
 	"class_melee_desc" : "Into the battle!",
-	"frozen_ruins" : "Frozen Ruins"
+	"frozen_ruins" : "Frozen Ruins",
+	"seed" : "Seed:"
 }

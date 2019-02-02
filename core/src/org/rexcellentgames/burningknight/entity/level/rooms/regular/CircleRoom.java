@@ -32,9 +32,4 @@ public class CircleRoom extends RegularRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 	}
-
-	@Override
-	protected Point getDoorCenter() {
-		return getCenter();
-	}
 }

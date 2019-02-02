@@ -1,6 +1,19 @@
 package org.rexcellentgames.burningknight.util;
 
 public class Random {
+	private static String seed;
+
+	public static String getSeed() {
+		return seed;
+	}
+
+	public static void setSeed(String seed) {
+		Random.seed = seed;
+
+		random = new java.util.Random(seed.hashCode());
+		Log.error("Seed is " + seed + " (" + seed.hashCode() + ") ");
+	}
+
 	public static java.util.Random random = new java.util.Random();
 
 	public static float newFloat(float min, float max) {

@@ -30,6 +30,8 @@ import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.StartingItem;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.ui.UiTextInput;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -45,6 +47,8 @@ public class ItemSelectState extends State {
 	@Override
 	public void init() {
 		super.init();
+
+		seed = Random.random.nextLong() + "";
 
 		SaveManager.delete();
 		Audio.play("Void");
@@ -167,6 +171,8 @@ public class ItemSelectState extends State {
 			}
 		});
 
+		input = (UiTextInput) Dungeon.ui.add(new UiTextInput("seed", Display.UI_WIDTH / 2, (int) (Display.UI_HEIGHT / 2 - 48 * 2.5f)));
+
 		Ui.saveAlpha = 0;
 
 		Dungeon.white = 0;
@@ -190,6 +196,9 @@ public class ItemSelectState extends State {
 			fastPick(mage.get(0), Player.Type.WIZARD);
 		}
 	}
+
+	private static UiTextInput input;
+	private static String seed;
 
 	@Override
 	public void destroy() {
@@ -266,5 +275,17 @@ public class ItemSelectState extends State {
 
 		LoadState.fromSelect = true;
 		Dungeon.game.setState(new LoadState());
+
+		if (input != null) {
+			String string = input.input;
+
+			if (!string.isEmpty()) {
+				seed = string;
+			}
+
+			input = null;
+		}
+
+		Random.setSeed(seed);
 	}
 }
