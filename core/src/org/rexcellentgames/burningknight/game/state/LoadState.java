@@ -98,7 +98,11 @@ public class LoadState extends State {
 		"Googling",
 		"Help me",
 		"SOS",
-		"Are we lost?"
+		"Are we lost?",
+		"Spooooky",
+		"OOO",
+		":O",
+		"On fire"
 	));
 
 	@Override

@@ -268,7 +268,8 @@ public class DesktopLauncher {
 		"⌐■-■",
 		"Open fire",
 		"In case of fire break the monitor",
-		"In case of fire backup the saves"
+		"In case of fire backup the saves",
+		"You'd better get burning"
 	));
 
 	private static String[] birthdayTitles = new String[] {

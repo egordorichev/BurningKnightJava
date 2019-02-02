@@ -453,7 +453,6 @@ public class InGameState extends State {
 		Dungeon.setBackground2((Level.colors[Dungeon.level.uid]));
 
 		UiInventory.justUsed = Math.max(0, UiInventory.justUsed - 1);
-		Projectile.allDie = false;
 
 		if (Dungeon.depth == -2) {
 			Upgrade.Companion.setUpdateEvent(false);

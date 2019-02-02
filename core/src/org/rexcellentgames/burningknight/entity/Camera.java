@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import org.rexcellentgames.burningknight.*;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.level.rooms.FloatingRoom;
@@ -191,6 +192,10 @@ public class Camera extends Entity {
 				camPosition = camPosition.lerp(new Vector2(x, y), dt * speed);
 
 				if (target instanceof Player) {
+					if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.getState().equals("defeated")) {
+						camPosition = camPosition.lerp(new Vector2(BurningKnight.instance.x + BurningKnight.instance.w / 2, BurningKnight.instance.y + BurningKnight.instance.h / 2), dt * speed * 0.25f);
+					}
+
 					camPosition = camPosition.lerp(new Vector2(mousePosition.x, mousePosition.y), dt * speed * 0.25f);
 					Player p = (Player) target;
 
