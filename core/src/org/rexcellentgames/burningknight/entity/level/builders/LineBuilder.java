@@ -31,6 +31,11 @@ public class LineBuilder extends RegularBuilder {
 		entrance.setPos(0, 0);
 		branchable.add(entrance);
 
+		if (multiConnection.size() == 0) {
+			placeRoom(init, entrance, boss, Random.newFloat(360));
+			return init;
+		}
+
 		if (bossExit != null) {
 			placeRoom(init, entrance, bossExit, direction + 180f);
 		}

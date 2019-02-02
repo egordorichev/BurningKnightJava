@@ -267,6 +267,8 @@ public class BulletProjectile extends Projectile {
 					pattern.removeBullet(this);
 					ignoreVel = false;
 					ignoreBodyPos = false;
+					d = 60;
+					dissappearWithTime = false;
 					// d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.velocity.y);
 					Dungeon.area.add(this, true);
 				}

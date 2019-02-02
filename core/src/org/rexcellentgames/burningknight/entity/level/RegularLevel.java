@@ -39,6 +39,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public abstract class RegularLevel extends Level {
 	public static Entrance ladder;
@@ -88,8 +89,10 @@ public abstract class RegularLevel extends Level {
 
 		Log.info("Spawning entities...");
 
-		this.spawnLevelEntities();
-		this.spawnEntities();
+		if (!Random.getSeed().equals("BK")) {
+			this.spawnLevelEntities();
+			this.spawnEntities();
+		}
 
 		Log.info("Done!");
 	}
@@ -209,7 +212,7 @@ public abstract class RegularLevel extends Level {
 		ArrayList<Room> rooms = this.createRooms();
 
 		if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-			// Collections.shuffle(rooms);
+			Collections.shuffle(rooms, new java.util.Random(Random.getSeed().hashCode()));
 		}
 
 		int attempt = 0;
@@ -241,7 +244,7 @@ public abstract class RegularLevel extends Level {
 					rooms = this.createRooms();
 
 					if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-						// Collections.shuffle(rooms);
+						Collections.shuffle(rooms, new java.util.Random(Random.getSeed().hashCode()));
 					}
 				}
 
@@ -289,10 +292,13 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 
-		int regular = this.getNumRegularRooms();
-		int special = this.getNumSpecialRooms();
+		boolean bk = Random.getSeed().equals("BK");
+
+		// fixme: 0 regular rooms breaks it
+		int regular = bk ? 0 : this.getNumRegularRooms();
+		int special = bk ? 0 : this.getNumSpecialRooms();
 		int connection = this.getNumConnectionRooms();
-		int secret = this.getNumSecretRooms();
+		int secret = bk ? 0 : this.getNumSecretRooms();
 
 		Log.info("Creating r" + regular + " sp" + special + " c" + connection + " sc" + secret + " rooms");
 
@@ -327,7 +333,7 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 
-		if (Dungeon.depth > 0) {
+		if (Dungeon.depth > 0 && !bk) {
 			TreasureRoom room = TreasureRoomPool.instance.generate();
 			room.weapon = Random.chance(50);
 			rooms.add(room);

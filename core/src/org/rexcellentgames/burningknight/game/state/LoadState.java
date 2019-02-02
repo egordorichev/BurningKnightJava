@@ -29,7 +29,6 @@ import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.PathFinder;
-import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +106,7 @@ public class LoadState extends State {
 
 	@Override
 	public void init() {
-		joke = jokes.get(Random.newInt(jokes.size()));
+		joke = jokes.get(new java.util.Random().nextInt(jokes.size()));
 
 		UiInventory.justUsed = 0;
 		generating = false;

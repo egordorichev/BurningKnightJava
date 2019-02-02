@@ -31,7 +31,6 @@ import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.StartingItem;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.ui.UiTextInput;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -39,16 +38,30 @@ import java.util.ArrayList;
 
 public class ItemSelectState extends State {
 	private static ArrayList<Item> melee = new ArrayList<>();
-	private static  ArrayList<Item> ranged = new ArrayList<>();
-	private static  ArrayList<Item> mage = new ArrayList<>();
+	private static ArrayList<Item> ranged = new ArrayList<>();
+	private static ArrayList<Item> mage = new ArrayList<>();
 
 	public static int depth;
+
+
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+	public static String randomAlphaNumeric(int count) {
+		StringBuilder builder = new StringBuilder();
+
+		while (count-- != 0) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+		}
+
+		return builder.toString();
+	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		seed = Random.random.nextLong() + "";
+		seed = randomAlphaNumeric(8);
 
 		SaveManager.delete();
 		Audio.play("Void");
@@ -171,7 +184,21 @@ public class ItemSelectState extends State {
 			}
 		});
 
-		input = (UiTextInput) Dungeon.ui.add(new UiTextInput("seed", Display.UI_WIDTH / 2, (int) (Display.UI_HEIGHT / 2 - 48 * 2.5f)));
+		input = (UiTextInput) Dungeon.ui.add(new UiTextInput("seed", Display.UI_WIDTH / 2, (int) (Display.UI_HEIGHT / 2 - 48 * 2.5f)) {
+			@Override
+			public int getMaxLength() {
+				return 8;
+			}
+
+			@Override
+			public char validate(char ch) {
+				if (!Character.isLetterOrDigit(ch)) {
+					return '\0';
+				}
+
+				return Character.toUpperCase(ch);
+			}
+		});
 
 		Ui.saveAlpha = 0;
 
@@ -233,7 +260,7 @@ public class ItemSelectState extends State {
 		if (Input.instance.wasPressed("F")) {
 			InGameState.horn();
 		}
-		
+
 		if (Input.instance.wasPressed("pause")) {
 			InGameState.triggerPause = true;
 		}

@@ -200,6 +200,9 @@ public class InGameState extends State {
 				Graphics.layout.setText(Graphics.medium, depth);
 				this.w = Graphics.layout.width;
 
+				Graphics.layout.setText(Graphics.small, Random.getSeed());
+				this.ww = Graphics.layout.width;
+
 				if (!wasHidden) {
 					UiMap.instance.hide();
 				}
@@ -858,6 +861,8 @@ public class InGameState extends State {
 		Player.instance.renderBuffs();
 	}
 
+	private float ww;
+
 	@Override
 	public void renderUi() {
 		Dungeon.ui.render();
@@ -898,6 +903,7 @@ public class InGameState extends State {
 			pauseMenuUi.render();
 
 			Graphics.print(this.depth, Graphics.medium, Display.UI_WIDTH / 2 - w / 2, 128 + 32 + 16);
+			Graphics.print(Random.getSeed(), Graphics.small, Display.UI_WIDTH / 2 - ww / 2, 128 + 32 + 12);
 
 			Camera.ui.translate(-settingsX, -this.mv);
 			Camera.ui.update();

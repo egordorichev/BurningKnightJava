@@ -66,7 +66,7 @@ public class RegularBuilder extends Builder {
 			this.weightRooms(this.multiConnection);
 
 			if (GameSave.runId != 0 || Dungeon.depth != 1) {
-				// Collections.shuffle(this.multiConnection);
+				// Collections.shuffle(rooms, new java.util.Random(Random.getSeed().hashCode()));
 			}
 
 			this.multiConnection = new ArrayList<>(new LinkedHashSet<>(this.multiConnection));
