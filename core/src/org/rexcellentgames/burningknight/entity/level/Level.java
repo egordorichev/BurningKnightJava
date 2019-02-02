@@ -200,21 +200,18 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public static RegularLevel forDepth(int depth) {
-		/*
-		if (depth < 3) {
-			return new HallLevel();
-		} else if (depth < 5) {
-			return new DesertLevel();
-		} else if (depth < 7) {
-			return new ForestLevel();
-		} else if (depth < 9) {
-			return new LibraryLevel();
-		} else if (depth < 11) {
-			return new TechLevel();
-		} else if (depth < 13) {
-			return new CreepLevel();
+		String seed = Random.getSeed();
+
+		switch (seed) {
+			case "ICE": return new IceLevel();
+			case "CASTLE": return new HallLevel();
+			case "FOREST": return new ForestLevel();
+			case "LIBRARY": return new LibraryLevel();
+			case "DESERT": return new DesertLevel();
+			case "BLOOD": return new BloodLevel();
+			case "TECH": return new TechLevel();
 		}
-		*/
+
 		if (depth < 2) {
 			return new HallLevel();
 		} else if (depth < 3) {

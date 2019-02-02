@@ -1,7 +1,7 @@
 package org.rexcellentgames.burningknight.util;
 
 public class Random {
-	private static String seed;
+	private static String seed = "";
 
 	public static String getSeed() {
 		return seed;

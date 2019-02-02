@@ -263,7 +263,6 @@ public class BulletProjectile extends Projectile {
 				double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
 
 				if (pattern != null) {
-					Log.error("Remove from pattern");
 					pattern.removeBullet(this);
 					ignoreVel = false;
 					ignoreBodyPos = false;
