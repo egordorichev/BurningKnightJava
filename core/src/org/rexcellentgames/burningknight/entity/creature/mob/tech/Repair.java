@@ -65,13 +65,13 @@ public class Repair extends Bot {
 		// Graphics.print(this.state, Graphics.small, this.x, this.y);
 		super.renderStats();
 
-		if (targetDead != null) {
+		/*if (targetDead != null) {
 			Graphics.startShape();
 			Graphics.shape.setColor(1, 0, 0, 1);
 			Graphics.shape.circle((float) Math.floor(targetDead.x / 16) * 16, (float) Math.floor(targetDead.y) / 16 * 16, 4);
 			Graphics.endShape();
 			Graphics.print(targetDead.type.getSimpleName(), Graphics.small, targetDead.x, targetDead.y);
-		}
+		}*/
 	}
 
 	@Override

@@ -192,7 +192,7 @@ public class Camera extends Entity {
 				camPosition = camPosition.lerp(new Vector2(x, y), dt * speed);
 
 				if (target instanceof Player) {
-					if (BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.getState().equals("defeated")) {
+					if (!Player.instance.isDead() && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.getState().equals("defeated")) {
 						camPosition = camPosition.lerp(new Vector2(BurningKnight.instance.x + BurningKnight.instance.w / 2, BurningKnight.instance.y + BurningKnight.instance.h / 2), dt * speed * 0.25f);
 					}
 

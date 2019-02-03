@@ -20,6 +20,13 @@ import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.library.*;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.*;
+import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -91,6 +98,8 @@ public class MobPool {
 	public void initForFloor() {
 		clear();
 
+		boolean chaos = Random.getSeed().equals("CHAOS");
+
 		add(0.25f, -1, MovingFly.class);
 		add(10000.5f, 1, DiagonalFly.class);
 		add(0.05f, 1, SupplyMan.class);
@@ -99,30 +108,36 @@ public class MobPool {
 
 		int d = Dungeon.depth;
 
-		if (d != 5) {
+		if (chaos || Dungeon.level instanceof IceLevel) {
 			add(0.15f, 1, BurningMan.class);
 		}
 
-		if (d > 1) {
+		if (chaos || d > 1) {
 			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
 			add(1f, -1, DiagonalShotFly.class);
 		}
 
-		if (d == 1) {
+		if (chaos || Dungeon.level instanceof HallLevel) {
 			add(1f, -1, RangedKnight.class);
 			add(1f, -1, Knight.class);
 			add(1f, -1, Clown.class);
 			add(0.6f, -1, Thief.class);
-		} else if (d == 2) {
+		}
+
+		if (chaos || Dungeon.level instanceof DesertLevel) {
 			add(1f, -1, Archeologist.class);
 			add(1f, -1, Mummy.class);
 			add(0.5f, -1, Thief.class);
 			add(1f, 1, Skeleton.class);
-		} else if (d == 3) {
+		}
+
+		if (chaos || Dungeon.level instanceof ForestLevel) {
 			add(0.5f, 1, Wombat.class);
 			add(1f, -1, Hedgehog.class);
 			add(1f, 2, Treeman.class);
-		} else if (d == 4) {
+		}
+
+		if (chaos || Dungeon.level instanceof LibraryLevel) {
 			add(1f, -1, Mage.class);
 			add(1f, -1, Cuok.class);
 			add(1f, -1, DiagonalCuok.class);
@@ -130,7 +145,9 @@ public class MobPool {
 			add(0.4f, -1, FourSideCrossCuok.class);
 			add(0.2f, 1, SpinningCuok.class);
 			add(1.5f, 1, Grandma.class);
-		} else if (d == 5) {
+		}
+
+		if (chaos || Dungeon.level instanceof IceLevel) {
 			add(1f, 2, IceElemental.class);
 			add(1.5f, -1, Snowball.class);
 			add(1f, -1, SnowballFly.class);
@@ -138,7 +155,9 @@ public class MobPool {
 			add(0.5f, 1, Snowflake.class, Snowflake.class, Snowflake.class);
 			add(1f, 1, Roller.class);
 			add(1f, 2, Gift.class);
-		} else if (d == 6) {
+		}
+
+		if (chaos || Dungeon.level instanceof TechLevel) {
 			add(1f, -1, Vacuum.class);
 			add(1f, 2, Factory.class);
 			add(0.5f, 1, Factory.class, Repair.class);
@@ -146,7 +165,9 @@ public class MobPool {
 			add(1f, -1, Batterfly.class);
 			add(0.5f, -1, Batterfly.class, Batterfly.class, Batterfly.class);
 			add(1f, -1, Tank.class);
-		} else if (d == 7) {
+		}
+
+		if (chaos || Dungeon.level instanceof BloodLevel) {
 			add(1f, -1, Zombie.class);
 			add(1f, -1, BigZombie.class);
 			add(1f, 1, Mother.class);

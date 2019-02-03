@@ -379,6 +379,17 @@ public class Player extends Creature {
 			String id = GlobalSave.getString("last_hat", null);
 			this.setHat(id);
 		}
+
+		if (Random.getSeed().equals("HP")) {
+			this.hpMax = 12;
+			this.hp = 12;
+		} else if (Random.getSeed().equals("BOMB")) {
+			this.bombs = 99;
+		} else if (Random.getSeed().equals("KEY")) {
+			this.keys = 99;
+		} else if (Random.getSeed().equals("GOLD")) {
+			this.money = 999;
+		}
 	}
 
 	private int numIronHearts;
