@@ -58,7 +58,13 @@ public class ItemSelectState extends State {
 	}
 
 	public static int stringToSeed(String str) {
-		return 0;
+		int seed = 0;
+
+		for (int i = 0; i < str.length(); i++) {
+			seed += str.charAt(i);
+		}
+
+		return seed;
 	}
 
 	@Override

@@ -9,13 +9,16 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Spark;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.BlueHeart;
+import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.CollisionHelper;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -180,9 +183,46 @@ public class HeartFx extends SaveableEntity {
 
 	private float last;
 
+	private boolean falling;
+	private float fall = 1;
+
+	private void checkFall() {
+		if (falling) {
+			return;
+		}
+
+		for (int x = (int) Math.floor((this.x) / 16); x < Math.ceil((this.x + 16) / 16); x++) {
+			for (int y = (int) Math.floor((this.y + 8) / 16); y < Math.ceil((this.y + 16) / 16); y++) {
+				if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
+					continue;
+				}
+
+				if (CollisionHelper.check(this.x, this.y, 16, 8, x * 16, y * 16 - 8, 16, 16)) {
+					int i = Level.toIndex(x, y);
+					byte t = Dungeon.level.get(i);
+
+					if (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C || t == Terrain.FLOOR_D) {
+						return;
+					}
+				}
+			}
+		}
+
+		falling = true;
+	}
+
 	@Override
 	public void update(float dt) {
 		this.light.setPosition(x, y);
+		checkFall();
+
+		if (falling) {
+			fall -= dt;
+
+			if (fall <= 0) {
+				done = true;
+			}
+		}
 
 		if (this.body == null) {
 			this.t = Random.newFloat(128);
@@ -231,8 +271,8 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void render() {
 		float a = (float) Math.cos(this.t * 3f) * 8f;
-		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f);
-		float sx = 1f;
+		float sy = (float) (1f + Math.sin(this.t * 2f) / 10f) * fall;
+		float sx = fall;
 
 		if (this.animation != null) {
 			this.animation.render(this.x, this.y, false, false, this.w / 2, this.h / 2, a, sx, sy);
@@ -241,7 +281,7 @@ public class HeartFx extends SaveableEntity {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x, this.y, this.w, this.h);
+		Graphics.shadow(this.x, this.y, this.w * fall, this.h * fall);
 	}
 
 	@Override
