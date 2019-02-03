@@ -801,6 +801,10 @@ public class Dungeon extends ApplicationAdapter {
 		cursor = Gdx.graphics.newCursor(pm, 0, 0);
 		Gdx.graphics.setCursor(cursor);
 		pm.dispose();
+		
+		if (Settings.cursorId == Settings.cursors.length - 1) {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+		}
 	}
 
 	private void initColors() {

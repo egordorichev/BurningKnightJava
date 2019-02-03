@@ -383,6 +383,9 @@ public class Player extends Creature {
 		if (Random.getSeed().equals("HP")) {
 			this.hpMax = 12;
 			this.hp = 12;
+		} else if (Random.getSeed().equals("DIE")) {
+			this.hpMax = 2;
+			this.hp = 2;
 		} else if (Random.getSeed().equals("BOMB")) {
 			this.bombs = 99;
 		} else if (Random.getSeed().equals("KEY")) {

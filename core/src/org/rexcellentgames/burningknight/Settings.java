@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Cursor;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 
 public class Settings {
@@ -78,6 +79,10 @@ public class Settings {
 
 		if (borderless) {
 			Gdx.graphics.setUndecorated(Settings.borderless);
+		}
+
+		if (cursorId == cursors.length - 1) {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
 		}
 
 		Gdx.graphics.setVSync(Settings.vsync);
