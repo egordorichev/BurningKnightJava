@@ -971,7 +971,15 @@ public class Player extends Creature {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh, this.z);
+		float z = this.z;
+		boolean flying = false;
+
+		if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
+			z -= (float) (Math.cos(Dungeon.time * 9) * 1.5f);
+			flying = true;
+		}
+
+		Graphics.shadow(this.x + this.hx, this.y - (flying ? 3 : 0), this.hw, this.hh, z);
 	}
 
 	@Override
