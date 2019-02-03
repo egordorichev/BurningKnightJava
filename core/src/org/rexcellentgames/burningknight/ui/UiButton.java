@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
-import org.rexcellentgames.burningknight.util.Log;
 
 public class UiButton extends UiEntity {
 	public int h;
@@ -114,13 +113,14 @@ public class UiButton extends UiEntity {
 		this.hover = checkHover() || isSelected;
 
 		if (h && !this.hover) {
-
+			onUnhover();
 		} else if ((!h && this.hover)) {
 			this.r = 1f;
 			this.g = 1f;
 			this.b = 1f;
 
 			Audio.playSfx("menu/moving");
+			onHover();
 		}
 
 		if (this.hover) {
@@ -134,6 +134,14 @@ public class UiButton extends UiEntity {
 			g = 1f;
 			b = 1f;
 		}
+	}
+
+	protected void onUnhover() {
+
+	}
+
+	protected void onHover() {
+
 	}
 
 	public void onClick() {

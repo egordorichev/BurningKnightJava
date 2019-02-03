@@ -60,6 +60,7 @@ public class ItemSelectState extends State {
 	@Override
 	public void init() {
 		super.init();
+		StartingItem.hovered = null;
 
 		seed = randomAlphaNumeric(8);
 
@@ -144,6 +145,7 @@ public class ItemSelectState extends State {
 		for (int i = 0; i < melee.size(); i++) {
 			StartingItem item = new StartingItem();
 			item.item = melee.get(i);
+			item.name = melee.get(i).getName();
 			item.type = Player.Type.WARRIOR;
 			item.y = Display.UI_HEIGHT / 2 - 48;
 			item.x = (Display.UI_WIDTH - melee.size() * 48) / 2 + i * 48 + 24;
@@ -153,6 +155,7 @@ public class ItemSelectState extends State {
 		for (int i = 0; i < ranged.size(); i++) {
 			StartingItem item = new StartingItem();
 			item.item = ranged.get(i);
+			item.name = ranged.get(i).getName();
 			item.type = Player.Type.RANGER;
 			item.y = Display.UI_HEIGHT / 2;
 			item.x = (Display.UI_WIDTH - ranged.size() * 48) / 2 + i * 48 + 24;
@@ -162,6 +165,7 @@ public class ItemSelectState extends State {
 		for (int i = 0; i < mage.size(); i++) {
 			StartingItem item = new StartingItem();
 			item.item = mage.get(i);
+			item.name = mage.get(i).getName();
 			item.type = Player.Type.WIZARD;
 			item.y = Display.UI_HEIGHT / 2 + 48;
 			item.x = (Display.UI_WIDTH - mage.size() * 48) / 2 + i * 48 + 24;

@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
+import org.rexcellentgames.burningknight.entity.level.rooms.PrebossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
@@ -796,6 +797,8 @@ public class InGameState extends State {
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
+			} else if (Player.instance.room instanceof PrebossRoom) {
+				Audio.play("Gobbeon");
 			} else if (Player.instance.room instanceof SecretRoom) {
 				Audio.play("Serendipity");
 			} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
