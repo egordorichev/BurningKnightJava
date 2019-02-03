@@ -6,10 +6,6 @@ public class BossPattern {
 	}
 
 	public String getState(int pat, int i) {
-		if (true) {
-			return "nano";
-		}
-
 		if (pat == 0) {
 			if (i == 0) {
 				return get00();
@@ -46,7 +42,7 @@ public class BossPattern {
 	}
 
 	public String get02() {
-		return "laserAimAttack";
+		return "four";
 	}
 
 	public String get10() {
@@ -70,6 +66,6 @@ public class BossPattern {
 	}
 
 	public String get22() {
-		return "laserAimAttack";
+		return "four";
 	}
 }

@@ -36,18 +36,15 @@ public class LineBuilder extends RegularBuilder {
 			return init;
 		}
 
-		if (bossExit != null) {
-			placeRoom(init, entrance, bossExit, direction + 180f);
-		}
-
 		int roomsOnPath = (int) (this.multiConnection.size() * pathLength) + Random.chances(pathLenJitterChances);
 		roomsOnPath = Math.min(roomsOnPath, this.multiConnection.size());
 
 		Room curr = entrance;
 
 		float[] pathTunnels = pathTunnelChances.clone();
+		boolean boss = preboss != null;
 
-		for (int i = 0; i <= roomsOnPath; i++) {
+		for (int i = 0; i <= roomsOnPath + (boss ? 1 : 0); i++) {
 			if (i == roomsOnPath && exit == null) {
 				continue;
 			}
@@ -61,19 +58,27 @@ public class LineBuilder extends RegularBuilder {
 
 			pathTunnels[tunnels]--;
 
-			if (i != 0 && Dungeon.depth != 0) {
+			if (i != 0 && (!boss || i < roomsOnPath - 1) && Dungeon.depth != 0) {
 				for (int j = 0; j < tunnels; j++) {
 					ConnectionRoom t = ConnectionRoom.create();
+
 					if (placeRoom(init, curr, t, direction + Random.newFloat(-pathVariance, pathVariance)) == -1) {
 						return null;
 					}
+
 					branchable.add(t);
 					init.add(t);
 					curr = t;
 				}
 			}
 
-			Room r = (i == roomsOnPath ? exit : this.multiConnection.get(i));
+			Room r;
+
+			if (boss) {
+				r = (i > roomsOnPath ? exit : (i == roomsOnPath ? preboss : this.multiConnection.get(i)));
+			} else {
+				r = (i == roomsOnPath ? exit : this.multiConnection.get(i));
+			}
 
 			if (placeRoom(init, curr, r, direction + Random.newFloat(-pathVariance, pathVariance)) == -1) {
 				return null;

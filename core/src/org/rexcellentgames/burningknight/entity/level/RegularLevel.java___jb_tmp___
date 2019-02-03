@@ -18,7 +18,6 @@ import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.*;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
@@ -104,7 +103,7 @@ public abstract class RegularLevel extends Level {
 			Log.info("Spawn modifier is x" + Player.mobSpawnModifier);
 
 			for (Room room : this.rooms) {
-				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
+				if (room instanceof RegularRoom && !(room instanceof PrebossRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
 					float weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 150) * Player.mobSpawnModifier);
 
 					MobPool.instance.initForRoom();

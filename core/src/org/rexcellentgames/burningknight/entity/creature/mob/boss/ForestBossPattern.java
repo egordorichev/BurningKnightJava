@@ -28,7 +28,7 @@ public class ForestBossPattern extends BossPattern {
 
 	@Override
 	public String get11() {
-		return "four";
+		return "laserAimAttack";
 	}
 
 	@Override
@@ -43,7 +43,7 @@ public class ForestBossPattern extends BossPattern {
 
 	@Override
 	public String get21() {
-		return "four";
+		return "laserAimAttack";
 	}
 
 	@Override
