@@ -269,7 +269,8 @@ public class DesktopLauncher {
 		"Open fire",
 		"In case of fire break the monitor",
 		"In case of fire backup the saves",
-		"You'd better get burning"
+		"You'd better get burning",
+		"Why are you reading this?"
 	));
 
 	private static String[] birthdayTitles = new String[] {
@@ -279,7 +280,8 @@ public class DesktopLauncher {
 		"Burning party",
 		"Fire hard!",
 		"Today is a special day",
-		""
+		"I need a cake",
+		"I hope the presents won't explode"
 	};
 
 	private static String[] birthdays = new String[]{

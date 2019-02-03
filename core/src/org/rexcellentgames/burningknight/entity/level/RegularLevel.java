@@ -31,6 +31,7 @@ import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobHub;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.entity.pool.room.*;
+import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -49,7 +50,7 @@ public abstract class RegularLevel extends Level {
 
 	@Override
 	public void generate() {
-		Random.random.setSeed(Random.getSeed().hashCode() + Dungeon.depth * 128);
+		Random.random.setSeed(ItemSelectState.stringToSeed(Random.getSeed()) + Dungeon.depth * 128);
 
 		Player.all.clear();
 		Mob.all.clear();
@@ -211,7 +212,7 @@ public abstract class RegularLevel extends Level {
 		ArrayList<Room> rooms = this.createRooms();
 
 		if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-			Collections.shuffle(rooms, new java.util.Random(Random.getSeed().hashCode()));
+			Collections.shuffle(rooms, new java.util.Random(ItemSelectState.stringToSeed(Random.getSeed())));
 		}
 
 		int attempt = 0;
@@ -243,7 +244,7 @@ public abstract class RegularLevel extends Level {
 					rooms = this.createRooms();
 
 					if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-						Collections.shuffle(rooms, new java.util.Random(Random.getSeed().hashCode()));
+						Collections.shuffle(rooms, new java.util.Random(ItemSelectState.stringToSeed(Random.getSeed())));
 					}
 				}
 

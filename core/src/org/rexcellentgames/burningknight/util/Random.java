@@ -1,5 +1,7 @@
 package org.rexcellentgames.burningknight.util;
 
+import org.rexcellentgames.burningknight.game.state.ItemSelectState;
+
 public class Random {
 	private static String seed = "";
 
@@ -8,10 +10,18 @@ public class Random {
 	}
 
 	public static void setSeed(String seed) {
+		switch (seed) {
+			case "ICE": case "CASTLE": case "FOREST": case "LIBRARY":
+			case "BLOOD": case "TECH": case "DESERT": case "MAANEX":
+			case "DIE": case "BOMB": case "KEY": case "HP": case "CHEATER":
+			case "GOLD": case "BK":
+				seed += "_" + ItemSelectState.randomAlphaNumeric(8);
+		}
+
 		Random.seed = seed;
 
-		random = new java.util.Random(seed.hashCode());
-		Log.error("Seed is " + seed + " (" + seed.hashCode() + ") ");
+		random = new java.util.Random(ItemSelectState.stringToSeed(seed));
+		Log.error("Seed is " + seed + " (" + ItemSelectState.stringToSeed(seed) + ") ");
 	}
 
 	public static java.util.Random random = new java.util.Random();

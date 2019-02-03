@@ -57,6 +57,10 @@ public class ItemSelectState extends State {
 		return builder.toString();
 	}
 
+	public static int stringToSeed(String str) {
+		return 0;
+	}
+
 	@Override
 	public void init() {
 		super.init();
