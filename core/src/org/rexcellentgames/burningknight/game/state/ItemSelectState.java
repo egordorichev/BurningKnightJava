@@ -223,7 +223,7 @@ public class ItemSelectState extends State {
 			}
 		});
 
-		if (!ur && !um && mage.size() == 0) {
+		if (!ur && !um && mage.size() == 1) {
 			fastPick(mage.get(0), Player.Type.WIZARD);
 		}
 	}

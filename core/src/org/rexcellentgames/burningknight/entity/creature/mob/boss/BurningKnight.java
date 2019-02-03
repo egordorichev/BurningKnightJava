@@ -337,6 +337,10 @@ public class BurningKnight extends Boss {
 		knockback.y = 0;
 		target = Player.instance;
 
+		if (target != null && target.isDead()) {
+			become("idle");
+		}
+
 		this.flipped = this.target.x + this.target.w / 2 < this.x + this.w / 2;
 
 		if (this.animation != null) {

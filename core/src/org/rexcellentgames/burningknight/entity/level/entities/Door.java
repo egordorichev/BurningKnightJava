@@ -173,7 +173,20 @@ public class Door extends SaveableEntity {
 			vt = Math.max(0, vt - dt);
 		}
 
-		if (this.autoLock) {
+		if (Dungeon.depth == -2) {
+			Room a = Dungeon.level.findRoomFor(this.x + (vertical ? 16 : 0), this.y + (vertical ? 0 : 16));
+			Room b = Dungeon.level.findRoomFor(this.x - (vertical ? 16 : 0), this.y - (vertical ? 0 : 16));
+			boolean found = false;
+
+			for (Trader trader : Trader.all) {
+				if (trader.room == a || trader.room == b) {
+					found = true;
+					break;
+				}
+			}
+
+			lock = !found;
+		} else if (this.autoLock) {
 			this.lock = Player.instance != null && Player.instance.room != null && Player.instance.room.numEnemies > 0 && !Player.instance.hasBkKey;
 		}
 

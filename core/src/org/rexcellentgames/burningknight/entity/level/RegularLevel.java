@@ -1,6 +1,7 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
@@ -285,7 +286,7 @@ public abstract class RegularLevel extends Level {
 		}
 
 		if (Dungeon.depth > 0) {
-			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25))) {
+			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25) || Version.debug)) {
 				rooms.add(new NpcSaveRoom());
 			}
 		}

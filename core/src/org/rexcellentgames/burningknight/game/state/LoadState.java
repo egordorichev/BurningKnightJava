@@ -101,7 +101,14 @@ public class LoadState extends State {
 		"Spooooky",
 		"OOO",
 		":O",
-		"On fire"
+		"On fire",
+		"It's magic time",
+		"That joke tho",
+		"Settings things on fire",
+		"Preparing to explode",
+		"Installing linux",
+		"Erasing data",
+		"Generating a joke"
 	));
 
 	@Override
