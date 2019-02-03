@@ -14,7 +14,7 @@ public class BossRoom extends EntranceRoom {
 	@Override
 	public void paint(Level level) {
 		Painter.fill(level, this, Terrain.WALL);
-		int m = Random.newInt(2, 4);
+		int m = Random.newInt(2, 4) + 1;
 
 		if (Random.chance(30)) {
 			if (alwaysElipse || Random.chance(50)) {
@@ -79,6 +79,7 @@ public class BossRoom extends EntranceRoom {
 				}
 			}
 		}
+
 
 		for (Door door : connected.values()) {
 			door.setType(Door.Type.BOSS);

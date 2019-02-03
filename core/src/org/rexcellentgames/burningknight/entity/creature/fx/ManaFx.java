@@ -43,6 +43,11 @@ public class ManaFx extends SaveableEntity {
 	}
 
 	@Override
+	public SaveableEntity add() {
+		return this;
+	}
+
+	@Override
 	public void init() {
 		super.init();
 		waitT = 0.5f;

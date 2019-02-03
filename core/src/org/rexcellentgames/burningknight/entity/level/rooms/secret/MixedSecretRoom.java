@@ -23,6 +23,11 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 4); i++) {
 			Point point = this.getRandomFreeCell();
+
+			if (point == null) {
+				continue;
+			}
+
 			ItemHolder holder = new ItemHolder(new Bomb());
 
 			holder.x = point.x * 16 + 3;
@@ -34,6 +39,11 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
 			Point point = this.getRandomFreeCell();
+
+			if (point == null) {
+				continue;
+			}
+
 			ItemHolder holder = new ItemHolder(new KeyC());
 			
 			holder.x = point.x * 16 + 3;
@@ -45,6 +55,11 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
 			Point point = this.getRandomFreeCell();
+
+			if (point == null) {
+				continue;
+			}
+
 			ItemHolder holder = new ItemHolder(new Gold());
 			
 			holder.getItem().generate();
@@ -57,6 +72,11 @@ public class MixedSecretRoom extends SecretRoom {
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
 			Point point = this.getRandomFreeCell();
+
+			if (point == null) {
+				continue;
+			}
+
 			HeartFx holde = new HeartFx();
 			holde.x = point.x * 16 + 3;
 			holde.y = point.y * 16;

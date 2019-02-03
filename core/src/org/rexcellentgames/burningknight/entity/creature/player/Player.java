@@ -1939,8 +1939,9 @@ public class Player extends Creature {
 
 		this.inventory.load(reader);
 
-		this.mana = reader.readInt32();
+		reader.readInt32(); // mana
 		this.manaMax = reader.readInt32();
+		this.mana = manaMax;
 		this.level = reader.readInt32();
 
 		float last = this.speed;

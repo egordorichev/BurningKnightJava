@@ -242,10 +242,11 @@ public class Door extends SaveableEntity {
 				this.lockAnim = this.unlock;
 
 				if (this.key == KeyC.class) {
-					Room room = Dungeon.level.findRoomFor(this.x, this.y);
+					Room a = Dungeon.level.findRoomFor(this.x + (vertical ? 16 : 0), this.y + (vertical ? 0 : 16));
+					Room b = Dungeon.level.findRoomFor(this.x - (vertical ? 16 : 0), this.y - (vertical ? 0 : 16));
 
 					for (Trader trader : Trader.all) {
-						if (trader.room == room) {
+						if (trader.room == a || trader.room == b) {
 							trader.saved = true;
 							GlobalSave.put("npc_" + trader.id + "_saved", true);
 							trader.become("thanks");
