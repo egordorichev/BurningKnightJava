@@ -81,7 +81,7 @@ public class BurningKnight extends Boss {
 
 	{
 		texture = "ui-bkbar-skull";
-		hpMax = 200;
+		hpMax = 120;
 		damage = 10;
 		w = 23;
 		h = 30;

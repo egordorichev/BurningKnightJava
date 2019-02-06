@@ -68,11 +68,11 @@ public class MazeTreasureRoom extends TreasureRoom {
 
 	@Override
 	public int getMaxHeight() {
-		return 19;
+		return 16;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 19;
+		return 16;
 	}
 }

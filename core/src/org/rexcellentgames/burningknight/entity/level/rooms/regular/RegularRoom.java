@@ -14,7 +14,7 @@ public class RegularRoom extends Room {
 	public enum Size {
 		NORMAL(8, 12, 1),
 		LARGE(12, 14, 2),
-		GIANT(14, 18, 3);
+		GIANT(14, 16, 3);
 
 		public final int minDim;
 		public final int maxDim;

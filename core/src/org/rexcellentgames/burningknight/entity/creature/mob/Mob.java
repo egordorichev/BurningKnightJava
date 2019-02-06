@@ -119,6 +119,8 @@ public class Mob extends Creature {
 			this.generatePrefix();
 		}
 
+		this.hp = (int) (this.hpMax * 0.75f);
+
 		return this;
 	}
 
