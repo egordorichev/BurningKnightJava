@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class NpcSaveRoom extends SpecialRoom {
 	public static final String[] saveOrder = {
-		"d", "a", "c", "e", "g", "h"
+		"b", "d", "a", "c", "e", "g", "h"
 	};
 
 	private boolean alwaysElipse;

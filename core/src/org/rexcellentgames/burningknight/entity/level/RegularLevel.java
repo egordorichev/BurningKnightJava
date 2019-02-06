@@ -394,7 +394,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 5 : Random.newInt(3, 5));
+		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 2 : Random.newInt(1, 3));
 	}
 
 	protected int getNumSpecialRooms() {

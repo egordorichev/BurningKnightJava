@@ -10,6 +10,10 @@ public class Random {
 	}
 
 	public static void setSeed(String seed) {
+		if (seed == null) {
+			seed = "";
+		}
+
 		switch (seed) {
 			case "ICE": case "CASTLE": case "FOREST": case "LIBRARY":
 			case "BLOOD": case "TECH": case "DESERT": case "MAANEX":

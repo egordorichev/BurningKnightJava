@@ -178,7 +178,7 @@ public abstract class Room extends Rect implements GraphNode {
 			}
 
 			point = getRandomCell();
-		} while (!Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
+		} while (Dungeon.level.data[Level.toIndex((int) point.x, (int) point.y)] >= 0 && !Dungeon.level.checkFor((int) point.x, (int) point.y, Terrain.PASSABLE));
 
 		return point;
 	}

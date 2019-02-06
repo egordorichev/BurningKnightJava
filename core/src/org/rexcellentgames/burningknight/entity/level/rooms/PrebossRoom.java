@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Random;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class PrebossRoom extends RegularRoom {
 	@Override
@@ -31,24 +32,29 @@ public class PrebossRoom extends RegularRoom {
 			door.setType(Door.Type.REGULAR);
 		}
 	}
-	
+
+	@Override
+	protected Point getDoorCenter() {
+		return getCenter();
+	}
+
 	@Override
 	public int getMinWidth() {
-		return 3;
+		return 7;
 	}
 
 	@Override
 	public int getMinHeight() {
-		return 3;
+		return 7;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 10;
+		return 8;
 	}
 
 	@Override
 	public int getMaxHeight() {
-		return 10;
+		return 8;
 	}
 }

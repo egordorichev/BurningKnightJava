@@ -222,7 +222,7 @@ public class HandmadeRoom extends RegularRoom {
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
 
-				if (id.equals("b") || Version.debug) {
+				if (Version.debug) {
 					trader.saved = true;
 
 					/*if (Version.debug) {
