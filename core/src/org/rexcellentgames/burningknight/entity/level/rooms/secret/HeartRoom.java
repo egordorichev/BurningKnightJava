@@ -23,7 +23,7 @@ public class HeartRoom extends SecretRoom {
 		}
 
 		for (int i = 0; i < Random.newInt(3, 10); i++) {
-			Point point = this.getRandomFreeCell();
+			Point point = this.getRandomCell();
 			HeartFx holder = new HeartFx();
 			holder.x = point.x * 16 + 3;
 			holder.y = point.y * 16;

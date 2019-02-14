@@ -42,7 +42,6 @@ import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -243,6 +242,8 @@ public class BurningKnight extends Boss {
 		talked = true;
 		saw = true;
 
+		ignoreRooms = true;
+
 		sfx = Audio.getSound("bk");
 		this.sid = sfx.loop(Audio.playSfx("bk", 0f));
 
@@ -252,7 +253,7 @@ public class BurningKnight extends Boss {
 		super.init();
 
 		this.t = 0;
-		this.body = this.createSimpleBody(8, 3, 23 - 8, 20, BodyDef.BodyType.DynamicBody, false);
+		this.body = this.createSimpleBody(8, 3, 23 - 8, 20, BodyDef.BodyType.DynamicBody, true);
 		this.become("unactive");
 
 		sword = new BKSword();
@@ -261,7 +262,8 @@ public class BurningKnight extends Boss {
 
 		this.tp(0, 0);
 
-		light = World.newLight(256, new Color(1, 0f, 0, 1f), 128, x, y);
+		light = World.newLight(256, new Color(1, 0.8f, 0.8f, 2f), 200, x, y);
+		light.setXray(true);
 
 		setPattern();
 	}
@@ -286,8 +288,6 @@ public class BurningKnight extends Boss {
 		this.hpMax = 120;
 		this.hp = this.hpMax;
 		this.rage = false;
-
-		this.body.getFixtureList().get(0).setSensor(false);
 	}
 
 	@Override
@@ -584,10 +584,12 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		// this.sword.render(this.x, this.y, this.w, this.h, this.flipped);
+		this.sword.render(this.x, this.y, this.w, this.h, this.flipped, false);
 
 		super.renderStats();
-		// Graphics.print(this.state, Graphics.small, x, y);
+
+
+		Graphics.print(this.state, Graphics.small, x, y);
 	}
 
 	@Override
@@ -732,6 +734,49 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			if (this.t >= DELAY) {
 				self.become("preattack");
+				return;
+			}
+
+			super.update(dt);
+		}
+	}
+
+	public class LTiredState extends BKState {
+		private float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			delay = Random.newFloat(1f, 3f);
+		}
+
+		@Override
+		public void update(float dt) {
+			super.update(dt);
+
+			if (t >= delay) {
+				self.become("lchase");
+			}
+		}
+	}
+
+	public class LChaseState extends BKState {
+		public float delay;
+
+		@Override
+		public void onEnter() {
+			super.onEnter();
+			this.delay = Random.newFloat(5f, 7f);
+		}
+
+		@Override
+		public void update(float dt) {
+			if (this.flyTo(Player.instance, 20, 24f)) {
+
+			}
+
+			if (t >= delay) {
+				self.become("ltired");
 				return;
 			}
 
@@ -894,7 +939,6 @@ public class BurningKnight extends Boss {
 			self.setUnhittable(true);
 			Input.instance.blocked = true;
 			self.rage = true;
-			self.body.getFixtureList().get(0).setSensor(true);
 			self.knockback.x = 0;
 			self.knockback.y = 0;
 			self.velocity.x = 0;
@@ -980,7 +1024,9 @@ public class BurningKnight extends Boss {
 
 				@Override
 				public void onEnd() {
-					self.become("preattack");
+					// self.become("preattack");
+					self.become("lchase");
+
 					self.attackTp = false;
 					Input.instance.blocked = false;
 					Camera.follow(Player.instance, false);
@@ -1131,36 +1177,35 @@ public class BurningKnight extends Boss {
 			self.setUnhittable(false);
 			Mob.every.add(self);
 
-			/*if (!Player.instance.isDead()) {
+			if (!Player.instance.isDead()) {
 				UiBanner banner = new UiBanner();
 				banner.text = Locale.get("burning_knight");
 				Dungeon.ui.add(banner);
-			}*/
+			}
 		}
 
 		@Override
 		public void update(float dt) {
 			super.update(dt);
 
-			if (self.t >= 0.1f && ((Dungeon.depth > -1 && Player.instance.room instanceof BossRoom) || (Dungeon.depth == -3 && Player.instance.room == self.room))) {
+			//  && Player.instance.room instanceof BossRoom
+			if (self.t >= 0.1f && Dungeon.depth > -1) {
 				Log.info("BK is out");
-				Input.instance.blocked = true;
+
+				float a = Random.newAngle();
+				float d = 64;
 
 				self.setUnhittable(false);
-				self.tp((Player.instance.room.left + Player.instance.room.getWidth() / 2) * 16,
-					(Player.instance.room.top + Player.instance.room.getHeight() / 2) * 16);
+				self.tp((float) (Player.instance.x + 8 + Math.cos(a) * d),
+					(float) (Player.instance.y + 8 + Math.sin(a) * d));
+
 				self.become("fadeIn");
 				self.a = 0;
 				self.dl = 1f;
 
-				Camera.follow(self, false);
+				//Camera.follow(self, false);
 				Camera.shake(8);
 				Lamp.play();
-
-				if (Dungeon.depth == -3) {
-					self.modifyHpMax(1000);
-					self.modifyHp(1000, null);
-				}
 			}
 		}
 	}
@@ -2522,6 +2567,8 @@ public class BurningKnight extends Boss {
 			case "line": return new LineState();
 			case "weird": return new WeirdState();
 			case "cshoot": return new CShootState();
+			case "lchase": return new LChaseState();
+			case "ltired": return new LTiredState();
 		}
 
 		return super.getAi(state);

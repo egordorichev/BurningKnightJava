@@ -32,6 +32,7 @@ import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LavaFx;
+import org.rexcellentgames.burningknight.entity.level.levels.BossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
@@ -228,7 +229,8 @@ public abstract class Level extends SaveableEntity {
 			return new BloodLevel();
 		}
 
-		return new CreepLevel();
+		return new BossLevel();
+		// return new CreepLevel();
 	}
 
 	public String getDepthAsCoolNum() {
