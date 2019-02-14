@@ -2169,7 +2169,7 @@ public abstract class Level extends SaveableEntity {
 		return get(toIndex(x, y));
 	}
 
-	public abstract void generate();
+	public abstract void generate(int attempt);
 
 	@Override
 	public void destroy() {

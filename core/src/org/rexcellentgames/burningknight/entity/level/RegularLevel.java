@@ -8,9 +8,7 @@ import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.level.builders.Builder;
-import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
+import org.rexcellentgames.burningknight.entity.level.builders.*;
 import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
@@ -49,8 +47,8 @@ public abstract class RegularLevel extends Level {
 	}
 
 	@Override
-	public void generate() {
-		Random.random.setSeed(ItemSelectState.stringToSeed(Random.getSeed()) + Dungeon.depth * 128);
+	public void generate(int attempt) {
+		Random.random.setSeed(ItemSelectState.stringToSeed(Random.getSeed()) + Dungeon.depth * 128 + attempt);
 
 		Player.all.clear();
 		Mob.all.clear();
@@ -268,7 +266,7 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
-			this.exit = BossRoomPool.instance.generate(); // : EntranceRoomPool.instance.generate();
+			this.exit = EntranceRoomPool.instance.generate(); // BossRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
 			// rooms.add(new BossEntranceRoom());
 
@@ -343,7 +341,7 @@ public abstract class RegularLevel extends Level {
 			rooms.add(room);
 			// rooms.add(TreasureRoomPool.instance.generate());
 
-			if ((GameSave.runId == 1 || Random.chance(90)) && (GameSave.runId != 0 || Dungeon.depth != 1)) {
+			if ((GameSave.runId == 1 || Random.chance(50)) && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 				Log.info("Adding shop");
 				rooms.add(ShopRoomPool.instance.generate());
 			}
@@ -378,23 +376,31 @@ public abstract class RegularLevel extends Level {
 		if (Dungeon.depth <= -1 || this instanceof CreepLevel) {
 			return new SingleRoomBuilder();
 		} else {
-			LineBuilder builder = new LineBuilder();
+			float r = Random.newFloat();
 
-			if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-				builder.setPathLength(2, new float[]{0, 1, 0});
-				builder.setExtraConnectionChance(0);
+			if (r < 0.33f) {
+				LineBuilder builder = new LineBuilder();
 
-				if (Dungeon.depth == 1) {
-					builder.setAngle(90);
+				if (GameSave.runId == 0 && Dungeon.depth <= 2) {
+					builder.setPathLength(2, new float[]{0, 1, 0});
+					builder.setExtraConnectionChance(0);
+
+					if (Dungeon.depth == 1) {
+						builder.setAngle(90);
+					}
 				}
-			}
 
-			return builder;
+				return builder;
+			} else if (r < 0.66f) {
+				return new LoopBuilder();
+			} else {
+				return new CastleBuilder();
+			}
 		}
 	}
 
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 2 : Random.newInt(1, 3));
+		return Dungeon.depth <= 0 ? 0 : Random.newInt(3, 6);
 	}
 
 	protected int getNumSpecialRooms() {
