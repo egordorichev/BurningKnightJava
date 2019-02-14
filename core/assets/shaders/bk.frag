@@ -25,6 +25,10 @@ void main() {
 
     vec4 color = texture2D(u_texture, ps);
 
+    if (color.r > 0.7) {
+        color.a -= 0.5;
+    }
+
     color.a = min(color.a, a);
 
     float xx = (ps.x - pos.x) * cof.x;

@@ -116,13 +116,19 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		if (!this.vertical) {
+			this.y = sy + 8;
+			this.x = sx;
+		} else {
+			this.y = sy;
+			this.x = sx + 4;
+		}
+
 		if (this.animation == null) {
 			if (!this.vertical) {
 				this.animation = bkDoor ? vertAnimationFire.get("idle") : vertAnimation.get("idle");
-				this.y -= 8;
 			} else {
 				this.animation = bkDoor ? horizAnimationFire.get("idle") : horizAnimation.get("idle");
-				this.x += 4;
 			}
 
 			this.animation.setAutoPause(true);

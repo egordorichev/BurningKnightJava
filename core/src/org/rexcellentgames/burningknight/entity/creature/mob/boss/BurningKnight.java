@@ -72,8 +72,6 @@ public class BurningKnight extends Boss {
 	private AnimationData hurt;
 	private AnimationData killed;
 	private AnimationData defeated;
-	private AnimationData lookUp;
-	private AnimationData lookDown;
 	private AnimationData animation;
 	private long sid;
 	private static Sound sfx;
@@ -99,11 +97,7 @@ public class BurningKnight extends Boss {
 		hurt = animations.get("hurt");
 		killed = animations.get("dead");
 		defeated = animations.get("defeat");
-		lookUp = animations.get("look_up");
-		lookDown = animations.get("look_down");
 
-		lookUp.setAutoPause(true);
-		lookDown.setAutoPause(true);
 		unhittable = false;
 	}
 
@@ -411,34 +405,37 @@ public class BurningKnight extends Boss {
 				this.become("defeated");
 				this.dest = false;
 				Projectile.allDie = false;
-				Point point = room.getCenter();
 
-				point.x *= 16;
-				point.y *= 16;
-				point.y -= 64;
+				if (false) {
+					Point point = room.getCenter();
 
-				if (Player.instance.getDistanceTo(point.x, point.y) < 64) {
-					point.y += 128;
-				}
+					point.x *= 16;
+					point.y *= 16;
+					point.y -= 64;
 
-				Portal exit = new Portal();
-
-				exit.x = point.x;
-				exit.y = point.y;
-
-				Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.FLOOR_D);
-				Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.DIRT);
-
-				Dungeon.level.set((int) point.x / 16, (int) point.y / 16, Terrain.PORTAL);
-
-				for (int yy = -1; yy <= 1; yy ++) {
-					for (int xx = -1; xx <= 1; xx ++) {
-						Dungeon.level.tileRegion((int) point.x / 16 + xx, (int) point.y / 16 + yy);
+					if (Player.instance.getDistanceTo(point.x, point.y) < 64) {
+						point.y += 128;
 					}
-				}
 
-				LevelSave.add(exit);
-				Dungeon.area.add(exit);
+					Portal exit = new Portal();
+
+					exit.x = point.x;
+					exit.y = point.y;
+
+					Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.FLOOR_D);
+					Painter.fill(Dungeon.level, (int) point.x / 16 - 1, (int) point.y / 16 - 1, 3, 3, Terrain.DIRT);
+
+					Dungeon.level.set((int) point.x / 16, (int) point.y / 16, Terrain.PORTAL);
+
+					for (int yy = -1; yy <= 1; yy++) {
+						for (int xx = -1; xx <= 1; xx++) {
+							Dungeon.level.tileRegion((int) point.x / 16 + xx, (int) point.y / 16 + yy);
+						}
+					}
+
+					LevelSave.add(exit);
+					Dungeon.area.add(exit);
+				}
 
 				Player.instance.setUnhittable(false);
 				Input.instance.blocked = false;
@@ -586,12 +583,12 @@ public class BurningKnight extends Boss {
 		Graphics.batch.begin();
 
 		Graphics.batch.setColor(1, 1, 1, 1);
-		this.sword.render(this.x, this.y, this.w, this.h, this.flipped, false);
+		// this.sword.render(this.x, this.y, this.w, this.h, this.flipped, false);
 
 		super.renderStats();
 
 
-		Graphics.print(this.state, Graphics.small, x, y);
+		// Graphics.print(this.state, Graphics.small, x, y);
 	}
 
 	@Override
@@ -950,15 +947,6 @@ public class BurningKnight extends Boss {
 			self.ignoreRooms = true;
 			Lamp.play();
 			Camera.shake(6);
-
-			// fixme: this is broken
-			/*Vector3 vec = Camera.game.project(new Vector3(x + w / 2, y + h / 2, 0));
-			vec = Camera.ui.unproject(vec);
-			vec.y = Display.UI_HEIGHT - vec.y;
-
-			Dungeon.shockTime = 0;
-			Dungeon.shockPos.x = (vec.x) / Display.UI_WIDTH;
-			Dungeon.shockPos.y = (vec.y) / Display.UI_HEIGHT;*/
 
 			for (int i = 0; i < 30; i++) {
 				CurseFx fx = new CurseFx();

@@ -43,7 +43,7 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 			add(CRoom.class, 2f);
 		}
 
-		//		add(TriangleRoom.class, 2f);
+		// add(TriangleRoom.class, 2f);
 		// add(FloodedRoom.class, 0.3f);
 		// add(SpikedRoom.class, 1f);
 		// add(MazeRoom.class, 0.1f);
