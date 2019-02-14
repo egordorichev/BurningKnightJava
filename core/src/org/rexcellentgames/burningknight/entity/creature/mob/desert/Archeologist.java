@@ -35,7 +35,7 @@ public class Archeologist extends Mob {
 	}
 
 	{
-		hpMax = 10;
+		hpMax = 6;
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
 		hurt = getAnimation().get("hurt").randomize();

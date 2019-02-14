@@ -1129,7 +1129,7 @@ public class Player extends Creature {
 		light.setActive(true);
 		light.attachToBody(body, 8, 8, 0);
 		light.setPosition(x + 8, y + 8);
-		light.setDistance(64);
+		light.setDistance(180);
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;

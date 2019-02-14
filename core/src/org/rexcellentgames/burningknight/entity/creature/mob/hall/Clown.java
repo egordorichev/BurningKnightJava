@@ -34,7 +34,7 @@ public class Clown extends Mob {
 	private Guitar guitar;
 
 	{
-		hpMax = 9;
+		hpMax = 6;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();

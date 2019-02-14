@@ -41,7 +41,7 @@ public class Knight extends Mob {
 	protected Item sword;
 
 	{
-		hpMax = 10;
+		hpMax = 7;
 		speed = 5;
 
 		idle = getAnimation().get("idle").randomize();

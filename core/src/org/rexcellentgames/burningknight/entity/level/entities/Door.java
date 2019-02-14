@@ -117,11 +117,11 @@ public class Door extends SaveableEntity {
 	@Override
 	public void update(float dt) {
 		if (!this.vertical) {
-			this.y = sy + 8;
-			this.x = sx;
+			this.y = sy * 16 - 8;
+			this.x = sx * 16;
 		} else {
-			this.y = sy;
-			this.x = sx + 4;
+			this.y = sy * 16;
+			this.x = sx * 16 + 4;
 		}
 
 		if (this.animation == null) {
