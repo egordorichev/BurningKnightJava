@@ -20,7 +20,7 @@ public class BossLevel extends RegularLevel {
 
 	@Override
 	public String getName() {
-		return Locale.get("desert_ruins");
+		return Locale.get("old_castle");
 	}
 
 	@Override

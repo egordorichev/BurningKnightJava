@@ -36,12 +36,14 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectil
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
+import org.rexcellentgames.burningknight.entity.level.levels.BossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
@@ -1188,22 +1190,28 @@ public class BurningKnight extends Boss {
 		public void update(float dt) {
 			super.update(dt);
 
-			//  && Player.instance.room instanceof BossRoom
-			if (self.t >= 0.1f && Dungeon.depth > -1) {
+			if (self.t >= 0.1f && Dungeon.depth > -1 && (!(Dungeon.level instanceof BossLevel) || Player.instance.room instanceof BossRoom)) {
 				Log.info("BK is out");
 
 				float a = Random.newAngle();
 				float d = 64;
 
+				if (Player.instance.room instanceof BossRoom) {
+					self.tp((Player.instance.room.left + Player.instance.room.getWidth() / 2) * 16,
+						(Player.instance.room.top + Player.instance.room.getHeight() / 2) * 16);
+
+					Camera.follow(self, false);
+				} else {
+					self.tp((float) (Player.instance.x + 8 + Math.cos(a) * d),
+						(float) (Player.instance.y + 8 + Math.sin(a) * d));
+				}
+
 				self.setUnhittable(false);
-				self.tp((float) (Player.instance.x + 8 + Math.cos(a) * d),
-					(float) (Player.instance.y + 8 + Math.sin(a) * d));
 
 				self.become("fadeIn");
 				self.a = 0;
 				self.dl = 1f;
 
-				//Camera.follow(self, false);
 				Camera.shake(8);
 				Lamp.play();
 			}

@@ -13,6 +13,7 @@ import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
+import org.rexcellentgames.burningknight.entity.level.levels.BossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.*;
@@ -266,7 +267,7 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
-			this.exit = EntranceRoomPool.instance.generate(); // BossRoomPool.instance.generate();
+			this.exit = this instanceof BossLevel ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
 			// rooms.add(new BossEntranceRoom());
 
@@ -292,11 +293,10 @@ public abstract class RegularLevel extends Level {
 
 		boolean bk = Random.getSeed().equals("BK");
 
-		if (!bk) {
+		if (this instanceof BossLevel) {
 			rooms.add(new PrebossRoom());
 		}
 
-		// fixme: 0 regular rooms breaks it
 		int regular = bk ? 0 : this.getNumRegularRooms();
 		int special = bk ? 0 : this.getNumSpecialRooms();
 		int connection = this.getNumConnectionRooms();
@@ -400,7 +400,7 @@ public abstract class RegularLevel extends Level {
 	}
 
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : Random.newInt(3, 6);
+		return Dungeon.depth <= 0 ? 0 : (this instanceof BossLevel ? 1 : Random.newInt(3, 6));
 	}
 
 	protected int getNumSpecialRooms() {

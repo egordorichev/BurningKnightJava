@@ -562,7 +562,7 @@ public abstract class Level extends SaveableEntity {
 		Dungeon.area.add(llll);
 		Dungeon.area.add(new SignsLevel());
 
-		float v = this instanceof LibraryLevel ? 0f : (this instanceof IceLevel || this instanceof CreepLevel ? 0.6f : 0.3f);
+		float v = this instanceof LibraryLevel ? 0f : (this instanceof IceLevel || this instanceof CreepLevel || this instanceof BossLevel ? 0.6f : 0.3f);
 		World.lights.setAmbientLight(v, v, v, 1f);
 	}
 
