@@ -258,8 +258,7 @@ public class BurningKnight extends Boss {
 
 		this.tp(0, 0);
 
-		light = World.newLight(256, new Color(1, 0.8f, 0.8f, 2f), 200, x, y);
-		light.setXray(true);
+		light = World.newLight(256, new Color(1, 0f, 0f, 2f), 64, x, y);
 
 		setPattern();
 	}

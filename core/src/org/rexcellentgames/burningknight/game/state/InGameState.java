@@ -814,16 +814,16 @@ public class InGameState extends State {
 				Audio.play("Gobbeon");
 			} else if (Player.instance.room instanceof SecretRoom) {
 				Audio.play("Serendipity");
-			} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
+			/*} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
 				Audio.highPriority("Rogue");
-			/*} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
+			} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
 				Audio.play("Cursed legend");*/
 			} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
-				if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
+				/*if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
 					Audio.play("Rogue");
-				} else {
+				} else {*/
 					Audio.play(Dungeon.level.getMusic());
-				}
+				//}
 			}
 		}
 	}

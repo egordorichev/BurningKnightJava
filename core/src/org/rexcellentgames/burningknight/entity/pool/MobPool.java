@@ -113,8 +113,8 @@ public class MobPool {
 		}
 
 		if (chaos || d > 1) {
-			add(0.5f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
-			add(1f, -1, DiagonalShotFly.class);
+			add(0.1f, -1, MovingFly.class, MovingFly.class, MovingFly.class, MovingFly.class);
+			add(0.1f, -1, DiagonalShotFly.class);
 		}
 
 		if (chaos || Dungeon.level instanceof HallLevel) {
