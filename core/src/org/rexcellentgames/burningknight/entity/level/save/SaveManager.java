@@ -22,13 +22,14 @@ public class SaveManager {
 
 	public static final String SAVE_DIR = "burning_knight/";
 	public static int slot = 0;
-	public static final byte version = 2;
+	public static final byte version = 3;
 	public static float saving;
 
 	/*
 	 * Version change log:
 	 * 1: debug test
 	 * 2: implemented level saving with optimization
+	 * 3: inventory save changes, etc
 	 */
 
 	static {

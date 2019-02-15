@@ -10,8 +10,13 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Bush;
 import org.rexcellentgames.burningknight.entity.level.entities.decor.Cobweb;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.PathFinder;
@@ -20,7 +25,6 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class Painter {
 	private float grass = 0f;
@@ -85,7 +89,8 @@ public class Painter {
 		bottomMost += sz;
 
 		//add 1 to account for 0 values
-		Log.info("Setting level size to " + (1 + rightMost) + ":" + (bottomMost + 1));
+		Log.info("Setting level size to " + (1 + rightMost) + ":" +
+			(bottomMost + 1));
 		Level.setSize(rightMost + 1, bottomMost + 1);
 		level.generateDecor();
 		level.fill();
@@ -94,7 +99,7 @@ public class Painter {
 			this.placeDoors(room);
 			room.paint(level);
 
-			if (Dungeon.depth < 3 && Dungeon.depth > -1) {
+			if ((level instanceof HallLevel || level instanceof IceLevel) && Dungeon.depth > -1) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
 						int i = Level.toIndex(x, y);
@@ -107,7 +112,20 @@ public class Painter {
 				}
 			}
 
-			if (level instanceof ForestLevel && Random.chance(70)) {
+			if ((level instanceof IceLevel)) {
+				for (int y = room.top; y <= room.bottom; y++) {
+					for (int x = room.left; x <= room.right; x++) {
+						int i = Level.toIndex(x, y);
+
+						if (level.liquidData[i] == Terrain.WATER) {
+							level.liquidData[i] = 0;
+							level.set(i, Terrain.ICE);
+						}
+					}
+				}
+			}
+
+			if (!(room instanceof BossEntranceRoom) && level instanceof ForestLevel && Random.chance(70)) {
 				for (int i = 0; i < Random.newInt(1, 4); i++) {
 					Point point = room.getRandomFreeCell();
 
@@ -159,13 +177,14 @@ public class Painter {
 
 	private void paintWater(Level level, ArrayList<Room> rooms) {
 		boolean[] lake = Patch.generate(this.water, 5);
+		boolean ice = level instanceof IceLevel;
 
 		for (Room r : rooms) {
 			for (Point p : r.waterPlaceablePoints()) {
 				int i = Level.toIndex((int) p.x, (int) p.y);
 				byte t = level.data[i];
 				if (lake[i] && (t == Terrain.FLOOR_A || t == Terrain.FLOOR_B || t == Terrain.FLOOR_C) && level.liquidData[i] == 0) {
-					level.set(i, Terrain.WATER);
+					level.set(i, ice ? Terrain.ICE : Terrain.WATER);
 				}
 			}
 		}
@@ -253,7 +272,7 @@ public class Painter {
 						}
 					}
 
-					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL) {
+					if (Dungeon.depth > -1 && level.get(x, y) == Terrain.WALL && !(level instanceof IceLevel || level instanceof TechLevel)) {
 						if (y > room.top && x > room.left  && level.get(x - 1, y - 1) == Terrain.WALL && level.get(x, y - 1) != Terrain.WALL && Random.chance(20)) {
 							Cobweb web = new Cobweb();
 
@@ -304,32 +323,34 @@ public class Painter {
 
 				level.setDecor((int) d.x, (int) d.y + 1, (byte) 0);
 
-				byte t = level.get((int) d.x, (int) d.y);
-				boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
+				if (!(level instanceof CreepLevel)) {
+					byte t = level.get((int) d.x, (int) d.y);
+					boolean gt = (d.getType() != Door.Type.EMPTY && d.getType() != Door.Type.MAZE && d.getType() != Door.Type.TUNNEL && d.getType() != Door.Type.SECRET);
 
-				if (t != Terrain.FLOOR_A && t != Terrain.FLOOR_B && t != Terrain.FLOOR_C && t != Terrain.FLOOR_D && t != Terrain.CRACK && gt) {
-					org.rexcellentgames.burningknight.entity.level.entities.Door door = new org.rexcellentgames.burningknight.entity.level.entities.Door(
-						(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
+					if (t != Terrain.FLOOR_A && t != Terrain.FLOOR_B && t != Terrain.FLOOR_C && t != Terrain.FLOOR_D && t != Terrain.CRACK && gt) {
+						org.rexcellentgames.burningknight.entity.level.entities.Door door = new org.rexcellentgames.burningknight.entity.level.entities.Door(
+							(int) d.x, (int) d.y, !level.checkFor((int) d.x + 1, (int) d.y, Terrain.SOLID));
 
-					if (d.getType() == Door.Type.REGULAR) {
-						d.setType(Door.Type.ENEMY);
+						if (d.getType() == Door.Type.REGULAR) {
+							d.setType(Door.Type.ENEMY);
+						}
+
+						door.autoLock = (d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.BOSS);
+						door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
+
+						if (d.getType() == Door.Type.LEVEL_LOCKED) {
+							door.key = BurningKey.class;
+						} else if (d.getType() == Door.Type.LOCKED) {
+							door.key = KeyC.class;
+						} else if (d.getType() == Door.Type.BOSS) {
+							door.bkDoor = true;
+						}
+
+						door.lockable = door.lock;
+
+						door.add();
+						Dungeon.area.add(door);
 					}
-
-					door.autoLock = (d.getType() == Door.Type.ENEMY || d.getType() == Door.Type.BOSS);
-					door.lock = (d.getType() == Door.Type.LEVEL_LOCKED || d.getType() == Door.Type.LOCKED);
-
-					if (d.getType() == Door.Type.LEVEL_LOCKED) {
-						door.key = BurningKey.class;
-					} else if (d.getType() == Door.Type.LOCKED) {
-						door.key = KeyC.class;
-					} else if (d.getType() == Door.Type.BOSS) {
-						door.bkDoor = true;
-					}
-
-					door.lockable = door.lock;
-
-					door.add();
-					Dungeon.area.add(door);
 				}
 
 				if (d.getType() == Door.Type.SECRET) {
@@ -527,7 +548,9 @@ public class Painter {
 			}
 
 			int cell = x + (w - (int) rowW) / 2 + ((y + i) * Level.getWidth());
-			Arrays.fill(liquid ? level.liquidData : level.data, cell, cell + (int) rowW, value);
+			for (int j = cell; j < cell + rowW; j++) {
+				level.set(j, value);
+			}
 		}
 	}
 

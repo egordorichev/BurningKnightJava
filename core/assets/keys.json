@@ -1,8 +1,8 @@
 {
-	"left" : [ "A", "Left" ],
-	"right" : [ "D", "Right" ],
-	"up" : [ "W", "Up" ],
-	"down" : [ "S", "Down" ],
+	"left" : [ "A" ],
+	"right" : [ "D" ],
+	"up" : [ "W" ],
+	"down" : [ "S" ],
 
 	"shift" : [ "L-Shift", "R-Shift" ],
 	"roll" : [ "Mouse1" ],

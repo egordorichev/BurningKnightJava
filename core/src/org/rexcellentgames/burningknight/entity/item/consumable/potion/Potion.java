@@ -30,12 +30,12 @@ public class Potion extends Consumable {
 	}
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		if (this.added != 0) {
 			float angle = (flipped ? this.added : -this.added);
 			TextureRegion sprite = this.getSprite();
 
-			Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y + h / 3, angle, sprite.getRegionWidth() / 2,
+			Graphics.render(sprite, x + (flipped ? w / 3 : w / 3 * 2), y + h / 3, back ? 0 : angle, sprite.getRegionWidth() / 2,
 				sprite.getRegionHeight() - 4, false,
 				false);
 		}

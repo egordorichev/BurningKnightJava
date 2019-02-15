@@ -15,12 +15,12 @@ public class Scroll extends Consumable {
 	}
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		if (this.delay > 0) {
 			TextureRegion sprite = this.getSprite();
 
 			// todo: fix this render
-			Graphics.render(sprite, x + (flipped ? -w / 3 : w / 3), y + h / 3, 0, sprite.getRegionWidth() / 2,sprite.getRegionHeight() / 2,
+			Graphics.render(sprite, x + (flipped ? -w / 3 : w / 3), y + h / 3, back ? (flipped ? -45 : 45) : 0, sprite.getRegionWidth() / 2,sprite.getRegionHeight() / 2,
 				!flipped, false);
 		}
 	}

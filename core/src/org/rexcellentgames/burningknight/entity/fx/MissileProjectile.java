@@ -75,7 +75,7 @@ public class MissileProjectile extends BulletProjectile {
 				this.y = target.y + Display.GAME_HEIGHT + 16;
 			}
 		} else {
-			this.velocity.y -= dt * 128;
+			this.velocity.y -= dt * 148;
 		}
 
 		this.y += this.velocity.y * dt;

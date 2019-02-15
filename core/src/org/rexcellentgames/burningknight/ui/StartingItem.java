@@ -11,6 +11,9 @@ public class StartingItem extends UiButton {
 	public Item item;
 	public Player.Type type;
 
+	public String name;
+	public static StartingItem hovered;
+
 	public StartingItem() {
 		super("", 0, 0);
 	}
@@ -20,6 +23,22 @@ public class StartingItem extends UiButton {
 		super.init();
 		this.w = item.getSprite().getRegionWidth() * 3;
 		this.h = item.getSprite().getRegionHeight() * 3;
+	}
+
+	@Override
+	protected void onHover() {
+		super.onHover();
+
+		hovered = this;
+	}
+
+	@Override
+	protected void onUnhover() {
+		super.onUnhover();
+
+		if (hovered == this) {
+			hovered = null;
+		}
 	}
 
 	@Override

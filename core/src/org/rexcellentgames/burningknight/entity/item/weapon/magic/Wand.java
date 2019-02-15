@@ -28,7 +28,7 @@ public class Wand extends WeaponBase {
 	protected float lastAngle;
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		if (this.owner != null) {
 			Point aim = this.owner.getAim();
 
@@ -39,7 +39,7 @@ public class Wand extends WeaponBase {
 
 		TextureRegion s = this.getSprite();
 
-		this.renderAt(x + w / 2, y + h / 4, (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false, sx, sy);
+		this.renderAt(x + w / 2, y + h / 4, back ? (flipped ? -45 : 45) : (float) Math.toDegrees(this.lastAngle), s.getRegionWidth() / 2, 0, false, false, sx, sy);
 	}
 
 	protected float sy = 1;

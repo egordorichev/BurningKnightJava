@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.game.state;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -21,17 +22,22 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
+import org.rexcellentgames.burningknight.entity.level.rooms.PrebossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.secret.SecretRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.shop.ShopRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.special.NpcSaveRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.treasure.TreasureRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
@@ -105,6 +111,14 @@ public class InGameState extends State {
 			Achievements.unlock(Achievements.UNLOCK_DEW_VIAL);
 		} else if (Dungeon.level instanceof LibraryLevel) {
 			Achievements.unlock(Achievements.REACH_LIBRARY);
+		} else if (Dungeon.level instanceof ForestLevel) {
+			Achievements.unlock(Achievements.REACH_FOREST);
+		} else if (Dungeon.level instanceof BloodLevel) {
+			Achievements.unlock(Achievements.REACH_BLOOD);
+		} else if (Dungeon.level instanceof IceLevel) {
+			Achievements.unlock(Achievements.REACH_ICE);
+		} else if (Dungeon.level instanceof TechLevel) {
+			Achievements.unlock(Achievements.REACH_TECH);
 		}
 
 		if (BurningKnight.instance == null && !GameSave.defeatedBK && Dungeon.depth > -1) {
@@ -150,7 +164,11 @@ public class InGameState extends State {
 			Audio.reset();
 		}
 
-		Audio.play(toPlay);
+		// Audio.play(toPlay);
+
+		/*if (Dungeon.depth > 0) {
+			horn();
+		}*/
 	}
 
 	public static String toPlay;
@@ -183,6 +201,9 @@ public class InGameState extends State {
 
 				Graphics.layout.setText(Graphics.medium, depth);
 				this.w = Graphics.layout.width;
+
+				Graphics.layout.setText(Graphics.small, Random.getSeed());
+				this.ww = Graphics.layout.width;
 
 				if (!wasHidden) {
 					UiMap.instance.hide();
@@ -382,6 +403,18 @@ public class InGameState extends State {
 		water.pause();
 	}
 
+	private static long hsfx = -1;
+
+	public static void horn() {
+		if (Settings.sfx == 0) {
+			return;
+		}
+
+		Sound sound = Audio.getSound("airhorn");
+		sound.stop(hsfx);
+		hsfx = sound.play(Settings.sfx);
+	}
+
 	private float last;
 	public static boolean burning;
 	public static boolean flow;
@@ -395,7 +428,7 @@ public class InGameState extends State {
 				}
 
 				if (y != room.top) {
-					Dungeon.level.addLight(x * 16, y * 16, 4f, 1f);
+					Dungeon.level.addLight(x * 16, y * 16, 4f, 4f);
 				}
 			}
 		}
@@ -407,9 +440,23 @@ public class InGameState extends State {
 	public static boolean newGame;
 	public static boolean portal;
 
+	private boolean set;
+
+	public static boolean triggerPause;
+	private float t;
+
 	@Override
 	public void update(float dt) {
-		Projectile.allDie = false;
+		t += dt;
+
+		if (t >= 0.1f && triggerPause && !isPaused()) {
+			triggerPause = false;
+			setPaused(true);
+		}
+
+		Dungeon.setBackground2((Level.colors[Dungeon.level.uid]));
+
+		UiInventory.justUsed = Math.max(0, UiInventory.justUsed - 1);
 
 		if (Dungeon.depth == -2) {
 			Upgrade.Companion.setUpdateEvent(false);
@@ -456,8 +503,8 @@ public class InGameState extends State {
 
 						if (Dungeon.depth == -2) {
 							Dungeon.goToSelect = true;
-						} else if (Dungeon.depth == 4) {
-							Dungeon.game.setState(new WonState());
+						/*} else if (Dungeon.depth == 4) {
+							Dungeon.game.setState(new WonState());*/
 						} else {
 							Dungeon.goToLevel(Dungeon.depth + 1);
 							Player.instance.rotating = false;
@@ -499,7 +546,7 @@ public class InGameState extends State {
 			this.time += dt;
 			this.lastSave += dt;
 
-			if (lastSave >= 60f) {
+			if (lastSave >= 180f) {
 				lastSave = 0;
 				SaveManager.saveGame();
 			}
@@ -518,6 +565,10 @@ public class InGameState extends State {
 				lightUp(room);
 				break;
 			}
+		}
+
+		if (Input.instance.wasPressed("F")) {
+			horn();
 		}
 		
 		if (Version.debug) {
@@ -548,7 +599,8 @@ public class InGameState extends State {
 
 					@Override
 					public void onEnd() {
-						Dungeon.newGame();
+						int level = Dungeon.depth;
+						Dungeon.newGame(true, level);
 						Dungeon.setBackground2(new Color(0, 0, 0, 1));
 					}
 				});
@@ -579,10 +631,23 @@ public class InGameState extends State {
 			} else if (Input.instance.wasPressed("F7")) {
 				for (Room room : Dungeon.level.getRooms()) {
 					if (room instanceof BossRoom && room != Player.instance.room) {
-
 						Point point = room.getRandomFreeCell();
 
-						Player.instance.tp(point.x * 16, point.y * 16);
+						if (point != null) {
+							Player.instance.tp(point.x * 16, point.y * 16);
+						}
+
+						break;
+					}
+				}
+			} else if (Input.instance.wasPressed("F8")) {
+				for (Room room : Dungeon.level.getRooms()) {
+					if (room instanceof NpcSaveRoom && room != Player.instance.room) {
+						Point point = room.getRandomFreeCell();
+
+						if (point != null) {
+							Player.instance.tp(point.x * 16, point.y * 16);
+						}
 
 						break;
 					}
@@ -644,7 +709,7 @@ public class InGameState extends State {
 
 					@Override
 					public void onEnd() {
-						if (Player.instance.getHp() > 1) {
+						if (Player.instance.getHp() + Player.instance.getGoldenHearts() + Player.instance.getIronHearts() > 1) {
 							Tween.to(new Tween.Task(0, 0.4f) {
 								@Override
 								public float getValue() {
@@ -745,18 +810,20 @@ public class InGameState extends State {
 		if (Dungeon.game.getState() instanceof InGameState) {
 			if (Dungeon.depth == -2 || Player.instance.room instanceof ShopRoom) {
 				Audio.play("Shopkeeper");
+			} else if (Player.instance.room instanceof PrebossRoom) {
+				Audio.play("Gobbeon");
 			} else if (Player.instance.room instanceof SecretRoom) {
 				Audio.play("Serendipity");
-			} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
+			/*} else if (((Dungeon.depth == -3 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive")) || forceBoss)) {
 				Audio.highPriority("Rogue");
 			} else if (BurningKnight.instance != null && BurningKnight.instance.rage && !BurningKnight.instance.dest) {
-				Audio.play("Cursed legend");
+				Audio.play("Cursed legend");*/
 			} else if ((BurningKnight.instance == null || !(BurningKnight.instance.dest))) {
-				if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
+				/*if (!Player.instance.isDead() && Dungeon.depth > -1 && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.rage) {
 					Audio.play("Rogue");
-				} else {
+				} else {*/
 					Audio.play(Dungeon.level.getMusic());
-				}
+				//}
 			}
 		}
 	}
@@ -793,9 +860,7 @@ public class InGameState extends State {
 
 			Graphics.batch.begin();
 
-			Graphics.batch.setColor(1, 1, 1, 0.5f);
 			Graphics.render(noise, Camera.game.position.x - Display.GAME_WIDTH / 2, Camera.game.position.y - Display.GAME_HEIGHT / 2, 0, 0, 0, false, false);
-			Graphics.batch.setColor(1, 1, 1, 1);
 
 			Graphics.batch.end();
 			Graphics.batch.setShader(null);
@@ -811,6 +876,8 @@ public class InGameState extends State {
 
 		Player.instance.renderBuffs();
 	}
+
+	private float ww;
 
 	@Override
 	public void renderUi() {
@@ -852,16 +919,20 @@ public class InGameState extends State {
 			pauseMenuUi.render();
 
 			Graphics.print(this.depth, Graphics.medium, Display.UI_WIDTH / 2 - w / 2, 128 + 32 + 16);
+			Graphics.print(Random.getSeed(), Graphics.small, Display.UI_WIDTH / 2 - ww / 2, 128 + 32 + 12);
 
 			Camera.ui.translate(-settingsX, -this.mv);
 			Camera.ui.update();
+			Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		}
 
 		if (portalMod < 1) {
 			renderPortalOpen();
 		}
 
+		Achievements.render();
 		Ui.ui.renderCursor();
+		Ui.renderSaveIcon(1);
 	}
 
 	private void setupUi() {

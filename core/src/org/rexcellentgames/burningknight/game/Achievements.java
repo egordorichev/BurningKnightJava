@@ -17,22 +17,23 @@ public class Achievements {
 	// Regular achievements
 	public static final String REACH_DESERT = "REACH_DESERT_ACHIEVEMENT";
 	public static final String REACH_LIBRARY = "REACH_LIBRARY_ACHIEVEMENT";
-	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
+	public static final String REACH_FOREST = "REACH_DESERT_ACHIEVEMENT";
+	public static final String REACH_ICE = "REACH_LIBRARY_ACHIEVEMENT";
+	public static final String REACH_BLOOD = "REACH_DESERT_ACHIEVEMENT";
+	public static final String REACH_TECH = "REACH_LIBRARY_ACHIEVEMENT";
 	public static final String DIE = "DIE_ACHIEVEMENT";
 	public static final String BURN_TO_DEATH = "BURN_TO_DEATH_ACHIEVEMENT";
 	public static final String FIND_MIMIC = "FIND_MIMIC_ACHIEVEMENT";
-	public static final String KILL_DM = "KILL_DM_ACHIEVEMENT";
-	public static final String SELL_10_ITEMS = "SELL_10_ITEMS_ACHIEVEMENT";
-	public static final String EQUIP_ACCESSORY = "EQUIP_ACCESSORY_ACHIEVEMENT";
 	public static final String COLLECT_300_GOLD = "COLLECT_300_GOLD_ACHIEVEMENT";
 	public static final String GET_8_HEART_CONTAINERS = "GET_8_HEART_CONTAINERS_ACHIEVEMENT";
-	public static final String DONT_GET_HIT_IN_BOSS_FIGHT = "DONT_GET_HIT_IN_BOSS_FIGHT_ACHIEVEMENT";
+	public static final String KILL_BK = "KILL_BK_ACHIEVEMENT";
 	public static final String FIND_CRASH_BOOK = "FIND_CRASH_BOOK_ACHIEVEMENT";
-	public static final String FILL_UP_INVENTORY = "FILL_UP_INVENTORY_ACHIEVEMENT";
 	public static final String FIND_SECRET_ROOM = "FIND_SECRET_ROOM_ACHIEVEMENT";
-	public static final String UPGRADE = "UPGRADE_ACHIEVEMENT";
+
+	public static final String REALLY_KILL_BK = "RKILL_BK_ACHIEVEMENT";
+	public static final String KILL_DM = "KILL_DM_ACHIEVEMENT";
+	public static final String DONT_GET_HIT_IN_BOSS_FIGHT = "DONT_GET_HIT_IN_BOSS_FIGHT_ACHIEVEMENT";
 	public static final String SAVE_ALL = "SAVE_ALL_ACHIEVEMENT";
-	public static final String TUTORIAL_DONE = "TUTORIAL_DONE_ACHIEVEMENT";
 	// Item unlocks
 	public static final String UNLOCK_BLACK_HEART = "UNLOCK_BLACK_HEART";
 	public static final String UNLOCK_MIMIC_TOTEM = "UNLOCK_MIMIC_TOTEM";
@@ -106,7 +107,7 @@ public class Achievements {
 			} else if (id.contains("ACHIEVEMENT")) {
 				achievement.text = Locale.get(id.toLowerCase());
 				achievement.extra = Locale.get(id.toLowerCase() + "_desc");
-				achievement.icon = Graphics.getTexture("achievements-" + (id.toLowerCase().replace("_achievement", "")));
+				achievement.icon = Graphics.getTexture("achievement-" + (id.toLowerCase().replace("_achievement", "")));
 			} else {
 				String reg = id.replace("UNLOCK_", "").replace("SHOP_", "").toLowerCase();
 

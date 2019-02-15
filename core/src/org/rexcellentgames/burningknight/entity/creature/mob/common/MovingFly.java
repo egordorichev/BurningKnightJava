@@ -12,6 +12,10 @@ public class MovingFly extends Fly {
 		return animations;
 	}
 
+	{
+		hpMax = 5;
+	}
+
 	@Override
 	public float getWeight() {
 		return 0.3f;

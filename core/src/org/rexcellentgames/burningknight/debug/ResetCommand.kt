@@ -31,7 +31,8 @@ class ResetCommand : ConsoleCommand("/reset", "/rst", "Generates a new game and 
             }
 
             override fun onEnd() {
-                Dungeon.newGame()
+                var level = Dungeon.depth
+                Dungeon.newGame(true, level)
                 Dungeon.setBackground2(Color(0f, 0f, 0f, 1f))
             }
         })

@@ -1,10 +1,10 @@
 package org.rexcellentgames.burningknight.entity.level.builders;
 
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.level.rooms.PrebossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.rooms.boss.BossRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
@@ -12,14 +12,13 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.LinkedHashSet;
 
 public class RegularBuilder extends Builder {
 	protected EntranceRoom entrance;
 	protected EntranceRoom exit;
 	protected BossRoom boss;
-	protected BossEntranceRoom bossExit;
+	protected PrebossRoom preboss;
 	protected LampRoom lamp;
 	protected float pathVariance = 45f;
 	protected float pathLength = 0.5f;
@@ -50,8 +49,8 @@ public class RegularBuilder extends Builder {
 				this.exit = (EntranceRoom) room;
 			} else if (room instanceof EntranceRoom) {
 				this.entrance = (EntranceRoom) room;
-			} else if (room instanceof BossEntranceRoom) {
-				this.bossExit = (BossEntranceRoom) room;
+			} else if (room instanceof PrebossRoom) {
+				this.preboss = (PrebossRoom) room;
 			} else if (room.getMaxConnections(Room.Connection.ALL) == 1) {
 				this.singleConnection.add(room);
 			} else if (room.getMaxConnections(Room.Connection.ALL) > 1) {
@@ -67,7 +66,7 @@ public class RegularBuilder extends Builder {
 			this.weightRooms(this.multiConnection);
 
 			if (GameSave.runId != 0 || Dungeon.depth != 1) {
-				Collections.shuffle(this.multiConnection);
+				// Collections.shuffle(rooms, new java.util.Random(Random.getSeed().hashCode()));
 			}
 
 			this.multiConnection = new ArrayList<>(new LinkedHashSet<>(this.multiConnection));

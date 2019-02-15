@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.common;
 
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Contact;
 import com.badlogic.gdx.physics.box2d.Fixture;
@@ -13,6 +14,9 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class DiagonalFly extends Fly {
 	public static Animation animations = Animation.make("actor-fly", "-brown");
+	public Animation getAnimation() {
+		return animations;
+	}
 
 	{
 		hpMax = 5;
@@ -25,9 +29,8 @@ public class DiagonalFly extends Fly {
 		return 0.5f;
 	}
 
-	public Animation getAnimation() {
-		return animations;
-	}
+	protected boolean stop;
+	private Vector2 lastVel;
 
 	@Override
 	protected void createBody() {
@@ -50,9 +53,23 @@ public class DiagonalFly extends Fly {
 			this.velocity.x = this.body.getLinearVelocity().x;
 			this.velocity.y = this.body.getLinearVelocity().y;
 
-			float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
-			this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y);
+			if (lastVel == null && stop) {
+				lastVel = new Vector2(velocity.x, velocity.y);
+			} else if (!stop && lastVel != null) {
+				velocity.x = lastVel.x;
+				velocity.y = lastVel.y;
+				lastVel = null;
+			}
+
+			if (stop) {
+				this.body.setLinearVelocity(0, 0);
+			} else {
+				float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
+				this.body.setLinearVelocity(((float) Math.cos(a)) * 32 * Mob.speedMod + knockback.x * 0.2f, ((float) Math.sin(a)) * 32 * Mob.speedMod + knockback.y * 0.2f);
+			}
 		}
+
+		common();
 	}
 
 	@Override

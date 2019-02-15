@@ -35,12 +35,12 @@ public class BattleRoom extends SpecialRoom {
 
 	@Override
 	public int getMaxHeight() {
-		return 22;
+		return 16;
 	}
 
 	@Override
 	public int getMaxWidth() {
-		return 22;
+		return 16;
 	}
 
 	@Override

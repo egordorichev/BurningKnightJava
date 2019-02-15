@@ -38,7 +38,7 @@ public class Lamp extends Item {
 	private boolean added;
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		TextureRegion sprite = this.getSprite();
 
 		float xx = x + (flipped ? -w / 2 : w / 2);

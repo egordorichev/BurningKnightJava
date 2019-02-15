@@ -60,7 +60,7 @@ public class Axe extends Weapon {
 	protected int speed = 520;
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		float angle = -this.added;
 
 		if (this.owner != null) {
@@ -92,13 +92,14 @@ public class Axe extends Weapon {
 			}
 		}
 
+
 		TextureRegion sprite = this.getSprite();
 
 		float xx = x + w / 2 + (flipped ? -w / 4 : w / 4);
 		float yy = y + (this.ox == 0 ? h / 4 : h / 2);
 
 		this.renderAt(xx, yy,
-			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy,
+			back ? (flipped ? -45 : 45) : angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy,
 			false, false, flipped ? -1f : 1f, 1f);
 	}
 

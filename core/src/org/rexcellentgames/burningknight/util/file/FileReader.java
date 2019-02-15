@@ -35,7 +35,7 @@ public class FileReader {
 		StringBuilder result = new StringBuilder();
 
 		for (int i = 0; i < length; i++) {
-			result.append(this.stream.readChar());
+			result.append((char) this.stream.readByte());
 		}
 
 		return result.toString();

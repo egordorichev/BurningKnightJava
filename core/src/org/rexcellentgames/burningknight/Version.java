@@ -6,7 +6,7 @@ public class Version {
 	public static final boolean debug = true;
 	public static final boolean showAlphaWarning = false;
 	public static final double major = 0.1;
-	public static final double minor = 2.0;
+	public static final double minor = 5.0;
 
 	{
 		// REMOVE WHEN BETA COMES OUT

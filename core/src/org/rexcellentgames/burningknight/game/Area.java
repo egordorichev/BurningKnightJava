@@ -4,9 +4,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
-import org.rexcellentgames.burningknight.ui.UiMap;
 import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
@@ -14,7 +12,18 @@ import java.util.Comparator;
 
 public class Area {
   private ArrayList<Entity> entities = new ArrayList<>();
-  private Comparator<Entity> comparator;
+  public static Comparator<Entity> comparator = (a, b) -> {
+    // -1 - less than, 1 - greater than, 0 - equal
+    float ad = b.getDepth();
+    float bd = a.getDepth();
+
+    if (ad == bd) {
+      ad = a.y;
+      bd = b.y;
+    }
+
+    return Float.compare(bd, ad);
+  };
   private boolean showWhenPaused = false;
   private boolean hasSelectableEntity;
 
@@ -23,31 +32,25 @@ public class Area {
   }
 
   public Area() {
-    this.comparator = (a, b) -> {
-      // -1 - less than, 1 - greater than, 0 - equal
-      float ad = b.getDepth();
-      float bd = a.getDepth();
 
-      if (ad == bd) {
-        ad = a.y;
-        bd = b.y;
-      }
-
-      return Float.compare(bd, ad);
-    };
   }
 
   public Area(boolean showWhenPaused) {
-    this();
-
     this.showWhenPaused = showWhenPaused;
   }
 
   public Entity add(Entity entity) {
+    return add(entity, false);
+  }
+
+  public Entity add(Entity entity, boolean noInit) {
     this.entities.add(entity);
 
     entity.setArea(this);
-    entity.init();
+
+    if (!noInit) {
+      entity.init();
+    }
 
     if (entity instanceof UiEntity && ((UiEntity) entity).isSelectable()) {
       if (selectedUiEntity == -1) {
@@ -115,7 +118,7 @@ public class Area {
       return;
     }
 
-    this.entities.sort(this.comparator);
+    this.entities.sort(comparator);
 
     for (int i = 0; i < this.entities.size(); i++) {
       Entity entity = this.entities.get(i);

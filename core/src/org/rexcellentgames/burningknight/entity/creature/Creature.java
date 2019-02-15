@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.BurningMan;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Mummy;
+import org.rexcellentgames.burningknight.entity.creature.mob.tech.Tank;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
@@ -35,7 +36,9 @@ import org.rexcellentgames.burningknight.entity.item.weapon.rocketlauncher.rocke
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -277,7 +280,7 @@ public class Creature extends SaveableEntity {
 			if (buffs[i] instanceof BurningBuff) {
 				InGameState.burning = true;
 
-				if (!this.isFlying()) {
+				if (!(this instanceof BurningMan) && !this.isFlying()) {
 					Dungeon.level.setOnFire(Level.toIndex(sx / 16, sy / 16), true, false);
 				}
 			}
@@ -321,8 +324,8 @@ public class Creature extends SaveableEntity {
 			return;
 		}
 
-		if (!this.isFlying() && this.touches[Terrain.WATER] && !ignoreWater() && (!(this instanceof Player) || !((Player) this).isRolling())) {
-			this.velocity.y -= dt * 600;
+		if (!this.isFlying() && this.touches[Terrain.WATER] && !ignoreWater() && !(this instanceof Tank) && (!(this instanceof Player) || !((Player) this).isRolling())) {
+			this.velocity.y -= dt * 300;
 		}
 
 		if (this instanceof Player && ((Player) this).isRolling()) {
@@ -443,6 +446,10 @@ public class Creature extends SaveableEntity {
 
 		if (this.done || this.dead || this.invtt > 0 || (this.invt > 0 && !(this instanceof Mob))) {
 			return null;
+		} else if (this instanceof Mimic && rollBlock()) {
+			this.playSfx("block");
+			this.invt = this.getStat("inv_time");
+			return (HpFx) Dungeon.area.add(new HpFx(this, 0, true));
 		} else if (ignoreArmor) {
 		} else if (this instanceof Player && amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
 			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
@@ -729,6 +736,10 @@ public class Creature extends SaveableEntity {
 	}
 
 	public void addBuff(Buff buff) {
+		if (buff instanceof BurningBuff && Dungeon.level instanceof IceLevel) {
+			return;
+		}
+
 		if (this.canHaveBuff(buff)) {
 			Buff b = this.buffs.get(buff.getClass());
 

@@ -11,9 +11,4 @@ public class Rocket extends Item {
 		useable = false;
 		rocketName = "rocket";
 	}
-
-	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
-
-	}
 }

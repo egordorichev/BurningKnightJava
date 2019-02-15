@@ -15,14 +15,12 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Smoke;
-import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.LadderFx;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.ColorUtils;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -50,6 +48,7 @@ public class Portal extends SaveableEntity {
 	@Override
 	public void init() {
 		super.init();
+		depth = -1;
 
 		this.body = World.createSimpleBody(this, 4, 4, 8, 8, BodyDef.BodyType.DynamicBody, true);
 
@@ -59,24 +58,12 @@ public class Portal extends SaveableEntity {
 
 		light = World.newLight(64, new Color(1, 1, 1, 1), 64, 0, 0);
 		light.setPosition(this.x + 8, this.y + 8);
-
-		if (Level.GENERATED) {
-			this.addSelf();
-		}
 	}
 
 	@Override
 	public void destroy() {
 		super.destroy();
 		this.body = World.removeBody(this.body);
-	}
-
-	private void addSelf() {
-		Log.info("Checking for exit ladder");
-
-		if (Dungeon.loadType != Entrance.LoadType.GO_DOWN && (Dungeon.ladderId == this.type || Player.ladder == null)) {
-			// Log.info("Set exit ladder!");
-		}
 	}
 
 	@Override
@@ -140,7 +127,6 @@ public class Portal extends SaveableEntity {
 		super.update(dt);
 
 		this.t += dt;
-		depth = -9;
 
 		last += dt;
 
@@ -155,7 +141,7 @@ public class Portal extends SaveableEntity {
 		float dy = Player.instance.y - this.y - 4;
 		float d = (float) Math.sqrt(dx * dx + dy * dy);
 
-		float dd = 64f;
+		float dd = 32f;
 
 		if (d < dd) {
 			MainMenuState.voidMusic.play();
@@ -174,10 +160,7 @@ public class Portal extends SaveableEntity {
 		super.load(reader);
 
 		this.type = reader.readByte();
-
 		World.checkLocked(this.body).setTransform(this.x, this.y, 0);
-		this.addSelf();
-
 		light.setPosition(this.x + 8, this.y + 8);
 	}
 

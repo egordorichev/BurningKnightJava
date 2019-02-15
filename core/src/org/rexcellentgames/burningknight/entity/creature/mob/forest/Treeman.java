@@ -29,7 +29,7 @@ public class Treeman extends Mob {
 	}
 
 	{
-		hpMax = 16;
+		hpMax = 10;
 
 		idle = getAnimation().get("blink");
 		hurt = getAnimation().get("hurt");

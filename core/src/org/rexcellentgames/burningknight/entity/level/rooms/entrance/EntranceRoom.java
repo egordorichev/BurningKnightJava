@@ -4,7 +4,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.entities.Exit;
+import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
@@ -29,14 +29,11 @@ public class EntranceRoom extends LadderRoom {
 
 	protected void place(Level level, Point point) {
 		if (this.exit) {
-			Painter.set(level, (int) point.x, (int) point.y, Terrain.FLOOR_B);
-
-			Exit exit = new Exit();
+			Portal exit = new Portal();
 
 			exit.x = point.x * 16;
-			exit.y = point.y * 16 - 7;
+			exit.y = point.y * 16;
 
-			level.set((int) point.x, (int) point.y, Terrain.EXIT);
 			LevelSave.add(exit);
 			Dungeon.area.add(exit);
 		} else {

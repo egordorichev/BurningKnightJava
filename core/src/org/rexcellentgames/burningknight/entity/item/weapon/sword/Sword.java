@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 
 import java.io.IOException;
@@ -41,7 +40,7 @@ public class Sword extends SlashSword {
 		name = Locale.get("sword_" + letter);
 		description = Locale.get("sword_desc");
 		sprite = "item-sword_" + letter;
-		damage = 6;
+		damage = 10;
 		useTime = 0.4f;
 		region = Graphics.getTexture(sprite);
 	}

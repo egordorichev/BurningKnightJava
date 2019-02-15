@@ -155,7 +155,7 @@ public class Bow extends WeaponBase {
 	private float lastAngle;
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		Point aim = this.owner.getAim();
 
 		float an = this.owner.getAngleTo(aim.x, aim.y);
@@ -168,9 +168,9 @@ public class Bow extends WeaponBase {
 		float xx = x + w / 2;
 		float yy = y + h / 2;
 
-		this.renderAt(xx, yy, a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
+		this.renderAt(xx, yy, back ? (flipped ? -45 : 45) : a, -4, s.getRegionHeight() / 2, false, false, sx, sy);
 
-		if (this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
+		if (!back && this.owner instanceof Player && ((Player) this.owner).hasRedLine) {
 			float d = Display.GAME_WIDTH * 10;
 			closestFraction = 1f;
 			float x2 = xx + (float) Math.cos(an) * d;

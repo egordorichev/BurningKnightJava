@@ -31,10 +31,13 @@ import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.level.blood.BloodLevel;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.ChasmFx;
+import org.rexcellentgames.burningknight.entity.level.entities.fx.LavaFx;
+import org.rexcellentgames.burningknight.entity.level.levels.BossLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.desert.DesertLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.forest.ForestLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.hall.HallLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.library.LibraryLevel;
 import org.rexcellentgames.burningknight.entity.level.levels.tech.TechLevel;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
@@ -64,7 +67,8 @@ public abstract class Level extends SaveableEntity {
 		Color.valueOf("#1a1932"),
 		Color.valueOf("#272727"),
 		Color.valueOf("#1a1932"),
-		Color.valueOf("#571c27")
+		Color.valueOf("#3b1443"),
+		Color.valueOf("#92a1b9")
 	};
 
 	public Room entrance;
@@ -197,25 +201,41 @@ public abstract class Level extends SaveableEntity {
 	}
 
 	public static RegularLevel forDepth(int depth) {
-		if (depth < 3) {
-			return new HallLevel();
-		} else if (depth < 5) {
-			return new DesertLevel();
-		} else if (depth < 7) {
-			return new ForestLevel();
-		} else if (depth < 9) {
-			return new LibraryLevel();
-		} else if (depth < 11) {
-			return new TechLevel();
-		} else if (depth < 13) {
-			return new CreepLevel();
+		String seed = Random.getSeed();
+
+		switch (seed) {
+			case "ICE": return new IceLevel();
+			case "CASTLE": return new HallLevel();
+			case "FOREST": return new ForestLevel();
+			case "LIBRARY": return new LibraryLevel();
+			case "DESERT": return new DesertLevel();
+			case "BLOOD": return new BloodLevel();
+			case "TECH": return new TechLevel();
 		}
 
-		return new BloodLevel();
+		if (depth < 2) {
+			return new HallLevel();
+		} else if (depth < 3) {
+			return new DesertLevel();
+		} else if (depth < 4) {
+			return new ForestLevel();
+		} else if (depth < 5) {
+			return new LibraryLevel();
+		} else if (depth < 6) {
+			return new IceLevel();
+		} else if (depth < 7) {
+			return new TechLevel();
+		} else if (depth < 8) {
+			return new BloodLevel();
+		}
+
+		return new BossLevel();
+		// return new CreepLevel();
 	}
 
 	public String getDepthAsCoolNum() {
-		return letters[(Dungeon.depth - 1) % 5];
+		// fixme: 2 if 2 levels
+		return letters[0]; // (Dungeon.depth - 1) % 1
 	}
 
 	public String formatDepth() {
@@ -228,7 +248,7 @@ public abstract class Level extends SaveableEntity {
 		} else if (Dungeon.depth == 0) {
 			return Locale.get("beginning");
 		} else {
-			return getName() + " " + getDepthAsCoolNum();
+			return getName();// + " " + getDepthAsCoolNum();
 		}
 	}
 
@@ -541,6 +561,9 @@ public abstract class Level extends SaveableEntity {
 
 		Dungeon.area.add(llll);
 		Dungeon.area.add(new SignsLevel());
+
+		float v = this instanceof LibraryLevel ? 0f : (this instanceof IceLevel || this instanceof CreepLevel || this instanceof BossLevel ? 0.6f : 0.3f);
+		World.lights.setAmbientLight(v, v, v, 1f);
 	}
 
 	public String getName() {
@@ -820,6 +843,10 @@ public abstract class Level extends SaveableEntity {
 			return;
 		}
 
+		if (fire && this instanceof IceLevel) {
+			return;
+		}
+
 		byte t = this.get(i);
 		byte l = this.liquidData[i];
 
@@ -995,7 +1022,7 @@ public abstract class Level extends SaveableEntity {
 		return  BitHelper.getNumber(info, 10, 3) == type;
 	}
 
-	private void doEffects() {
+	protected void doEffects() {
 		if (this.lastFlame == 0) {
 			OrthographicCamera camera = Camera.game;
 			float zoom = camera.zoom;
@@ -1013,6 +1040,7 @@ public abstract class Level extends SaveableEntity {
 				for (int x = Math.max(0, sx); x < Math.min(fxx, getWidth()); x++) {
 					int i = x + y * getWidth();
 					int info = this.info[i];
+
 					if (BitHelper.isBitSet(info, 0)) {
 						// Burning
 
@@ -1054,6 +1082,10 @@ public abstract class Level extends SaveableEntity {
 
 								Dungeon.area.add(fx);
 							}
+						}
+
+						if (this.liquidData[i] == Terrain.LAVA && Random.chance(2f)) {
+							Dungeon.area.add(new LavaFx(Random.newFloat(1f) * 16 + x * 16, Random.newFloat(1f) * 16 + y * 16 - 8));
 						}
 					}
 				}
@@ -1742,6 +1774,7 @@ public abstract class Level extends SaveableEntity {
 						if (m > -1) {
 							t = this.get(m);
 
+							/*
 							if (t != Terrain.CRACK && t != Terrain.WALL && (this.data[i] == Terrain.WALL || this.data[i] == Terrain.CRACK)) {
 								byte d = this.decor[i];
 
@@ -1760,7 +1793,7 @@ public abstract class Level extends SaveableEntity {
 									}
 
 								}
-							}
+							}*/
 						}
 					} else if (tile == Terrain.CHASM) {
 						Graphics.render(Terrain.chasmPattern, x * 16, y * 16 - 8);
@@ -1777,9 +1810,9 @@ public abstract class Level extends SaveableEntity {
 							Graphics.render(Terrain.chasmSides[2][(y + x * 2 - 1) % 3], x * 16, y * 16 - 24);
 						}
 
-						if (data[i + WIDTH] != Terrain.CHASM && data[i + WIDTH] != Terrain.WALL) {
+						/*if (data[i + WIDTH] != Terrain.CHASM && data[i + WIDTH] != Terrain.WALL) {
 							Graphics.render(Terrain.chasmSides[0][(y + x * 2 + 1) % 3], x * 16, y * 16 + 8);
-						}
+						}*/
 					}
 				}
 			}
@@ -2057,11 +2090,15 @@ public abstract class Level extends SaveableEntity {
 		}
 
 		if (flag == Terrain.BURNS) {
-			if ((b == Terrain.FLOOR_A || b == Terrain.FLOOR_B || b == Terrain.FLOOR_C) && Dungeon.level instanceof LibraryLevel) {
+			if (Dungeon.level instanceof TechLevel && (b == Terrain.FLOOR_B)) {
+				return false;
+			}
+
+			if (Dungeon.level instanceof LibraryLevel && (b == Terrain.FLOOR_A || b == Terrain.FLOOR_B || b == Terrain.FLOOR_C)) {
 				return true;
 			}
 
-			if ((b == Terrain.FLOOR_A || b == Terrain.FLOOR_B) && Dungeon.level instanceof ForestLevel) {
+			if (Dungeon.level instanceof ForestLevel && (b == Terrain.FLOOR_A || b == Terrain.FLOOR_B)) {
 				return true;
 			}
 		}
@@ -2099,9 +2136,9 @@ public abstract class Level extends SaveableEntity {
 				this.data[i] = v;
 			}
 
-			if (v == Terrain.CHASM) {
+			// if (v == Terrain.CHASM) {
 				this.liquidData[i] = 0;
-			}
+			// }
 		}
 	}
 
@@ -2134,7 +2171,7 @@ public abstract class Level extends SaveableEntity {
 		return get(toIndex(x, y));
 	}
 
-	public abstract void generate();
+	public abstract void generate(int attempt);
 
 	@Override
 	public void destroy() {

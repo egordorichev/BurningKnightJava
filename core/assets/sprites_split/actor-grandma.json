@@ -1,0 +1,128 @@
+{ "frames": {
+   "actor_grandma 0.ase": {
+    "frame": { "x": 0, "y": 0, "w": 15, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 6, "w": 15, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 1.ase": {
+    "frame": { "x": 15, "y": 0, "w": 15, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 6, "w": 15, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 2.ase": {
+    "frame": { "x": 30, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 7, "w": 15, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 3.ase": {
+    "frame": { "x": 45, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 7, "w": 15, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 4.ase": {
+    "frame": { "x": 60, "y": 0, "w": 20, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 4, "w": 20, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 5.ase": {
+    "frame": { "x": 80, "y": 0, "w": 16, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 4, "w": 16, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 6.ase": {
+    "frame": { "x": 96, "y": 0, "w": 15, "h": 17 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 6, "w": 15, "h": 17 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 7.ase": {
+    "frame": { "x": 111, "y": 0, "w": 15, "h": 15 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 7, "w": 15, "h": 15 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 8.ase": {
+    "frame": { "x": 126, "y": 0, "w": 15, "h": 16 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 9, "y": 6, "w": 15, "h": 16 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 9.ase": {
+    "frame": { "x": 141, "y": 0, "w": 18, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 8, "w": 18, "h": 14 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 10.ase": {
+    "frame": { "x": 159, "y": 0, "w": 18, "h": 14 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 8, "y": 8, "w": 18, "h": 14 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 11.ase": {
+    "frame": { "x": 177, "y": 0, "w": 8, "h": 9 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 12, "y": 11, "w": 8, "h": 9 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 12.ase": {
+    "frame": { "x": 185, "y": 0, "w": 12, "h": 11 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 10, "y": 10, "w": 12, "h": 11 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   },
+   "actor_grandma 13.ase": {
+    "frame": { "x": 197, "y": 0, "w": 6, "h": 8 },
+    "rotated": false,
+    "trimmed": true,
+    "spriteSourceSize": { "x": 15, "y": 12, "w": 6, "h": 8 },
+    "sourceSize": { "w": 32, "h": 32 },
+    "duration": 100
+   }
+ },
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.3-dev",
+  "format": "RGBA8888",
+  "size": { "w": 203, "h": 17 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "idle", "from": 0, "to": 3, "direction": "forward" },
+   { "name": "tss", "from": 4, "to": 8, "direction": "forward" },
+   { "name": "hurt", "from": 9, "to": 10, "direction": "forward" },
+   { "name": "dead", "from": 11, "to": 13, "direction": "forward" }
+  ]
+ }
+}

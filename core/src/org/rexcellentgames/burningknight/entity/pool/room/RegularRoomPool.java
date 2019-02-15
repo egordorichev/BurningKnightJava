@@ -23,13 +23,13 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 		add(CenterWallRoom.class, 1f);
 		add(SmallAdditionRoom.class, 1f);
 		add(PrisonRoom.class, 1f);
-		add(TriangleRoom.class, 2f);
 		add(PadRoom.class, 2f);
 		add(RombRoom.class, 2f);
 		add(FilledRombRoom.class, 3f);
 		add(CornerRoom.class, 1f);
 		add(MissingCornerRoom.class, 3f);
 		add(DoubleCornerRoom.class, 3f);
+		add(StatueRoom.class, 2);
 
 		if (GameSave.runId != 0) {
 			add(RollingSpikeRoom.class, 3);
@@ -43,10 +43,10 @@ public class RegularRoomPool extends Pool<RegularRoom> {
 			add(CRoom.class, 2f);
 		}
 
+		// add(TriangleRoom.class, 2f);
 		// add(FloodedRoom.class, 0.3f);
 		// add(SpikedRoom.class, 1f);
 		// add(MazeRoom.class, 0.1f);
-		// add(StatueRoom.class, 2);
 		// add(TableRoom.class, 0.2f);
 		// add(CenterTableRoom.class, 0.4f);
 		// add(LineRoom.class, 1);

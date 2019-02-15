@@ -26,6 +26,8 @@ import org.rexcellentgames.burningknight.util.Dialog;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiInventory extends UiEntity {
+	public static int justUsed;
+
 	private Inventory inventory;
 	private Item currentSlot;
 	private int active = 0;
@@ -199,10 +201,14 @@ public class UiInventory extends UiEntity {
 						if (slot.isUseable() && slot.canBeUsed() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
 							slot.setOwner(Player.instance);
 							slot.use();
+
+							UiInventory.justUsed = 2;
 						}
 					} else if (Input.instance.isDown("use") && slot.isAuto() && slot.getDelay() == 0 && !Player.instance.isRolling()) {
 						slot.setOwner(Player.instance);
 						slot.use();
+
+						UiInventory.justUsed = 2;
 					}
 				}
 			}
@@ -284,26 +290,12 @@ public class UiInventory extends UiEntity {
 
 	@Override
 	public void render() {
-		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi) {
+		if ((Dungeon.depth != -3 && Dungeon.depth < 0) || Ui.hideUi || Player.instance == null || Player.instance.isDead()) {
 			return;
 		}
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
-
-		boolean empty = false;
-
-		for (int i = this.inventory.getSize() - 1; i >= 0; i--) {
-			if (this.inventory.getSlot(i) == null) {
-				empty = true;
-				break;
-			}
-		}
-
-		if (!empty) {
-			Achievements.unlock(Achievements.FILL_UP_INVENTORY);
-			Achievements.unlock(Achievements.UNLOCK_BACKPACK);
-		}
 
 		float y = -3;
 		float x = 32;
@@ -572,22 +564,18 @@ public class UiInventory extends UiEntity {
 	}
 
 	public void renderOnPlayer(Player player, float of) {
-		if (player == null || player.isDead()) {
-			return;
-		}
-
 		Item slot = this.inventory.getSlot(this.active);
 
 		if (slot != null) {
-			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped());
+			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped(), false);
 		}
 	}
 
 	public void renderBeforePlayer(Player player, float of) {
-		Item slot = this.inventory.getSlot(this.active);
+		Item slot = this.inventory.getSlot(this.active == 0 ? 1 : 0);
 
 		if (slot != null) {
-			slot.beforeRender(player.x, player.y + of, player.w, player.h, player.isFlipped());
+			slot.render(player.x, player.y + of, player.w, player.h, player.isFlipped(), true);
 		}
 	}
 }

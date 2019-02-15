@@ -18,8 +18,10 @@ import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
+import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.game.state.MainMenuState;
 import org.rexcellentgames.burningknight.game.state.State;
+import org.rexcellentgames.burningknight.ui.StartingItem;
 import org.rexcellentgames.burningknight.ui.UiButton;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -444,7 +446,9 @@ public class Ui {
 	}
 
 	public static void renderSaveIcon(float upscale) {
-		// saveAlpha = 1;
+		if (Ui.hideUi) {
+			return;
+		}
 
 		if (saveAlpha > 0.05f) {
 			upscale = Math.max(1, upscale * 0.7f);
@@ -475,7 +479,7 @@ public class Ui {
 			String info = item.buildInfo().toString();
 
 			Graphics.layout.setText(Graphics.small, info);
-			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height + 4 - 8) * pickupFx.item.getAl() - (1 - pickupFx.item.getAl()) * Graphics.layout.height);
+			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height) * pickupFx.item.getAl() - (1 - pickupFx.item.getAl()) * Graphics.layout.height);
 
 			if (pickupFx.item.getAl() <= 0.05f) {
 				pickupFx = null;
@@ -601,6 +605,10 @@ public class Ui {
 
 			Graphics.render(region, Input.instance.uiMouse.x,
 				Input.instance.uiMouse.y, a, ((float)region.getRegionWidth()) / 2, ((float)region.getRegionHeight()) / 2, false, false, s, s);
+
+			if (Dungeon.game.getState() instanceof ItemSelectState && StartingItem.hovered != null) {
+				Graphics.print(StartingItem.hovered.name, Graphics.medium, Input.instance.uiMouse.x + 10, Input.instance.uiMouse.y - 13);
+			}
 		}
 	}
 }

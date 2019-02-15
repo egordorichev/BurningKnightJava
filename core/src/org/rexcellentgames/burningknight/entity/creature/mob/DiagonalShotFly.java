@@ -32,8 +32,9 @@ public class DiagonalShotFly extends DiagonalFly {
 
 		if (!freezed) {
 			lastShot += dt;
+			stop = (lastShot < 0.3f || lastShot >= 4.6f);
 
-			if (lastShot > 3f) {
+			if (lastShot > 5f) {
 				shot();
 				lastShot = 0;
 			}

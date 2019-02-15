@@ -23,7 +23,7 @@ public class Projectile extends StatefulEntity {
 	public boolean penetrates;
 
 	protected boolean broke;
-	protected Body body;
+	public Body body;
 
 	@Override
 	public void init() {
@@ -57,7 +57,7 @@ public class Projectile extends StatefulEntity {
 			return;
 		}
 
-		if (this.body != null) {
+		if (this.body != null && !ignoreBodyPos) {
 			this.x = this.body.getPosition().x;
 			this.y = this.body.getPosition().y;
 		}
@@ -65,17 +65,29 @@ public class Projectile extends StatefulEntity {
 		this.logic(dt);
 
 		if (this.body != null && !this.ignoreVel) {
-			this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
+			//float a = (float) Math.atan2(this.velocity.y, this.velocity.x);
+			//this.body.setLinearVelocity(((float) Math.cos(a)) * 128, ((float) Math.sin(a)) * 128);
+
+			// this.body.setLinearVelocity(this.velocity.x, this.velocity.y);
 		}
 	}
 
+	public boolean ignoreBodyPos;
+
 	public void setPos(float x, float y) {
+		this.x = x;
+		this.y = y;
+
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(x, y, this.body.getAngle());
 		}
 	}
 
 	protected boolean ignoreVel;
+
+	public void brak() {
+		this.broke = true;
+	}
 
 	@Override
 	public void onCollision(Entity entity) {
@@ -84,7 +96,7 @@ public class Projectile extends StatefulEntity {
 		}
 
 		if (this.breaksFrom(entity)) {
-			this.broke = true;
+			this.brak();
 			return;
 		}
 
@@ -100,6 +112,8 @@ public class Projectile extends StatefulEntity {
 	public void remove() {
 		broke = true;
 	}
+
+	public int i;
 
 	protected boolean breaksFrom(Entity entity) {
 		return false;

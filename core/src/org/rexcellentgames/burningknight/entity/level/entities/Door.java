@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
-import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.*;
@@ -97,16 +96,6 @@ public class Door extends SaveableEntity {
 		super.init();
 		all.add(this);
 
-		if (!this.vertical) {
-			this.animation = bkDoor ? vertAnimationFire.get("idle") : vertAnimation.get("idle");
-			this.y -= 8;
-		} else {
-			this.animation = bkDoor ? horizAnimationFire.get("idle") : horizAnimation.get("idle");
-			this.x += 4;
-		}
-
-		this.animation.setAutoPause(true);
-		this.animation.setPaused(true);
 	}
 
 	public Door(int x, int y, boolean vertical) {
@@ -127,6 +116,25 @@ public class Door extends SaveableEntity {
 
 	@Override
 	public void update(float dt) {
+		if (!this.vertical) {
+			this.y = sy * 16 - 8;
+			this.x = sx * 16;
+		} else {
+			this.y = sy * 16;
+			this.x = sx * 16 + 4;
+		}
+
+		if (this.animation == null) {
+			if (!this.vertical) {
+				this.animation = bkDoor ? vertAnimationFire.get("idle") : vertAnimation.get("idle");
+			} else {
+				this.animation = bkDoor ? horizAnimationFire.get("idle") : horizAnimation.get("idle");
+			}
+
+			this.animation.setAutoPause(true);
+			this.animation.setPaused(true);
+		}
+
 		if (this.sensor == null) {
 			this.sensor = World.createSimpleBody(this, this.vertical ? 1 : -1, this.vertical ? -5 : 7, this.vertical ? 6 : 18,
 				this.vertical ? 22 : 6, BodyDef.BodyType.DynamicBody, false);
@@ -171,7 +179,20 @@ public class Door extends SaveableEntity {
 			vt = Math.max(0, vt - dt);
 		}
 
-		if (this.autoLock) {
+		if (Dungeon.depth == -2) {
+			Room a = Dungeon.level.findRoomFor(this.x + (vertical ? 16 : 0), this.y + (vertical ? 0 : 16));
+			Room b = Dungeon.level.findRoomFor(this.x - (vertical ? 16 : 0), this.y - (vertical ? 0 : 16));
+			boolean found = false;
+
+			for (Trader trader : Trader.all) {
+				if (trader.room == a || trader.room == b) {
+					found = true;
+					break;
+				}
+			}
+
+			lock = !found;
+		} else if (this.autoLock) {
 			this.lock = Player.instance != null && Player.instance.room != null && Player.instance.room.numEnemies > 0 && !Player.instance.hasBkKey;
 		}
 
@@ -208,8 +229,7 @@ public class Door extends SaveableEntity {
 				if (this.key == KeyC.class) {
 					Player.instance.setKeys(Player.instance.getKeys() - 1);
 				} else {
-					Item key = Player.instance.getInventory().findItem(this.key);
-					key.setCount(key.getCount() - 1);
+					Player.instance.getInventory().remove(BurningKey.class);
 				}
 
 				Player.instance.playSfx("unlock");
@@ -228,10 +248,11 @@ public class Door extends SaveableEntity {
 				this.lockAnim = this.unlock;
 
 				if (this.key == KeyC.class) {
-					Room room = Dungeon.level.findRoomFor(this.x, this.y);
+					Room a = Dungeon.level.findRoomFor(this.x + (vertical ? 16 : 0), this.y + (vertical ? 0 : 16));
+					Room b = Dungeon.level.findRoomFor(this.x - (vertical ? 16 : 0), this.y - (vertical ? 0 : 16));
 
 					for (Trader trader : Trader.all) {
-						if (trader.room == room) {
+						if (trader.room == a || trader.room == b) {
 							trader.saved = true;
 							GlobalSave.put("npc_" + trader.id + "_saved", true);
 							trader.become("thanks");
@@ -455,6 +476,42 @@ public class Door extends SaveableEntity {
 	private float clearT;
 
 	public void renderSigns() {
+
+
+		if (lockAnim != null && keyRegion != null && al > 0) {
+			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
+			Graphics.batch.setColor(1, 1, 1, al);
+			Graphics.render(keyRegion, this.x - 3 + (16 - this.keyRegion.getRegionWidth()) / 2 + v + (this.vertical ? 0f : 4f), this.y + 16);
+			Graphics.batch.setColor(1, 1, 1, 1);
+		}
+	}
+
+	private float vt;
+
+	@Override
+	public void render() {
+		if (animation == null) {
+			return;
+		}
+
+		if (this.key != null && this.key != KeyB.class && this.keyRegion == null) {
+			try {
+				Key key = this.key.newInstance();
+				this.keyRegion = key.getSprite();
+			} catch (InstantiationException e) {
+				e.printStackTrace();
+			} catch (IllegalAccessException e) {
+				e.printStackTrace();
+			}
+		}
+
+		if (this.lock && this.lockAnim == null) {
+			this.lockAnim = this.locked;
+			this.setPas(false);
+		}
+
+		this.animation.render(this.x, this.y, false);
+
 		if (this.lockAnim != null) {
 			if (this.al > 0) {
 				Graphics.batch.end();
@@ -480,36 +537,6 @@ public class Door extends SaveableEntity {
 
 			this.lockAnim.render(this.x + (this.vertical ? -1 : 3), this.y + (this.vertical ? 2 : -2), false);
 		}
-
-		if (lockAnim != null && keyRegion != null && al > 0) {
-			float v = vt <= 0 ? 0 : (float) (Math.cos(Dungeon.time * 18f) * 5 * (vt));
-			Graphics.batch.setColor(1, 1, 1, al);
-			Graphics.render(keyRegion, this.x - 3 + (16 - this.keyRegion.getRegionWidth()) / 2 + v + (this.vertical ? 0f : 4f), this.y + 16);
-			Graphics.batch.setColor(1, 1, 1, 1);
-		}
-	}
-
-	private float vt;
-
-	@Override
-	public void render() {
-		if (this.key != null && this.key != KeyB.class && this.keyRegion == null) {
-			try {
-				Key key = this.key.newInstance();
-				this.keyRegion = key.getSprite();
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
-
-		if (this.lock && this.lockAnim == null) {
-			this.lockAnim = this.locked;
-			this.setPas(false);
-		}
-
-		this.animation.render(this.x, this.y, false);
 	}
 
 	@Override

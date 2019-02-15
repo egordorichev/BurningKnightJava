@@ -5,6 +5,7 @@ import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.item.Item;
+import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.util.Tween;
 
 public class UiAchievement extends Entity {
@@ -31,7 +32,7 @@ public class UiAchievement extends Entity {
 		super.init();
 
 		this.w = 0;
-		Graphics.layout.setText(Graphics.small, this.text);
+		Graphics.layout.setText(this.extra != null ? Graphics.medium : Graphics.small, this.text);
 		float w1 = Graphics.layout.width;
 
 		if (this.extra != null) {
@@ -89,11 +90,15 @@ public class UiAchievement extends Entity {
 
 	@Override
 	public void render() {
+		if (Ui.hideUi) {
+			return;
+		}
+
 		boolean missing = icon == Item.missing;
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 
-		if (unlock ) {
+		if (unlock) {
 			Graphics.startShape();
 			Graphics.shape.setColor(0.3f, 0.3f, 0.3f, 1f);
 			Graphics.shape.rect(this.x + 3, this.y + 3, 32, 32);
@@ -102,6 +107,10 @@ public class UiAchievement extends Entity {
 			Graphics.render(icon, this.x + 3 + (32 - icon.getRegionWidth()) / 2, this.y + 3 + (32 - icon.getRegionHeight()) / 2);
 		} else {
 			if (!missing) {
+				Graphics.startShape();
+				Graphics.shape.setColor(0, 0, 0, 1);
+				Graphics.shape.rect(this.x + 3, this.y + 3, 32, 32);
+				Graphics.endShape();
 				Graphics.render(icon, this.x + 3, this.y + 3);
 			}
 		}
@@ -113,8 +122,8 @@ public class UiAchievement extends Entity {
 		float m = missing ? 0 : 32;
 
 		if (this.extra != null) {
-			Graphics.small.draw(Graphics.batch, this.text, this.x + m + 6 + 3, this.y + this.h - 4 - 4 - 2);
-			Graphics.small.draw(Graphics.batch, this.extra, this.x + m + 6 + 3, this.y + this.h - 3 - 16 - 2);
+			Graphics.medium.draw(Graphics.batch, this.text, this.x + m + 6 + 3, this.y + this.h - 4 - 4 - 2);
+			Graphics.small.draw(Graphics.batch, this.extra, this.x + m + 6 + 3, this.y + this.h - 3 - 16 - 4);
 		} else {
 			Graphics.small.draw(Graphics.batch, this.text, this.x + m + 6 + 3, this.y + this.h - 4 - 4 - 2 - 6);
 		}

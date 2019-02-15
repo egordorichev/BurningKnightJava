@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight;
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
@@ -168,6 +167,7 @@ public class Dungeon extends ApplicationAdapter {
 			quick = false;
 		}
 
+		// game.setState(new LogoState());
 		game.setState(new LoadState());
 	}
 
@@ -398,7 +398,8 @@ public class Dungeon extends ApplicationAdapter {
 			Dungeon.lastDepth = depth;
 			Dungeon.depth = to;
 
-			game.setState(to == 5 ? new WonState() : new LoadState());
+			// to == 5 ? new WonState() :
+			game.setState(new LoadState());
 
 			//Gdx.gl.glClearColor(0, 0, 0, 1);
 			//Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
@@ -505,15 +506,7 @@ public class Dungeon extends ApplicationAdapter {
 		}
 	}
 
-	public static TextureRegion[] sideArt;
-
 	private void renderGame() {
-		if (sideArt == null) {
-			sideArt = new TextureRegion[] {
-				Graphics.getTexture("side_art-0")
-			};
-		}
-
 		final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT) * Ui.upscale;
 		Camera.applyShake();
 
@@ -534,21 +527,6 @@ public class Dungeon extends ApplicationAdapter {
 
 		Camera.game.position.set(sceneIX, sceneIY, 0);
 		Camera.game.update();
-
-		if (Settings.side_art != 0 && Settings.side_art <= sideArt.length) {
-			Graphics.batch.begin();
-			Graphics.batch.setProjectionMatrix(Camera.viewportCamera.combined);
-
-			int sz = 64 * 2;
-			for (float x = 0; x < Gdx.graphics.getWidth(); x += sz) {
-				for (float y = 0; y < Gdx.graphics.getHeight(); y += sz) {
-					Graphics.batch.draw(sideArt[Settings.side_art - 1], x - Gdx.graphics.getWidth() * 0.5f, y - Gdx.graphics.getHeight() * 0.5f,
-						sz, sz);
-				}
-			}
-
-			Graphics.batch.end();
-		}
 
 		Graphics.batch.setProjectionMatrix(Camera.game.combined);
 		Graphics.shape.setProjectionMatrix(Camera.game.combined);
@@ -673,7 +651,6 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.begin();
 
 		game.renderUi();
-		Ui.renderSaveIcon(upscale);
 
 		if (fpsY > 0) {
 			int f = Gdx.graphics.getFramesPerSecond();
@@ -696,8 +673,6 @@ public class Dungeon extends ApplicationAdapter {
 
 			Graphics.print(time, Graphics.small, 2 + fpsY, Display.UI_HEIGHT - timerY + 8);
 		}
-
-		Achievements.render();
 
 		Graphics.batch.end();
 		Graphics.shadows.end();
@@ -826,6 +801,10 @@ public class Dungeon extends ApplicationAdapter {
 		cursor = Gdx.graphics.newCursor(pm, 0, 0);
 		Gdx.graphics.setCursor(cursor);
 		pm.dispose();
+		
+		if (Settings.cursorId == Settings.cursors.length - 1) {
+			Gdx.graphics.setSystemCursor(Cursor.SystemCursor.Arrow);
+		}
 	}
 
 	private void initColors() {

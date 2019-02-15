@@ -50,14 +50,4 @@ public class RombRoom extends RegularRoom {
 	public int getMinWidth() {
 		return 12;
 	}
-
-	@Override
-	public int getMaxHeight() {
-		return 24;
-	}
-
-	@Override
-	public int getMaxWidth() {
-		return 24;
-	}
 }

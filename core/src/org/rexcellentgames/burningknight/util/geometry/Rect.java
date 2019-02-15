@@ -23,6 +23,16 @@ public class Rect {
 		this.bottom = bottom;
 	}
 
+	public static Rect make(int left, int top, int w, int h) {
+		Rect rect = new Rect();
+
+		rect.left = left;
+		rect.top = top;
+		rect.resize(w, h);
+
+		return rect;
+	}
+
 	public int getWidth() {
 		return right - left;
 	}

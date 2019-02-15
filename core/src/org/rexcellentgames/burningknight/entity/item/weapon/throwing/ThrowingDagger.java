@@ -77,7 +77,7 @@ public class ThrowingDagger extends Weapon {
 	private float lastAngle;
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		float dt = Gdx.graphics.getDeltaTime() * 2;
 		float d = this.max - this.added;
 
@@ -106,7 +106,7 @@ public class ThrowingDagger extends Weapon {
 		float yy = (float) (y + h / 4 + Math.sin(an + Math.PI / 2) * dst);
 
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() : 0), yy,
-			a, sprite.getRegionWidth() / 2, 0, flipped, false);
+			back ? (flipped ? -45 : 45) : a, sprite.getRegionWidth() / 2, 0, flipped, false);
 
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(xx, yy, an);

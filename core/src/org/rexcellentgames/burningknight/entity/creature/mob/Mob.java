@@ -23,6 +23,8 @@ import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.mob.prefix.Prefix;
 import org.rexcellentgames.burningknight.entity.creature.npc.Npc;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
@@ -53,6 +55,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Mob extends Creature {
+	public static int maxId;
+	private int id;
+
 	public Point lastSeen;
 	public static boolean challenge;
 	public static float speedMod = 1f;
@@ -65,6 +70,7 @@ public class Mob extends Creature {
 	protected State ai;
 	public boolean stupid = false;
 	protected Prefix prefix;
+	public boolean noLoot;
 
 	private static TextureRegion hideSign = Graphics.getTexture("ui-hide");
 	private static TextureRegion noticeSign = Graphics.getTexture("ui-notice");
@@ -92,7 +98,10 @@ public class Mob extends Creature {
 	public void init() {
 		super.init();
 
-		if (!(this instanceof BurningKnight) && !(this instanceof Npc) && !(this instanceof Mimic)) {
+		id = maxId;
+		maxId ++;
+
+		if (!(this instanceof BurningKnight) && !(this instanceof Npc) && !(this instanceof Mimic) && !(this instanceof IceElemental)) {
 			all.add(this);
 		}
 
@@ -109,6 +118,8 @@ public class Mob extends Creature {
 		if (challenge) { //  || Random.chance(10)
 			this.generatePrefix();
 		}
+
+		this.hp = (int) (this.hpMax * 0.75f);
 
 		return this;
 	}
@@ -159,6 +170,16 @@ public class Mob extends Creature {
 		if (!frozen.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + frozen.getLog());
 	}
 
+	public float getOx() {
+		return w / 2;
+	}
+
+	public float getOy() {
+		return 0;
+	}
+
+	public boolean flippedVert;
+
 	public void renderWithOutline(AnimationData data) {
 		TextureRegion region = data.getCurrent().frame;
 		float w = region.getRegionWidth();
@@ -177,7 +198,7 @@ public class Mob extends Creature {
 			for (int xx = -1; xx < 2; xx++) {
 				for (int yy = -1; yy < 2; yy++) {
 					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(region, x + xx + w / 2, y + z + yy, 0, w / 2, 0, false, false, sx * (flipped ? -1f : 1f), sy);
+						Graphics.render(region, x + xx + w / 2, y + z + yy + getOy(), 0, getOx(), getOy(), false, false, sx * (flipped ? -1f : 1f), sy * (flippedVert ? -1 : 1));
 					}
 				}
 			}
@@ -201,7 +222,7 @@ public class Mob extends Creature {
 		}
 
 		Graphics.batch.setColor(1, 1, 1, this.a);
-		Graphics.render(region, x + w / 2, y + z, 0, w / 2, 0, false, false, sx * (flipped ? -1 : 1), sy);
+		Graphics.render(region, Math.round(x + w / 2), Math.round(y + z) + getOy(), 0, getOx(), getOy(), false, false, sx * (flipped ? -1 : 1), sy * (flippedVert ? -1 : 1));
 
 		if (this.freezed || this.poisoned) {
 			this.fa += (1 - this.fa) * Gdx.graphics.getDeltaTime() * 3f;
@@ -237,6 +258,8 @@ public class Mob extends Creature {
 			this.prefix = PrefixPool.instance.getModifier(id - 1);
 			this.prefix.apply(this);
 		}
+
+		noLoot = reader.readBoolean();
 	}
 
 	protected boolean ignoreRooms;
@@ -250,6 +273,8 @@ public class Mob extends Creature {
 		} else {
 			writer.writeInt16((short) (this.prefix.id + 1));
 		}
+
+		writer.writeBoolean(noLoot);
 	}
 
 	private float closestFraction = 1.0f;
@@ -291,20 +316,20 @@ public class Mob extends Creature {
 		float x2 = player.x + player.w / 2;
 		float y2 = player.y + player.h / 2;
 
-		/*closestFraction = 1f;
+		return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), ignore) == 0;
+	}
 
-		if (x != x2 || y != y2) {
-			World.world.rayCast(callback, x, y, x2, y2);
-		} else {
-			return true;
+	public boolean canSeePoint(Point player) {
+		if (player == null) {
+			return false;
 		}
-		*/
 
-		//if (last == player) {
-			return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), ignore) == 0;
-		//}
+		float x = this.x + this.w / 2;
+		float y = this.y + this.h / 2;
+		float x2 = player.x;
+		float y2 = player.y;
 
-		//return false;
+		return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), 0) == 0;
 	}
 
 	protected void assignTarget() {
@@ -379,7 +404,7 @@ public class Mob extends Creature {
 	private float lastSplat;
 
 	public boolean isLow() {
-		return this.hp != this.hpMax && this.hp <= Math.ceil(((float) this.hpMax) / 4);
+		return this.hp != this.hpMax && this.hp <= Math.ceil(((float) this.hpMax) / 4) && !(this.state.equals("unactive"));
 	}
 
 	@Override
@@ -422,20 +447,32 @@ public class Mob extends Creature {
 
 				this.drop = false;
 
-				if (!noDrop) {
+				if (!noDrop && !noLoot) {
 					ArrayList<Item> items = this.getDrops();
 
 					for (Item item : items) {
 						if (Chest.isVeganFine(item.getClass())) {
 							ItemHolder holder = new ItemHolder(item);
 
-							holder.x = this.x;
-							holder.y = this.y;
+							if (this instanceof Boss) {
+								Point point = room.getCenter();
+
+								holder.x = point.x * 16;
+								holder.y = point.y * 16;
+							} else {
+								holder.x = this.x;
+								holder.y = this.y;
+							}
+
+							holder.x += Random.newFloat(-4, 4);
+							holder.y += Random.newFloat(-4, 4);
+
 							holder.getItem().generate();
 
 							this.area.add(holder);
 
 							LevelSave.add(holder);
+							holder.randomVelocity();
 						}
 					}
 				}
@@ -540,7 +577,7 @@ public class Mob extends Creature {
 		this.invt = Math.max(0, this.invt - dt);
 		this.invtt = Math.max(0, this.invtt - dt);
 
-		if (!this.dead && !(this instanceof Boss)) {
+		if (!this.dead && !(this instanceof Boss || this instanceof Fly)) {
 			if (this.velocity.x < 0) {
 				this.flipped = true;
 			} else if (this.velocity.x > 0) {
@@ -639,7 +676,7 @@ public class Mob extends Creature {
 		every.remove(this);
 	}
 
-	private boolean dd;
+	public boolean dd;
 
 	@Override
 	protected void die(boolean force) {
@@ -699,7 +736,7 @@ public class Mob extends Creature {
 							}
 						}
 
-						if (Player.instance != null && !Player.instance.isDead() && !force && Random.chance(20)) {
+						if (Player.instance != null && !Player.instance.isDead() && !force && Random.chance(20) && !noLoot) {
 							HeartFx fx = new HeartFx();
 
 							fx.x = x + w / 2 + Random.newFloat(-4, 4);
@@ -707,6 +744,8 @@ public class Mob extends Creature {
 
 							Dungeon.area.add(fx);
 							LevelSave.add(fx);
+
+							fx.randomVelocity();
 						}
 					}
 				}).delay(0.2f);
@@ -924,6 +963,17 @@ public class Mob extends Creature {
 			return false;
 		}
 
+		public boolean moveRightTo(Point point, float s, float d) {
+			float ds = self.moveToPoint(point.x + 8, point.y + 8, s);
+			float dd = self.getDistanceTo(point.x + 8, point.y + 8);
+
+			if (ds < 4f || dd < d) {
+				return dd <= d;
+			}
+
+			return false;
+		}
+
 		public boolean moveTo(Point point, float s, float d) {
 			if (this.nextPathPoint == null) {
 				this.nextPathPoint = self.getCloser(point);
@@ -1075,4 +1125,9 @@ public class Mob extends Creature {
 	}
 
 	public boolean saw;
+
+	@Override
+	public int hashCode() {
+		return id;
+	}
 }

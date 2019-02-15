@@ -57,6 +57,8 @@ public class WoodenChest extends Chest {
 			fx.y = this.y + (this.h - fx.h) / 2;
 
 			Dungeon.area.add(fx);
+			fx.randomVelocity();
+
 		}
 
 

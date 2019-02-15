@@ -1,33 +1,23 @@
 package org.rexcellentgames.burningknight.entity.level;
 
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
+import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.Fly;
-import org.rexcellentgames.burningknight.entity.creature.mob.common.MovingFly;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Clown;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Knight;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.RangedKnight;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.level.builders.Builder;
-import org.rexcellentgames.burningknight.entity.level.builders.LineBuilder;
-import org.rexcellentgames.burningknight.entity.level.builders.SingleRoomBuilder;
+import org.rexcellentgames.burningknight.entity.level.builders.*;
 import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
+import org.rexcellentgames.burningknight.entity.level.levels.BossLevel;
+import org.rexcellentgames.burningknight.entity.level.levels.creep.CreepLevel;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
-import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.Room;
-import org.rexcellentgames.burningknight.entity.level.rooms.TutorialChasmRoom;
+import org.rexcellentgames.burningknight.entity.level.rooms.*;
 import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
-import org.rexcellentgames.burningknight.entity.level.rooms.entrance.BossEntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.LampRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
@@ -40,6 +30,7 @@ import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.pool.MobHub;
 import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.entity.pool.room.*;
+import org.rexcellentgames.burningknight.game.state.ItemSelectState;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -57,7 +48,9 @@ public abstract class RegularLevel extends Level {
 	}
 
 	@Override
-	public void generate() {
+	public void generate(int attempt) {
+		Random.random.setSeed(ItemSelectState.stringToSeed(Random.getSeed()) + Dungeon.depth * 128 + attempt);
+
 		Player.all.clear();
 		Mob.all.clear();
 		ItemHolder.getAll().clear();
@@ -95,8 +88,10 @@ public abstract class RegularLevel extends Level {
 
 		Log.info("Spawning entities...");
 
-		this.spawnLevelEntities();
-		this.spawnEntities();
+		if (!Random.getSeed().equals("BK")) {
+			this.spawnLevelEntities();
+			this.spawnEntities();
+		}
 
 		Log.info("Done!");
 	}
@@ -109,63 +104,19 @@ public abstract class RegularLevel extends Level {
 			Log.info("Spawn modifier is x" + Player.mobSpawnModifier);
 
 			for (Room room : this.rooms) {
-				if (room instanceof RegularRoom && !(room instanceof BossEntranceRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
-					float weight;
-
-					if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-						weight = room.id;
-					} else {
-						weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 150) * Player.mobSpawnModifier);
-					}
+				if (room instanceof RegularRoom && !(room instanceof PrebossRoom) || (room instanceof TreasureRoom && Random.chance(20))) {
+					float weight = ((Random.newFloat(1f, 3f) + room.getWidth() * room.getHeight() / 150) * Player.mobSpawnModifier);
 
 					MobPool.instance.initForRoom();
 
 					while (weight > 0) {
-						if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-							int id = room.id;
-							Mob mob = null;
+						MobHub mobs = MobPool.instance.generate();
 
-							if (Dungeon.depth == 1) {
-								switch (id) {
-									case 1: mob = new Fly(); break;
-									case 2: mob = new MovingFly(); break;
-									case 3: mob = weight == 2 ? new DiagonalFly() : new MovingFly(); break;
-									case 4: mob = new Knight(); weight = 1; break;
-									case 5: mob = weight == 2 ? new DiagonalShotFly() : (weight == 3 ? new RangedKnight() : new DiagonalFly()); break;
-								}
-							} else {
-								switch (id) {
-									case 1: mob = new Clown(); break;
-									case 2: mob = weight == 1 ? new Knight() : new Thief(); break;
-									case 3: mob = weight == 2 ? new Clown() : (weight == 1 ? new RangedKnight() : new Knight());  break;
-									default: {
-										MobHub mobs = MobPool.instance.generate();
-
-										for (Class<? extends Mob> m : mobs.types) {
-											try {
-												weight = spawnMob(m.newInstance(), room, weight);
-											} catch (InstantiationException | IllegalAccessException e) {
-												e.printStackTrace();
-											}
-										}
-
-										continue;
-									}
-								}
-							}
-
-
-							spawnMob(mob == null ? new DiagonalFly() : mob, room, weight);
-							weight -= 1;
-						} else {
-							MobHub mobs = MobPool.instance.generate();
-
-							for (Class<? extends Mob> m : mobs.types) {
-								try {
-									weight = spawnMob(m.newInstance(), room, weight);
-								} catch (InstantiationException | IllegalAccessException e) {
-									e.printStackTrace();
-								}
+						for (Class<? extends Mob> m : mobs.types) {
+							try {
+								weight = spawnMob(m.newInstance(), room, weight);
+							} catch (InstantiationException | IllegalAccessException e) {
+								e.printStackTrace();
 							}
 						}
 					}
@@ -257,11 +208,10 @@ public abstract class RegularLevel extends Level {
 	@SuppressWarnings("unchecked")
 	protected void build() {
 		Builder builder = this.getBuilder();
-
 		ArrayList<Room> rooms = this.createRooms();
 
 		if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-			Collections.shuffle(rooms);
+			Collections.shuffle(rooms, new java.util.Random(ItemSelectState.stringToSeed(Random.getSeed())));
 		}
 
 		int attempt = 0;
@@ -293,7 +243,7 @@ public abstract class RegularLevel extends Level {
 					rooms = this.createRooms();
 
 					if (Dungeon.depth > -2 && (GameSave.runId != 0 || Dungeon.depth != 1)) {
-						Collections.shuffle(rooms);
+						Collections.shuffle(rooms, new java.util.Random(ItemSelectState.stringToSeed(Random.getSeed())));
 					}
 				}
 
@@ -305,6 +255,11 @@ public abstract class RegularLevel extends Level {
 	protected ArrayList<Room> createRooms() {
 		ArrayList<Room> rooms = new ArrayList<>();
 
+		if (this instanceof CreepLevel) {
+			rooms.add(new FloatingRoom());
+			return rooms;
+		}
+
 		if (GameSave.runId == 0 && Dungeon.depth == 1) {
 			rooms.add(new TutorialChasmRoom());
 			Log.info("Added tutorial chasm room");
@@ -312,9 +267,9 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
-			this.exit = BossRoomPool.instance.generate(); // : EntranceRoomPool.instance.generate();
+			this.exit = this instanceof BossLevel ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
-			rooms.add(new BossEntranceRoom());
+			// rooms.add(new BossEntranceRoom());
 
 			rooms.add(this.entrance);
 			rooms.add(this.exit);
@@ -331,15 +286,21 @@ public abstract class RegularLevel extends Level {
 		}
 
 		if (Dungeon.depth > 0) {
-			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25))) {
+			if (GlobalSave.isFalse("all_npcs_saved") && (Random.chance(25) || Version.debug)) {
 				rooms.add(new NpcSaveRoom());
 			}
 		}
 
-		int regular = this.getNumRegularRooms();
-		int special = this.getNumSpecialRooms();
+		boolean bk = Random.getSeed().equals("BK");
+
+		if (this instanceof BossLevel) {
+			rooms.add(new PrebossRoom());
+		}
+
+		int regular = bk ? 0 : this.getNumRegularRooms();
+		int special = bk ? 0 : this.getNumSpecialRooms();
 		int connection = this.getNumConnectionRooms();
-		int secret = this.getNumSecretRooms();
+		int secret = bk ? 0 : this.getNumSecretRooms();
 
 		Log.info("Creating r" + regular + " sp" + special + " c" + connection + " sc" + secret + " rooms");
 
@@ -374,13 +335,13 @@ public abstract class RegularLevel extends Level {
 			}
 		}
 
-		if (Dungeon.depth > 0) {
+		if (Dungeon.depth > 0 && !bk) {
 			TreasureRoom room = TreasureRoomPool.instance.generate();
 			room.weapon = Random.chance(50);
 			rooms.add(room);
 			// rooms.add(TreasureRoomPool.instance.generate());
 
-			if ((GameSave.runId == 1 || Random.chance(90)) && (GameSave.runId != 0 || Dungeon.depth != 1)) {
+			if ((GameSave.runId == 1 || Random.chance(50)) && (GameSave.runId != 0 || Dungeon.depth != 1)) {
 				Log.info("Adding shop");
 				rooms.add(ShopRoomPool.instance.generate());
 			}
@@ -412,27 +373,34 @@ public abstract class RegularLevel extends Level {
 	protected abstract Painter getPainter();
 
 	protected Builder getBuilder() {
-		if (Dungeon.depth <= -1) {
+		if (Dungeon.depth <= -1 || this instanceof CreepLevel) {
 			return new SingleRoomBuilder();
 		} else {
-			LineBuilder builder = new LineBuilder();
+			float r = Random.newFloat();
 
-			if (GameSave.runId == 0 && Dungeon.depth <= 2) {
-				builder.setPathLength(2, new float[]{0, 1, 0});
-				builder.setExtraConnectionChance(0);
+			if (r < 0.33f) {
+				LineBuilder builder = new LineBuilder();
 
-				if (Dungeon.depth == 1) {
-					builder.setAngle(90);
+				if (GameSave.runId == 0 && Dungeon.depth <= 2) {
+					builder.setPathLength(2, new float[]{0, 1, 0});
+					builder.setExtraConnectionChance(0);
+
+					if (Dungeon.depth == 1) {
+						builder.setAngle(90);
+					}
 				}
-			}
 
-			return builder;
+				return builder;
+			} else if (r < 0.66f) {
+				return new LoopBuilder();
+			} else {
+				return new CastleBuilder();
+			}
 		}
 	}
 
-	// fixme: get straight line on first run
 	protected int getNumRegularRooms() {
-		return Dungeon.depth <= 0 ? 0 : (Dungeon.depth <= 2 && GameSave.runId == 0 ? 5 : Random.newInt(3, 5));
+		return Dungeon.depth <= 0 ? 0 : (this instanceof BossLevel ? 1 : Random.newInt(3, 6));
 	}
 
 	protected int getNumSpecialRooms() {

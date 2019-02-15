@@ -27,8 +27,10 @@ import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.StartingItem;
 import org.rexcellentgames.burningknight.ui.UiButton;
+import org.rexcellentgames.burningknight.ui.UiTextInput;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -36,14 +38,41 @@ import java.util.ArrayList;
 
 public class ItemSelectState extends State {
 	private static ArrayList<Item> melee = new ArrayList<>();
-	private static  ArrayList<Item> ranged = new ArrayList<>();
-	private static  ArrayList<Item> mage = new ArrayList<>();
+	private static ArrayList<Item> ranged = new ArrayList<>();
+	private static ArrayList<Item> mage = new ArrayList<>();
 
 	public static int depth;
+
+
+	private static final String ALPHA_NUMERIC_STRING = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+	public static String randomAlphaNumeric(int count) {
+		StringBuilder builder = new StringBuilder();
+
+		while (count-- != 0) {
+			int character = (int) (Math.random() * ALPHA_NUMERIC_STRING.length());
+			builder.append(ALPHA_NUMERIC_STRING.charAt(character));
+		}
+
+		return builder.toString();
+	}
+
+	public static int stringToSeed(String str) {
+		int seed = 0;
+
+		for (int i = 0; i < str.length(); i++) {
+			seed += str.charAt(i);
+		}
+
+		return seed;
+	}
 
 	@Override
 	public void init() {
 		super.init();
+		StartingItem.hovered = null;
+
+		seed = randomAlphaNumeric(8);
 
 		SaveManager.delete();
 		Audio.play("Void");
@@ -126,6 +155,7 @@ public class ItemSelectState extends State {
 		for (int i = 0; i < melee.size(); i++) {
 			StartingItem item = new StartingItem();
 			item.item = melee.get(i);
+			item.name = melee.get(i).getName();
 			item.type = Player.Type.WARRIOR;
 			item.y = Display.UI_HEIGHT / 2 - 48;
 			item.x = (Display.UI_WIDTH - melee.size() * 48) / 2 + i * 48 + 24;
@@ -135,6 +165,7 @@ public class ItemSelectState extends State {
 		for (int i = 0; i < ranged.size(); i++) {
 			StartingItem item = new StartingItem();
 			item.item = ranged.get(i);
+			item.name = ranged.get(i).getName();
 			item.type = Player.Type.RANGER;
 			item.y = Display.UI_HEIGHT / 2;
 			item.x = (Display.UI_WIDTH - ranged.size() * 48) / 2 + i * 48 + 24;
@@ -144,6 +175,7 @@ public class ItemSelectState extends State {
 		for (int i = 0; i < mage.size(); i++) {
 			StartingItem item = new StartingItem();
 			item.item = mage.get(i);
+			item.name = mage.get(i).getName();
 			item.type = Player.Type.WIZARD;
 			item.y = Display.UI_HEIGHT / 2 + 48;
 			item.x = (Display.UI_WIDTH - mage.size() * 48) / 2 + i * 48 + 24;
@@ -166,6 +198,22 @@ public class ItemSelectState extends State {
 			}
 		});
 
+		input = (UiTextInput) Dungeon.ui.add(new UiTextInput("seed", Display.UI_WIDTH / 2, (int) (Display.UI_HEIGHT / 2 - 48 * 2.5f)) {
+			@Override
+			public int getMaxLength() {
+				return 8;
+			}
+
+			@Override
+			public char validate(char ch) {
+				if (!Character.isLetterOrDigit(ch)) {
+					return '\0';
+				}
+
+				return Character.toUpperCase(ch);
+			}
+		});
+
 		Ui.saveAlpha = 0;
 
 		Dungeon.white = 0;
@@ -184,7 +232,14 @@ public class ItemSelectState extends State {
 				uiY = value;
 			}
 		});
+
+		if (!ur && !um && mage.size() == 1) {
+			fastPick(mage.get(0), Player.Type.WIZARD);
+		}
 	}
+
+	private static UiTextInput input;
+	private static String seed;
 
 	@Override
 	public void destroy() {
@@ -212,6 +267,19 @@ public class ItemSelectState extends State {
 		Ui.ui.renderCursor();
 	}
 
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (Input.instance.wasPressed("F")) {
+			InGameState.horn();
+		}
+
+		if (Input.instance.wasPressed("pause")) {
+			InGameState.triggerPause = true;
+		}
+	}
+
 	private static boolean picked;
 
 	public static void pick(Item item, Player.Type tp) {
@@ -236,13 +304,29 @@ public class ItemSelectState extends State {
 			public void onEnd() {
 				super.onEnd();
 
-				Player.toSet = tp;
-				GlobalSave.put("last_class", Player.toSet.id);
-				Player.startingItem = item;
-
-				LoadState.fromSelect = true;
-				Dungeon.game.setState(new LoadState());
+				fastPick(item, tp);
 			}
 		});
+	}
+
+	public static void fastPick(Item item, Player.Type tp) {
+		Player.toSet = tp;
+		GlobalSave.put("last_class", Player.toSet.id);
+		Player.startingItem = item;
+
+		LoadState.fromSelect = true;
+		Dungeon.game.setState(new LoadState());
+
+		if (input != null) {
+			String string = input.input;
+
+			if (!string.isEmpty()) {
+				seed = string;
+			}
+
+			input = null;
+		}
+
+		Random.setSeed(seed);
 	}
 }

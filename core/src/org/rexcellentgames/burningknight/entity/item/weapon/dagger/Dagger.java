@@ -55,7 +55,7 @@ public class Dagger extends Sword {
 	}
 
 	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
+	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
 		float angle = 0;
 
 		if (this.owner != null) {
@@ -79,7 +79,7 @@ public class Dagger extends Sword {
 		float yy = (float) (y + (this.ox == 0 ? h / 4 : h / 2) + Math.sin(a + Math.PI / 2) * an);
 
 		this.renderAt(xx - (flipped ? sprite.getRegionWidth() : 0), yy,
-			angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
+			back ? (flipped ? -45 : 45) : angle, sprite.getRegionWidth() / 2 + (flipped ? this.ox : -this.ox), this.oy, flipped, false);
 
 		if (this.body != null) {
 			World.checkLocked(this.body).setTransform(xx, yy, a);

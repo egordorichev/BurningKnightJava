@@ -8,9 +8,9 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Equippable;
-import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.entity.PickupFx;
+import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -105,9 +105,7 @@ public class Inventory {
 		for (int i = 0; i < spaces.size(); i++) {
 			Item slot = spaces.get(i);
 
-			writer.writeBoolean(true);
 			writer.writeString(slot.getClass().getName());
-
 			slot.save(writer);
 		}
 	}
@@ -119,35 +117,21 @@ public class Inventory {
 			return false;
 		}
 
-		if (item.isStackable()) {
-			for (int i = 0; i < this.slots.length; i++) {
-				Item slot = this.getSlot(i);
-
-				if (slot != null && slot.getClass() == item.getClass()) {
-					slot.setCount(slot.getCount() + item.getCount());
+		if (item instanceof WeaponBase) {
+			for (int i = 0; i < 3; i++) {
+				if (this.isEmpty(i) && (i != 2)) {
+					this.setSlot(i, item);
 					item.setOwner(Player.instance);
 					item.onPickup();
 					holder.done = true;
 
+					if (item instanceof Equippable) {
+						((Equippable) item).onEquip(false);
+					}
+
 					this.onAdd(holder, i);
 					return true;
 				}
-			}
-		}
-
-		for (int i = 0; i < 3; i++) {
-			if (this.isEmpty(i) && (i != 2 || item instanceof ActiveItem)) {
-				this.setSlot(i, item);
-				item.setOwner(Player.instance);
-				item.onPickup();
-				holder.done = true;
-
-				if (item instanceof Equippable) {
-					((Equippable) item).onEquip(false);
-				}
-
-				this.onAdd(holder, i);
-				return true;
 			}
 		}
 

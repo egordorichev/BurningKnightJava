@@ -42,7 +42,9 @@ public class FileWriter {
 			// First byte is length of the string
 			this.stream.writeByte(string.length());
 			// Write the string
-			this.stream.writeChars(string);
+			for (int i = 0; i < string.length(); i++) {
+				this.stream.writeByte(string.charAt(i));
+			}
 		}
 	}
 

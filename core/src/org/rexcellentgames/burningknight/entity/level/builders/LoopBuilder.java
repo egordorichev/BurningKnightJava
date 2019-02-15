@@ -1,9 +1,8 @@
 package org.rexcellentgames.burningknight.entity.level.builders;
 
-import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
+import org.rexcellentgames.burningknight.entity.level.rooms.connection.ConnectionRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -155,21 +154,6 @@ public class LoopBuilder extends RegularBuilder {
 
 			prev.getConnected().put(this.entrance, null);
 			this.entrance.getConnected().put(prev, null);
-		}
-
-		if (this.bossExit != null) {
-			float res;
-			float an = 90;
-
-			do {
-				res = placeRoom(init, this.boss, this.bossExit, an);
-				an += 5;
-
-				if (an >= 450) {
-					Log.error("Too many attempts to place exit");
-					return init;
-				}
-			} while (res == -1);
 		}
 
 		return init;

@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -33,6 +34,8 @@ public class GameSave {
 			writer.writeBoolean(inventory);
 			writer.writeBoolean(playedAlpha);
 			writer.writeInt32(runId);
+
+			writer.writeString(Random.getSeed());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -92,6 +95,8 @@ public class GameSave {
 		inventory = reader.readBoolean();
 		playedAlpha = reader.readBoolean();
 		runId = reader.readInt32();
+
+		Random.setSeed(reader.readString());
 	}
 
 	public static void generate() {

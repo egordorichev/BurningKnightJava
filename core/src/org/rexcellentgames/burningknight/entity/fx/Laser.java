@@ -18,6 +18,7 @@ import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Tween;
+import org.rexcellentgames.burningknight.util.geometry.Point;
 
 import java.util.ArrayList;
 
@@ -32,7 +33,7 @@ public class Laser extends Entity {
 	public static TextureRegion midHuge = Graphics.getTexture("laser-big_mid");
 	public static TextureRegion midOverlayHuge = Graphics.getTexture("laser-big_mid_over");
 
-	private Body body;
+	protected Body body;
 	public float a;
 	public float al = 0.3f;
 	public int damage;
@@ -47,13 +48,14 @@ public class Laser extends Entity {
 		alwaysActive = true;
 		alwaysRender = true;
 		depth = 1;
+		damage = 1;
 	}
 
 	@Override
 	public void init() {
 		super.init();
 
-		Tween.to(new Tween.Task(1, fake ? 1f : 0.1f) {
+		Tween.to(new Tween.Task(1, fake ? 0.4f : 0.1f) {
 			@Override
 			public float getValue() {
 				return al;
@@ -272,11 +274,20 @@ public class Laser extends Entity {
 		}
 	}
 
+	public void renderFrom(Point from, Point to) {
+		Graphics.shape.setColor(shade.r, shade.g, shade.b, 0.5f);
+		Graphics.shape.rectLine(from.x, from.y, to.x, to.y, 3);
+		Graphics.shape.setColor(1, 1, 1, 1);
+		Graphics.shape.line(from.x, from.y, to.x, to.y);
+	}
+
 	@Override
 	public void onCollision(Entity entity) {
 		super.onCollision(entity);
 
 		if (entity instanceof Creature && entity != this.owner && (entity instanceof Mob) != this.bad) {
+			this.colliding.add((Creature) entity);
+
 			if (!fake) {
 				HpFx fx = ((Creature) entity).modifyHp(-this.damage, this.owner, true);
 
@@ -284,8 +295,6 @@ public class Laser extends Entity {
 					fx.crit = this.crit;
 				}
 			}
-
-			this.colliding.add((Creature) entity);
 		}
 	}
 

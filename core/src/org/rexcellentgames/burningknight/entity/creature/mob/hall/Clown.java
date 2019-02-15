@@ -22,6 +22,10 @@ import java.util.ArrayList;
 
 public class Clown extends Mob {
 	public static Animation animations = Animation.make("actor-clown", "-purple");
+	public Animation getAnimation() {
+		return animations;
+	}
+
 	private AnimationData idle;
 	private AnimationData run;
 	private AnimationData hurt;
@@ -29,12 +33,8 @@ public class Clown extends Mob {
 	private AnimationData animation;
 	private Guitar guitar;
 
-	public Animation getAnimation() {
-		return animations;
-	}
-
 	{
-		hpMax = 9;
+		hpMax = 6;
 
 		idle = getAnimation().get("idle").randomize();
 		run = getAnimation().get("run").randomize();
@@ -198,7 +198,7 @@ public class Clown extends Mob {
 
 		if (guitar != null) {
 			Graphics.batch.setColor(1, 1, 1, this.a);
-			this.guitar.render(this.x, this.y, this.w, this.h, this.flipped);
+			this.guitar.render(this.x, this.y, this.w, this.h, this.flipped, false);
 		}
 
 		Graphics.batch.setColor(1, 1, 1, 1);

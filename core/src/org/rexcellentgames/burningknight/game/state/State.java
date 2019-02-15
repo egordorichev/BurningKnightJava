@@ -20,10 +20,10 @@ import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.game.Area;
-import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.*;
 import org.rexcellentgames.burningknight.util.ColorUtils;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
 import java.util.ArrayList;
@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class State {
 	protected Area pauseMenuUi;
 	protected float portalMod;
+	private boolean crazy;
 
 	protected void renderPortalOpen() {
 		if (player == null) {
@@ -39,7 +40,7 @@ public class State {
 
 		Graphics.startAlphaShape();
 		Graphics.shape.setProjectionMatrix(Camera.nil.combined);
-		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360);
+		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * (crazy ? 60 : 20) % 360, 360, 360);
 		Dungeon.setBackground2(new Color(cl.r * 0.04f, cl.g * 0.04f,
 			cl.b * 0.04f, 1f));
 
@@ -51,10 +52,10 @@ public class State {
 			float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + s) * 96) * vv;
 			float v = ((float) i) / 65f;
 
-			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
+			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * (crazy ? 60 : 20) - i * 1.4f) % 360, 360, 360);
 			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
 
-			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
+			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * (crazy ? 6 : 2);
 			float c = fromCenter ? (-194 * portalMod) : (portalMod * Display.UI_WIDTH);
 			float w = i * 2 + 64 + c;
 
@@ -78,23 +79,9 @@ public class State {
 			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56 - i) / 56);
 
 			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
-			//Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
-			//Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
 		}
-
-
-		float i = 32;
-		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
-		float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
 
 		Graphics.endAlphaShape();
-
-		if (!(this instanceof MainMenuState || this instanceof InGameState)) {
-			/*Graphics.batch.setProjectionMatrix(Camera.nil.combined);
-			Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8, false, false);
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);*/
-		}
-
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 	}
 
@@ -105,7 +92,7 @@ public class State {
 
 		Graphics.startAlphaShape();
 		Graphics.shape.setProjectionMatrix(Camera.nil.combined);
-		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * 20 % 360, 360, 360);
+		Color cl = ColorUtils.HSV_to_RGB(Dungeon.time * (crazy ? 60 : 20) % 360, 360, 360);
 		Dungeon.setBackground2(new Color(cl.r * 0.04f, cl.g * 0.04f,
 			cl.b * 0.04f, 1f));
 
@@ -115,33 +102,19 @@ public class State {
 			float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + s) * 96);
 			float v = ((float) i) / 65f;
 
-			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * 20 - i * 1.4f) % 360, 360, 360);
+			Color color = ColorUtils.HSV_to_RGB((Dungeon.time * (crazy ? 60 : 20) - i * 1.4f) % 360, 360, 360);
 			Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
 
-			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * 2f;
+			float a = (float) (Math.PI * i * 0.2f) + Dungeon.time * (crazy ? 6 : 2);
 			float w = i * 2 + 64;
 			float d = i * 2.5f * (i * 0.01f + 0.99f);
 			float x = (float) (Math.cos(a) * d) + Display.GAME_WIDTH / 2 + mx * (((float) 56 - i) / 56);
 			float y = (float) (Math.sin(a) * d) + Display.GAME_HEIGHT / 2 + my * (((float) 56 - i) / 56);
 
 			Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 1f, 1f, (float) Math.toDegrees(a + 0.1f));
-			//Graphics.shape.setColor(v * color.r, v * color.g, v * color.b, 1f);
-			//Graphics.shape.rect(x - w / 2, y - w / 2, w / 2, w / 2, w, w, 0.9f, 0.9f, (float) Math.toDegrees(a + 0.1f));
 		}
-
-
-		float i = 32;
-		float mx = (Noise.instance.noise(Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
-		float my = (Noise.instance.noise(3 + Dungeon.time * 0.25f + i * 0.015f + 0.1f) * 128f) * (((float) 56 - i) / 56);
 
 		Graphics.endAlphaShape();
-
-		if (!(this instanceof MainMenuState)) {
-			/*Graphics.batch.setProjectionMatrix(Camera.nil.combined);
-			Graphics.render(player, Display.GAME_WIDTH / 2 + mx, Display.GAME_HEIGHT / 2 + my, Dungeon.time * 650, 8, 8, false, false);
-			Graphics.batch.setProjectionMatrix(Camera.ui.combined);*/
-		}
-
 		Graphics.shape.setProjectionMatrix(Camera.ui.combined);
 	}
 
@@ -172,7 +145,7 @@ public class State {
 	}
 
 	public State() {
-
+		crazy = Random.getSeed().equals("MAANEX");
 	}
 
 	public void init() {
@@ -525,6 +498,7 @@ Settings:
 			}
 		}.setOn(Settings.borderless)));*/
 
+		/*
 		currentSettings.add(pauseMenuUi.add(new UiChoice("side_art", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
 			@Override
 			public void onUpdate() {
@@ -538,7 +512,7 @@ Settings:
 			}
 		}.setChoices(new String[] {
 			"none", "1/8", "2/8", "3/8", "4/8", "5/8", "6/8", "7/8", "8/8"
-		}).setCurrent(Settings.side_art)));
+		}).setCurrent(Settings.side_art)));*/
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("rotate_cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
 			@Override
@@ -776,14 +750,6 @@ Settings:
 				// todo: warning window
 			}
 		}));
-
-		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_mode", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
-			@Override
-			public void onClick() {
-				Settings.speedrun_mode = !Settings.speedrun_mode;
-				super.onClick();
-			}
-		}.setOn(Settings.speedrun_mode)));
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("speedrun_timer", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5)) {
 			@Override

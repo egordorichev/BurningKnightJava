@@ -83,7 +83,7 @@ open class ItemHolder : SaveableEntity {
   private var hh: Int = 0
   private var added: Boolean = false
 
-  public var al: Float = 0.toFloat()
+  var al: Float = 0.toFloat()
   private var sz = 1f
 
   fun createSimpleBody(x: Int, y: Int, w: Int, h: Int, type: BodyDef.BodyType, sensor: Boolean): Body {
@@ -95,9 +95,10 @@ open class ItemHolder : SaveableEntity {
 
   fun randomVelocity() {
     val a = Random.newFloat((Math.PI * 2).toFloat()).toDouble()
+		val f = Random.newFloat(60f, 150f)
 
-    this.velocity.x = (Math.cos(a) * 100f).toFloat()
-    this.velocity.y = (Math.sin(a) * 100f).toFloat()
+    this.velocity.x = (Math.cos(a) * f).toFloat()
+    this.velocity.y = (Math.sin(a) * f).toFloat()
   }
 
   fun velocityToMouse() {
@@ -149,6 +150,14 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun update(dt: Float) {
+	  if (falling) {
+		  fall -= dt
+
+		  if (fall <= 0) {
+			  done = true
+		  }
+	  }
+
     if (createBody) {
       if (!fake) {
         this.body = this.createSimpleBody(-2, -2, item!!.getSprite().regionWidth + 4, item!!.getSprite().regionHeight + 4, BodyDef.BodyType.DynamicBody, false)
@@ -178,6 +187,48 @@ open class ItemHolder : SaveableEntity {
       this.price = price
       
       Dungeon.area.add(price)
+    }
+
+    if (!this.item!!.shop && !falling) {
+      var found = false
+      var x = Math.floor(((this.x) / 16).toDouble()).toInt() - 1
+
+      while (x < Math.ceil(((this.x + this.hw.toFloat() + 8) / 16).toDouble())) {
+        var y = Math.floor(((this.y) / 16).toDouble()).toInt() - 1
+
+        while (y < Math.ceil(((this.y + 16f + this.hh.toFloat()) / 16).toDouble())) {
+          if (x < 0 || y < 0 || x >= Level.getWidth() || y >= Level.getHeight()) {
+            y++
+            continue
+          }
+
+          if (CollisionHelper.check(this.x, this.y, w, h, x * 16f, y * 16f - 8f, 32f, 32f)) {
+            val i = Level.toIndex(x, y)
+            val l = Dungeon.level.data[i]
+
+            if (l == Terrain.FLOOR_A || l == Terrain.FLOOR_B || l == Terrain.FLOOR_C || l == Terrain.FLOOR_D) {
+              found = true
+              break
+            }
+          }
+
+          if (found) {
+            break
+          }
+
+          y++
+        }
+
+        if (found) {
+          break
+        }
+
+        x++
+      }
+
+	    if (!found) {
+		    falling = true
+	    }
     }
 
     this.t += dt
@@ -289,6 +340,8 @@ open class ItemHolder : SaveableEntity {
     all.remove(this)
   }
 
+	private var fall = 1f
+
   override fun render() {
     if (this.item == null) {
       return
@@ -297,7 +350,7 @@ open class ItemHolder : SaveableEntity {
     val sprite = this.item!!.getSprite()
 
     val a = Math.cos((this.t * 3f).toDouble()).toFloat() * 8f * sz
-    val sy = (1f + Math.sin((this.t * 2f).toDouble()) / 10f).toFloat()
+    val sy = (1f + Math.sin((this.t * 2f).toDouble()) / 10f).toFloat() * fall
 
     Graphics.batch.end()
 
@@ -315,7 +368,7 @@ open class ItemHolder : SaveableEntity {
       for (xx in -1..1) {
         for (yy in -1..1) {
           if (Math.abs(xx) + Math.abs(yy) == 1) {
-            Graphics.render(sprite, this.x + w / 2 + xx.toFloat(), this.y + this.z + h / 2 + yy.toFloat(), a, w / 2, h / 2, false, false, 1f, sy)
+            Graphics.render(sprite, this.x + w / 2 + xx.toFloat(), this.y + this.z + h / 2 + yy.toFloat(), a, w / 2, h / 2, false, false, fall, sy)
           }
         }
       }
@@ -332,7 +385,7 @@ open class ItemHolder : SaveableEntity {
     Graphics.batch.shader = WeaponBase.shader
     Graphics.batch.begin()
 
-    Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a, w / 2, h / 2, false, false, 1f, sy)
+    Graphics.render(sprite, this.x + w / 2, this.y + this.z + h / 2, a, w / 2, h / 2, false, false, fall, sy)
 
     Graphics.batch.end()
     Graphics.batch.shader = null
@@ -340,12 +393,15 @@ open class ItemHolder : SaveableEntity {
   }
 
   override fun renderShadow() {
-    Graphics.shadow(this.x, this.y, this.w, this.h, this.z)
+    Graphics.shadow(this.x, this.y, this.w * fall, this.h * fall, this.z)
   }
 
   override fun onCollision(entity: Entity?) {
     super.onCollision(entity)
 
+    if (t < 0.01f) {
+      // return;
+    }
 
     if (item is Key && !collided && Dungeon.depth == -3 && Ui.controls.size == 0) {
       Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"))

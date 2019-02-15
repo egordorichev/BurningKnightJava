@@ -3,8 +3,10 @@ package org.rexcellentgames.burningknight.entity.creature.fx;
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
+import org.rexcellentgames.burningknight.entity.level.levels.ice.IceLevel;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
@@ -18,12 +20,14 @@ public class Firefly extends SaveableEntity {
 
 	private PointLight light;
 	private float t;
+	private boolean ice;
 
 	@Override
 	public void init() {
 		super.init();
+		ice = Dungeon.level instanceof IceLevel;
 		this.t = Random.newFloat(1024);
-		light = World.newLight(32, new Color(0, 1, 0.3f, 1f), 0, x, y);
+		light = World.newLight(32, ice ? new Color(0, 0.3f, 1, 1f) : new Color(0, 1, 0.3f, 1f), 0, x, y);
 		light.setXray(true);
 	}
 
@@ -54,9 +58,17 @@ public class Firefly extends SaveableEntity {
 
 		light.setPosition(x + r, y + r);
 		light.setDistance(rd * 10);
-		light.setColor(0, 1, 0.3f, 1);
+
+		if (ice) {
+			light.setColor(0, 0.3f, 1, 1);
+		} else {
+			light.setColor(0, 1, 0.3f, 1);
+		}
 
 		Graphics.startAlphaShape();
+
+		Color color = ice ? colorIce : Firefly.color;
+		Color off = ice ? offIce : Firefly.off;
 
 		if (rd > 2) {
 			Graphics.shape.setColor(color.r, color.g, color.b, 0.3f);
@@ -70,4 +82,7 @@ public class Firefly extends SaveableEntity {
 
 	private static Color color = Color.valueOf("#99e65f");
 	private static Color off = Color.valueOf("#134c4c");
+
+	public static Color colorIce = Color.valueOf("#0cf1ff");
+	private static Color offIce = Color.valueOf("#0069aa");
 }

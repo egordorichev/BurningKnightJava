@@ -7,6 +7,7 @@ import com.julienvey.trello.domain.Card;
 import com.julienvey.trello.domain.TList;
 import com.julienvey.trello.impl.TrelloImpl;
 import org.rexcellentgames.burningknight.util.Log;
+import org.rexcellentgames.burningknight.util.Random;
 
 import javax.swing.*;
 import java.awt.event.ComponentEvent;
@@ -36,6 +37,7 @@ public class Crash {
 		builder.append("\nJava VM version: ").append(System.getProperty("java.vm.name")).append(" (").append(System.getProperty("java.vm.info")).append("), ").append(System.getProperty("java.vm.vendor"));
 		builder.append("\nJava VM flags: ").append(getJavaVMFlags());
 		builder.append("\nMemory: ").append(getMemoryUsage());
+		builder.append("\nRandom seed: ").append(Random.getSeed());
 		builder.append("\n--- Exception cause: ---\n");
 
 		StringWriter writer = new StringWriter();

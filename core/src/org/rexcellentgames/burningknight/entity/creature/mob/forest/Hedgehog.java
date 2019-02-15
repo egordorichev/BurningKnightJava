@@ -30,7 +30,7 @@ public class Hedgehog extends Mob {
 	}
 
 	{
-		hpMax = 16;
+		hpMax = 8;
 
 		idle = getAnimation().get("idle");
 		hurt = getAnimation().get("hurt");

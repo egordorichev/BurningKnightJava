@@ -119,7 +119,7 @@ public class ShopRoom extends LockedRoom {
 
 	@Override
 	public int getMaxWidth() {
-		return 18;
+		return 16;
 	}
 
 	@Override

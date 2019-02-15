@@ -32,6 +32,7 @@ import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
+import org.rexcellentgames.burningknight.entity.creature.mob.tech.Bot;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickedFx;
 import org.rexcellentgames.burningknight.entity.creature.player.fx.ItemPickupFx;
 import org.rexcellentgames.burningknight.entity.fx.BloodDropFx;
@@ -48,6 +49,8 @@ import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
+import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
+import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
 import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
@@ -376,6 +379,20 @@ public class Player extends Creature {
 			String id = GlobalSave.getString("last_hat", null);
 			this.setHat(id);
 		}
+
+		if (Random.getSeed().equals("HP")) {
+			this.hpMax = 12;
+			this.hp = 12;
+		} else if (Random.getSeed().equals("DIE")) {
+			this.hpMax = 2;
+			this.hp = 2;
+		} else if (Random.getSeed().equals("BOMB")) {
+			this.bombs = 99;
+		} else if (Random.getSeed().equals("KEY")) {
+			this.keys = 99;
+		} else if (Random.getSeed().equals("GOLD")) {
+			this.money = 999;
+		}
 	}
 
 	private int numIronHearts;
@@ -487,7 +504,7 @@ public class Player extends Creature {
 			Graphics.render(balloon, this.x + (16 - balloon.getRegionWidth()) / 2 + bx + balloon.getRegionWidth() / 2, this.y + of + 32 + by, a, balloon.getRegionWidth() / 2, 0, false, false);
 		}
 		
-		if (last != null && count == 1) {
+		if (last != null && count == 1 && !Ui.hideUi) {
 			float dx = last.x + last.w / 2 - this.x - this.w / 2;
 			float dy = last.y + last.h / 2 - this.y - this.h / 2;
 			float d = (float) Math.sqrt(dx * dx + dy * dy);
@@ -578,7 +595,7 @@ public class Player extends Creature {
 				id += 8;
 			}
 
-			if (this.ui != null) {
+			if (this.ui != null && !isRolling()) {
 				this.ui.renderBeforePlayer(this, of);
 			}
 
@@ -651,6 +668,8 @@ public class Player extends Creature {
 					0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
 			}
 
+			Graphics.batch.setColor(1, 1, 1, 1);
+
 			if (shade || this.fa > 0) {
 				Graphics.batch.end();
 				Graphics.batch.setShader(null);
@@ -697,8 +716,6 @@ public class Player extends Creature {
 			ItemHolder item = (ItemHolder) entity;
 
 			if (item.getItem() instanceof Coin) {
-				this.playSfx("coin");
-
 				item.remove();
 				item.done = true;
 
@@ -769,7 +786,7 @@ public class Player extends Creature {
 
 				this.holders.add(item);
 
-				if (this.pickupFx == null && !Ui.hideUi) {
+				if (this.pickupFx == null) {
 					this.pickupFx = new ItemPickupFx(item, this);
 					this.area.add(this.pickupFx);
 				}
@@ -862,13 +879,14 @@ public class Player extends Creature {
 
 				return true;
 			} else if (item.getItem() instanceof WeaponBase) {
-				if (inventory.getSlot(0) == null) {
+				if (inventory.isEmpty(0)) {
 					inventory.setSlot(0, item.getItem());
 
 					item.getItem().setOwner(this);
 					item.getItem().onPickup();
 					item.remove();
 					item.done = true;
+
 					this.playSfx("pickup_item");
 
 					for (int j = 0; j < 3; j++) {
@@ -881,7 +899,7 @@ public class Player extends Creature {
 					}
 
 					return true;
-				} else if (inventory.getSlot(1) == null) {
+				} else if (inventory.isEmpty(1)) {
 					inventory.setSlot(1, item.getItem());
 					item.getItem().setOwner(this);
 					item.getItem().onPickup();
@@ -909,7 +927,7 @@ public class Player extends Creature {
 					this.playSfx("pickup_item");
 					return false;
 				}
-			} else if (item.getItem() instanceof ActiveItem) {
+			} else if (item.getItem() instanceof ActiveItem || (item.getItem() instanceof Consumable && !(item.getItem() instanceof Autouse))) {
 				if (inventory.getSlot(2) == null) {
 					inventory.setSlot(2, item.getItem());
 
@@ -953,7 +971,15 @@ public class Player extends Creature {
 
 	@Override
 	public void renderShadow() {
-		Graphics.shadow(this.x + this.hx, this.y, this.hw, this.hh, this.z);
+		float z = this.z;
+		boolean flying = false;
+
+		if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
+			z -= (float) (Math.cos(Dungeon.time * 9) * 1.5f);
+			flying = true;
+		}
+
+		Graphics.shadow(this.x + this.hx, this.y - (flying ? 3 : 0), this.hw, this.hh, z);
 	}
 
 	@Override
@@ -1103,7 +1129,7 @@ public class Player extends Creature {
 		light.setActive(true);
 		light.attachToBody(body, 8, 8, 0);
 		light.setPosition(x + 8, y + 8);
-		light.setDistance((float) (280 + Math.cos(Dungeon.time * 3) * 30));
+		light.setDistance(180);
 
 		if (Dungeon.depth == -3) {
 			this.tt += dt;
@@ -1139,7 +1165,7 @@ public class Player extends Creature {
 		if (this.hasBuff(BurningBuff.class)) {
 			this.light.setColor(1, 0.5f, 0f, 1);
 		} else {
-			this.light.setColor(1, 1, 0.5f, 1);
+			this.light.setColor(1, 1, 0.8f, 1);
 		}
 
 		if (!this.rolling) {
@@ -1345,17 +1371,17 @@ public class Player extends Creature {
 					float f = 80;
 					ignoreAcceleration = true;
 
-					if (acceleration.len() > 1f) {
+					/*if (acceleration.len() > 1f) {
 						double a = (Math.atan2(acceleration.y, acceleration.x));
 
 						acceleration.x = (float) Math.cos(a) * speed * f;
 						acceleration.y = (float) Math.sin(a) * speed * f;
-					} else {
+					} else {*/
 						double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
 						acceleration.x = (float) Math.cos(a) * speed * f;
 						acceleration.y = (float) Math.sin(a) * speed * f;
-					}
+					// }
 
 					for (int i = 0; i < 3; i++) {
 						PoofFx fx = new PoofFx();
@@ -1556,7 +1582,7 @@ public class Player extends Creature {
 	@Override
 	protected void onRoomChange() {
 		super.onRoomChange();
-		// Log.error(BurningKnight.instance + " " + (BurningKnight.instance == null ? "null" : BurningKnight.instance.getArea()) + " " + Dungeon.area);
+		Bot.data.clear();
 
 		InGameState.checkMusic();
 
@@ -1913,8 +1939,9 @@ public class Player extends Creature {
 
 		this.inventory.load(reader);
 
-		this.mana = reader.readInt32();
+		reader.readInt32(); // mana
 		this.manaMax = reader.readInt32();
+		this.mana = manaMax;
 		this.level = reader.readInt32();
 
 		float last = this.speed;

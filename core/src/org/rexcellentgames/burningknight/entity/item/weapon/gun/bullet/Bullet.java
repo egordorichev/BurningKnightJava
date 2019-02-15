@@ -10,8 +10,4 @@ public class Bullet extends Item {
 		stackable = true;
 		useable = false;
 	}
-
-	@Override
-	public void render(float x, float y, float w, float h, boolean flipped) {
-	}
 }

@@ -46,7 +46,7 @@ public class FilledRombRoom extends RegularRoom {
 		floor = Random.chance(50) ? Terrain.WALL : (Random.chance(30) ? Terrain.LAVA : Terrain.CHASM);
 
 		if (r < 0.33f) {
-			int m = Random.newInt(2, 5) + 2;
+			int m = Random.newInt(2, 5) + 3;
 
 			if (Random.chance(50)) {
 				Painter.fillEllipse(level, this, m - Random.newInt(1, 3), fix);
@@ -56,7 +56,7 @@ public class FilledRombRoom extends RegularRoom {
 				Painter.fill(level, this, m, floor);
 			}
 		} else if (r < 0.66f) {
-			int m = Random.newInt(1, 3);
+			int m = Random.newInt(1, 3) + 1;
 			Rect rect = this.shrink((int) ((ww - 0.5) / 2 + m), (int) ((hh - 0.5) / 2 + m));
 
 			if (Random.chance(50)) {

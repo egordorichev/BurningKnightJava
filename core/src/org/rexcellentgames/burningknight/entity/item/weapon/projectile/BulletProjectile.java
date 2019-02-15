@@ -14,6 +14,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SimplePart;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
@@ -26,10 +27,12 @@ import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.entity.pattern.BulletPattern;
 import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -37,7 +40,7 @@ public class BulletProjectile extends Projectile {
 	private static TextureRegion burst = Graphics.getTexture("bullet-thrust");
 	public TextureRegion sprite;
 	public float a;
-	private float ra;
+	public float ra;
 	public boolean remove;
 	public String letter;
 	public boolean circleShape;
@@ -58,6 +61,7 @@ public class BulletProjectile extends Projectile {
 	public boolean renderCircle = true;
 	public boolean brokeWeapon = false;
 	public float alp = 1f;
+	public int bounce;
 
 	protected PointLight light;
 
@@ -93,23 +97,33 @@ public class BulletProjectile extends Projectile {
 			this.h = sprite.getRegionHeight();
 		}
 
-		light = World.newLight(32, new Color(1, 1, 1, 1f), 64, x, y, true);
+		if (!noLight) {
+			light = World.newLight(32, new Color(1, 0, 0, 1f), 64, x, y, false);
+
+			if (letter != null) {
+				switch (this.letter) {
+					case "bullet-a":
+					case "bullet-missile":
+						light.setColor(1, 1, 0, 1);
+						break;
+					case "bullet-bill":
+						light.setColor(0, 1, 0.3f, 1);
+						lightUp = false;
+						break;
+					case "bullet-snow":
+						light.setColor(0.5f, 1, 1, 1);
+						break;
+				}
+			}
+		}
 
 		if (this.letter != null) {
-			switch (this.letter) {
-				case "nano": case "bullet-skull": case "bullet-rekt": case "bullet-rect": case "bullet-atom": case "bullet-nano": case "bullet-missile_burning": light.setColor(1, 0, 0, 1); break;
-				case "bullet-a": case "bullet-missile": light.setColor(1, 1, 0, 1); break;
-				case "bullet-bill": light.setColor(0, 1, 0.3f, 1); lightUp = false; break;
-				case "bullet-snow": light.setColor(0.5f, 1, 1, 1); break;
-			}
-
 			if (this.letter.equals("bullet-rekt")) {
-				second = true;
 				noRotation = false;
 			} else if (this.letter.equals("bullet-bone")) {
 				this.depth = 16;
 				second = false;
-			} else if (this.letter.equals("bullet-rect") || this.letter.equals("bullet-nano") || this.letter.equals("bullet-atom")) {
+			} else if (this.letter.equals("bullet-bad") || this.letter.equals("bullet-rect") || this.letter.equals("bullet-nano") || this.letter.equals("bullet-atom") || this.letter.equals("bullet-A") || this.letter.equals("bullet-h")) {
 				this.noRotation = true;
 				this.second = false;
 			} else if (this.letter.equals("bullet-snow")) {
@@ -130,25 +144,32 @@ public class BulletProjectile extends Projectile {
 			} else if (this.letter.equals("bullet-bolt")) {
 				second = false;
 				lightUp = false;
+			} else if (this.letter.equals("bullet-book")) {
+				lightUp = false;
+				second = false;
+				rotates = true;
+				rotationSpeed = 0.3f;
 			}
 		}
 
 		if ((this.w == this.h || circleShape) && !rectShape) {
-			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, true);
+			this.body = World.createCircleCentredBody(this, 0, 0, (float) Math.ceil((this.h) / 2), BodyDef.BodyType.DynamicBody, bounce == 0);
 		} else {
-			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, true);
+			this.body = World.createSimpleCentredBody(this, 0, 0, this.w, this.h, BodyDef.BodyType.DynamicBody, bounce == 0);
 		}
 
-		if (this.body != null) {
-			World.checkLocked(this.body).setTransform(this.x, this.y, (float) (ra));
-			this.body.setBullet(true);
-		}
+		body.getFixtureList().get(0).setRestitution(1f);
+		body.setTransform(x, y, ra);
+		body.setBullet(true);
+		body.setLinearVelocity(this.velocity);
 
 		penetrates = !canBeRemoved;
 	}
 
 	public boolean rectShape;
 	public boolean canBeRemoved = true;
+
+	public boolean noLight;
 
 	public void countRemove() {
 
@@ -167,7 +188,8 @@ public class BulletProjectile extends Projectile {
 
 		Graphics.batch.end();
 		RectFx.shader.begin();
-		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= 4f && (this.t - 4f) % 0.3f > 0.15f) ? 1 : 0);
+		RectFx.shader.setUniformf("white", (this.dissappearWithTime && this.t >= ds && (this.t - ds) % 0.3f > 0.15f) ? 1 : 0);
+		alp = 1;
 
 		RectFx.shader.setUniformf("r", 1f);
 		RectFx.shader.setUniformf("g", 1f);
@@ -212,6 +234,8 @@ public class BulletProjectile extends Projectile {
 		Graphics.batch.end();
 		Graphics.batch.setShader(null);
 		Graphics.batch.begin();
+		Graphics.batch.setColor(1, 1, 1, 1);
+
 	}
 
 	@Override
@@ -237,6 +261,17 @@ public class BulletProjectile extends Projectile {
 				Player player = (Player) ((WeaponBase) entity).getOwner();
 				double a = this.getAngleTo(player.x + player.w / 2, player.y + player.h / 2) - Math.PI;
 				double d = Math.sqrt(velocity.x * velocity.x + velocity.y * velocity.y);
+
+				if (pattern != null) {
+					pattern.removeBullet(this);
+					ignoreVel = false;
+					ignoreBodyPos = false;
+					d = 60;
+					dissappearWithTime = false;
+					// d = Math.sqrt(pattern.velocity.x * pattern.velocity.x + pattern.velocity.y * pattern.velocity.y);
+					Dungeon.area.add(this, true);
+				}
+
 				this.velocity.x = (float) (d * Math.cos(a));
 				this.velocity.y = (float) (d * Math.sin(a));
 				this.bad = false;
@@ -271,7 +306,16 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	protected boolean breaksFrom(Entity entity) {
-		return this.canBeRemoved && (entity == null || (entity instanceof SolidProp && !(entity instanceof Turret || entity instanceof Slab)) || entity instanceof Door);
+		return this.canBeRemoved && ((entity == null) || (entity instanceof SolidProp && !(entity instanceof Turret || entity instanceof Slab)) || entity instanceof Door);
+	}
+
+	@Override
+	public void brak() {
+		bounce --;
+
+		if (bounce < 0) {
+			super.brak();
+		}
 	}
 
 	@Override
@@ -282,7 +326,12 @@ public class BulletProjectile extends Projectile {
 				return this.canBeRemoved;
 			}
 		} else if (entity instanceof Mob) {
-			this.doHit(entity);
+			if (!(entity instanceof IceElemental)) {
+				this.doHit(entity);
+			} else {
+				return false;
+			}
+
 			return this.canBeRemoved;
 		}
 
@@ -297,6 +346,8 @@ public class BulletProjectile extends Projectile {
 			Dungeon.slowDown(0.5f, 0.5f);
 		}
 	}
+
+	public float ds = 4f;
 
 	@Override
 	protected void onHit(Entity entity) {
@@ -315,7 +366,11 @@ public class BulletProjectile extends Projectile {
 	public void logic(float dt) {
 		if (this.delay > 0) {
 			World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
-			light.setPosition(x, y);
+
+			if (!noLight) {
+				light.setPosition(x, y);
+			}
+
 			this.delay -= dt;
 			return;
 		}
@@ -326,7 +381,7 @@ public class BulletProjectile extends Projectile {
 			this.anim.update(dt);
 		}
 
-		if (this.dissappearWithTime && this.t >= 5f) {
+		if (this.dissappearWithTime && this.t >= ds + 1) {
 			this.death();
 			this.remove = true;
 			this.broke = true;
@@ -362,12 +417,8 @@ public class BulletProjectile extends Projectile {
 			}
 		}
 
-		this.ra = (float) Math.atan2(this.velocity.y, this.velocity.x);
-
 		if (this.rotates) {
 			this.a += dt * 360 * 2 * dir * rotationSpeed;
-		} else {
-			this.a = (float) Math.toDegrees(this.ra);
 		}
 
 		this.control();
@@ -382,19 +433,24 @@ public class BulletProjectile extends Projectile {
 			float f = 60f;
 			this.velocity.x = (float) (Math.cos(this.angle) * f);
 			this.velocity.y = (float) (Math.sin(this.angle) * f);
-		}
-
-		if (delay <= 0) {
-			this.x += this.velocity.x * dt;
-			this.y += this.velocity.y * dt;
 
 			this.body.setLinearVelocity(this.velocity);
 		}
 
-		World.checkLocked(this.body).setTransform(this.x, this.y, (float) (this.ra));
+		if (this.bounce == 0) {
+			this.x += this.velocity.x * dt;
+			this.y += this.velocity.y * dt;
+			this.body.setTransform(this.x, this.y, ra);
+		}
 
-		light.setPosition(x, y);
+		//World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
+
+		if (!noLight) {
+			light.setPosition(x, y);
+		}
 	}
+
+	public BulletPattern pattern;
 
 	@Override
 	protected void onDeath() {
@@ -411,14 +467,32 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (entity == null) {
+			return true;
+		}
+
 		if (entity instanceof Orbital) {
 			return true;
 		}
 
-		if (entity != null && !((entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad))) {
+		if (!((entity instanceof BulletProjectile && ((Projectile) entity).bad != this.bad))) {
 			return false;
 		}
 
 		return super.shouldCollide(null, contact, fixture);
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (this.body != null) {
+			this.velocity.x = this.body.getLinearVelocity().x;
+			this.velocity.y = this.body.getLinearVelocity().y;
+
+			ra = (float) Math.atan2(this.velocity.y, this.velocity.x);
+			a = (float) Math.toDegrees(ra);
+			body.setTransform(x, y, ra);
+		}
 	}
 }

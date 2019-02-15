@@ -5,12 +5,11 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import org.rexcellentgames.burningknight.Display;
-import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Noise;
-import org.rexcellentgames.burningknight.Settings;
+import org.rexcellentgames.burningknight.*;
+import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
+import org.rexcellentgames.burningknight.entity.level.rooms.FloatingRoom;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.MathUtils;
@@ -114,11 +113,57 @@ public class Camera extends Entity {
 	private static Room lastRoom;
 	private static Vector2 mousePosition = new Vector2();
 	private static float t;
+	private static Vector2 offset = new Vector2();
+	private static Vector2 velocity = new Vector2();
+	private static boolean ignoreMouse;
 
 	@Override
 	public void update(float dt) {
 		if (last != null && last.done) {
 			last = null;
+		}
+
+		if (Version.debug) {
+			if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.NUMPAD_0)) {
+				if (target == null) {
+					follow(Player.instance, false);
+				} else {
+					follow(null);
+				}
+			}
+
+			if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.NUMPAD_7)) {
+				ignoreMouse = !ignoreMouse;
+			}
+
+			if (Gdx.input.isKeyJustPressed(com.badlogic.gdx.Input.Keys.NUMPAD_5)) {
+				offset.x = 0;
+				offset.y = 0;
+			}
+
+			float s = dt * 230;
+
+			if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.NUMPAD_4)) {
+				velocity.x -= s;
+			}
+
+			if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.NUMPAD_6)) {
+				velocity.x += s;
+			}
+
+			if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.NUMPAD_8)) {
+				velocity.y += s;
+			}
+
+			if (Gdx.input.isKeyPressed(com.badlogic.gdx.Input.Keys.NUMPAD_2)) {
+				velocity.y -= s;
+			}
+
+			offset.x += velocity.x * dt;
+			offset.y += velocity.y * dt;
+
+			velocity.x -= velocity.x * dt * 3;
+			velocity.y -= velocity.y * dt * 3;
 		}
 
 		if (Dungeon.game.getState() != null && !Dungeon.game.getState().isPaused()) {
@@ -135,7 +180,7 @@ public class Camera extends Entity {
 			int y = (int) (target.y + target.h / 2);
 
 			if (target instanceof Player && !((Player) target).toDeath) {
-				if (!Dungeon.game.getState().isPaused()) {
+				if (!Dungeon.game.getState().isPaused() && !ignoreMouse) {
 					mousePosition.x = Input.instance.worldMouse.x;
 					mousePosition.y = Input.instance.worldMouse.y;
 				}
@@ -147,10 +192,14 @@ public class Camera extends Entity {
 				camPosition = camPosition.lerp(new Vector2(x, y), dt * speed);
 
 				if (target instanceof Player) {
+					if (!Player.instance.isDead() && BurningKnight.instance != null && !BurningKnight.instance.getState().equals("unactive") && !BurningKnight.instance.getState().equals("defeated")) {
+						camPosition = camPosition.lerp(new Vector2(BurningKnight.instance.x + BurningKnight.instance.w / 2, BurningKnight.instance.y + BurningKnight.instance.h / 2), dt * speed * 0.1f);
+					}
+
 					camPosition = camPosition.lerp(new Vector2(mousePosition.x, mousePosition.y), dt * speed * 0.25f);
 					Player p = (Player) target;
 
-					if (p.room != null && p.room.lastNumEnemies > 0) {
+					if (p.room != null && p.room.lastNumEnemies > 0 && !(p.room instanceof FloatingRoom)) {
 						camPosition = camPosition.lerp(new Vector2(p.room.getCenter().x * 16 + 8, p.room.getCenter().y * 16 + 8), dt * speed * 0.5f);
 					}
 				}
@@ -172,28 +221,25 @@ public class Camera extends Entity {
 						Spawn.instance.room.bottom * 16 - Display.GAME_HEIGHT / 2 - 16, camPosition.y);
 				}
 			} else {
-				game.position.x = camPosition.x;
-				game.position.y = camPosition.y;
+				game.position.x = camPosition.x + offset.x;
+				game.position.y = camPosition.y + offset.y;
 			}
 
 			game.update();
 		}
 	}
 
-	private static float mx;
-	private static float my;
 	public static float ma;
 
 	public static void applyShake() {
-		mx = 0;
-		my = 0;
-
 		if (!noMove) {
+			float mx;
+			float my;
 			float shake = st * st;
 			float tt = t * 13;
 
 			if (shake > 0.1f) {
-				mx = (Noise.instance.noise(tt) * shake);
+				mx = Noise.instance.noise(tt) * shake;
 				my = (Noise.instance.noise(tt + 1) * shake);
 				ma = (Noise.instance.noise(tt + 2) * shake * 0.5f);
 			} else {
@@ -223,8 +269,8 @@ public class Camera extends Entity {
 	}
 
 	public static void removeShake() {
-		game.position.add(-mx, -my, 0);
-		//game.rotate(-ma);
+		game.position.x = camPosition.x + offset.x;
+		game.position.y = camPosition.y + offset.y;
 		game.update();
 	}
 
