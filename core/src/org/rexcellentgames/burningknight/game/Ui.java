@@ -151,19 +151,206 @@ public class Ui {
 	private String time;
 	private float timeW;
 	private String depth;
+	private boolean won;
 
 	private static String killsLocale = Locale.get("kills");
 
-	public void onDeath() {
+	public void onWin() {
+		won = true;
 		SaveManager.delete();
 
 		depth = Dungeon.level == null ? "Unknown" : Dungeon.level.formatDepth();
 		kills = GameSave.killCount + " " + killsLocale;
 
-		time = String.format("%02d", (int) Math.floor(GameSave.time / 3600)) + ":" +
-			String.format("%02d", (int) Math.floor(GameSave.time / 60)) + ":" +
-			String.format("%02d", (int) Math.floor(GameSave.time % 60)) + ":" +
-			String.format("%02d", (int) Math.floor(GameSave.time % 1 * 100));
+		time = String.format("%02d:%02d:%02d.%02d", (int) Math.floor(GameSave.time / 3600),
+			(int) Math.floor(GameSave.time / 60), (int) Math.floor(GameSave.time % 60),
+			((int) Math.floor(GameSave.time % 1 * 100)));
+
+		Graphics.layout.setText(Graphics.small, time);
+		timeW = Graphics.layout.width;
+
+		val = 1;
+
+		Tween.to(new Tween.Task(0, 1f) {
+			@Override
+			public void onEnd() {
+				{
+					Tween.to(new Tween.Task(1f, 0.3f) {
+						@Override
+						public float getValue() {
+							return Dungeon.grayscale;
+						}
+
+						@Override
+						public void setValue(float value) {
+							Dungeon.grayscale = value;
+						}
+					}).delay(0.15f);
+
+					Tween.to(new Tween.Task(1, 0.05f) {
+						@Override
+						public float getValue() {
+							return al;
+						}
+
+						@Override
+						public void setValue(float value) {
+							al = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+								@Override
+								public float getValue() {
+									return mainY;
+								}
+
+								@Override
+								public void setValue(float value) {
+									mainY = value;
+								}
+							});
+
+							Tween.to(new Tween.Task(52, 0.2f) {
+								@Override
+								public float getValue() {
+									return size;
+								}
+
+								@Override
+								public void setValue(float value) {
+									size = value;
+								}
+
+								@Override
+								public void onEnd() {
+									Tween.to(new Tween.Task(0, 0.4f, Tween.Type.BACK_OUT) {
+										@Override
+										public float getValue() {
+											return killX;
+										}
+
+										@Override
+										public void setValue(float value) {
+											killX = value;
+										}
+									});
+								}
+							});
+
+							Tween.to(new Tween.Task(0, 0.1f) {
+								@Override
+								public float getValue() {
+									return al;
+								}
+
+								@Override
+								public void setValue(float value) {
+									al = value;
+								}
+							});
+						}
+					});
+
+					// todo: other track
+					Audio.play("Nostalgia");
+					Audio.reset();
+
+					UiButton button = (UiButton) Dungeon.ui.add(new UiButton("play_again", Display.UI_WIDTH / 2 + Display.UI_WIDTH, 107 + 24) {
+						@Override
+						public void onClick() {
+							super.onClick();
+
+							rst();
+
+							InGameState.startTween = true;
+							InGameState.newGame = true;
+						}
+					});
+
+					final UiButton finalButton3 = button;
+					Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+						@Override
+						public float getValue() {
+							return finalButton3.x;
+						}
+
+						@Override
+						public void setValue(float value) {
+							finalButton3.x = value;
+						}
+					}).delay(0.3f);
+
+					Dungeon.ui.select(button);
+
+					if (Dungeon.depth != -3) {
+						button = (UiButton) Dungeon.ui.add(new UiButton("back_to_castle", Display.UI_WIDTH / 2 - Display.UI_WIDTH, 107) {
+							@Override
+							public void onClick() {
+								super.onClick();
+
+								rst();
+								Dungeon.backToCastle(true, -2);
+								Camera.shake(3);
+							}
+						});
+
+						Dungeon.ui.select(button);
+
+
+						UiButton finalButton = button;
+						Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return finalButton.x;
+							}
+
+							@Override
+							public void setValue(float value) {
+								finalButton.x = value;
+							}
+						}).delay(0.3f);
+
+						button = (UiButton) Dungeon.ui.add(new UiButton("menu", Display.UI_WIDTH / 2 + Display.UI_WIDTH, 83) {
+							@Override
+							public void onClick() {
+								super.onClick();
+
+								rst();
+								State.transition(() -> Dungeon.game.setState(new MainMenuState()));
+								Camera.shake(3);
+							}
+						});
+
+						UiButton finalButton1 = button;
+						Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return finalButton1.x;
+							}
+
+							@Override
+							public void setValue(float value) {
+								finalButton1.x = value;
+							}
+						}).delay(0.3f);
+					}
+				}
+			}
+		});
+	}
+
+	public void onDeath() {
+		won = false;
+		SaveManager.delete();
+
+		depth = Dungeon.level == null ? "Unknown" : Dungeon.level.formatDepth();
+		kills = GameSave.killCount + " " + killsLocale;
+
+		time = String.format("%02d:%02d:%02d.%02d", (int) Math.floor(GameSave.time / 3600),
+			(int) Math.floor(GameSave.time / 60), (int) Math.floor(GameSave.time % 60),
+			((int) Math.floor(GameSave.time % 1 * 100)));
 
 		Graphics.layout.setText(Graphics.small, time);
 		timeW = Graphics.layout.width;
@@ -557,11 +744,12 @@ public class Ui {
 			}
 
 			if (this.mainY != -128) {
-				Graphics.print(killLocale, Graphics.medium, y - 16 + this.mainY);
+				Graphics.print(won ? wonLocale : killLocale, Graphics.medium, y - 16 + this.mainY);
 			}
 		}
 	}
 
+	private static String wonLocale = Locale.get("you_won");
 	private static String killLocale = Locale.get("didnt_kill_bk");
 	private static String kill2Locale = Locale.get("killed_yet_dead");
 	private static String hintStr = Locale.get("upgrade_hint");

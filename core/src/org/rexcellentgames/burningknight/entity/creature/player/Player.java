@@ -1872,7 +1872,6 @@ public class Player extends Creature {
 		}
 
 		UiMap.instance.hide();
-
 		Ui.ui.onDeath();
 
 		this.done = false;

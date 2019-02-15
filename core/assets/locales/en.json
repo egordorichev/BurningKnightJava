@@ -1,6 +1,6 @@
 {
-	// fixme: remove autouse
-
+	"play_again" : "Play Again",
+	"you_won" : "You Won",
 	"$$$": "$$$",
 	"aim": "Gun Aim Module",
 	"aim_desc": "Our army uses those a lot. They\ngive them higher accuracy, and we\nmass produced them in the great goblin war.",

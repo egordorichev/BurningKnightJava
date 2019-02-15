@@ -412,6 +412,7 @@ public class InGameState extends State {
 
 		Sound sound = Audio.getSound("airhorn");
 		sound.stop(hsfx);
+		Camera.shake(5);
 		hsfx = sound.play(Settings.sfx);
 	}
 
@@ -569,6 +570,7 @@ public class InGameState extends State {
 
 		if (Input.instance.wasPressed("F")) {
 			horn();
+			Ui.ui.onWin();
 		}
 		
 		if (Version.debug) {
