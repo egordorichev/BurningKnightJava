@@ -733,17 +733,17 @@ public class Dungeon extends ApplicationAdapter {
 		Graphics.batch.draw(texture, -Display.UI_WIDTH * upscale / 2, Display.UI_HEIGHT * upscale / 2, Display.UI_WIDTH * upscale,
 			-Display.UI_HEIGHT * upscale);
 
-		Graphics.batch.setShader(null);
 		Graphics.batch.end();
+		Graphics.batch.setShader(null);
 	}
 
 	private Point inputVel = new Point();
-	private Vector2 angle = new Vector2(0.0001f, 1.0f);
+	// private Vector2 angle = new Vector2(0.0001f, 1.0f);
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
 
-		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
+		// float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
 	}
 
 	@Override
