@@ -446,6 +446,8 @@ public class InGameState extends State {
 	public static boolean triggerPause;
 	private float t;
 
+	private boolean won;
+
 	@Override
 	public void update(float dt) {
 		t += dt;
@@ -570,7 +572,11 @@ public class InGameState extends State {
 
 		if (Input.instance.wasPressed("F")) {
 			horn();
-			Ui.ui.onWin();
+
+			if (!won) {
+				won = true;
+				Ui.ui.onWin();
+			}
 		}
 		
 		if (Version.debug) {

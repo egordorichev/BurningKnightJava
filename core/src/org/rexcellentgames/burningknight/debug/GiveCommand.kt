@@ -19,19 +19,16 @@ class GiveCommand : ConsoleCommand("/give", "/gv", "[item] (count) gives an item
       val item: Item
       
       try {
-        item = if (name.contains(":")) {
-          ItemRegistry.modItems[name] as Item
-        } else {
-          val clazz = ItemRegistry.items[name]
 
-          if (clazz == null) {
-            Log.error("Unknown item $name")
+        val clazz = ItemRegistry.items[name]
 
-            return
-          }
+        if (clazz == null) {
+          Log.error("Unknown item $name")
 
-          clazz.type.newInstance()
+          return
         }
+
+        item = clazz.type.newInstance()
 
         if (item.isStackable) {
           item.count = count
