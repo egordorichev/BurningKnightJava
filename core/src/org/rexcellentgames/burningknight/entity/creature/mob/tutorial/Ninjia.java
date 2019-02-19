@@ -138,13 +138,6 @@ public class Ninjia extends Mob {
 		}
 	}
 
-	@Override
-	public void initStats() {
-		super.initStats();
-
-		setStat("knockback", 0);
-	}
-
 	protected float waitT;
 	private boolean doTp;
 

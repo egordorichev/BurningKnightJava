@@ -5,9 +5,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
@@ -17,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.Wand;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
-import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
@@ -122,24 +118,7 @@ public class UiInventory extends UiEntity {
 					e.owner = Player.instance;
 
 					Player player = Player.instance;
-
 					e.leaveSmall = player.leaveSmall;
-
-					if (player.fireBombs) {
-						e.toApply.add(new BurningBuff());
-					}
-
-					if (player.iceBombs) {
-						e.toApply.add(new FreezeBuff());
-					}
-
-					if (player.poisonBombs) {
-						e.toApply.add(new PoisonBuff());
-					}
-
-					if (player.manaBombs) {
-						player.modifyMana(player.getManaMax());
-					}
 
 					Dungeon.area.add(e);
 				}

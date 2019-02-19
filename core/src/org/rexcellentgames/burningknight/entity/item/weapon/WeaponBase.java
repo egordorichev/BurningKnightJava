@@ -11,18 +11,31 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.util.Random;
 
 public class WeaponBase extends Item {
+	public static ShaderProgram shader;
+	private static String critLocale = Locale.get("crit_chance");
+	private static String damageLocale = Locale.get("damage");
+	private static String penetratesLocale = Locale.get("penetrates");
+
+	static {
+		String vertexShader;
+		String fragmentShader;
+		vertexShader = Gdx.files.internal("shaders/default.vert").readString();
+		fragmentShader = Gdx.files.internal("shaders/blink.frag").readString();
+		shader = new ShaderProgram(vertexShader, fragmentShader);
+		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
+	}
+
 	public int damage = 2;
-	protected int minDamage = -1;
 	public float timeA = 0.1f;
 	public float timeDelay = 0f;
-	protected float timeB = 0.1f;
-	protected float knockback = 10f;
-	public float critChance = 4f;
-	public static boolean luck;
 	public int initialDamage;
 	public int initialDamageMin;
-	public float initialCrit;
-	
+	protected int minDamage = -1;
+	protected float timeB = 0.1f;
+	protected float knockback = 10f;
+	protected boolean penetrates;
+	private float t;
+
 	protected String getSfx() {
 		return "whoosh";
 	}
@@ -32,47 +45,17 @@ public class WeaponBase extends Item {
 		return 15;
 	}
 
-	public void modifyUseTime(float am) {
-		this.useTime += am;
-
-		if (this.timeB == 0) {
-			this.timeA += am;
-		} else {
-			this.timeA += am / 2;
-			this.timeB += am / 2;
-		}
+	@Override
+	public void onPickup() {
+		super.onPickup();
+		this.t = Random.newFloat(10f);
 	}
 
-	public void setCritChance(float c) {
-		this.initialCrit = this.critChance;
-		this.critChance = c;
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+		this.t += dt;
 	}
-
-	public void resetCritChance() {
-		this.critChance = initialCrit;
-	}
-
-	protected boolean lastCrit;
-
-	public int rollDamage() {
-		if (this.owner == null) {
-			this.owner = Player.instance;
-		}
-
-		if (this.minDamage == -1) {
-			minDamage = Math.round(((float) damage) / 3 * 2);
-		}
-
-		lastCrit = Random.chance(this.critChance + this.owner.getStat("crit_chance") * 10);
-
-		if (this.owner.isTouching(Terrain.ICE)) {
-			return this.damage * (lastCrit ? 2 : 1);
-		}
-
-		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
-	}
-
-	protected boolean penetrates;
 
 	@Override
 	public StringBuilder buildInfo() {
@@ -99,16 +82,6 @@ public class WeaponBase extends Item {
 		builder.append(damageLocale);
 		builder.append("[gray]");
 
-		float stat = this.owner.getStat("crit_chance") * 10;
-
-		if (this.critChance + stat != 4f) {
-			builder.append("\n[orange]");
-			builder.append((int) Math.floor(this.critChance + stat));
-			builder.append("% ");
-			builder.append(critLocale);
-			builder.append("[gray]");
-		}
-
 		if (this.penetrates || this.owner.penetrates) {
 			builder.append("\n[green]");
 			builder.append(penetratesLocale);
@@ -118,9 +91,21 @@ public class WeaponBase extends Item {
 		return builder;
 	}
 
-	private static String critLocale = Locale.get("crit_chance");
-	private static String damageLocale = Locale.get("damage");
-	private static String penetratesLocale = Locale.get("penetrates");
+	public int rollDamage() {
+		if (this.owner == null) {
+			this.owner = Player.instance;
+		}
+
+		if (this.minDamage == -1) {
+			minDamage = Math.round(((float) damage) / 3 * 2);
+		}
+
+		if (this.owner.isTouching(Terrain.ICE)) {
+			return this.damage;
+		}
+
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage));
+	}
 
 	public void modifyDamage(int am) {
 		this.initialDamage = damage;
@@ -138,22 +123,6 @@ public class WeaponBase extends Item {
 	public void renderAt(float x, float y, float ox, float oy, float scale) {
 		renderAt(x, y, 0, ox, oy, false, false, scale, scale);
 	}
-
-	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy) {
-		renderAt(x, y, a, ox, oy, fx, fy, 1, 1);
-	}
-
-	public static ShaderProgram shader;
-
-	static {
-		String vertexShader;
-		String fragmentShader;
-		vertexShader = Gdx.files.internal("shaders/default.vert").readString();
-		fragmentShader = Gdx.files.internal("shaders/blink.frag").readString();
-		shader = new ShaderProgram(vertexShader, fragmentShader);
-		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
-	}
-
 
 	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy) {
 		renderAt(x, y, a, ox, oy, fx, fy, sx, sy, 1, 1);
@@ -177,23 +146,13 @@ public class WeaponBase extends Item {
 		Graphics.batch.begin();
 	}
 
-	private float t;
-
-	@Override
-	public void update(float dt) {
-		super.update(dt);
-		this.t += dt;
+	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy) {
+		renderAt(x, y, a, ox, oy, fx, fy, 1, 1);
 	}
 
 	@Override
 	public void init() {
 		super.init();
-		this.t = Random.newFloat(10f);
-	}
-
-	@Override
-	public void onPickup() {
-		super.onPickup();
 		this.t = Random.newFloat(10f);
 	}
 }

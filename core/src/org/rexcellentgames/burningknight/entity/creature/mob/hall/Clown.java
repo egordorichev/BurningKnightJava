@@ -43,12 +43,6 @@ public class Clown extends Mob {
 	}
 
 	@Override
-	public void initStats() {
-		super.initStats();
-		this.setStat("blockChance", 0.7f);
-	}
-
-	@Override
 	public float getWeight() {
 		return 0.7f;
 	}

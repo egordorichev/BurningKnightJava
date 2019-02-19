@@ -22,13 +22,6 @@ public class RangedKnight extends Knight {
 	}
 
 	@Override
-	public void initStats() {
-		super.initStats();
-		setStat("reload_time", 1);
-		setStat("ammo_capacity", 1);
-	}
-
-	@Override
 	public void init() {
 		super.init();
 

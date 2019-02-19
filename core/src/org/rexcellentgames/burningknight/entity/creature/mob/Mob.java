@@ -110,8 +110,6 @@ public class Mob extends Creature {
 		if (Random.chance(50)) {
 			this.become("roam");
 		}
-
-		this.stats.put("block_chance", 0f);
 	}
 
 	public Mob generate() {

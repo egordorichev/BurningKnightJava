@@ -50,12 +50,6 @@ public class Thief extends Mob {
 	}
 
 	@Override
-	public void initStats() {
-		super.initStats();
-		this.setStat("block_chance", 0.2f);
-	}
-
-	@Override
 	public void renderShadow() {
 		Graphics.shadow(this.x, this.y, this.w, this.h, 0, this.a);
 	}

@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
@@ -60,13 +59,20 @@ public class Creature extends SaveableEntity {
 	public float a = 1f;
 	public long lastIndex;
 	public boolean invisible;
-	protected boolean flying = false;
 	public boolean penetrates;
 	public boolean explosionBlock;
 	public boolean freezed;
 	public boolean poisoned;
 	public float speed = 10f;
 	public float maxSpeed = 90f;
+	public int hx;
+	public int hy;
+	public boolean remove;
+	public int slowLiquidResist = 0;
+	public int iceResitant;
+	public Point knockback = new Point();
+	public Room room;
+	protected boolean flying = false;
 	protected int hp;
 	protected int hpMax;
 	protected int damage = 2;
@@ -78,20 +84,23 @@ public class Creature extends SaveableEntity {
 	protected float mul = 0.7f;
 	protected float timer;
 	protected boolean flipped = false;
-	public int hx;
-	public int hy;
 	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
 	protected float invtt;
 	protected boolean shouldDie = false;
-	public boolean remove;
+	protected boolean ignorePos;
+	protected Point acceleration = new Point();
+	protected boolean touches[] = new boolean[Terrain.SIZE];
+	protected boolean ignoreAcceleration;
+	protected float invTime = 0.2f;
+	public float knockbackMod = 1f;
 
 	public float getWeaponAngle() {
 		Point aim = getAim();
 		return getAngleTo(aim.x, aim.y);
 	}
 
-	public boolean isFlying() {
-		return this.flying;
+	public Point getAim() {
+		return Input.instance.worldMouse;
 	}
 
 	public Body createSimpleBody(int x, int y, int w, int h, BodyDef.BodyType type, boolean sensor) {
@@ -136,9 +145,7 @@ public class Creature extends SaveableEntity {
 		super.init();
 
 		this.t = Random.newFloat(1024);
-
 		this.hp = this.hpMax;
-		this.initStats();
 	}
 
 	@Override
@@ -150,13 +157,38 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void onRoomChange() {
-
-	}
-
 	@Override
 	public void renderShadow() {
 		Graphics.shadowSized(this.x, this.y, this.w, this.h, 6);
+	}
+
+	@Override
+	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
+		if (this.isFlying() && entity instanceof Level) {
+			return false;
+		} else if (entity instanceof Creature) {
+			if (this.hasBuff(BurningBuff.class)) {
+				((Creature) entity).addBuff(new BurningBuff());
+			}
+
+			if (!(this instanceof Player && entity instanceof Mummy)) {
+				return false;
+			}
+		} else if (entity instanceof ItemHolder) {
+			return false;
+		} else if (entity instanceof Weapon && ((Weapon) entity).getOwner() == this) {
+			return false;
+		}
+
+		return super.shouldCollide(entity, contact, fixture);
+	}
+
+	public boolean hasBuff(Class<? extends Buff> buff) {
+		return this.buffs.containsKey(buff);
+	}
+
+	protected void onRoomChange() {
+
 	}
 
 	public void deathEffect(AnimationData killed) {
@@ -227,11 +259,6 @@ public class Creature extends SaveableEntity {
 			Dungeon.area.add(fx);
 		}
 	}
-
-	protected boolean ignorePos;
-	protected Point acceleration = new Point();
-	protected boolean touches[] = new boolean[Terrain.SIZE];
-	protected boolean ignoreAcceleration;
 
 	@Override
 	public void update(float dt) {
@@ -347,8 +374,6 @@ public class Creature extends SaveableEntity {
 		return false;
 	}
 
-	public int slowLiquidResist = 0;
-
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
 			if (this.hasBuff(BurningBuff.class) && !(this instanceof BurningMan)) {
@@ -391,12 +416,6 @@ public class Creature extends SaveableEntity {
 		}
 	}
 
-	protected void doVel() {
-		float fr = (iceResitant > 0 && this.touches[Terrain.ICE] && !this.isFlying()) ? 1.3f : (this.touches[Terrain.ICE] && !this.isFlying() ? 0.2f : (this.slowLiquidResist == 0 && (this.touches[Terrain.LAVA]) && !this.isFlying() ? 0.55f : 1f));
-		this.velocity.x += this.acceleration.x * fr;
-		this.velocity.y += this.acceleration.y * fr;
-	}
-
 	protected void common() {
 		float dt = getDt();
 		this.doVel();
@@ -428,13 +447,90 @@ public class Creature extends SaveableEntity {
 		return Gdx.graphics.getDeltaTime();
 	}
 
+	protected void doVel() {
+		float fr = (iceResitant > 0 && this.touches[Terrain.ICE] && !this.isFlying()) ? 1.3f : (this.touches[Terrain.ICE] && !this.isFlying() ? 0.2f : (this.slowLiquidResist == 0 && (this.touches[Terrain.LAVA]) && !this.isFlying() ? 0.55f : 1f));
+		this.velocity.x += this.acceleration.x * fr;
+		this.velocity.y += this.acceleration.y * fr;
+	}
+
+	public boolean isFlying() {
+		return this.flying;
+	}
+
+	public void setFlying(boolean flying) {
+		this.flying = flying;
+	}
+
 	public void modifySpeed(int amount) {
 		this.speed += amount;
 		this.maxSpeed += amount * 7;
 	}
 
+	public boolean isTouching(byte t) {
+		return touches[t];
+	}
+
+	public int getDefense() {
+		return this.defense;
+	}
+
+	public float getSpeed() {
+		return speed;
+	}
+
+	public boolean isDead() {
+		return this.dead;
+	}
+
+	public void die() {
+		this.die(false);
+	}
+
+	protected void die(boolean force) {
+		this.depth = -1;
+
+		if (this.dead) {
+			return;
+		}
+
+		this.remove = true;
+		this.dead = true;
+	}
+
+	public Item getAmmo(String type) {
+		if (type.equals("bullet")) {
+			return new BulletA();
+		}
+
+		return null;
+	}
+
+	public void renderBuffs() {
+		for (Buff buff : this.buffs.values()) {
+			buff.render(this);
+		}
+	}
+
+	public int getHp() {
+		return this.hp;
+	}
+
+	public void heal() {
+		if (!this.hasFullHealth()) {
+			this.modifyHp(this.getHpMax() - this.hp, null);
+		}
+	}
+
+	public boolean hasFullHealth() {
+		return this.hp == this.hpMax;
+	}
+
 	public HpFx modifyHp(int amount, Creature from) {
 		return this.modifyHp(amount, from, false);
+	}
+
+	public int getHpMax() {
+		return this.hpMax;
 	}
 
 	public HpFx modifyHp(int amount, Entity from, boolean ignoreArmor) {
@@ -446,15 +542,7 @@ public class Creature extends SaveableEntity {
 			return null;
 		} else if (this instanceof Mimic && rollBlock()) {
 			this.playSfx("block");
-			this.invt = this.getStat("inv_time");
-			return (HpFx) Dungeon.area.add(new HpFx(this, 0, true));
-		} else if (ignoreArmor) {
-		} else if (this instanceof Player && amount < 0 && !this.touches[Terrain.COBWEB] && !this.hasBuff(FreezeBuff.class) &&
-			(((Random.chance(this.getStat("block_chance") * 100) || this.rollBlock()) && !ignoreArmor) || this.touches[Terrain.OBSIDIAN] ||
-			(this instanceof Player && Random.newFloat(100) < this.defense * 10 * rollDefense()))) {
-
-			this.playSfx("block");
-			this.invt = this.getStat("inv_time");
+			this.invt = invTime;
 			return (HpFx) Dungeon.area.add(new HpFx(this, 0, true));
 		}
 
@@ -474,7 +562,7 @@ public class Creature extends SaveableEntity {
 			}
 
 			if (!ignoreArmor) {
-				amount += this.defense * this.rollDefense();
+				amount += this.defense;
 
 				if (amount > 0) {
 					amount = -1;
@@ -493,7 +581,7 @@ public class Creature extends SaveableEntity {
 				amount = amount < -7 ? -2 : -1;
 			}
 
-			this.invt = this.getStat("inv_time");
+			this.invt = invTime;
 			hurt = true;
 		}
 
@@ -556,14 +644,8 @@ public class Creature extends SaveableEntity {
 		return null;
 	}
 
-	protected void checkDeath() {
-		if (this.hp == 0) {
-			this.shouldDie = true;
-		}
-	}
-
-	protected void doHurt(int a) {
-		this.hp = Math.max(0, this.hp + a);
+	public boolean isUnhittable() {
+		return unhittable;
 	}
 
 	public boolean rollBlock() {
@@ -574,97 +656,26 @@ public class Creature extends SaveableEntity {
 		return this.touches[Terrain.ICE] ? 2 : 1;
 	}
 
-	public boolean isTouching(byte t) {
-		return touches[t];
-	}
-
-	public int iceResitant;
-
-	public float rollDefense() {
-		return 1;
-	}
-
 	public void onHit(Creature who) {
 
+	}
+
+	protected void doHurt(int a) {
+		this.hp = Math.max(0, this.hp + a);
 	}
 
 	protected void onHurt(int a, Entity from) {
 		Graphics.delay(40);
 	}
 
-	public boolean isUnhittable() {
-		return unhittable;
+	protected void checkDeath() {
+		if (this.hp == 0) {
+			this.shouldDie = true;
+		}
 	}
 
 	public void setUnhittable(boolean unhittable) {
 		this.unhittable = unhittable;
-	}
-
-	public int getDefense() {
-		return this.defense;
-	}
-
-	public float getSpeed() {
-		return speed;
-	}
-
-	public boolean isDead() {
-		return this.dead;
-	}
-
-	public void die() {
-		this.die(false);
-	}
-
-	protected void die(boolean force) {
-		this.depth = -1;
-
-		if (this.dead) {
-			return;
-		}
-
-		this.remove = true;
-		this.dead = true;
-	}
-
-	public void onBuffRemove(Buff buff) {
-
-	}
-
-	public Point getAim() {
-		return Input.instance.worldMouse;
-	}
-
-	public Item getAmmo(String type) {
-		if (type.equals("bullet")) {
-			return new BulletA();
-		}
-
-		return null;
-	}
-
-	public void renderBuffs() {
-		for (Buff buff : this.buffs.values()) {
-			buff.render(this);
-		}
-	}
-
-	public int getHp() {
-		return this.hp;
-	}
-
-	public void heal() {
-		if (!this.hasFullHealth()) {
-			this.modifyHp(this.getHpMax() - this.hp, null);
-		}
-	}
-
-	public int getHpMax() {
-		return this.hpMax;
-	}
-
-	public boolean hasFullHealth() {
-		return this.hp == this.hpMax;
 	}
 
 	public void setHpMax(int hpMax) {
@@ -764,8 +775,18 @@ public class Creature extends SaveableEntity {
 		return true;
 	}
 
-	public boolean hasBuff(Class<? extends Buff> buff) {
-		return this.buffs.containsKey(buff);
+	public void removeBuff(Class<? extends Buff> buff) {
+		Buff instance = this.buffs.get(buff);
+
+		if (instance != null) {
+			instance.onEnd();
+			this.buffs.remove(buff);
+			this.onBuffRemove(instance);
+		}
+	}
+
+	public void onBuffRemove(Buff buff) {
+
 	}
 
 	public Body getBody() {
@@ -780,87 +801,16 @@ public class Creature extends SaveableEntity {
 		force *= 100;
 		float a = from.getAngleTo(this.x + this.w / 2, this.y + this.h / 2);
 
-		float knockbackMod = this.getStat("knockback");
-
 		this.knockback.x += Math.cos(a) * force * knockbackMod;
 		this.knockback.y += Math.sin(a) * force * knockbackMod;
-	}
-
-	public Point knockback = new Point();
-
-	public void removeBuff(Class<? extends Buff> buff) {
-		Buff instance = this.buffs.get(buff);
-
-		if (instance != null) {
-			instance.onEnd();
-			this.buffs.remove(buff);
-			this.onBuffRemove(instance);
-		}
 	}
 
 	public boolean isFlipped() {
 		return this.flipped;
 	}
 
-	public Room room;
-
 	// for lua
 	public Room getRoom() {
 		return room;
-	}
-
-	protected HashMap<String, Float> stats = new HashMap<>();
-
-	public void modifyStat(String name, float val) {
-		this.setStat(name, this.getStat(name) + val);
-	}
-
-	public float getStat(String name) {
-		Float f = this.stats.get(name);
-
-		if (f == null) {
-			return 0;
-		}
-
-		return f;
-	}
-
-	public void initStats() {
-		modifyStat("defense", 1f);
-		modifyStat("damage", 1f);
-		modifyStat("speed", 1f);
-		modifyStat("knockback", 1f);
-		modifyStat("block_chance", 0.1f);
-		modifyStat("inv_time", 0.4f);
-		modifyStat("crit_chance", 0.04f);
-	}
-
-	public void setStat(String name, float val) {
-		stats.put(name, val);
-	}
-
-	@Override
-	public boolean shouldCollide(Object entity, Contact contact, Fixture fixture) {
-		if (this.isFlying() && entity instanceof Level) {
-			return false;
-		} else if (entity instanceof Creature) {
-			if (this.hasBuff(BurningBuff.class)) {
-				((Creature) entity).addBuff(new BurningBuff());
-			}
-
-			if (!(this instanceof Player && entity instanceof Mummy)) {
-				return false;
-			}
-		} else if (entity instanceof ItemHolder) {
-			return false;
-		} else if (entity instanceof Weapon && ((Weapon) entity).getOwner() == this) {
-			return false;
-		}
-
-		return super.shouldCollide(entity, contact, fixture);
-	}
-
-	public void setFlying(boolean flying) {
-		this.flying = flying;
 	}
 }

@@ -47,12 +47,6 @@ public class Knight extends Mob {
 	}
 
 	@Override
-	public void initStats() {
-		super.initStats();
-		this.setStat("block_chance", 0.3f);
-	}
-
-	@Override
 	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 		this.playSfx("damage_towelknight");

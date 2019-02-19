@@ -88,66 +88,65 @@ public class Player extends Creature {
 	public static ArrayList<Player> all = new ArrayList<>();
 	public static Player instance;
 	public static Entity ladder;
-	private static HashMap<String, Animation> skins = new HashMap<>();
 	public static ShaderProgram shader;
 	public static boolean showStats;
+	public static String hatId;
+	public static String skin;
+	public static TextureRegion balloon = Graphics.getTexture("item-red_balloon");
+	public static boolean sucked = false;
+	public static boolean dullDamage;
+	private static HashMap<String, Animation> skins = new HashMap<>();
+	private static Animation headAnimations = Animation.make("actor-gobbo", "-gobbo");
+	private static AnimationData headIdle = headAnimations.get("idle");
+	private static AnimationData headRun = headAnimations.get("run");
+	private static AnimationData headHurt = headAnimations.get("hurt");
+	private static AnimationData headRoll = headAnimations.get("roll");
+	private static TextureRegion wing = Graphics.getTexture("item-half_wing");
+	private static TextureRegion playerTexture = Graphics.getTexture("props-gobbo_full");
+	private static int offsets[] = new int[]{
+		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
+		0, 0, 0, 0, 0, 0, 0 // for roll
+	};
 
 	static {
-		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(),  Gdx.files.internal("shaders/rainbow.frag").readString());
+		shader = new ShaderProgram(Gdx.files.internal("shaders/default.vert").readString(), Gdx.files.internal("shaders/rainbow.frag").readString());
 		if (!shader.isCompiled()) throw new GdxRuntimeException("Couldn't compile shader: " + shader.getLog());
 	}
 
-	{
-		defense = 1;
-	}
-
 	public Type type;
-	public boolean flipRegenFormula;
-	public boolean manaCoins;
-	public boolean fireBombs;
-	public boolean iceBombs;
-	public boolean poisonBombs;
 	public float heat;
 	public boolean hasRedLine;
-	public float defenseModifier = 1f;
 	public UiInventory ui;
-	public boolean moreManaRegenWhenLow;
 	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
-	public float poisonChance;
-	public float burnChance;
-	public float freezeChance;
-	public float reflectDamageChance;
-	public float thornDamageChance;
-	public float regen = 0;
 	public float goldModifier = 1f;
-	public float vampire;
 	public int lavaResist;
 	public int fireResist;
 	public int poisonResist;
 	public int stunResist;
 	public boolean seeSecrets;
-	public float manaRegenRate = 1f;
-	public float damageModifier = 1f;
-	public boolean manaRegenRoom = false;
-	public boolean lifeRegenRegensMana;
-	public boolean lowHealthDefense;
-	public boolean manaBombs;
-	public boolean healOnEnter;
 	public boolean toDeath;
 	public boolean drawInvt;
-	public boolean luckDamage;
-	public boolean luckDefense;
-	public boolean pauseMore;
-	public float manaModifier = 1;
-	public boolean lowHealthDamage;
+	public ItemPickupFx pickupFx;
+	public float accuracy;
+	public boolean seePath;
+	public float stopT;
+	public boolean rotating;
+	public float al;
+	public boolean hasBkKey;
+	public boolean leaveSmall;
+	public Vector2 orbitalRing = new Vector2();
+	public int step;
+	public float tt;
+	public int frostLevel;
+	public int flight;
+	public int numCollectedHearts;
+	public int burnLevel;
+	public int leaveVenom;
 	protected float mana;
 	protected int manaMax;
 	protected int level;
-	public ItemPickupFx pickupFx;
 	private Inventory inventory;
 	private String name;
-	private float lastRegen;
-	private float lastMana;
 	private float fa;
 	private float sx = 1f;
 	private float sy = 1f;
@@ -158,259 +157,25 @@ public class Player extends Creature {
 	private AnimationData roll;
 	private AnimationData killed;
 	private AnimationData animation;
-	public float accuracy;
-	public static boolean seeMore;
 	private PointLight light;
 	private int money;
 	private int bombs;
 	private int keys;
-
-	public int getKeys() {
-		return keys;
-	}
-
-	public int getBombs() {
-		return bombs;
-	}
-
-	public int getMoney() {
-		return money;
-	}
-
-	public void setMoney(int money) {
-		this.money = money;
-
-		if (money >= 100) {
-			Achievements.unlock(Achievements.UNLOCK_MONEY_PRINTER);
-		}
-
-		if (money >= 300) {
-			Achievements.unlock(Achievements.COLLECT_300_GOLD);
-		}
-	}
-
-	public void setKeys(int money) {
-		this.keys = Math.min(99, money);
-	}
-
-	public void setBombs(int money) {
-		this.bombs = Math.min(99, money);
-	}
-
-	{
-		hpMax = 6;
-		manaMax = 8;
-		level = 1;
-		mul = 0.7f;
-		speed = 25;
-		alwaysActive = true;
-
-		setSkin("body");
-	}
-
-	public boolean seePath;
-
-	public static float getStaticMage() {
-		return instance == null ? (toSet == Type.WIZARD ? 1f : 0.1f) : instance.getMage();
-	}
-
-	public static float getStaticWarrior() {
-		return instance == null ? (toSet == Type.WARRIOR ? 1f : 0.1f) : instance.getWarrior();
-	}
-
-	public static float getStaticRanger() {
-		return instance == null ? (toSet == Type.RANGER ? 1f : 0.1f) : instance.getRanger();
-	}
-
-	public float getMage() {
-		return this.type == Type.WIZARD ? 1f : 0.1f;
-	}
-
-	public float getWarrior() {
-		return this.type == Type.WARRIOR ? 1f : 0.1f;
-	}
-
-	public float getRanger() {
-		return this.type == Type.RANGER ? 1f : 0.1f;
-	}
-
-	@Override
-	public void initStats() {
-		super.initStats();
-
-		this.modifyStat("ammo_capacity", 1f);
-		this.modifyStat("inv_time", 1f);
-		this.modifyStat("reload_time", 1f);
-		this.modifyStat("gun_use_time", 1f);
-	}
-
-	public Player() {
-		this("player");
-	}
-
-	public float stopT;
-
-	public Player(String name) {
-		if (Player.instance != null) {
-			Player.instance.done = true;
-			Player.instance.destroy();
-		}
-
-		all.add(this);
-		instance = this;
-
-		Ui.ui.dead = false;
-	}
-
-	public Type getType() {
-		return this.type;
-	}
-
 	private TextureRegion hat;
-	public static String hatId;
-
-	public void setHat(String name) {
-		if (name == null || name.isEmpty()) {
-			hat = null;
-			return;
-		}
-
-		GlobalSave.put("last_hat", name);
-		hatId = name;
-		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
-	}
-
-	private static Animation headAnimations = Animation.make("actor-gobbo", "-gobbo");
-	private static AnimationData headIdle = headAnimations.get("idle");
-	private static AnimationData headRun = headAnimations.get("run");
-	private static AnimationData headHurt = headAnimations.get("hurt");
-
-	public static String skin;
-	private static AnimationData headRoll = headAnimations.get("roll");
-
-	public void setSkin(String add) {
-		Animation animations;
-		skin = add;
-
-		if (!add.isEmpty()) {
-			add = "-" + add;
-		}
-
-		if (skins.containsKey(add)) {
-			animations = skins.get(add);
-		} else {
-			animations = Animation.make("actor-gobbo", add);
-			skins.put(add, animations);
-		}
-
-		idle = animations.get("idle");
-		run = animations.get("run");
-		hurt = animations.get("hurt");
-		roll = animations.get("roll");
-		killed = animations.get("dead");
-		animation = this.idle;
-	}
-
-	public String getName() {
-		return this.name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public void generate() {
-		this.inventory.clear();
-
-		bombs = 1;
-		keys = 0;
-		money = 0;
-
-		if (Dungeon.depth == -3) {
-			this.hpMax = 12;
-			this.hp = 12;
-			this.give(new Sword());
-		} else {
-			if (startingItem != null) {
-				this.give(startingItem);
-				startingItem = null;
-			} else {
-				this.give(new Sword());
-			}
-
-			if (this.type != Type.WIZARD) {
-				this.manaMax -= 2;
-				this.mana -= 2;
-			}
-
-			if (this.type == Type.RANGER) {
-				this.hpMax = 4;
-				this.hp = 4;
-			}
-		}
-
-		if (hatId != null) {
-			this.give(ItemPickupFx.setSkin(hatId));
-		} else {
-			String id = GlobalSave.getString("last_hat", null);
-			this.setHat(id);
-		}
-
-		if (Random.getSeed().equals("HP")) {
-			this.hpMax = 12;
-			this.hp = 12;
-		} else if (Random.getSeed().equals("DIE")) {
-			this.hpMax = 2;
-			this.hp = 2;
-		} else if (Random.getSeed().equals("BOMB")) {
-			this.bombs = 99;
-		} else if (Random.getSeed().equals("KEY")) {
-			this.keys = 99;
-		} else if (Random.getSeed().equals("GOLD")) {
-			this.money = 999;
-		}
-	}
-
 	private int numIronHearts;
 	private int numGoldenHearts;
-
-	public void addIronHearts(int a) {
-		numIronHearts += a;
-	}
-
-	public void addGoldenHearts(int a) {
-		numGoldenHearts += a;
-	}
-
-	public int getIronHearts() {
-		return numIronHearts;
-	}
-
-	public int getGoldenHearts() {
-		return numGoldenHearts;
-	}
-
-	public void give(Item item) {
-		if (item instanceof Hat) {
-			this.inventory.setSlot(3, item);
-			item.setOwner(this);
-			((Accessory) item).onEquip(false);
-		} else {
-			this.inventory.add(new ItemHolder(item));
-		}
-	}
-
-	public boolean rotating;
-	public float al;
-
-	public void setUi(UiInventory ui) {
-		this.ui = ui;
-	}
-
-	public void modifyManaMax(int a) {
-		this.manaMax += a;
-		this.modifyMana(0);
-	}
+	private boolean wasFreezed;
+	private boolean wasPoisoned;
+	private boolean gotHit;
+	private float last;
+	private float lastBlood;
+	private boolean teleport;
+	private float zvel;
+	private boolean onGround;
+	private Vector2 lastGround = new Vector2();
+	private boolean moved;
+	private boolean rolled;
+	private float lastFx = 0;
 
 	@Override
 	public void renderBuffs() {
@@ -479,7 +244,7 @@ public class Player extends Creature {
 			float a = -bx * 1.2f;
 			Graphics.render(balloon, this.x + (16 - balloon.getRegionWidth()) / 2 + bx + balloon.getRegionWidth() / 2, this.y + of + 32 + by, a, balloon.getRegionWidth() / 2, 0, false, false);
 		}*/
-		
+
 		if (last != null && count == 1 && !Ui.hideUi) {
 			float dx = last.x + last.w / 2 - this.x - this.w / 2;
 			float dy = last.y + last.h / 2 - this.y - this.h / 2;
@@ -512,21 +277,362 @@ public class Player extends Creature {
 			Graphics.endAlphaShape();
 		}
 	}
+	private boolean rolling;
+	private boolean hadEnemies;
 
-	private float bx;
-	private float by;
-
-	public static TextureRegion balloon = Graphics.getTexture("item-red_balloon");
-
-	public boolean hasBkKey;
-
-	public boolean isRolling() {
-		return this.rolling;
+	{
+		defense = 1;
 	}
 
-	private static TextureRegion wing = Graphics.getTexture("item-half_wing");
+	{
+		hpMax = 6;
+		manaMax = 8;
+		level = 1;
+		mul = 0.7f;
+		speed = 25;
+		alwaysActive = true;
+		invTime = 1f;
 
-	private static TextureRegion playerTexture = Graphics.getTexture("props-gobbo_full");
+		setSkin("body");
+	}
+
+	public Player() {
+		this("player");
+	}
+
+	public Player(String name) {
+		if (Player.instance != null) {
+			Player.instance.done = true;
+			Player.instance.destroy();
+		}
+
+		all.add(this);
+		instance = this;
+
+		Ui.ui.dead = false;
+	}
+
+	public static float getStaticMage() {
+		return instance == null ? (toSet == Type.WIZARD ? 1f : 0.1f) : instance.getMage();
+	}
+
+	public float getMage() {
+		return this.type == Type.WIZARD ? 1f : 0.1f;
+	}
+
+	public static float getStaticWarrior() {
+		return instance == null ? (toSet == Type.WARRIOR ? 1f : 0.1f) : instance.getWarrior();
+	}
+
+	public float getWarrior() {
+		return this.type == Type.WARRIOR ? 1f : 0.1f;
+	}	@Override
+	public void setHpMax(int hpMax) {
+		super.setHpMax(hpMax);
+
+		if (this.hpMax >= 16) {
+			Achievements.unlock(Achievements.GET_8_HEART_CONTAINERS);
+		}
+	}
+
+	public static float getStaticRanger() {
+		return instance == null ? (toSet == Type.RANGER ? 1f : 0.1f) : instance.getRanger();
+	}
+
+	public float getRanger() {
+		return this.type == Type.RANGER ? 1f : 0.1f;
+	}
+
+	public int getKeys() {
+		return keys;
+	}
+
+	public void setKeys(int money) {
+		this.keys = Math.min(99, money);
+	}	public void resetHit() {
+		gotHit = false;
+	}
+
+	public int getBombs() {
+		return bombs;
+	}
+
+	public void setBombs(int money) {
+		this.bombs = Math.min(99, money);
+	}
+
+	public int getMoney() {
+		return money;
+	}
+
+	public void setMoney(int money) {
+		this.money = money;
+
+		if (money >= 100) {
+			Achievements.unlock(Achievements.UNLOCK_MONEY_PRINTER);
+		}
+
+		if (money >= 300) {
+			Achievements.unlock(Achievements.COLLECT_300_GOLD);
+		}
+	}
+
+	public Type getType() {
+		return this.type;
+	}
+
+	public void setType(Type type) {
+		this.type = type;
+	}	@Override
+	public void renderShadow() {
+		float z = this.z;
+		boolean flying = false;
+
+		/*if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
+			z -= (float) (Math.cos(Dungeon.time * 9) * 1.5f);
+			flying = true;
+		}*/
+
+		Graphics.shadow(this.x + this.hx, this.y - (flying ? 3 : 0), this.hw, this.hh, z);
+	}
+
+	public void setSkin(String add) {
+		Animation animations;
+		skin = add;
+
+		if (!add.isEmpty()) {
+			add = "-" + add;
+		}
+
+		if (skins.containsKey(add)) {
+			animations = skins.get(add);
+		} else {
+			animations = Animation.make("actor-gobbo", add);
+			skins.put(add, animations);
+		}
+
+		idle = animations.get("idle");
+		run = animations.get("run");
+		hurt = animations.get("hurt");
+		roll = animations.get("roll");
+		killed = animations.get("dead");
+		animation = this.idle;
+	}	@Override
+	public void destroy() {
+		super.destroy();
+		World.removeLight(light);
+
+		if (UiMap.instance != null) {
+			UiMap.instance.remove();
+		}
+
+		hasBkKey = false;
+		Player.all.remove(this);
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}	@Override
+	public void init() {
+		super.init();
+		invt = 0.5f;
+		al = 0;
+		rotating = false;
+
+		Tween.to(new Tween.Task(0, 0.1f) {
+			@Override
+			public void onEnd() {
+				super.onEnd();
+				Camera.follow(Player.instance, true);
+			}
+		});
+
+		/*if (Dungeon.depth == -2) {
+			Achievements.unlock(Achievements.TUTORIAL_DONE);
+		}*/
+
+		t = 0;
+
+		if (toSet != Type.NONE) {
+			this.type = toSet;
+			toSet = Type.NONE;
+		} else if (this.type == null) {
+			this.type = Type.WARRIOR;
+		}
+
+		if (instance == null) {
+			instance = this;
+		}
+
+		this.mana = this.manaMax;
+		this.inventory = new Inventory(this);
+		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
+
+		doTp(true);
+
+		switch (this.type) {
+			case WARRIOR:
+			case WIZARD:
+				this.accuracy -= 5;
+				break;
+		}
+
+		light = World.newLight(256, new Color(1, 1, 1, 1f), 180, x, y);
+		light.setPosition(this.x + 8, this.y + 8);
+		light.attachToBody(this.body, 8, 8, 0);
+		light.setIgnoreAttachedBody(true);
+
+		if (Dungeon.depth == -3) {
+			this.inventory.clear();
+
+			this.hpMax = 10;
+			this.hp = 10;
+			this.give(new Sword());
+
+			Player.instance.tp(Spawn.instance.x, Spawn.instance.y);
+		}
+
+		Camera.follow(this, true);
+	}
+
+	public void generate() {
+		this.inventory.clear();
+
+		bombs = 1;
+		keys = 0;
+		money = 0;
+
+		if (Dungeon.depth == -3) {
+			this.hpMax = 12;
+			this.hp = 12;
+			this.give(new Sword());
+		} else {
+			if (startingItem != null) {
+				this.give(startingItem);
+				startingItem = null;
+			} else {
+				this.give(new Sword());
+			}
+
+			if (this.type != Type.WIZARD) {
+				this.manaMax -= 2;
+				this.mana -= 2;
+			}
+
+			if (this.type == Type.RANGER) {
+				this.hpMax = 4;
+				this.hp = 4;
+			}
+		}
+
+		if (hatId != null) {
+			this.give(ItemPickupFx.setSkin(hatId));
+		} else {
+			String id = GlobalSave.getString("last_hat", null);
+			this.setHat(id);
+		}
+
+		if (Random.getSeed().equals("HP")) {
+			this.hpMax = 12;
+			this.hp = 12;
+		} else if (Random.getSeed().equals("DIE")) {
+			this.hpMax = 2;
+			this.hp = 2;
+		} else if (Random.getSeed().equals("BOMB")) {
+			this.bombs = 99;
+		} else if (Random.getSeed().equals("KEY")) {
+			this.keys = 99;
+		} else if (Random.getSeed().equals("GOLD")) {
+			this.money = 999;
+		}
+	}
+
+	public void give(Item item) {
+		if (item instanceof Hat) {
+			this.inventory.setSlot(3, item);
+			item.setOwner(this);
+			((Accessory) item).onEquip(false);
+		} else {
+			this.inventory.add(new ItemHolder(item));
+		}
+	}	private void doTp(boolean fromInit) {
+		if (this.teleport) {
+			this.tp(this.lastGround.x, this.lastGround.y);
+			return;
+		}
+
+		if (Dungeon.depth == -3) {
+
+		} else if (Dungeon.depth == -1) {
+			Room room = Dungeon.level.getRooms().get(0);
+			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 32);
+		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
+			|| (!fromInit && (Dungeon.level.findRoomFor(this.x + this.w / 2, this.y) == null)))) {
+			this.tp(ladder.x, ladder.y - 4);
+		} else if (ladder == null) {
+			Log.error("Null lader!");
+		}
+
+		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
+		vec = Camera.ui.unproject(vec);
+		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
+
+		Dungeon.darkX = vec.x / Display.UI_SCALE;
+		Dungeon.darkY = vec.y;
+	}
+
+	public void setHat(String name) {
+		if (name == null || name.isEmpty()) {
+			hat = null;
+			return;
+		}
+
+		GlobalSave.put("last_hat", name);
+		hatId = name;
+		this.hat = Graphics.getTexture("hat-" + name + "-idle-00");
+	}	@Override
+	public void tp(float x, float y) {
+		super.tp(x, y);
+		Camera.follow(this, true);
+		orbitalRing.x = this.x + this.w / 2;
+		orbitalRing.y = this.y + this.h / 2;
+	}
+
+	public void addIronHearts(int a) {
+		numIronHearts += a;
+	}
+
+	public void addGoldenHearts(int a) {
+		numGoldenHearts += a;
+	}
+
+	public int getIronHearts() {
+		return numIronHearts;
+	}
+
+	public int getGoldenHearts() {
+		return numGoldenHearts;
+	}
+
+	public void setUi(UiInventory ui) {
+		this.ui = ui;
+	}	@Override
+	public boolean isUnhittable() {
+		return super.isUnhittable() || this.rolling;
+	}
+
+	public void modifyManaMax(int a) {
+		this.manaMax += a;
+		this.modifyMana(0);
+	}
+
+	public void modifyMana(int a) {
+		this.mana = (int) MathUtils.clamp(0, this.manaMax, this.mana + a);
+	}
 
 	@Override
 	public void render() {
@@ -618,13 +724,15 @@ public class Player extends Creature {
 				}
 			}
 
+			float angle = 20;
+
 			this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 				this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
-				0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+				0, angle, this.sx * (this.flipped ? -1 : 1), this.sy);
 
 			if (this.hat != null && !this.isRolling()) {
 				Graphics.render(this.hat, this.x + w / 2 - (this.flipped ? -1 : 1) * 7, this.y + 1 + this.z + offsets[id] + region.getRegionHeight() / 2 - 2 + offset,
-					0, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
+					angle, region.getRegionWidth() / 2, 0, false, false, this.sx * (this.flipped ? -1 : 1), this.sy);
 			} else {
 				AnimationData anim = headIdle;
 
@@ -641,7 +749,7 @@ public class Player extends Creature {
 
 				anim.render(this.x - region.getRegionWidth() / 2 + 8,
 					this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
-					0, 0, this.sx * (this.flipped ? -1 : 1), this.sy);
+					0, angle, this.sx * (this.flipped ? -1 : 1), this.sy);
 			}
 
 			Graphics.batch.setColor(1, 1, 1, 1);
@@ -660,30 +768,8 @@ public class Player extends Creature {
 		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
-	private static int offsets[] = new int[] {
-		0, 0, 0, -1, -1, -1, 0, 0, 1, 1, 1, 0, 1, 1, 0, 0, 0, 0,
-		0, 0, 0, 0, 0, 0, 0 // for roll
-	};
-
-	@Override
-	public void setHpMax(int hpMax) {
-		super.setHpMax(hpMax);
-
-		if (this.hpMax >= 16) {
-			Achievements.unlock(Achievements.GET_8_HEART_CONTAINERS);
-		}
-	}
-
-	private boolean wasFreezed;
-	private boolean wasPoisoned;
-	private boolean gotHit;
-
-	public void resetHit() {
-		gotHit = false;
-	}
-
-	public boolean didGetHit() {
-		return gotHit;
+	public boolean isRolling() {
+		return this.rolling;
 	}
 
 	@Override
@@ -798,8 +884,6 @@ public class Player extends Creature {
 			}
 		}
 	}
-
-	public static boolean sucked = false;
 
 	public boolean tryToPickup(ItemHolder item) {
 		if (!item.done) {
@@ -945,160 +1029,20 @@ public class Player extends Creature {
 		return false;
 	}
 
-	@Override
-	public void renderShadow() {
-		float z = this.z;
-		boolean flying = false;
-
-		/*if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
-			z -= (float) (Math.cos(Dungeon.time * 9) * 1.5f);
-			flying = true;
-		}*/
-
-		Graphics.shadow(this.x + this.hx, this.y - (flying ? 3 : 0), this.hw, this.hh, z);
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-		World.removeLight(light);
-
-		if (UiMap.instance != null) {
-			UiMap.instance.remove();
-		}
-
-		hasBkKey = false;
-		Player.all.remove(this);
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	@Override
-	public void init() {
-		super.init();
-		invt = 0.5f;
-		al = 0;
-		rotating = false;
-
-		Tween.to(new Tween.Task(0, 0.1f) {
-			@Override
-			public void onEnd() {
-				super.onEnd();
-				Camera.follow(Player.instance, true);
-			}
-		});
-
-		/*if (Dungeon.depth == -2) {
-			Achievements.unlock(Achievements.TUTORIAL_DONE);
-		}*/
-
-		t = 0;
-
-		if (toSet != Type.NONE) {
-			this.type = toSet;
-			toSet = Type.NONE;
-		} else if (this.type == null) {
-			this.type = Type.WARRIOR;
-		}
-
-		if (instance == null) {
-			instance = this;
-		}
-
-		this.mana = this.manaMax;
-		this.inventory = new Inventory(this);
-		this.body = this.createSimpleBody(3, 0, 10, 11, BodyDef.BodyType.DynamicBody, false);
-
-		doTp(true);
-
-		switch (this.type) {
-			case WARRIOR: case WIZARD: this.accuracy -= 5; break;
-		}
-
-		light = World.newLight(256, new Color(1, 1, 1, 1f), 180, x, y);
-		light.setPosition(this.x + 8, this.y + 8);
-		light.attachToBody(this.body, 8, 8, 0);
-		light.setIgnoreAttachedBody(true);
-
-		if (Dungeon.depth == -3) {
-			this.inventory.clear();
-
-			this.hpMax = 10;
-			this.hp = 10;
-			this.give(new Sword());
-
-			Player.instance.tp(Spawn.instance.x, Spawn.instance.y);
-		}
-
-		Camera.follow(this, true);
-	}
-
-	public boolean leaveSmall;
-
-	private void doTp(boolean fromInit) {
-		if (this.teleport) {
-			this.tp(this.lastGround.x, this.lastGround.y);
-			return;
-		}
-
-		if (Dungeon.depth == -3) {
-
-		} else if (Dungeon.depth == -1) {
-			Room room = Dungeon.level.getRooms().get(0);
-			this.tp((room.left + room.getWidth() / 2) * 16 - 8, room.top * 16 + 32);
-		} else if (ladder != null && (Dungeon.loadType != Entrance.LoadType.LOADING
-			 || (!fromInit && (Dungeon.level.findRoomFor(this.x + this.w / 2, this.y) == null)))) {
-			this.tp(ladder.x, ladder.y - 4);
-		} else if (ladder == null) {
-			Log.error("Null lader!");
-		}
-
-		Vector3 vec = Camera.game.project(new Vector3(Player.instance.x + Player.instance.w / 2, Player.instance.y + Player.instance.h / 2, 0));
-		vec = Camera.ui.unproject(vec);
-		vec.y = Display.GAME_HEIGHT - vec.y / Display.UI_SCALE;
-
-		Dungeon.darkX = vec.x / Display.UI_SCALE;
-		Dungeon.darkY = vec.y;
-	}
-
-	@Override
-	public void tp(float x, float y) {
-		super.tp(x, y);
-		Camera.follow(this, true);
-		orbitalRing.x = this.x + this.w / 2;
-		orbitalRing.y = this.y + this.h / 2;
-	}
-
-	public Vector2 orbitalRing = new Vector2();
-
-
-	private float last;
-	private float lastBlood;
-	private boolean teleport;
-
-	@Override
-	public boolean isUnhittable() {
-		return super.isUnhittable() || this.rolling;
-	}
-
-	private float zvel;
-	private boolean onGround;
-	private Vector2 lastGround = new Vector2();
-	public int step;
-	private boolean moved;
-	private boolean rolled;
-	public float tt;
-
-	@Override
+	public boolean didGetHit() {
+		return gotHit;
+	}	@Override
 	protected void common() {
 		super.common();
 	}
 
-	public static boolean dullDamage;
+	public int getManaMax() {
+		return this.manaMax;
+	}
 
-	@Override
+	public Inventory getInventory() {
+		return this.inventory;
+	}	@Override
 	public void update(float dt) {
 		super.update(dt);
 
@@ -1246,34 +1190,7 @@ public class Player extends Creature {
 					}
 				}
 			}
-
-
-			this.lastMana += (dark ? 1 : 3) * dt * 1.5f * (this.acceleration.len2() > 9.9f ?
-				(this.flipRegenFormula ? 1f : 0.5f) :
-				(this.flipRegenFormula ? 0.5f : 1f)) * this.manaRegenRate * (
-					(moreManaRegenWhenLow && this.hp <= this.hpMax / 3) ? 4 : 1
-				) * (this.type == Type.WIZARD ? 1 : 0.5f);
-
-			if (this.lastMana > 1f) {
-				this.lastMana = 0;
-				// this.mana += 1;
-			}
 		}
-
-		if (this.regen > 0 && this.hp != this.hpMax) {
-			this.lastRegen += dt;
-
-			if (this.lastRegen > (20f - this.regen)) {
-				if (this.lifeRegenRegensMana) {
-					this.modifyMana(1);
-				} else {
-					this.modifyHp(1, null);
-				}
-
-				this.lastRegen = 0;
-			}
-		}
-
 
 		if (this.dead) {
 			super.common();
@@ -1353,10 +1270,10 @@ public class Player extends Creature {
 						acceleration.x = (float) Math.cos(a) * speed * f;
 						acceleration.y = (float) Math.sin(a) * speed * f;
 					} else {*/
-						double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+					double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
-						acceleration.x = (float) Math.cos(a) * speed * f;
-						acceleration.y = (float) Math.sin(a) * speed * f;
+					acceleration.x = (float) Math.cos(a) * speed * f;
+					acceleration.y = (float) Math.sin(a) * speed * f;
 					// }
 
 					for (int i = 0; i < 3; i++) {
@@ -1467,16 +1384,29 @@ public class Player extends Creature {
 		}
 	}
 
-	private float lastFx = 0;
-
-	public int frostLevel;
-	private boolean rolling;
-
-	public int getManaMax() {
-		return this.manaMax;
+	public int getMana() {
+		return (int) this.mana;
 	}
 
-	public int flight;
+	public int getLevel() {
+		return this.level;
+	}
+	public enum Type {
+		WARRIOR(0),
+		WIZARD(1),
+		RANGER(2),
+		NONE(3);
+
+		public int id;
+
+		Type(int id) {
+			this.id = id;
+		}
+	}
+
+
+
+
 
 	@Override
 	public boolean isFlying() {
@@ -1521,9 +1451,6 @@ public class Player extends Creature {
 				if (this.isDead()) {
 					Achievements.unlock(Achievements.UNLOCK_WINGS);
 				}
-			} else if (t == Terrain.COBWEB && this.cutCobweb) {
-				Dungeon.level.liquidData[Level.toIndex(x, y)] = 0;
-				Dungeon.level.updateTile(x, y);
 			} else if (!this.isFlying() && (t == Terrain.HIGH_GRASS || t == Terrain.HIGH_DRY_GRASS)) {
 				Dungeon.level.set(x, y, t == Terrain.HIGH_GRASS ? Terrain.GRASS : Terrain.DRY_GRASS);
 
@@ -1551,9 +1478,9 @@ public class Player extends Creature {
 		}
 	}
 
-	private boolean hadEnemies;
-	public int numCollectedHearts;
-	public int burnLevel;
+
+
+
 
 	@Override
 	protected void onRoomChange() {
@@ -1597,21 +1524,15 @@ public class Player extends Creature {
 
 		if (room != null) {
 			int count = 0;
+
 			for (Mob mob : Mob.all) {
 				if (mob.room == room) {
 					count++;
 				}
 			}
+
 			if (count > 0) {
 				this.invt = Math.max(this.invt, 1f);
-			}
-
-			/*if (this.healOnEnter && count > 0 && Random.chance(80)) {
-				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
-			}*/
-
-			if (manaRegenRoom && count > 0 && Random.chance(50)) {
-				this.modifyMana(this.getManaMax());
 			}
 		}
 	}
@@ -1671,95 +1592,15 @@ public class Player extends Creature {
 		}
 	}
 
-	public int leaveVenom;
+
 
 	@Override
 	public float rollDamage() {
-		float v;
-
-		if (luckDamage) {
-			if (false /*Random.chance(((LuckyCube) this.inventory.findItem(LuckyCube.class)).getChance())*/) {
-				v = 2;
-			} else {
-				v = 0.5f;
-			}
-		} else {
-			v = super.rollDamage();
-		}
-
-		if (lowHealthDamage && this.hp < this.hpMax / 4) {
-			v *= 2;
-		}
-
-		return v * getDamageModifier();
+		return getDamageModifier();
 	}
 
 	public float getDamageModifier() {
-		return  ((pauseMore && this.acceleration.len() < 1f) ? 1.5f : 1) * damageModifier * this.getStat("damage") * (this.touches[Terrain.WATER] ? 0.5f : 1f);
-	}
-
-	public boolean cutCobweb;
-
-	@Override
-	public float rollDefense() {
-		float v;
-
-		if (luckDefense) {
-			if (false /*Random.chance(((FortuneArmor) this.inventory.findItem(FortuneArmor.class)).getChance())*/) {
-				v = 2;
-			} else {
-				v = 0.5f;
-			}
-		} else {
-			v = super.rollDefense();
-		}
-
-		if (lowHealthDefense && this.hp < this.hpMax / 4) {
-			v *= 2;
-		}
-
-		return v * defenseModifier;
-	}
-
-	@Override
-	public void onHit(Creature who) {
-		super.onHit(who);
-
-		if (who == null) {
-			return;
-		}
-
-		if (Random.chance(this.poisonChance)) {
-			who.addBuff(new PoisonBuff().setDuration(5));
-		}
-
-		if (Random.chance(this.burnChance)) {
-			who.addBuff(new BurningBuff().setDuration(5));
-		}
-
-		if (Random.chance(this.freezeChance)) {
-			who.addBuff(new FreezeBuff().setDuration(2));
-		}
-
-		if (Random.chance(vampire)) {
-			this.modifyHp(1, null);
-		}
-	}
-
-	@Override
-	public boolean rollBlock() {
-		if (this.ui == null) {
-			return false;
-		}
-
-		/*ManaShield shield = (ManaShield) this.ui.getEquipped(ManaShield.class);
-
-		if (shield != null && this.mana >= shield.getCost() && Random.chance(shield.getChance()) && this.mana >= 2) {
-			this.modifyMana((int) -shield.getCost());
-			return true;
-		}*/
-
-		return false;
+		return 1;
 	}
 
 	@Override
@@ -1814,30 +1655,6 @@ public class Player extends Creature {
 		Dungeon.flash(Color.WHITE, 0.05f);
 		Camera.shake(4f);
 		Audio.playSfx("voice_gobbo_" + Random.newInt(1, 4), 1f, Random.newFloat(0.9f, 1.9f));
-
-		if (from instanceof Creature && Random.chance(this.reflectDamageChance)) {
-			((Creature)from).modifyHp(4, this, true);
-		}
-
-		if (this.ui != null) {
-			/*BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
-
-			if (heart != null && this.room != null) {
-				for (int i = Mob.all.size() - 1; i >= 0; i--) {
-					Mob mob = Mob.all.get(i);
-
-					if (mob.getRoom() == this.room) {
-						mob.modifyHp((int) -heart.getDamage(), this, true);
-					}
-				}
-			}
-
-			ClockHeart clock = (ClockHeart) this.ui.getEquipped(ClockHeart.class);
-
-			if (clock != null) {
-				Dungeon.slowDown(0.5f - (clock.getLevel() - 1f) * 0.05f, 1f * clock.getLevel());
-			}*/
-		}
 	}
 
 	@Override
@@ -1985,32 +1802,13 @@ public class Player extends Creature {
 		}
 	}
 
-	public void modifyMana(int a) {
-		this.mana = (int) MathUtils.clamp(0, this.manaMax, (float) (this.mana + Math.ceil(a * manaModifier)));
-	}
 
-	public Inventory getInventory() {
-		return this.inventory;
-	}
 
-	public int getMana() {
-		return (int) this.mana;
-	}
 
-	public int getLevel() {
-		return this.level;
-	}
 
-	public enum Type {
-		WARRIOR(0),
-		WIZARD(1),
-		RANGER(2),
-		NONE(3);
 
-		public int id;
 
-		Type(int id) {
-			this.id = (int) id;
-		}
-	}
+
+
+
 }

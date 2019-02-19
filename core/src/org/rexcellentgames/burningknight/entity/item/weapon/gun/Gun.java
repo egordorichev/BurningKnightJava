@@ -27,6 +27,23 @@ import org.rexcellentgames.burningknight.util.geometry.Point;
 import java.io.IOException;
 
 public class Gun extends WeaponBase {
+	private static Vector2 last = new Vector2();
+	private static float closestFraction = 1.0f;
+	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
+		Object data = fixture.getBody().getUserData();
+
+		if (data == null || (data instanceof Door && !((Door) data).isOpen())) {
+			if (fraction < closestFraction) {
+				closestFraction = fraction;
+				last.x = point.x;
+				last.y = point.y;
+			}
+		}
+
+		return closestFraction;
+	};
+	public int ammoMax = 12;
+	public boolean showRedLine;
 	protected float accuracy = -3f;
 	protected float sx = 1f;
 	protected float sy = 1f;
@@ -39,11 +56,22 @@ public class Gun extends WeaponBase {
 	protected boolean s;
 	protected Point origin = new Point(3, 1);
 	protected Point hole = new Point(13, 6);
-	public int ammoMax = 12;
 	protected int ammoLeft = 12;
 	protected float chargeProgress;
 	protected float reloadRate = 1;
 	protected boolean down;
+	protected float lastAngle;
+	protected boolean flipped;
+	protected boolean lastFlip;
+	protected int usedTime;
+	protected String bulletSprite;
+	private boolean pressed;
+	private boolean shown;
+	private float time;
+	private boolean fired;
+	private boolean back = false;
+	private float chargeA = 0;
+	private float mod;
 
 	{
 		sprite = "item-gun_a";
@@ -51,44 +79,17 @@ public class Gun extends WeaponBase {
 		useTime = 0.8f;
 	}
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-
-		this.ammoLeft = reader.readInt32();
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-
-		writer.writeInt32(this.ammoLeft);
-	}
-	@Override
-	public int getValue() {
-		return this.ammoLeft;
+	{
+		useTime = 0.2f;
 	}
 
 	public int getAmmoLeft() {
 		return ammoLeft;
 	}
 
-	{
-		useTime = 0.2f;
+	public void setAmmoLeft(int i) {
+		this.ammoLeft = i;
 	}
-
-	private static Vector2 last = new Vector2();
-	protected float lastAngle;
-
-	private static float closestFraction = 1.0f;
-
-	@Override
-	public boolean canBeUsed() {
-		return super.canBeUsed() && ammoLeft >= 0;
-	}
-
-	private boolean pressed;
-	private boolean shown;
 
 	public boolean isReloading() {
 		return pressed;
@@ -109,19 +110,19 @@ public class Gun extends WeaponBase {
 
 		if (ammoLeft < ammoMax && pressed) {
 			if (this.chargeProgress == 0 || this.time == 0) {
-				this.time = this.owner.getStat("reload_time");
+				this.time = 1;
 			}
 
 			this.chargeProgress += dt * this.time * reloadRate;
 
 			if (this.chargeProgress >= 1f) {
 				pressed = false;
-				this.ammoLeft = (int) (this.ammoMax * this.owner.getStat("ammo_capacity"));
+				this.ammoLeft = (this.ammoMax);
 				this.onAmmoAdded();
 				chargeProgress = 0;
 			}
 		} else if (ammoLeft < ammoMax && this.owner instanceof Player && ((Player) this.owner).stopT > 0.15f && !down) {
-			this.chargeProgress += dt * this.owner.getStat("reload_time") * reloadRate * ammoMax * this.owner.getStat("ammo_capacity");
+			this.chargeProgress += dt * reloadRate * ammoMax;
 
 			if (this.chargeProgress >= 1f) {
 				ammoLeft ++;
@@ -134,65 +135,11 @@ public class Gun extends WeaponBase {
 			}
 		}
 	}
-
-	protected void onAmmoAdded() {
-
-	}
-
-	private float time;
-
-	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		Object data = fixture.getBody().getUserData();
-
-		if (data == null || (data instanceof Door && !((Door) data).isOpen())) {
-			if (fraction < closestFraction) {
-				closestFraction = fraction;
-				last.x = point.x;
-				last.y = point.y;
-			}
-		}
-
-		return closestFraction;
-	};
-
-	@Override
-	public void update(float dt) {
-		super.update(dt);
-
-		if (this.owner != null) {
-			this.delay = Math.max(0, this.delay - dt * this.owner.getStat("gun_use_time"));
-
-			float cp = this.owner.getStat("ammo_capacity");
-
-			if (this.ammoLeft > this.ammoMax * cp) {
-				this.ammoLeft = (int) (this.ammoMax * cp);
-			}
-		}
-	}
-
-	public static float shortAngleDist(float a0, float a1) {
-		float max = (float) (Math.PI * 2);
-		float da = (a1 - a0) % max;
-		return 2 * da % max - da;
-	}
-
-	public static float angleLerp(float a0, float a1, float t, boolean freezed) {
-		return Dungeon.game.getState().isPaused() || (freezed) ? a0 : a0 + shortAngleDist(a0, a1) * (t * 60 * Gdx.graphics.getDeltaTime());
-	}
-
-	protected float getAimX(float ex, float ey) {
-		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.cos(this.lastAngle +
-			(flipped ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
-	}
-
-	protected float getAimY(float ex, float ey) {
-		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.sin(this.lastAngle +
-			(flipped ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
-	}
 	
-	protected boolean flipped;
-	protected boolean lastFlip;
-	public boolean showRedLine;
+	@Override
+	public int getValue() {
+		return this.ammoLeft;
+	}
 
 	@Override
 	public void render(float x, float y, float w, float h, boolean flipped, boolean back) {
@@ -276,12 +223,6 @@ public class Gun extends WeaponBase {
 
 		if (this.chargeA <= 0.05f) {
 			if (!fired) {
-				if (this.owner.getStat("fire_on_reload") > 0) {
-					this.delay = 0;
-					this.ammoLeft++;
-					this.use();
-				}
-
 				fired = true;
 			}
 		} else {
@@ -289,35 +230,25 @@ public class Gun extends WeaponBase {
 		}
 	}
 
-	private boolean fired;
-
-	public void renderReload() {
-		if (this.chargeA > 0) {
-			float x = this.owner.x + this.owner.w / 2 ;
-			float y = this.owner.y + this.owner.h;
-
-			Graphics.startAlphaShape();
-
-			Graphics.shape.setColor(0, 0, 0, chargeA);
-			Graphics.shape.rect(x - 9, y - 1, 18, 3);
-			Graphics.shape.setColor(1, 1, 1, chargeA);
-			Graphics.shape.rect(x - 8, y, 16, 1);
-
-			float xx = (back ? 16 : (this.owner instanceof Mob ? this.chargeProgress : (((float) (this.ammoLeft) / this.ammoMax) + this.chargeProgress / 16f)) * 16) - 8 + x;
-
-			Graphics.shape.setColor(0, 0, 0, this.chargeA);
-			Graphics.shape.rect(xx - 2, y - 2, 5, 5);
-			Graphics.shape.setColor(1, 1, 1, this.chargeA);
-			Graphics.shape.rect(xx - 1, y - 1, 3, 3);
-
-			Graphics.endAlphaShape();
-		}
+	public static float angleLerp(float a0, float a1, float t, boolean freezed) {
+		return Dungeon.game.getState().isPaused() || (freezed) ? a0 : a0 + shortAngleDist(a0, a1) * (t * 60 * Gdx.graphics.getDeltaTime());
 	}
 
-	private boolean back = false;
-	private float chargeA = 0;
-	private float mod;
-	protected int usedTime;
+	protected float getAimX(float ex, float ey) {
+		return (float) Math.cos(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.cos(this.lastAngle +
+			(flipped ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
+	}
+
+	protected float getAimY(float ex, float ey) {
+		return (float) Math.sin(this.lastAngle) * (this.hole.x - this.origin.x + ex) + (float) Math.sin(this.lastAngle +
+			(flipped ? -Math.PI / 2 : Math.PI / 2)) * (this.hole.y - this.origin.y + ey);
+	}
+
+	public static float shortAngleDist(float a0, float a1) {
+		float max = (float) (Math.PI * 2);
+		float da = (a1 - a0) % max;
+		return 2 * da % max - da;
+	}
 
 	@Override
 	public void use() {
@@ -341,13 +272,7 @@ public class Gun extends WeaponBase {
 			}
 		}
 
-		boolean rng = Random.chance(this.owner.getStat("restore_ammo_chance") * 100);
-
-		if (rng) {
-			ammoLeft += 1f;
-		} else if (!Random.chance(this.owner.getStat("ammo_save_chance") * 100)) {
-			this.ammoLeft -= 1;
-		}
+		this.ammoLeft -= 1;
 
 		Tween.to(new Tween.Task(6, 0.05f) {
 			@Override
@@ -471,9 +396,26 @@ public class Gun extends WeaponBase {
 			}
 		});
 
-		if (!rng) {
-			this.sendBullets();
-		}
+		this.sendBullets();
+	}
+
+	@Override
+	public void save(FileWriter writer) throws IOException {
+		super.save(writer);
+
+		writer.writeInt32(this.ammoLeft);
+	}
+
+	@Override
+	public void load(FileReader reader) throws IOException {
+		super.load(reader);
+
+		this.ammoLeft = reader.readInt32();
+	}
+
+	@Override
+	public boolean canBeUsed() {
+		return super.canBeUsed() && ammoLeft >= 0;
 	}
 
 	protected float getUseTimeGun() {
@@ -491,12 +433,13 @@ public class Gun extends WeaponBase {
 		sendBullet(an, 0, 0);
 	}
 
+	public float getAccuracy() {
+		return Math.max(0, accuracy - (this.owner instanceof Player ? ((Player) this.owner).accuracy : 0));
+	}
 
 	protected void sendBullet(float an, float xx, float yy) {
 		sendBullet(an, xx, yy, new BulletProjectile());
 	}
-
-	protected String bulletSprite;
 
 	protected void sendBullet(float an, float xx, float yy, BulletProjectile bullet) {
 		float a = (float) Math.toDegrees(an);
@@ -513,14 +456,13 @@ public class Gun extends WeaponBase {
 			}
 
       bullet.sprite = bulletSprite == null ? Graphics.getTexture(b.bulletName) : Graphics.getTexture(bulletSprite);
-			
+
 			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
 			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
 			bullet.x = (float) (x + this.getAimX(xx, yy));
 			bullet.y = (float) (y + this.getAimY(xx, yy));
 			bullet.damage = b.damage + rollDamage();
-			bullet.crit = lastCrit;
 			bullet.letter = b.bulletName;
 			bullet.owner = this.owner;
 			bullet.bad = this.owner instanceof Mob;
@@ -551,23 +493,55 @@ public class Gun extends WeaponBase {
 		}
 	}
 
-	public float getAccuracy() {
-		return Math.max(0, accuracy - (this.owner instanceof Player ? ((Player) this.owner).accuracy : 0));
+	protected void modifyBullet(BulletProjectile bullet) {
+
 	}
 
 	public void setAccuracy(float accuracy) {
 		this.accuracy = accuracy;
 	}
 
-	public void setAmmoLeft(int i) {
-		this.ammoLeft = i;
+	protected void onAmmoAdded() {
+
 	}
 
-	protected void modifyBullet(BulletProjectile bullet) {
+	public void renderReload() {
+		if (this.chargeA > 0) {
+			float x = this.owner.x + this.owner.w / 2 ;
+			float y = this.owner.y + this.owner.h;
 
+			Graphics.startAlphaShape();
+
+			Graphics.shape.setColor(0, 0, 0, chargeA);
+			Graphics.shape.rect(x - 9, y - 1, 18, 3);
+			Graphics.shape.setColor(1, 1, 1, chargeA);
+			Graphics.shape.rect(x - 8, y, 16, 1);
+
+			float xx = (back ? 16 : (this.owner instanceof Mob ? this.chargeProgress : (((float) (this.ammoLeft) / this.ammoMax) + this.chargeProgress / 16f)) * 16) - 8 + x;
+
+			Graphics.shape.setColor(0, 0, 0, this.chargeA);
+			Graphics.shape.rect(xx - 2, y - 2, 5, 5);
+			Graphics.shape.setColor(1, 1, 1, this.chargeA);
+			Graphics.shape.rect(xx - 1, y - 1, 3, 3);
+
+			Graphics.endAlphaShape();
+		}
 	}
 
 	protected String getSfx() {
 		return "gun_6";
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (this.owner != null) {
+			this.delay = Math.max(0, this.delay - dt);
+
+			if (this.ammoLeft > this.ammoMax) {
+				this.ammoLeft = (int) (this.ammoMax);
+			}
+		}
 	}
 }

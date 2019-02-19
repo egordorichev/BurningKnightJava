@@ -3,9 +3,6 @@ package org.rexcellentgames.burningknight.entity.item;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.util.Random;
@@ -41,24 +38,7 @@ public class Bomb extends Item {
 
 		if (this.owner instanceof Player) {
 			Player player = (Player) this.owner;
-
 			e.leaveSmall = player.leaveSmall;
-
-			if (player.fireBombs) {
-				e.toApply.add(new BurningBuff());
-			}
-
-			if (player.iceBombs) {
-				e.toApply.add(new FreezeBuff());
-			}
-
-			if (player.poisonBombs) {
-				e.toApply.add(new PoisonBuff());
-			}
-
-			if (player.manaBombs) {
-				player.modifyMana(player.getManaMax());
-			}
 		}
 
 		Dungeon.area.add(e);

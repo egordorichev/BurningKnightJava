@@ -9,15 +9,6 @@ public class PrefixPool {
 	public static PrefixPool instance = new PrefixPool();
 
 	public PrefixPool() {
-		add(new MoreHealthPrefix(), 1f);
-		add(new MoreDefensePrefix(), 1f);
-		add(new ExplosiveDeathPrefix(), 1f);
-		// add(new HighDodgePrefix(), 1f);
-	  // add(new KnockbackPrefix(), 1f);
-		// add(new MoreCritChancePrefix(), 1f);
-		// add(new MoreInvTimePrefix(), 1f);
-		// add(new ImmuneToDebuffsPrefix(), 1f);
-		// add(new NoKnockbackPrefix(), 1f);
 		add(new DeathShotPrefix(), 1f);
 
 		// ideas: greed

@@ -51,12 +51,6 @@ public class Skeleton extends Mob {
 	}
 
 	@Override
-	public void initStats() {
-		super.initStats();
-		setStat("knockback", 0);
-	}
-
-	@Override
 	public void init() {
 		super.init();
 

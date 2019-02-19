@@ -89,16 +89,6 @@ public class Shopkeeper extends Npc {
 	}
 
 	@Override
-	public void initStats() {
-		super.initStats();
-
-		modifyStat("gun_use_time", 1);
-		modifyStat("reload_time", 1);
-		setStat("reload_time", 1);
-		setStat("ammo_capacity", 1);
-	}
-
-	@Override
 	public void destroy() {
 		super.destroy();
 		instance = null;

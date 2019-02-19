@@ -40,12 +40,7 @@ public class Mimic extends Mob {
 		hpMax = 30;
 		h = 13;
 		w = 18;
-	}
-
-	@Override
-	public void initStats() {
-		super.initStats();
-		setStat("knockback", 0);
+		knockbackMod = 0;
 	}
 
 	private int type = -1;

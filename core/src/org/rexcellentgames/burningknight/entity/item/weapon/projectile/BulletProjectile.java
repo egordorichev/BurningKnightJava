@@ -337,15 +337,6 @@ public class BulletProjectile extends Projectile {
 		return false;
 	}
 
-	@Override
-	protected void doHit(Entity entity) {
-		super.doHit(entity);
-
-		if (this.owner != null && Random.chance(this.owner.getStat("slow_down_on_hit") * 100)) {
-			Dungeon.slowDown(0.5f, 0.5f);
-		}
-	}
-
 	public float ds = 4f;
 
 	@Override
@@ -444,15 +435,6 @@ public class BulletProjectile extends Projectile {
 	}
 
 	public BulletPattern pattern;
-
-	@Override
-	protected void onDeath() {
-		super.onDeath();
-
-		if (this.owner != null && Random.chance(this.owner.getStat("ammo_restore_chance_on_lost") * 100)) {
-			this.gun.setAmmoLeft(this.gun.getAmmoLeft() + 1);
-		}
-	}
 
 	public void control() {
 
