@@ -24,11 +24,6 @@ public class SlashSword extends Weapon {
 	protected float move;
 	protected float moveY;
 
-	@Override
-	public int getMaxLevel() {
-		return 6;
-	}
-
 	{
 		moveXA = 5 * 2;
 		moveXB = -16 * 2;

@@ -8,9 +8,8 @@ import org.rexcellentgames.burningknight.entity.creature.fx.Note;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
-import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
+import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Guitar;
 import org.rexcellentgames.burningknight.physics.World;
@@ -64,10 +63,8 @@ public class Clown extends Mob {
 		speed = 100;
 		maxSpeed = 100;
 
-		if (!(this instanceof BurningClown)) {
-			this.guitar = new Guitar();
-			this.guitar.setOwner(this);
-		}
+		this.guitar = new Guitar();
+		this.guitar.setOwner(this);
 	}
 
 	@Override
@@ -86,25 +83,9 @@ public class Clown extends Mob {
 			items.add(new InfiniteBomb());
 		}
 
-		if (Random.chance(1)) {
-			items.add(new FireBombs());
-		}
-
-		if (Random.chance(1)) {
-			items.add(new IceBombs());
-		}
-
-		if (Random.chance(1)) {
-			items.add(new PoisonBombs());
-		}
-
-		if (Random.chance(1)) {
+		/*if (Random.chance(1)) {
 			items.add(new BombInABomb());
-		}
-
-		if (Random.chance(5)) {
-			items.add(new ProtectiveBand());
-		}
+		}*/
 
 		return items;
 	}
@@ -113,8 +94,6 @@ public class Clown extends Mob {
 	protected void onHurt(int a, Entity creature) {
 		super.onHurt(a, creature);
 		this.playSfx("damage_clown");
-
-		// spawnBomb = true;
 	}
 
 	private boolean spawnBomb;
@@ -275,7 +254,7 @@ public class Clown extends Mob {
 
 			if (this.target != null) {
 				float d = self.getDistanceTo(self.target.x + 8, self.target.y + 8);
-				self.become((d > 32f && Random.chance(75) && !(self instanceof BurningClown)) ? "rangedAttack" : "chase");
+				self.become((d > 32f && Random.chance(75)) ? "rangedAttack" : "chase");
 			}
 		}
 	}
@@ -335,7 +314,7 @@ public class Clown extends Mob {
 			if (this.t >= 3f) {
 				self.become("chase");
 				// I know
-				if (Random.chance(75) && !(self instanceof BurningClown)) {
+				if (Random.chance(75)) {
 					self.become("rangedAttack");
 				}
 			}
@@ -394,7 +373,7 @@ public class Clown extends Mob {
 		}
 
 		private void doAttack() {
-			if (!(self instanceof BurningClown) && this.step < 3 && false) {
+			if (this.step < 3 && false) {
 				self.guitar.use();
 			} else {
 				BombEntity e = new BombEntity(self.x, self.y).velTo(self.lastSeen.x + 8, self.lastSeen.y + 8, 60f);

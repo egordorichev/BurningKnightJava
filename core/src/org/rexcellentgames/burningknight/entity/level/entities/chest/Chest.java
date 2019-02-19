@@ -17,16 +17,12 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
 import org.rexcellentgames.burningknight.entity.item.*;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.active.KillerItem;
 import org.rexcellentgames.burningknight.entity.item.key.KeyB;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
-import org.rexcellentgames.burningknight.entity.item.permanent.BetterChestChance;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.ChickenSword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -423,7 +419,7 @@ public class Chest extends SaveableEntity {
 
 		if (this.al >= 0.5f && Input.instance.wasPressed("interact")) {
 			if (this.locked) {
-				if (Player.instance.ui.hasEquipped(Lootpick.class)) {
+				/*if (Player.instance.ui.hasEquipped(Lootpick.class)) {
 					Player.instance.playSfx("unlock");
 
 					drawOpenAnim = true;
@@ -441,7 +437,7 @@ public class Chest extends SaveableEntity {
 							create = true;
 						}
 					});
-				} else {
+				} else */{
 					Item key = Player.instance.getInventory().findItem(KeyC.class);
 
 					if (key == null && (Player.instance.getKeys() == 0)) {
@@ -534,9 +530,9 @@ public class Chest extends SaveableEntity {
 			return true;
 		}
 
-		if (Butcher.class.isAssignableFrom(item) || ChickenSword.class.isAssignableFrom(item)) {
+		/*if (Butcher.class.isAssignableFrom(item) || ChickenSword.class.isAssignableFrom(item)) {
 			return false;
-		}
+		}*/
 
 		if (item == KillerItem.class && GameSave.runId < 10) {
 			return false;
@@ -579,10 +575,6 @@ public class Chest extends SaveableEntity {
 
 	public static Chest random() {
 		float r = Random.newFloat();
-
-		if (GlobalSave.isTrue(BetterChestChance.ID)) {
-			r += 0.1f;
-		}
 
 		if (r < 0.5f) {
 			WoodenChest chest = new WoodenChest();

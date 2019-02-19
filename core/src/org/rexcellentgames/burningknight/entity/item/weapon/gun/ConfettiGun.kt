@@ -22,7 +22,7 @@ class ConfettiGun : Gun() {
 		var a = (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI * 2).toFloat()
 		val ac = this.accuracy
 
-		for (i in 0 .. (this.level * 2 + 1)) {
+		for (i in 0 .. 3) {
 			this.sendBullet((a + Math.toRadians(Random.newFloat(-ac, ac).toDouble())).toFloat())
 		}
 
@@ -47,9 +47,5 @@ class ConfettiGun : Gun() {
 
 			Dungeon.area.add(fx)
 		}
-	}
-
-	override fun getMaxLevel(): Int {
-		return 6
 	}
 }

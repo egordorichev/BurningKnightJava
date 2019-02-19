@@ -8,19 +8,10 @@ import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
-import org.rexcellentgames.burningknight.entity.item.weapon.bow.Bow;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.BurstGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.NoppyGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.FastBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.HomingBook;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.book.TripleShotBook;
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.Butcher;
-import org.rexcellentgames.burningknight.entity.item.weapon.sword.MorningStar;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.PlayerSave;
@@ -109,7 +100,7 @@ public class ItemSelectState extends State {
 			melee.add(new Spear());
 		}
 
-		if (Achievements.unlocked("UNLOCK_BUTCHER")) {
+		/*if (Achievements.unlocked("UNLOCK_BUTCHER")) {
 			melee.add(new Butcher());
 		}
 
@@ -120,13 +111,13 @@ public class ItemSelectState extends State {
 
 		if (Achievements.unlocked("UNLOCK_BOW")) {
 			ranged.add(new Bow());
-		}
+		}*/
 
 		if (Achievements.unlocked("UNLOCK_AXE")) {
 			ranged.add(new Axe());
 		}
 
-		if (Achievements.unlocked("UNLOCK_NOPPY")) {
+		/*if (Achievements.unlocked("UNLOCK_NOPPY")) {
 			ranged.add(new NoppyGun());
 		}
 
@@ -148,7 +139,7 @@ public class ItemSelectState extends State {
 
 		if (Achievements.unlocked("UNLOCK_TRIPLE_BOOK")) {
 			mage.add(new TripleShotBook());
-		}
+		}*/
 
 		picked = false;
 

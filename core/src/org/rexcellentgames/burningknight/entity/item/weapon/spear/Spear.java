@@ -17,6 +17,15 @@ public class Spear extends Sword {
 		timeA = 0f;
 		timeB = 0.15f;
 		useTime = timeA + timeB + timeDelay + 0.02f;
+
+
+		String letter = "a";
+
+		description = Locale.get("spear_desc");
+		name = Locale.get("spear_" + letter);
+		sprite = "item-spear " + letter.toUpperCase();
+		damage = 4;
+		region = Graphics.getTexture(sprite);
 	}
 
 	public Spear() {
@@ -27,21 +36,6 @@ public class Spear extends Sword {
 	public void onPickup() {
 		super.onPickup();
 		Achievements.unlock("UNLOCK_SPEAR");
-	}
-
-	protected void setStats() {
-		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
-
-		description = Locale.get("spear_desc");
-		name = Locale.get("spear_" + letter);
-		sprite = "item-spear " + letter.toUpperCase();
-		damage = 4;
-		region = Graphics.getTexture(sprite);
-	}
-
-	@Override
-	public int getMaxLevel() {
-		return 7;
 	}
 
 	@Override

@@ -13,11 +13,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.GoldRing;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.StopWatch;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.VampireRing;
-import org.rexcellentgames.burningknight.entity.item.pet.orbital.NanoOrbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -187,26 +182,6 @@ public class Thief extends Mob {
 			items.add(new Dagger());
 		}
 
-		if (Random.chance(5)) {
-			items.add(new GoldRing());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new VampireRing());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new NanoOrbital());
-		}
-
-		if (Random.chance(1)) {
-			items.add(new Lootpick());
-		}
-
-		if (Random.chance(1)) {
-			items.add(new StopWatch());
-		}
-
 		return items;
 	}
 
@@ -221,7 +196,6 @@ public class Thief extends Mob {
 		super.destroy();
 		this.sword.destroy();
 	}
-
 
 	@Override
 	public void update(float dt) {

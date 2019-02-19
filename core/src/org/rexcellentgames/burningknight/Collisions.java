@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight;
 import com.badlogic.gdx.physics.box2d.*;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.forest.Hedgehog;
-import org.rexcellentgames.burningknight.entity.creature.mob.hall.DashingKnight;
 import org.rexcellentgames.burningknight.entity.creature.mob.hall.Thief;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.Roller;
 import org.rexcellentgames.burningknight.entity.creature.mob.tech.Tank;
@@ -18,9 +17,9 @@ public class Collisions implements ContactListener, ContactFilter {
 		Entity a = (Entity) contact.getFixtureA().getBody().getUserData();
 		Entity b = (Entity) contact.getFixtureB().getBody().getUserData();
 
-		if (a instanceof Level && !(b instanceof DashingKnight || b instanceof Hedgehog || b instanceof Thief || b instanceof Roller || b instanceof Vacuum || b instanceof Tank)) {
+		if (a instanceof Level && !(b instanceof Hedgehog || b instanceof Thief || b instanceof Roller || b instanceof Vacuum || b instanceof Tank)) {
 			return;
-		} else if (b instanceof Level && !(a instanceof DashingKnight || a instanceof Hedgehog || a instanceof Thief || a instanceof Roller || a instanceof Vacuum || a instanceof Tank)) {
+		} else if (b instanceof Level && !(a instanceof Hedgehog || a instanceof Thief || a instanceof Roller || a instanceof Vacuum || a instanceof Tank)) {
 			return;
 		}
 

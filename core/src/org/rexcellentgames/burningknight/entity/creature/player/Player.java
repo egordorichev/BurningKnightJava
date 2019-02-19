@@ -44,21 +44,14 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.accessory.Accessory;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.*;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.Hat;
-import org.rexcellentgames.burningknight.entity.item.accessory.hat.VikingHat;
 import org.rexcellentgames.burningknight.entity.item.active.ActiveItem;
 import org.rexcellentgames.burningknight.entity.item.active.InfiniteBomb;
 import org.rexcellentgames.burningknight.entity.item.autouse.Autouse;
 import org.rexcellentgames.burningknight.entity.item.consumable.Consumable;
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
 import org.rexcellentgames.burningknight.entity.item.key.Key;
-import org.rexcellentgames.burningknight.entity.item.permanent.ExtraHeart;
-import org.rexcellentgames.burningknight.entity.item.permanent.MoreGold;
-import org.rexcellentgames.burningknight.entity.item.permanent.StartWithHealthPotion;
-import org.rexcellentgames.burningknight.entity.item.permanent.StartingArmor;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
@@ -249,10 +242,6 @@ public class Player extends Creature {
 		this.modifyStat("inv_time", 1f);
 		this.modifyStat("reload_time", 1f);
 		this.modifyStat("gun_use_time", 1f);
-
-		if (GlobalSave.isTrue(MoreGold.ID)) {
-			this.goldModifier += 1.3f;
-		}
 	}
 
 	public Player() {
@@ -357,19 +346,6 @@ public class Player extends Creature {
 			if (this.type == Type.RANGER) {
 				this.hpMax = 4;
 				this.hp = 4;
-			}
-
-			if (GlobalSave.isTrue(StartWithHealthPotion.ID)) {
-				this.give(new HealingPotion());
-			}
-
-			if (GlobalSave.isTrue(StartingArmor.ID)) {
-				this.give(new VikingHat());
-			}
-
-			if (GlobalSave.isTrue(ExtraHeart.ID)) {
-				this.hpMax += 2;
-				this.hp += 2;
 			}
 		}
 
@@ -486,7 +462,7 @@ public class Player extends Creature {
 			}
 		}
 
-		if (this.isFlying() && inventory.findEquipped(RedBalloon.class)) {
+		/*if (this.isFlying() && inventory.findEquipped(RedBalloon.class)) {
 			float dx = Math.abs(this.acceleration.x) > 0.5f ? (this.acceleration.x > 0 ? 1 : -1) * 32 : 0;
 			float dy = Math.abs(this.acceleration.y) > 0.5f ? (this.acceleration.y > 0 ? 1 : -1) * 24 : 0;
 
@@ -502,7 +478,7 @@ public class Player extends Creature {
 			Graphics.endAlphaShape();
 			float a = -bx * 1.2f;
 			Graphics.render(balloon, this.x + (16 - balloon.getRegionWidth()) / 2 + bx + balloon.getRegionWidth() / 2, this.y + of + 32 + by, a, balloon.getRegionWidth() / 2, 0, false, false);
-		}
+		}*/
 		
 		if (last != null && count == 1 && !Ui.hideUi) {
 			float dx = last.x + last.w / 2 - this.x - this.w / 2;
@@ -559,12 +535,12 @@ public class Player extends Creature {
 
 		float offset = 0;
 
-		if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
+		/*if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
 			float a = (float) Math.cos(Dungeon.time * 9) * 40f - 10f;
 			offset = (float) -(Math.cos(Dungeon.time * 9) * 1.5f);
 			Graphics.render(wing, this.x + 12, this.y + 4 + offset, a, 0, 2, false, false);
 			Graphics.render(wing, this.x + 4, this.y + 4 + offset, -a, 0, 2, false, false, -1, 1);
-		}
+		}*/
 
 		if (this.rotating) {
 			this.al += Gdx.graphics.getDeltaTime() * 960;
@@ -800,9 +776,9 @@ public class Player extends Creature {
 				((Mob) entity).addBuff(new BurningBuff());
 			}
 
-			if (Random.chance(this.thornDamageChance)) {
+			/*if (Random.chance(this.thornDamageChance)) {
 				((Mob) entity).modifyHp(-this.inventory.findItem(ThornRing.class).getLevel() * 2, this);
-			}
+			}*/
 		}
 	}
 
@@ -974,10 +950,10 @@ public class Player extends Creature {
 		float z = this.z;
 		boolean flying = false;
 
-		if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
+		/*if (this.isFlying() && this.inventory.findEquipped(Wings.class)) {
 			z -= (float) (Math.cos(Dungeon.time * 9) * 1.5f);
 			flying = true;
-		}
+		}*/
 
 		Graphics.shadow(this.x + this.hx, this.y - (flying ? 3 : 0), this.hw, this.hh, z);
 	}
@@ -1630,9 +1606,9 @@ public class Player extends Creature {
 				this.invt = Math.max(this.invt, 1f);
 			}
 
-			if (this.healOnEnter && count > 0 && Random.chance(80)) {
+			/*if (this.healOnEnter && count > 0 && Random.chance(80)) {
 				this.modifyHp(this.inventory.findItem(DewVial.class).getLevel(), null);
-			}
+			}*/
 
 			if (manaRegenRoom && count > 0 && Random.chance(50)) {
 				this.modifyMana(this.getManaMax());
@@ -1702,7 +1678,7 @@ public class Player extends Creature {
 		float v;
 
 		if (luckDamage) {
-			if (Random.chance(((LuckyCube) this.inventory.findItem(LuckyCube.class)).getChance())) {
+			if (false /*Random.chance(((LuckyCube) this.inventory.findItem(LuckyCube.class)).getChance())*/) {
 				v = 2;
 			} else {
 				v = 0.5f;
@@ -1729,7 +1705,7 @@ public class Player extends Creature {
 		float v;
 
 		if (luckDefense) {
-			if (Random.chance(((FortuneArmor) this.inventory.findItem(FortuneArmor.class)).getChance())) {
+			if (false /*Random.chance(((FortuneArmor) this.inventory.findItem(FortuneArmor.class)).getChance())*/) {
 				v = 2;
 			} else {
 				v = 0.5f;
@@ -1776,12 +1752,12 @@ public class Player extends Creature {
 			return false;
 		}
 
-		ManaShield shield = (ManaShield) this.ui.getEquipped(ManaShield.class);
+		/*ManaShield shield = (ManaShield) this.ui.getEquipped(ManaShield.class);
 
 		if (shield != null && this.mana >= shield.getCost() && Random.chance(shield.getChance()) && this.mana >= 2) {
 			this.modifyMana((int) -shield.getCost());
 			return true;
-		}
+		}*/
 
 		return false;
 	}
@@ -1844,8 +1820,7 @@ public class Player extends Creature {
 		}
 
 		if (this.ui != null) {
-
-			BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
+			/*BlackHeart heart = (BlackHeart) this.ui.getEquipped(BlackHeart.class);
 
 			if (heart != null && this.room != null) {
 				for (int i = Mob.all.size() - 1; i >= 0; i--) {
@@ -1861,7 +1836,7 @@ public class Player extends Creature {
 
 			if (clock != null) {
 				Dungeon.slowDown(0.5f - (clock.getLevel() - 1f) * 0.05f, 1f * clock.getLevel());
-			}
+			}*/
 		}
 	}
 

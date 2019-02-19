@@ -51,17 +51,11 @@ public class Gun extends WeaponBase {
 		useTime = 0.8f;
 	}
 
-	protected void setStats() {
-
-	}
-
 	@Override
 	public void load(FileReader reader) throws IOException {
 		super.load(reader);
 
 		this.ammoLeft = reader.readInt32();
-
-		setStats();
 	}
 
 	@Override
@@ -70,13 +64,6 @@ public class Gun extends WeaponBase {
 
 		writer.writeInt32(this.ammoLeft);
 	}
-
-	@Override
-	public void upgrade() {
-		super.upgrade();
-		setStats();
-	}
-
 	@Override
 	public int getValue() {
 		return this.ammoLeft;
@@ -94,10 +81,6 @@ public class Gun extends WeaponBase {
 	protected float lastAngle;
 
 	private static float closestFraction = 1.0f;
-	
-	public Gun() {
-	  setStats();
-  }
 
 	@Override
 	public boolean canBeUsed() {

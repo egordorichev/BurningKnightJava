@@ -10,12 +10,14 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.ShopSale;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.util.*;
+import org.rexcellentgames.burningknight.util.Animation;
+import org.rexcellentgames.burningknight.util.AnimationData;
+import org.rexcellentgames.burningknight.util.DialogData;
+import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 import org.rexcellentgames.burningknight.util.geometry.Point;
@@ -52,9 +54,9 @@ public class Shopkeeper extends Npc {
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> drops = super.getDrops();
 
-		if (Random.chance(20)) {
+		/*if (Random.chance(20)) {
 			drops.add(new ShopSale());
-		}
+		}*/
 
 		for (int i = 0; i < Random.newInt(3, 8); i++) {
 			drops.add(new Gold());

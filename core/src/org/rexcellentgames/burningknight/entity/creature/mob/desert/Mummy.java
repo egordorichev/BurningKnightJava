@@ -5,8 +5,6 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DewVial;
-import org.rexcellentgames.burningknight.entity.item.reference.Star;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -42,11 +40,7 @@ public class Mummy extends Mob {
 	}
 
 	public static Mummy random() {
-		switch (Random.newInt(3)) {
-			case 0: return new Mummy();
-			case 1: return new GrayMummy();
-			default: return new BrownMummy();
-		}
+		return new Mummy();
 	}
 
 	{
@@ -228,14 +222,6 @@ public class Mummy extends Mob {
 	@Override
 	protected ArrayList<Item> getDrops() {
 		ArrayList<Item> items = super.getDrops();
-
-		if (Random.chance(2)) {
-			items.add(new DewVial());
-		}
-
-		if (Random.chance(1)) {
-			items.add(new Star());
-		}
 
 		return items;
 	}

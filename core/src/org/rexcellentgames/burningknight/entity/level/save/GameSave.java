@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -25,8 +24,6 @@ public class GameSave {
 		try {
 			writer.writeByte((byte) (old ? Dungeon.lastDepth : Dungeon.depth));
 			writer.writeByte((byte) (Player.instance == null ? Player.toSet.id : Player.instance.type.id));
-
-			ChangableRegistry.save(writer);
 
 			writer.writeBoolean(defeatedBK);
 			writer.writeInt32(killCount);
@@ -87,8 +84,6 @@ public class GameSave {
 		byte d = reader.readByte();
 		Player.toSet = Player.Type.values()[reader.readByte()];
 
-		ChangableRegistry.load(reader);
-
 		defeatedBK = reader.readBoolean();
 		killCount = reader.readInt32();
 		time = reader.readFloat();
@@ -108,12 +103,5 @@ public class GameSave {
 		defeatedBK = false;
 		inventory = false;
 		playedAlpha = false;
-
-		// fixme: remove
-		if (Version.debug) {
-			// runId = 0;
-		}
-
-		ChangableRegistry.generate();
 	}
 }

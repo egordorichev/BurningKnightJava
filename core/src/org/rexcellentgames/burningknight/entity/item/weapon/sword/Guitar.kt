@@ -1,16 +1,11 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.sword
 
-import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Graphics
 import org.rexcellentgames.burningknight.assets.Locale
-import org.rexcellentgames.burningknight.entity.creature.fx.Note
-import org.rexcellentgames.burningknight.entity.creature.player.Player
-import org.rexcellentgames.burningknight.game.input.Input
-import org.rexcellentgames.burningknight.util.Random
 
 class Guitar : Sword() {
-	override fun setStats() {
-		val letter = if (this.level <= 2) "a" else if (this.level <= 4) "b" else "c"
+	init {
+		val letter = "a"
 
 		description = Locale.get("guitar_desc")
 		name = Locale.get("guitar_" + letter)
@@ -23,7 +18,7 @@ class Guitar : Sword() {
 	override fun use() {
 		super.use()
 
-		if (this.level >= 3f) {
+		/*if (this.level >= 3f) {
 			val note = Note()
 
 			val a = Math.max(0f, 10 - (this.owner as Player).accuracy)
@@ -34,6 +29,6 @@ class Guitar : Sword() {
 			note.bad = false
 
 			Dungeon.area.add(note)
-		}
+		}*/
 	}
 }

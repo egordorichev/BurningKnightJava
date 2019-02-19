@@ -1,27 +1,16 @@
 package org.rexcellentgames.burningknight.entity.item.weapon;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.GdxRuntimeException;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.weapon.modifier.Modifier;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.pool.ModifierPool;
 import org.rexcellentgames.burningknight.util.Random;
-import org.rexcellentgames.burningknight.util.file.FileReader;
-import org.rexcellentgames.burningknight.util.file.FileWriter;
-
-import java.io.IOException;
 
 public class WeaponBase extends Item {
-	protected Modifier modifier;
 	public int damage = 2;
 	protected int minDamage = -1;
 	public float timeA = 0.1f;
@@ -36,21 +25,6 @@ public class WeaponBase extends Item {
 	
 	protected String getSfx() {
 		return "whoosh";
-	}
-
-	@Override
-	public boolean canBeUpgraded() {
-		return true;
-	}
-
-	@Override
-	public int getMinLevel() {
-		return 0;
-	}
-
-	@Override
-	public int getMaxLevel() {
-		return 7;
 	}
 
 	@Override
@@ -95,7 +69,7 @@ public class WeaponBase extends Item {
 			return this.damage * (lastCrit ? 2 : 1);
 		}
 
-		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1)) + this.level - 1;
+		return Math.round(Random.newFloatDice(this.minDamage, this.damage) * (lastCrit ? 2 : 1));
 	}
 
 	protected boolean penetrates;
@@ -112,8 +86,8 @@ public class WeaponBase extends Item {
 
 		float mod = Player.instance.getDamageModifier();
 
-		int min = Math.max(1, Math.round((this.minDamage + this.level - 1) * mod));
-		int dmg = Math.max(1, Math.round((this.damage + this.level - 1) * mod));
+		int min = Math.max(1, Math.round((this.minDamage) * mod));
+		int dmg = Math.max(1, Math.round((this.damage) * mod));
 
 		if (min != dmg) {
 			builder.append(min);
@@ -133,10 +107,6 @@ public class WeaponBase extends Item {
 			builder.append("% ");
 			builder.append(critLocale);
 			builder.append("[gray]");
-		}
-
-		if (this.modifier != null) {
-			this.modifier.apply(builder);
 		}
 
 		if (this.penetrates || this.owner.penetrates) {
@@ -165,35 +135,6 @@ public class WeaponBase extends Item {
 		this.minDamage = initialDamageMin;
 	}
 
-	public void setModifier(Modifier modifier) {
-		if (this.modifier != null) {
-			this.modifier.remove(this);
-		}
-
-		this.modifier = modifier;
-
-		if (this.modifier != null) {
-			this.modifier.apply(this);
-		}
-	}
-
-	public void startRender() {
-		float a = (float) Math.abs(Math.sin(Dungeon.time));
-		Color c = modifier.getColor();
-
-		float r = 1f - (1 - c.r) * a;
-		float g = 1f - (1 - c.g) * a;
-		float b = 1f - (1 - c.b) * a;
-
-		Graphics.batch.end();
-		Mob.shader.begin();
-		Mob.shader.setUniformf("u_color", new Vector3(r, g, b));
-		Mob.shader.setUniformf("u_a", 1f);
-		Mob.shader.end();
-		Graphics.batch.setShader(Mob.shader);
-		Graphics.batch.begin();
-	}
-
 	public void renderAt(float x, float y, float ox, float oy, float scale) {
 		renderAt(x, y, 0, ox, oy, false, false, scale, scale);
 	}
@@ -220,20 +161,6 @@ public class WeaponBase extends Item {
 
 	public void renderAt(float x, float y, float a, float ox, float oy, boolean fx, boolean fy, float sx, float sy, float al, float gray) {
 		Graphics.batch.setColor(1, 1, 1, 1);
-
-		if (this.modifier != null) {
-			startRender();
-
-			for (int xx = -1; xx < 2; xx++) {
-				for (int yy = -1; yy < 2; yy++) {
-					if (Math.abs(xx) + Math.abs(yy) == 1) {
-						Graphics.render(getSprite(), x, y, a, ox + xx, oy + yy, fx, fy, sx, sy);
-					}
-				}
-			}
-
-			endRender();
-		}
 
 		Graphics.batch.end();
 		shader.begin();
@@ -268,57 +195,5 @@ public class WeaponBase extends Item {
 	public void onPickup() {
 		super.onPickup();
 		this.t = Random.newFloat(10f);
-		this.identify();
-	}
-
-	public void endRender() {
-		Graphics.batch.end();
-		Graphics.batch.setShader(null);
-		Graphics.batch.begin();
-	}
-
-	@Override
-	public void generate() {
-		super.generate();
-		/*if (Random.chance(25)) {
-			this.generateModifier();
-		}*/
-	}
-
-	public void generateModifier() {
-		if (this.modifier == null && Dungeon.depth > -1) {
-			this.setModifier(ModifierPool.instance.generate());
-		}
-	}
-
-	@Override
-	public String getName() {
-		if (this.modifier != null) {
-			return this.modifier.getName() + " " + super.getName();
-		}
-
-		return super.getName();
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-
-		int id = reader.readInt16();
-
-		if (id > 0) {
-			this.setModifier(ModifierPool.instance.getModifier(id - 1));
-		}
-	}
-
-	@Override
-	public void save(FileWriter writer) throws IOException {
-		super.save(writer);
-
-		if (this.modifier == null) {
-			writer.writeInt16((short) 0);
-		} else {
-			writer.writeInt16((short) (this.modifier.id + 1));
-		}
 	}
 }

@@ -21,31 +21,8 @@ public class Dagger extends Sword {
 		timeB = 0.2f;
 		delayA = 0;
 		delayB = 0;
-	}
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-		setStats();
-	}
-
-	@Override
-	public void upgrade() {
-		super.upgrade();
-		setStats();
-	}
-
-	public Dagger() {
-		setStats();
-	}
-
-	@Override
-	public int getMaxLevel() {
-		return 7;
-	}
-
-	protected void setStats() {
-		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+		String letter = "a";
 
 		description = Locale.get("dagger_desc");
 		name = Locale.get("dagger_" + letter);

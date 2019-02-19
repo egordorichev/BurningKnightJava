@@ -1,9 +1,6 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.hall;
 
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Aim;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.AmmoHolder;
-import org.rexcellentgames.burningknight.entity.item.pet.orbital.AmmoOrbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.BadGun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
@@ -45,25 +42,6 @@ public class RangedKnight extends Knight {
 
 		if (Random.chance(5)) {
 			items.add(new Revolver());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new Aim());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new AmmoHolder());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new Aim());
-		}
-
-		if (Random.chance(0.2f)) {
-			AmmoOrbital item = new AmmoOrbital();
-			item.generate();
-
-			items.add(item);
 		}
 
 		return items;

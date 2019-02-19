@@ -21,14 +21,4 @@ public class Compass extends Equippable {
 		super.onUnequip(load);
 		this.owner.seePath = false;
 	}
-
-	@Override
-	public boolean canBeUpgraded() {
-		return false;
-	}
-
-	@Override
-	public boolean canBeDegraded() {
-		return false;
-	}
 }

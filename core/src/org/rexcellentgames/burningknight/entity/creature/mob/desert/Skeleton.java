@@ -275,14 +275,6 @@ public class Skeleton extends Mob {
 	}
 
 	public static Skeleton random() {
-		float r = Random.newFloat(1);
-
-		if (r < 0.5f) {
-			return new Skeleton();
-		} else if (r < 0.8f) {
-			return new BlackSkeleton();
-		} else {
-			return new BrownSkeleton();
-		}
+		return new Skeleton();
 	}
 }

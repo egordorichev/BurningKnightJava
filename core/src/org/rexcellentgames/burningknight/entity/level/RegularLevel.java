@@ -5,7 +5,6 @@ import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Bomb;
-import org.rexcellentgames.burningknight.entity.item.ChangableRegistry;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.builders.*;
@@ -81,9 +80,6 @@ public abstract class RegularLevel extends Level {
 		}
 
 		Log.info("Done painting");
-
-		ChangableRegistry.generate();
-
 		this.loadPassable();
 
 		Log.info("Spawning entities...");
@@ -322,16 +318,6 @@ public abstract class RegularLevel extends Level {
 
 			if (room != null) {
 				rooms.add(room);
-
-				if (room instanceof ButtonPuzzleRoom) {
-					ButtonAnswerRoom r = new ButtonAnswerRoom();
-					r.room = (ButtonPuzzleRoom) room;
-
-					rooms.add(r);
-				} else if (room instanceof LeverPuzzleRoom) {
-					LeverAnswerRoom r = new LeverAnswerRoom();
-					rooms.add(r);
-				}
 			}
 		}
 

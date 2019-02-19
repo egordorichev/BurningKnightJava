@@ -43,11 +43,6 @@ public class Gold extends Item {
 	}
 
 	@Override
-	public boolean disableBlink() {
-		return true;
-	}
-
-	@Override
 	public Item setCount(int count) {
 		if (count == 1) {
 			this.animation = bronze.get("idle");

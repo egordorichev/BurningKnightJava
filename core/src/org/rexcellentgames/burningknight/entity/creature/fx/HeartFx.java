@@ -8,7 +8,6 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Spark;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.BlueHeart;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -137,12 +136,6 @@ public class HeartFx extends SaveableEntity {
 			if ((this.type == Type.RED || this.type == Type.RED_HALF) && player.getHp() < player.getHpMax()) {
 				player.modifyHp(2, null);
 				this.end(player);
-
-				BlueHeart heart = (BlueHeart) player.ui.getEquipped(BlueHeart.class);
-
-				if (heart != null) {
-					player.modifyMana(2 * heart.getLevel());
-				}
 
 				player.numCollectedHearts += this.type == Type.RED ? 2 : 1;
 			} else if (s < 32) {

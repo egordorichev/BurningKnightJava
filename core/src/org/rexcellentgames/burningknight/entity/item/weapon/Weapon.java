@@ -144,18 +144,10 @@ public class Weapon extends WeaponBase {
 
 			int damage = -Math.max(creature.getDefense() + 1, this.rollDamage());
 
-			if (this.modifier != null) {
-				damage = this.modifier.modDamage(damage);
-			}
-
 			HpFx fx = creature.modifyHp(damage, this.owner);
 
 			if (fx != null && lastCrit) {
 				fx.crit = true;
-			}
-
-			if (this.modifier != null) {
-				this.modifier.onHit((Player) this.owner, creature, damage);
 			}
 		}
 	}

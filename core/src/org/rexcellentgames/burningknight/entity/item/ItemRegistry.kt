@@ -1,8 +1,8 @@
 package org.rexcellentgames.burningknight.entity.item
 
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.BombInABomb
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
+import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.ConfettiGun
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand
@@ -29,9 +29,9 @@ object ItemRegistry {
 
 		// Items
 		"confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),
-		"bomb_in_bomb" to Pair(BombInABomb::class.java, 1f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.ACCESSORY, 3),
 		"guitar" to Pair(Guitar::class.java, 0.5f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 		"spear" to Pair(Spear::class.java, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
+		"spear" to Pair(Dagger::class.java, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
 		"missile_wand" to Pair(MagicMissileWand::class.java, 1f, 0.3f, 1f, 0.3f, Quality.WOODEN),
 		"gun" to Pair(Revolver::class.java, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN)
 	).toList().sortedBy { (_, value) -> value }.toMap()

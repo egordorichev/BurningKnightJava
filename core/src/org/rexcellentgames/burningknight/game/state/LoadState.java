@@ -13,7 +13,6 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.level.Level;
-import org.rexcellentgames.burningknight.entity.level.entities.AnswerButton;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Mimic;
@@ -188,7 +187,6 @@ public class LoadState extends State {
 
 		Chest.all.clear();
 		Mimic.all.clear();
-		AnswerButton.all.clear();
 
 		PlayerSave.all.clear();
 		LevelSave.all.clear();

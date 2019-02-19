@@ -19,10 +19,8 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.consumable.potion.HealingPotion;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
-import org.rexcellentgames.burningknight.entity.item.weapon.magic.FireWand;
 import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -267,7 +265,7 @@ public class HandmadeRoom extends RegularRoom {
 			} else if (name.equals("tutorial_chest")) {
 				Chest chest = new WoodenChest();
 
-				chest.setItem(new FireWand());
+				// chest.setItem(new FireWand());
 				chest.x = x + rect.x + 16;
 				chest.y = y + rect.y + 16;
 				chest.locked = true;
@@ -276,7 +274,7 @@ public class HandmadeRoom extends RegularRoom {
 			} else if (name.equals("heal_chest")) {
 				Chest chest = new WoodenChest();
 
-				chest.setItem(new HealingPotion());
+				//chest.setItem(new HealingPotion());
 				chest.x = x + rect.x + 16;
 				chest.y = y + rect.y + 16;
 				chest.locked = false;
@@ -346,13 +344,6 @@ public class HandmadeRoom extends RegularRoom {
 				ninjia.y = y + rect.y + 16;
 
 				Dungeon.area.add(ninjia.add());
-			} else if (name.equals("roll_collider")) {
-				RollTrigger trigger = new RollTrigger();
-
-				trigger.x = x + rect.x + 16;
-				trigger.y = y + rect.y + 16;
-
-				Dungeon.area.add(trigger.add());
 			} else if (name.equals("carpet") || name.equals("stand") || name.equals("target") || name.equals("shields") || name.equals("maniken") || name.equals("bone")
 					|| name.equals("bat") || name.equals("frog") || name.equals("skull") || name.equals("blood") || name.equals("frame_a") ||  name.equals("frame_b")) {
 				ShopProp prop = new ShopProp();
@@ -377,13 +368,6 @@ public class HandmadeRoom extends RegularRoom {
 				prop.y = y + rect.y + 16 - 8;
 
 				Dungeon.area.add(prop.add());
-			} else if (name.equals("tutorial_end")) {
-				TutorialEnd end = new TutorialEnd();
-
-				end.x = x + rect.x + 16;
-				end.y = y + rect.y + 16 - 8;
-
-				Dungeon.area.add(end.add());
 			} else {
 				Log.error("Unknown entity " + name);
 			}

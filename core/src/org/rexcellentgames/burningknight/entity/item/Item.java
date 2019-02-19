@@ -10,7 +10,6 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.Log;
-import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Utils;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -33,12 +32,9 @@ public class Item extends Entity {
   protected boolean useable = true;
   protected float delay = 0;
   protected float useTime = 0.5f;
-  protected boolean identified;
-  protected boolean cursed;
   protected Creature owner;
   protected TextureRegion region;
   protected boolean auto = false;
-  protected int level = 1;
   protected String useSpeedStr;
   public int price = 15;
   public boolean sale;
@@ -47,46 +43,9 @@ public class Item extends Entity {
 		initStats();
   }
 
-  public int getMaxLevel() {
-  	return 11;
-  }
-
-  public int getMinLevel() {
-  	return -1;
-  }
-
-  public boolean canBeDegraded() {
-  	return false;
-  }
-
-  public void upgrade() {
-  	if (!canBeUpgraded()) {
-  		return;
-	  }
-
-	  this.cursed = false;
-  	this.level = (byte) Math.min(this.getMaxLevel(), this.level + 1);
-  }
-
-	public void degrade() {
-  	if (!canBeDegraded()) {
-  		return;
-	  }
-
-		this.level = (byte) Math.max(this.getMinLevel(), this.level - 1);
-	}
-
   public void disableAutoPickup() {
   	this.autoPickup = false;
   }
-
-	public int getLevel() {
-		return level;
-	}
-
-	public boolean canBeUpgraded() {
-		return false;
-	}
 
   public int getPrice() {
   	return 5;
@@ -136,34 +95,8 @@ public class Item extends Entity {
   }
 
   public void generate() {
-  	float r = Random.newFloat();
 
-	  if (r <= 0.2f) {
-			if (this.canBeDegraded()) {
-				this.degrade();
-
-				/*if (Random.chance(50)) {
-					this.cursed = true;
-				}*/
-
-				if (Random.chance(30)) {
-					this.degrade();
-				}
-			}
-		} else if (r <= 0.4f) {
-			if (this.canBeUpgraded()) {
-				this.upgrade();
-
-				if (Random.chance(30)) {
-					this.upgrade();
-				}
-			}
-		}
   }
-
-	public void setLevel(byte level) {
-		this.level = level;
-	}
 
   public void onPickup() {
   	if (Dungeon.depth != -1 && Dungeon.darkR == Dungeon.MAX_R && Dungeon.game.getState() instanceof InGameState) {
@@ -222,9 +155,6 @@ public class Item extends Entity {
     writer.writeBoolean(this.shop);
     writer.writeByte((byte) this.price);
     writer.writeBoolean(this.sale);
-    writer.writeByte((byte) this.level);
-	  writer.writeBoolean(this.identified);
-	  writer.writeBoolean(this.cursed);
   }
 
   public void load(FileReader reader) throws IOException {
@@ -232,13 +162,6 @@ public class Item extends Entity {
     this.shop = reader.readBoolean();
     this.price = reader.readByte();
     this.sale = reader.readBoolean();
-    this.level = reader.readByte();
-    this.identified = reader.readBoolean();
-	  this.cursed = reader.readBoolean();
-  }
-
-  public boolean disableBlink() {
-  	return false;
   }
 
   public TextureRegion getSprite() {
@@ -283,17 +206,6 @@ public class Item extends Entity {
     return this.autoPickup;
   }
 
-  public boolean isCursed() {
-    return this.cursed;
-  }
-
-  public boolean isIdentified() {
-    return this.identified;
-  }
-
-  public void identify() {
-    this.identified = true;
-  }
 
   public String getDescription() {
     return this.description;
@@ -314,14 +226,6 @@ public class Item extends Entity {
       builder.append(this.getDescription());
     }
 
-    if (this.cursed && this.identified) {
-      builder.append("\n[red]");
-      builder.append(cursedLocale);
-      builder.append("[gray]");
-    }
-
     return builder;
   }
-
-  private static String cursedLocale = Locale.get("cursed");
 }

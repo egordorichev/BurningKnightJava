@@ -3,8 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.rooms.item;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.consumable.scroll.ScrollOfUpgrade;
-import org.rexcellentgames.burningknight.entity.item.tool.WaterBucket;
+import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
 import org.rexcellentgames.burningknight.entity.level.rooms.regular.RegularRoom;
 import org.rexcellentgames.burningknight.util.Random;
@@ -14,16 +13,9 @@ public class ItemRoom extends RegularRoom {
 	protected void placeItem(Point point) {
 		Item item = null;
 
-		for (Item i : Dungeon.level.itemsToSpawn) {
-			if (i instanceof ScrollOfUpgrade) {
-				item = i;
-				break;
-			}
-		}
-
 		if (item == null) {
 			if (Dungeon.level.itemsToSpawn.size() == 0) {
-				item = new WaterBucket();
+				item = new Sword();
 			} else {
 				item = Dungeon.level.itemsToSpawn.get(Random.newInt(Dungeon.level.itemsToSpawn.size()));
 			}

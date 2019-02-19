@@ -29,7 +29,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
-import org.rexcellentgames.burningknight.entity.level.entities.MagicWell;
 import org.rexcellentgames.burningknight.entity.level.rooms.HandmadeRoom;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
@@ -777,7 +776,6 @@ public class Dungeon extends ApplicationAdapter {
 			BurningKnight.shader.dispose();
 			Level.maskShader.dispose();
 			Level.shader.dispose();
-			MagicWell.shader.dispose();
 			WeaponBase.shader.dispose();
 			RectFx.shader.dispose();
 			shader.dispose();

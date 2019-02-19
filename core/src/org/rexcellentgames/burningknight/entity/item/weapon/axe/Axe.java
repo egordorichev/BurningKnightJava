@@ -22,36 +22,21 @@ public class Axe extends Weapon {
 		ox = 0;
 		oy = 0;
 		auto = true;
-		setStats();
-	}
 
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-		setStats();
+		String letter = "a";
+
+		name = Locale.get("axe_" + letter);
+		description = Locale.get("axe_desc");
+		damage = 3;
+		penetrates = true;
+		sprite = "item-axe_" + letter;
+		region = Graphics.getTexture(sprite);
 	}
 
 	@Override
 	public void onPickup() {
 		super.onPickup();
 		Achievements.unlock("UNLOCK_AXE");
-	}
-
-	@Override
-	public void upgrade() {
-		super.upgrade();
-		setStats();
-	}
-
-	protected void setStats() {
-		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : (this.level <= 6 ? "c" : "d"));
-
-		name = Locale.get("axe_" + letter);
-		description = Locale.get("axe_desc");
-		damage = 2 + this.level;
-		penetrates = true;
-		sprite = "item-axe_" + letter;
-		region = Graphics.getTexture(sprite);
 	}
 
 	private float added;

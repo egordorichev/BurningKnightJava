@@ -46,7 +46,7 @@ public class Wand extends WeaponBase {
 	protected float sx = 1;
 
 	public int getManaUsage() {
-		return (int) Math.max(1, this.mana - this.level + 1);
+		return (int) Math.max(1, this.mana);
 	}
 
 	@Override

@@ -10,13 +10,8 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Item;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DamageEmblem;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.DefenseEmblem;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.StopAndPlay;
-import org.rexcellentgames.burningknight.entity.item.consumable.food.Bread;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
-import org.rexcellentgames.burningknight.entity.item.weapon.throwing.ThrowingDagger;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.physics.World;
@@ -138,22 +133,6 @@ public class Knight extends Mob {
 
 		if (Random.chance(5)) {
 			items.add(new Sword());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new DefenseEmblem());
-		}
-
-		if (Random.chance(1)) {
-			items.add(new DamageEmblem());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new StopAndPlay());
-		}
-
-		if (Random.chance(2)) {
-			items.add(new Bread());
 		}
 
 		return items;
@@ -365,9 +344,6 @@ public class Knight extends Mob {
 
 			if (self.sword instanceof Sword) {
 				this.att = ATTACK_DISTANCE;
-			} else if (self.sword instanceof ThrowingDagger) {
-				// dagger knights
-				this.att = 80f;
 			} else {
 				// ranged knights
 				this.att = 180f;

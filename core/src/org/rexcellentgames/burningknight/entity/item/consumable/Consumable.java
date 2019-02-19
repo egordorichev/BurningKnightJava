@@ -3,21 +3,18 @@ package org.rexcellentgames.burningknight.entity.item.consumable;
 import org.rexcellentgames.burningknight.entity.item.Item;
 
 public class Consumable extends Item {
-	{
-		stackable = true;
-	}
-
-
 	@Override
 	public void use() {
-		super.use();
-
-		if (this.canBeConsumed()) {
-			this.setCount(this.count - 1);
+		if (!canBeUsed() || count == 0) {
+			return;
 		}
-	}
 
-	protected boolean canBeConsumed() {
-		return true;
+		setCount(Math.max(0, count - 1));
+
+		if (count == 0) {
+			done = true;
+		}
+
+		super.use();
 	}
 }

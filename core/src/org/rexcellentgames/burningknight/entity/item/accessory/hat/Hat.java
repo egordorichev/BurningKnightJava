@@ -14,11 +14,6 @@ public class Hat extends Accessory {
 	}
 
 	@Override
-	public boolean canBeUpgraded() {
-		return true;
-	}
-
-	@Override
 	public void use() {
 		super.use();
 		int i;

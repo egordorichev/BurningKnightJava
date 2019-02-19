@@ -28,24 +28,6 @@ public class Equippable extends Accessory {
 	}
 
 	@Override
-	public void upgrade() {
-		if (equipped) {
-			this.onUnequip(false);
-		}
-
-		super.upgrade();
-
-		if (equipped) {
-			this.onEquip(false);
-		}
-	}
-
-	@Override
-	public int getMinLevel() {
-		return 0;
-	}
-
-	@Override
 	public boolean isUseable() {
 		return true;
 	}

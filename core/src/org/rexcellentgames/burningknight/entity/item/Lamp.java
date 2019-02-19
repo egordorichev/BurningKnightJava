@@ -30,7 +30,6 @@ public class Lamp extends Item {
 		sprite = "item-lamp";
 		description = Locale.get("lamp_desc");
 		useTime = 0.2f;
-		cursed = true;
 	}
 
 	public float val = Dungeon.type == Dungeon.Type.INTRO ? 90f : 100f;

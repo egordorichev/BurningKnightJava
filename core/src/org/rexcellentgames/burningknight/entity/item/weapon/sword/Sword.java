@@ -3,9 +3,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.sword;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.util.file.FileReader;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 public class Sword extends SlashSword {
@@ -28,14 +26,9 @@ public class Sword extends SlashSword {
 		maxAngle = 200;
 
 		useTime = timeA + delayA + timeB + delayB + timeC;
-	}
 
-	public Sword() {
-		setStats();
-	}
 
-	protected void setStats() {
-		String letter = this.level <= 2 ? "a" : (this.level <= 4 ? "b" : "c");
+		String letter = "a";
 
 		name = Locale.get("sword_" + letter);
 		description = Locale.get("sword_desc");
@@ -43,23 +36,6 @@ public class Sword extends SlashSword {
 		damage = 10;
 		useTime = 0.4f;
 		region = Graphics.getTexture(sprite);
-	}
-
-	@Override
-	public int getMaxLevel() {
-		return 7;
-	}
-
-	@Override
-	public void upgrade() {
-		super.upgrade();
-		setStats();
-	}
-
-	@Override
-	public void load(FileReader reader) throws IOException {
-		super.load(reader);
-		setStats();
 	}
 
 	{

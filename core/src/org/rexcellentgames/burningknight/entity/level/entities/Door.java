@@ -14,7 +14,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.TerrainFlameFx;
-import org.rexcellentgames.burningknight.entity.item.accessory.equippable.Lootpick;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.key.*;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
@@ -218,14 +217,14 @@ public class Door extends SaveableEntity {
 		this.al += ((this.collidingWithPlayer ? 1 : 0) - this.al) * dt * 10;
 
 		if (this.lock && this.onScreen && this.al >= 0.5f && Input.instance.wasPressed("interact")) {
-			if (key != BurningKey.class && Player.instance.ui.hasEquipped(Lootpick.class)) {
+			/*if (key != BurningKey.class && Player.instance.ui.hasEquipped(Lootpick.class)) {
 
 				this.body = World.removeBody(this.body);
 				this.lock = false;
 				this.animation.setBack(false);
 				this.animation.setPaused(false);
 				this.lockAnim = this.unlock;
-			} else if ((this.key == KeyC.class && Player.instance.getKeys() > 0) || Player.instance.getInventory().find(this.key)) {
+			} else */if ((this.key == KeyC.class && Player.instance.getKeys() > 0) || Player.instance.getInventory().find(this.key)) {
 				if (this.key == KeyC.class) {
 					Player.instance.setKeys(Player.instance.getKeys() - 1);
 				} else {

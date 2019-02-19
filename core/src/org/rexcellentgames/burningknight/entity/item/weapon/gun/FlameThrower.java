@@ -65,9 +65,4 @@ public class FlameThrower extends Gun {
 			}
 		}
 	}
-
-	@Override
-	public boolean canBeUpgraded() {
-		return false;
-	}
 }
