@@ -315,7 +315,7 @@ public class Archeologist extends Mob {
 
 					float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-					float knockbackMod = creature.getStat("knockback");
+					float knockbackMod = creature.knockbackMod;
 					creature.velocity.x += Math.cos(a) * 5000f * knockbackMod;
 					creature.velocity.y += Math.sin(a) * 5000f * knockbackMod;
 				}

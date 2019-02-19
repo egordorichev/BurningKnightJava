@@ -66,7 +66,7 @@ public class Mine extends SaveableEntity {
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-						float knockbackMod = creature.getStat("knockback");
+						float knockbackMod = creature.knockbackMod;
 						creature.knockback.x += Math.cos(a) * 10f * knockbackMod;
 						creature.knockback.y += Math.sin(a) * 10f * knockbackMod;
 

@@ -91,7 +91,7 @@ public class Creature extends SaveableEntity {
 	protected Point acceleration = new Point();
 	protected boolean touches[] = new boolean[Terrain.SIZE];
 	protected boolean ignoreAcceleration;
-	protected float invTime = 0.2f;
+	public float invTime = 0.2f;
 	public float knockbackMod = 1f;
 
 	public float getWeaponAngle() {
