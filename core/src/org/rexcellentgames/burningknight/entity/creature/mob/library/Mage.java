@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.entity.pattern.BulletPattern;
 import org.rexcellentgames.burningknight.entity.pattern.CircleBulletPattern;
 import org.rexcellentgames.burningknight.physics.World;
@@ -251,12 +252,9 @@ public class Mage extends Mob {
 	}
 
 	public BulletProjectile newProjectile() {
-		BulletProjectile bullet = new BulletProjectile();
-
-		bullet.sprite = Graphics.getTexture("bullet-nano");
+		BulletProjectile bullet = new NanoBullet();
 
 		bullet.damage = 1;
-		bullet.letter = "bullet-nano";
 		bullet.owner = this;
 		bullet.bad = true;
 

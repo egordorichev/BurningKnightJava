@@ -188,7 +188,6 @@ public class ShopRoom extends LockedRoom {
 		placeItems(items);
 	}
 
-
 	private void paintMixed(int c) {
 		ArrayList<Item> items = new ArrayList<>();
 
@@ -259,7 +258,7 @@ public class ShopRoom extends LockedRoom {
 		}
 
 		if (Player.instance != null) {
-			int cn = (int) Player.instance.getStat("sale");
+			int cn = (int) Player.instance.sales;
 
 			for (int j = 0; j < cn; j++) {
 				holder.sale();

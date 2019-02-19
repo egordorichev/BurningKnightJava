@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.FireFx;
 import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -277,10 +278,7 @@ public class Turret extends SolidProp {
 		this.t = 0;
 		this.playSfx(this.type == 3 ? "fire" : "gun_machinegun");
 
-		BulletProjectile bullet = new BulletProjectile();
-		bullet.sprite = Graphics.getTexture("bullet-nano");
-		bullet.letter = "bullet-nano";
-		// bullet.anim = getAnimation().get("projectile");
+		BulletProjectile bullet = new NanoBullet();
 
 		float x = (float) (this.x + 8 + Math.cos(this.a) * 8);
 		float y = (float) (this.y + 8 + Math.sin(this.a) * 8);

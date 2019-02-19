@@ -6,6 +6,7 @@ import org.rexcellentgames.burningknight.entity.fx.FireFx;
 import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.file.FileReader;
@@ -87,9 +88,7 @@ public class FourSideTurret extends Turret {
 		}
 
 		for (int i = 0; i < 4; i++) {
-			BulletProjectile bullet = new BulletProjectile();
-			bullet.sprite = Graphics.getTexture("bullet-nano");
-			// bullet.anim = getAnimation().get("projectile");
+			BulletProjectile bullet = new NanoBullet();
 
 			float x = this.x + 8;
 			float y = this.y + 8;
@@ -99,7 +98,6 @@ public class FourSideTurret extends Turret {
 			bullet.damage = 2;
 			bullet.w = 12;
 			bullet.h = 12;
-			bullet.letter = "bullet-nano";
 			bullet.bad = true;
 
 			this.modify(bullet);

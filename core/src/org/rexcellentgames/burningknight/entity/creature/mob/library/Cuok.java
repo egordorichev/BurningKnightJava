@@ -8,6 +8,8 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletRect;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
@@ -190,11 +192,8 @@ public class Cuok extends Mob {
 	}
 
 	public void spawnBullet(float a) {
-		BulletProjectile bullet = new BulletProjectile();
+		BulletProjectile bullet = Random.chance(50) ? new NanoBullet() : new BulletRect();
 
-		boolean atom = Random.chance(50);
-
-		bullet.letter = atom ? "bullet-nano" : (Random.chance(30) ? "bullet-atom" : "bullet-rect");
 		bullet.bad = true;
 		bullet.owner = this;
 		bullet.x = x + w / 2;

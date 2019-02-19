@@ -65,6 +65,10 @@ public class Wand extends WeaponBase {
 
 	@Override
 	public void use() {
+		if (!canBeUsed()) {
+			return;
+		}
+
 		int mn = getManaUsage();
 
 		if (this.owner.getMana() < mn) {
@@ -231,7 +235,6 @@ public class Wand extends WeaponBase {
 		missile.depth = 1;
 		missile.damage = this.rollDamage();
 
-		missile.crit = this.lastCrit;
 		missile.owner = this.owner;
 		missile.x = x;
 		missile.y = y - 3;

@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.common.DiagonalFly;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletAtom;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
@@ -55,7 +56,7 @@ public class DiagonalShotFly extends DiagonalFly {
 		playSfx("gun_machinegun");
 
 		for (int i = 0; i < 8; i++) {
-			BulletProjectile ball = new BulletProjectile();
+			BulletProjectile ball = new BulletAtom();
 
 			float a = (float) (i * Math.PI / 4);
 			ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(50f * Mob.shotSpeedMod);
@@ -65,7 +66,6 @@ public class DiagonalShotFly extends DiagonalFly {
 			ball.damage = 2;
 			ball.bad = true;
 
-			ball.letter = "bullet-atom";
 			Dungeon.area.add(ball);
 		}
 	}

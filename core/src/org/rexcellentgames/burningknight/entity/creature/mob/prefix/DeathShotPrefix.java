@@ -1,9 +1,10 @@
 package org.rexcellentgames.burningknight.entity.creature.mob.prefix;
 
 import com.badlogic.gdx.graphics.Color;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class DeathShotPrefix extends Prefix {
@@ -19,7 +20,7 @@ public class DeathShotPrefix extends Prefix {
 		super.onDeath(mob);
 
 		for (int i = 0; i < 8; i++) {
-			BulletProjectile ball = new BulletProjectile();
+			BulletProjectile ball = new NanoBullet();
 
 			float a = (float) (i * Math.PI / 4);
 			ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);
@@ -29,7 +30,6 @@ public class DeathShotPrefix extends Prefix {
 			ball.damage = 2;
 			ball.bad = true;
 
-			ball.letter = "bullet-nano";
 			Dungeon.area.add(ball);
 		}
 	}

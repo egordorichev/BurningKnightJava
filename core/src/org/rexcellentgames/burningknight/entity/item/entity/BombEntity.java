@@ -20,6 +20,7 @@ import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
@@ -169,14 +170,13 @@ public class BombEntity extends Entity {
 		if (this.animation.update(dt * this.mod)) {
 			if (this.bullets) {
 				for (int i = 0; i < 8; i++) {
-					BulletProjectile bullet = new BulletProjectile();
+					BulletProjectile bullet = new NanoBullet();
 
 					float f = 60;
 					float a = (float) (i * (Math.PI / 4));
 
 					bullet.damage = 10;
 					bullet.bad = this.owner instanceof Mob;
-					bullet.letter = "nano";
 					bullet.x = (float) (this.x + Math.cos(a) * 8);
 					bullet.y = (float) (this.y + Math.sin(a) * 8);
 					bullet.velocity.x = (float) (Math.cos(a) * f);
@@ -235,7 +235,7 @@ public class BombEntity extends Entity {
 
 						float a = (float) Math.atan2(creature.y + creature.h / 2 - this.y - 8, creature.x + creature.w / 2 - this.x - 8);
 
-						float knockbackMod = creature.getStat("knockback");
+						float knockbackMod = creature.knockbackMod;
 						creature.knockback.x += Math.cos(a) * 10f * knockbackMod;
 						creature.knockback.y += Math.sin(a) * 10f * knockbackMod;
 

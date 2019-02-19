@@ -11,9 +11,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.projectile.AxeProjec
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Tween;
-import org.rexcellentgames.burningknight.util.file.FileReader;
-
-import java.io.IOException;
 
 public class Axe extends Weapon {
 	{
@@ -101,7 +98,7 @@ public class Axe extends Weapon {
 		float a = (float) (this.owner.getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y) - Math.PI);
 		float s = 60f;
 
-		float knockbackMod = owner.getStat("knockback");
+		float knockbackMod = owner.knockbackMod;
 
 		this.owner.knockback.x += Math.cos(a) * s * knockbackMod;
 		this.owner.knockback.y += Math.sin(a) * s * knockbackMod;
@@ -133,7 +130,6 @@ public class Axe extends Weapon {
 
 				fx.owner = owner;
 				fx.damage = rollDamage();
-				fx.crit = lastCrit;
 				fx.penetrates = penetrates;
 				fx.axe = self;
 

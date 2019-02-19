@@ -8,7 +8,9 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletAtom;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;
 import org.rexcellentgames.burningknight.entity.trap.RollingSpike;
 import org.rexcellentgames.burningknight.physics.World;
@@ -173,8 +175,8 @@ public class Wombat extends Mob {
 			}
 
 			if (Random.chance(30)) {
-				BulletProjectile ball = new BulletProjectile();
 				boolean atom = Random.chance(40);
+				BulletProjectile ball = atom ? new BulletAtom() : new NanoBullet();
 
 				float a = (float) (Math.atan2(vel.y, vel.x) - Math.PI);
 				a += Random.newFloat(-1, 1);
@@ -186,7 +188,6 @@ public class Wombat extends Mob {
 				ball.renderCircle = false;
 				ball.bad = true;
 
-				ball.letter = atom ? "bullet-atom" : "bullet-rect";
 				Dungeon.area.add(ball);
 			}
 

@@ -13,8 +13,6 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Bullet;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
@@ -48,7 +46,6 @@ public class Gun extends WeaponBase {
 	protected float sx = 1f;
 	protected float sy = 1f;
 	protected float vel = 6f;
-	protected Class<? extends Bullet> ammo;
 	protected float textureA;
 	protected boolean penetrates;
 	protected float tw;
@@ -437,60 +434,39 @@ public class Gun extends WeaponBase {
 		return Math.max(0, accuracy - (this.owner instanceof Player ? ((Player) this.owner).accuracy : 0));
 	}
 
+	protected BulletProjectile getBullet() {
+		return new BulletProjectile();
+	}
+
 	protected void sendBullet(float an, float xx, float yy) {
-		sendBullet(an, xx, yy, new BulletProjectile());
+		sendBullet(an, xx, yy, getBullet());
 	}
 
 	protected void sendBullet(float an, float xx, float yy, BulletProjectile bullet) {
 		float a = (float) Math.toDegrees(an);
 
-		try {
-			Bullet b = (this.ammo != null ? this.ammo.newInstance() : (Bullet) this.owner.getAmmo("bullet"));
+		float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
+		float y = this.owner.y + this.owner.h / 4 + this.owner.z;
 
-			if (bulletSprite != null) {
-				b.bulletName = bulletSprite;
-			}
+		bullet.x = (x + this.getAimX(xx, yy));
+		bullet.y = (y + this.getAimY(xx, yy));
+		bullet.damage = rollDamage();
+		bullet.owner = this.owner;
+		bullet.bad = this.owner instanceof Mob;
+		bullet.penetrates = this.penetrates;
+		bullet.gun = this;
 
-			if (!b.bulletName.startsWith("bullet-")) {
-			  b.bulletName = "bullet-" + b.bulletName;
-			}
+		this.modifyBullet(bullet);
 
-      bullet.sprite = bulletSprite == null ? Graphics.getTexture(b.bulletName) : Graphics.getTexture(bulletSprite);
+		float s = this.vel * 60f;
 
-			float x = this.owner.x + this.owner.w / 2 + (flipped ? -7 : 7);
-			float y = this.owner.y + this.owner.h / 4 + this.owner.z;
+		bullet.velocity = new Point(
+			(float) Math.cos(an) * s, (float) Math.sin(an) * s
+		);
 
-			bullet.x = (float) (x + this.getAimX(xx, yy));
-			bullet.y = (float) (y + this.getAimY(xx, yy));
-			bullet.damage = b.damage + rollDamage();
-			bullet.letter = b.bulletName;
-			bullet.owner = this.owner;
-			bullet.bad = this.owner instanceof Mob;
-			bullet.penetrates = this.penetrates;
-			bullet.gun = this;
-			bullet.rotates = b.bulletName.equals("bill");
+		bullet.a = a;
 
-			this.modifyBullet(bullet);
-
-			if (b.bulletName.equals("snow")) {
-				bullet.toApply = FreezeBuff.class;
-				bullet.rotates = true;
-			} else if (b.bulletName.equals("kotlin")) {
-				bullet.rotates = true;
-			}
-
-			float s = this.vel * 60f;
-
-			bullet.velocity = new Point(
-				(float) Math.cos(an) * s, (float) Math.sin(an) * s
-			);
-
-			bullet.a = a;
-
-			Dungeon.area.add(bullet);
-		} catch (IllegalAccessException | InstantiationException e) {
-			e.printStackTrace();
-		}
+		Dungeon.area.add(bullet);
 	}
 
 	protected void modifyBullet(BulletProjectile bullet) {

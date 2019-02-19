@@ -1,5 +1,6 @@
 package org.rexcellentgames.burningknight.entity.item.pet.orbital;
 
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -7,9 +8,9 @@ import org.rexcellentgames.burningknight.entity.item.pet.Pet;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.PetEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.SimpleBullet;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
-import org.rexcellentgames.burningknight.Dungeon;
 
 public class AmmoOrbital extends Pet {
 	{
@@ -49,7 +50,7 @@ public class AmmoOrbital extends Pet {
 				if (Player.instance.room != null) {
 					for (Mob mob : Mob.every) {
 						if (mob.onScreen && !mob.friendly && mob.room == this.owner.room && !mob.getState().equals("unactive") && !mob.getState().equals("defeated")) {
-							BulletProjectile ball = new BulletProjectile();
+							BulletProjectile ball = new SimpleBullet();
 							playSfx("gun_machinegun");
 
 							float a = this.getAngleTo(mob.x + mob.w / 2, mob.y + mob.h / 2);
@@ -59,7 +60,6 @@ public class AmmoOrbital extends Pet {
 							ball.damage = 4;
 							ball.y = (float) (this.y + Math.sin(a) * 8 + 6);
 
-							ball.letter = "a";
 							Dungeon.area.add(ball);
 							break;
 						}

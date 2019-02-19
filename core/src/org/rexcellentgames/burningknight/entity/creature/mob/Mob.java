@@ -35,7 +35,7 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BadBullet;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BadBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -918,15 +918,6 @@ public class Mob extends Creature {
 
 	public Room lastRoom;
 	public boolean toWater;
-
-	@Override
-	public Item getAmmo(String type) {
-		if (type.equals("bullet")) {
-			return new BadBullet();
-		}
-
-		return super.getAmmo(type);
-	}
 
 	public class State<T extends Mob> {
 		public T self;

@@ -25,13 +25,19 @@ public class MissileProjectile extends BulletProjectile {
 
 	@Override
 	public void init() {
-		this.letter = "bullet-missile_burning";
 		this.angle = (float) Math.PI;
 		this.owner.playSfx("missile");
 		this.startY = this.y;
 
 		super.init();
 		this.velocity.y = 300;
+	}
+
+	@Override
+	protected void setup() {
+		super.setup();
+
+		sprite = Graphics.getTexture("bullet-missile_burning");
 	}
 
 	{

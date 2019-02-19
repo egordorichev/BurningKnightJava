@@ -12,6 +12,7 @@ import org.rexcellentgames.burningknight.entity.fx.Confetti;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Smoke;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
 
@@ -119,13 +120,12 @@ public class CGFx extends Entity {
 		Dungeon.area.add(smoke);
 
 		for (int i = 0; i < 16; i++) {
-			BulletProjectile bullet = new BulletProjectile();
+			BulletProjectile bullet = new NanoBullet();
 
 			float f = 100f;
 			float a = (float) (i * (Math.PI / 8));
 
 			bullet.damage = 10;
-			bullet.letter = "nano";
 			bullet.x = (float) (this.x + Math.cos(a) * 8);
 			bullet.y = (float) (this.y + Math.sin(a) * 8);
 			bullet.velocity.x = (float) (Math.cos(a) * f);

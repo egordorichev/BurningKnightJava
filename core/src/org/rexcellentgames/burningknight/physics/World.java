@@ -19,7 +19,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.library.Mage;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Shell;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Shell;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
 import org.rexcellentgames.burningknight.entity.level.entities.SolidProp;

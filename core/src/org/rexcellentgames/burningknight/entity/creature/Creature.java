@@ -25,10 +25,8 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.BloodSplatFx;
 import org.rexcellentgames.burningknight.entity.fx.GrassBreakFx;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
-import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.Weapon;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.BulletA;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
@@ -495,14 +493,6 @@ public class Creature extends SaveableEntity {
 
 		this.remove = true;
 		this.dead = true;
-	}
-
-	public Item getAmmo(String type) {
-		if (type.equals("bullet")) {
-			return new BulletA();
-		}
-
-		return null;
 	}
 
 	public void renderBuffs() {

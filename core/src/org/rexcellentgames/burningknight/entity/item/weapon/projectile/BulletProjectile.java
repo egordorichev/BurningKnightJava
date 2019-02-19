@@ -17,10 +17,10 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.ice.IceElemental;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SimplePart;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Part;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.fx.RectFx;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.Slab;
@@ -41,7 +41,6 @@ public class BulletProjectile extends Projectile {
 	public float a;
 	public float ra;
 	public boolean remove;
-	public String letter;
 	public boolean circleShape;
 	public boolean rotates;
 	public Class<? extends Buff> toApply;
@@ -72,6 +71,14 @@ public class BulletProjectile extends Projectile {
 	public boolean noRotation;
 	public float delay;
 
+	protected Color getLightColor() {
+		return Color.RED;
+	}
+
+	protected void setup() {
+
+	}
+
 	@Override
 	public void init() {
 		angle = (float) Math.atan2(this.velocity.y, this.velocity.x);
@@ -81,74 +88,15 @@ public class BulletProjectile extends Projectile {
 		this.dir = Random.chance(50) ? -1 : 1;
 		this.ra = (float) Math.toRadians(this.a);
 
-		if (this.sprite == null && this.letter != null) {
-			if (this.letter.startsWith("item")) {
-				lightUp = false;
-				rotationSpeed = 0.7f;
-				this.sprite = Graphics.getTexture(this.letter);
-			} else {
-				this.sprite = Graphics.getTexture("bullet-" + this.letter.replace("bullet-", ""));
-			}
-		}
-
 		if (this.sprite != null && this.anim == null) {
 			this.w = sprite.getRegionWidth();
 			this.h = sprite.getRegionHeight();
 		}
 
+		setup();
+
 		if (!noLight) {
-			light = World.newLight(32, new Color(1, 0, 0, 1f), 64, x, y, false);
-
-			if (letter != null) {
-				switch (this.letter) {
-					case "bullet-a":
-					case "bullet-missile":
-						light.setColor(1, 1, 0, 1);
-						break;
-					case "bullet-bill":
-						light.setColor(0, 1, 0.3f, 1);
-						lightUp = false;
-						break;
-					case "bullet-snow":
-						light.setColor(0.5f, 1, 1, 1);
-						break;
-				}
-			}
-		}
-
-		if (this.letter != null) {
-			if (this.letter.equals("bullet-rekt")) {
-				noRotation = false;
-			} else if (this.letter.equals("bullet-bone")) {
-				this.depth = 16;
-				second = false;
-			} else if (this.letter.equals("bullet-bad") || this.letter.equals("bullet-rect") || this.letter.equals("bullet-nano") || this.letter.equals("bullet-atom") || this.letter.equals("bullet-A") || this.letter.equals("bullet-h")) {
-				this.noRotation = true;
-				this.second = false;
-			} else if (this.letter.equals("bullet-snow")) {
-				this.rotates = true;
-				this.second = false;
-			} else if (this.letter.equals("bullet-skull")) {
-				this.rotates = false;
-				this.second = false;
-				this.noRotation = true;
-				this.rectShape = false;
-				this.circleShape = true;
-				this.renderCircle = false;
-				this.dissappearWithTime = true;
-				this.lightUp = false;
-			} else if (this.letter.equals("bullet-kotlin")) {
-				this.second = false;
-				lightUp = false;
-			} else if (this.letter.equals("bullet-bolt")) {
-				second = false;
-				lightUp = false;
-			} else if (this.letter.equals("bullet-book")) {
-				lightUp = false;
-				second = false;
-				rotates = true;
-				rotationSpeed = 0.3f;
-			}
+			light = World.newLight(32, getLightColor(), 64, x, y, false);
 		}
 
 		if ((this.w == this.h || circleShape) && !rectShape) {
@@ -182,6 +130,10 @@ public class BulletProjectile extends Projectile {
 
 	@Override
 	public void render() {
+		if (sprite == null) {
+			sprite = Item.missing;
+		}
+
 		TextureRegion reg = (renderCircle && this.t < 0.05f) ? burst : sprite;
 		Texture texture = reg.getTexture();
 
@@ -398,7 +350,7 @@ public class BulletProjectile extends Projectile {
 			this.onDeath();
 
 			for (int i = 0; i < 20; i++) {
-				Part part = new Part();
+				PoofFx part = new PoofFx();
 
 				part.x = this.x - this.velocity.x * dt;
 				part.y = this.y - this.velocity.y * dt;

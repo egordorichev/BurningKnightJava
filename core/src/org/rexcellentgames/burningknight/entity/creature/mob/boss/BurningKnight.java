@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -30,9 +29,7 @@ import org.rexcellentgames.burningknight.entity.fx.*;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.FireballProjectile;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.Projectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.*;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
@@ -54,7 +51,6 @@ import org.rexcellentgames.burningknight.entity.pool.MobPool;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
-import org.rexcellentgames.burningknight.ui.UiBanner;
 import org.rexcellentgames.burningknight.util.*;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
@@ -741,13 +737,13 @@ public class BurningKnight extends Boss {
 	}
 
 	public BulletProjectile newProjectile() {
-		BulletProjectile bullet = new BulletProjectile(){
+		BulletProjectile bullet = new NanoBullet(){
 			@Override
 			protected void onDeath() {
 				super.onDeath();
 
 				if (!brokeWeapon) {
-					BulletProjectile ball = new BulletProjectile();
+					BulletProjectile ball = new NanoBullet();
 					boolean fast = i % 2 == 0;
 					float a = getAngleTo(Player.instance.x + 8, Player.instance.y + 8) + Random.newFloat(-0.1f, 0.1f);
 
@@ -759,16 +755,12 @@ public class BurningKnight extends Boss {
 					ball.bad = true;
 					ball.noLight = true;
 
-					ball.letter = "bullet-nano";
 					Dungeon.area.add(ball);
 				}
 			}
 		};
 
-		bullet.sprite = Graphics.getTexture("bullet-nano");
-
 		bullet.damage = 1;
-		bullet.letter = "bullet-nano";
 		bullet.owner = this;
 		bullet.bad = true;
 		bullet.dissappearWithTime = true;
@@ -1503,14 +1495,14 @@ public class BurningKnight extends Boss {
 				t = 0;
 				num ++;
 
-				BulletProjectile ball = new BulletProjectile() {
+				BulletProjectile ball = new SkullBullet() {
 					@Override
 					protected void onDeath() {
 						super.onDeath();
 
 						if (!brokeWeapon) {
 							for (int i = 0; i < 8; i++) {
-								BulletProjectile ball = new BulletProjectile();
+								BulletProjectile ball = new NanoBullet();
 								boolean fast = i % 2 == 0;
 								float vel = fast ? 70 : 40;
 
@@ -1522,14 +1514,12 @@ public class BurningKnight extends Boss {
 								ball.damage = 2;
 								ball.bad = true;
 
-								ball.letter = "bullet-nano";
 								Dungeon.area.add(ball);
 							}
 						}
 					}
 				};
 
-				// fixme: super slow
 				ball.depth = 17;
 				float a = self.getAngleTo(self.target.x + 8, self.target.y + 8) + Random.newFloat(-0.3f, 0.3f);
 				ball.velocity = new Point((float) Math.cos(a) / 2f, (float) Math.sin(a) / 2f).mul(60f * Mob.shotSpeedMod);
@@ -1553,7 +1543,6 @@ public class BurningKnight extends Boss {
 					}
 				});
 
-				ball.letter = "bullet-skull";
 				Dungeon.area.add(ball);
 			}
 		}
@@ -1956,14 +1945,14 @@ public class BurningKnight extends Boss {
 
 			if (t <= 5f && ls >= 2f) {
 				ls = 0;
-				BulletProjectile ball = new BulletProjectile() {
+				BulletProjectile ball = new SkullBullet() {
 					@Override
 					protected void onDeath() {
 						super.onDeath();
 
 						if (!brokeWeapon) {
 							for (int i = 0; i < 8; i++) {
-								BulletProjectile ball = new BulletProjectile();
+								BulletProjectile ball = new NanoBullet();
 								boolean fast = i % 2 == 0;
 								float vel = fast ? 70 : 40;
 
@@ -1975,7 +1964,6 @@ public class BurningKnight extends Boss {
 								ball.damage = 2;
 								ball.bad = true;
 
-								ball.letter = "bullet-nano";
 								Dungeon.area.add(ball);
 							}
 						}
@@ -2005,7 +1993,6 @@ public class BurningKnight extends Boss {
 					}
 				});
 
-				ball.letter = "bullet-skull";
 				Dungeon.area.add(ball);
 			}
 
@@ -2037,13 +2024,10 @@ public class BurningKnight extends Boss {
 					}
 
 
-					BulletProjectile bullet = new BulletProjectile();
-
-					bullet.sprite = Graphics.getTexture("bullet-nano");
+					BulletProjectile bullet = new NanoBullet();
 
 					bullet.noLight = true;
 					bullet.damage = 1;
-					bullet.letter = "bullet-nano";
 					bullet.owner = self;
 					bullet.bad = true;
 
@@ -2081,14 +2065,14 @@ public class BurningKnight extends Boss {
 		}
 
 		private void shoot(float a) {
-			BulletProjectile ball = new BulletProjectile() {
+			BulletProjectile ball = new BadBullet() {
 				@Override
 				protected void onDeath() {
 					super.onDeath();
 
 					if (!brokeWeapon) {
 						for (int i = 0; i < 16; i++) {
-							BulletProjectile ball = new BulletProjectile();
+							BulletProjectile ball = i > 7 ? new BulletRect() : new NanoBullet();
 							boolean fast = i % 2 == 0;
 							float vel = i > 7 ? 80 : fast ? 70 : 40;
 
@@ -2105,7 +2089,6 @@ public class BurningKnight extends Boss {
 							ball.damage = 2;
 							ball.bad = true;
 
-							ball.letter = i > 7 ? "bullet-rect" : "bullet-nano";
 							Dungeon.area.add(ball);
 						}
 					}
@@ -2121,7 +2104,6 @@ public class BurningKnight extends Boss {
 			ball.dissappearWithTime = true;
 			ball.ds = 2f;
 
-			ball.letter = "bullet-bad";
 			Dungeon.area.add(ball);
 		}
 	}
@@ -2165,10 +2147,7 @@ public class BurningKnight extends Boss {
 			if (last <= 0 && t <= 5f) {
 				last = 0.25f;
 
-				BulletProjectile bullet = new BulletProjectile();
-
-				bullet.letter = "bullet-c";
-				bullet.sprite = Graphics.getTexture(bullet.letter);
+				BulletProjectile bullet = new GreenBullet();
 
 				bullet.damage = 1;
 				bullet.owner = self;
@@ -2224,13 +2203,10 @@ public class BurningKnight extends Boss {
 					}
 
 					float a = (float) (((float) i) / cn * Math.PI * 2);
-					BulletProjectile bullet = new BulletProjectile();
-
-					bullet.sprite = Graphics.getTexture("bullet-rect");
+					BulletProjectile bullet = new BulletRect();
 
 					bullet.noLight = true;
 					bullet.damage = 1;
-					bullet.letter = "bullet-rect";
 					bullet.owner = self;
 					bullet.bad = true;
 
@@ -2361,13 +2337,12 @@ public class BurningKnight extends Boss {
 
 				for (int i = 0; i < 4; i++) {
 					float a = (float) (((float) i) / 4 * Math.PI * 2) + an;
-					BulletProjectile bullet = new BulletProjectile();
+					BulletProjectile bullet = new NanoBullet();
 
 					bullet.sprite = Graphics.getTexture("bullet-nano");
 
 					bullet.noLight = true;
 					bullet.damage = 1;
-					bullet.letter = "bullet-nano";
 					bullet.owner = self;
 					bullet.bad = true;
 
@@ -2407,13 +2382,12 @@ public class BurningKnight extends Boss {
 
 				for (int i = 0; i < 2; i++) {
 					float a = (float) (((float) i) / 2 * Math.PI * 2 + Math.PI / 2);
-					BulletProjectile bullet = new BulletProjectile();
+					BulletProjectile bullet = new NanoBullet();
 
 					bullet.sprite = Graphics.getTexture("bullet-nano");
 
 					bullet.noLight = true;
 					bullet.damage = 1;
-					bullet.letter = "bullet-nano";
 					bullet.owner = self;
 					bullet.bad = true;
 
@@ -2426,13 +2400,10 @@ public class BurningKnight extends Boss {
 				}
 
 				if (m % 16 == 0) {
-					BulletProjectile bullet = new BulletProjectile();
-
-					bullet.sprite = Graphics.getTexture("bullet-nano");
+					BulletProjectile bullet = new NanoBullet();
 
 					bullet.noLight = true;
 					bullet.damage = 1;
-					bullet.letter = "bullet-nano";
 					bullet.owner = self;
 					bullet.bad = true;
 
@@ -2487,13 +2458,13 @@ public class BurningKnight extends Boss {
 			pattern.grow = true;
 
 			for (int i = 0; i < 24; i++) {
-				BulletProjectile bullet = new BulletProjectile() {
+				BulletProjectile bullet = new NanoBullet() {
 					@Override
 					protected void onDeath() {
 						super.onDeath();
 
 						if (!brokeWeapon) {
-							BulletProjectile ball = new BulletProjectile();
+							BulletProjectile ball = new NanoBullet();
 							float vel = 180;
 
 							float a = this.getAngleTo(self.target.x + 8, self.target.y + 8);
@@ -2504,17 +2475,13 @@ public class BurningKnight extends Boss {
 							ball.damage = 2;
 							ball.bad = true;
 
-							ball.letter = "bullet-nano";
 							Dungeon.area.add(ball);
 						}
 					}
 				};
 
-				bullet.sprite = Graphics.getTexture("bullet-nano");
-
 				bullet.noLight = true;
 				bullet.damage = 1;
-				bullet.letter = "bullet-nano";
 				bullet.owner = self;
 				bullet.bad = true;
 

@@ -9,6 +9,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.fx.Zzz;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BookBullet;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -172,9 +173,8 @@ public class Grandma extends Mob {
 				self.noticeSignT = 1f;
 			}
 
-			BulletProjectile bullet = new BulletProjectile();
+			BulletProjectile bullet = new BookBullet();
 
-			bullet.letter = "bullet-book";
 			bullet.bad = true;
 			bullet.owner = self;
 			bullet.x = self.x + self.w / 2;

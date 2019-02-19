@@ -10,11 +10,7 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
-import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Ninjia;
-import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.PurpleSlime;
-import org.rexcellentgames.burningknight.entity.creature.mob.tutorial.Slime;
 import org.rexcellentgames.burningknight.entity.creature.npc.Trader;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
@@ -289,24 +285,6 @@ public class HandmadeRoom extends RegularRoom {
 				chest.locked = false;
 
 				Dungeon.area.add(chest.add());
-			} else if (name.startsWith("enemy")) {
-				String id = name.replace("enemy", "");
-				Mob mob;
-
-				switch (id) {
-					case "1":
-					default:
-						mob = new Slime();
-						break;
-					case "2":
-						mob = new PurpleSlime();
-						break;
-				}
-
-				mob.x = x + rect.x + 16;
-				mob.y = y + rect.y + 16;
-
-				Dungeon.area.add(mob.add());
 			} else if (name.equals("key")) {
 				ItemHolder key = new ItemHolder();
 
@@ -337,13 +315,6 @@ public class HandmadeRoom extends RegularRoom {
 
 				BurningKnight.instance.become("unactive");
 				BurningKnight.instance.tp(x + rect.x + 16, y + rect.y + 16);
-			} else if (name.equals("miniboss")) {
-				Ninjia ninjia = new Ninjia();
-
-				ninjia.x = x + rect.x + 16;
-				ninjia.y = y + rect.y + 16;
-
-				Dungeon.area.add(ninjia.add());
 			} else if (name.equals("carpet") || name.equals("stand") || name.equals("target") || name.equals("shields") || name.equals("maniken") || name.equals("bone")
 					|| name.equals("bat") || name.equals("frog") || name.equals("skull") || name.equals("blood") || name.equals("frame_a") ||  name.equals("frame_b")) {
 				ShopProp prop = new ShopProp();

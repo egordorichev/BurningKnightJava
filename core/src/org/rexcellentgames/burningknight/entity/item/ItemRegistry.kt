@@ -1,9 +1,9 @@
 package org.rexcellentgames.burningknight.entity.item
 
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade
+import org.rexcellentgames.burningknight.entity.item.accessory.equippable.TestAccessory
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*
 import org.rexcellentgames.burningknight.entity.item.weapon.dagger.Dagger
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.ConfettiGun
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver
 import org.rexcellentgames.burningknight.entity.item.weapon.magic.MagicMissileWand
 import org.rexcellentgames.burningknight.entity.item.weapon.spear.Spear
@@ -13,22 +13,22 @@ import org.rexcellentgames.burningknight.game.Achievements
 object ItemRegistry {
 	val items = mapOf(
 		// Decor
-		"cowboy_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 10),
-		"dunce_hat" to Pair(DunceHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 1),
-		"fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 5),
-		"gold_hat" to Pair(GoldHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 13),
-		"moai_hat" to Pair(MoaiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 2),
-		"ruby_hat" to Pair(RubyHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 16),
-		"shroom_hat" to Pair(ShroomHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 6),
-		"rave_hat" to Pair(RaveHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 10),
-		"skull_hat" to Pair(SkullHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 4),
-		"ushanka_hat" to Pair(UshankaHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 7),
-		"viking_hat" to Pair(VikingHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 7),
-		"valkyre_hat" to Pair(ValkyreHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 8),
-		"knight_hat" to Pair(KnightHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, Upgrade.Type.DECOR, 5),
+		"cowboy_hat" to Pair(CoboiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 10),
+		"dunce_hat" to Pair(DunceHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 1),
+		"fungi_hat" to Pair(FungiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 5),
+		"gold_hat" to Pair(GoldHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 13),
+		"moai_hat" to Pair(MoaiHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 2),
+		"ruby_hat" to Pair(RubyHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 16),
+		"shroom_hat" to Pair(ShroomHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 6),
+		"rave_hat" to Pair(RaveHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 10),
+		"skull_hat" to Pair(SkullHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 4),
+		"ushanka_hat" to Pair(UshankaHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 7),
+		"viking_hat" to Pair(VikingHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 7),
+		"valkyre_hat" to Pair(ValkyreHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 8),
+		"knight_hat" to Pair(KnightHat::class.java, 0f, 1f, 1f, 1f, Quality.IRON, org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.DECOR, 5),
 
 		// Items
-		"confetti_gun" to Pair(ConfettiGun::class.java, 1f, 0.3f, 0.3f, 1f, Quality.IRON, Upgrade.Type.WEAPON, 3),
+		"test" to Pair(TestAccessory::class.java, 0.5f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 		"guitar" to Pair(Guitar::class.java, 0.5f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 		"spear" to Pair(Spear::class.java, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
 		"spear" to Pair(Dagger::class.java, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
@@ -43,7 +43,7 @@ object ItemRegistry {
 		}
 
 		constructor(type: Class<out Item>, chance: Float, warrior: Float, mage: Float, ranged: Float,
-		            quality: Quality, pool: Upgrade.Type, cost: Int) : this(type, chance, warrior, mage, ranged, quality, null) {
+		            quality: Quality, pool: org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type, cost: Int) : this(type, chance, warrior, mage, ranged, quality, null) {
 
 			this.pool = pool
 			this.cost = cost
@@ -52,12 +52,12 @@ object ItemRegistry {
 		var cost: Int = 0
 		var busy: Boolean = false
 		var shown: Boolean = false
-		var pool: Upgrade.Type = Upgrade.Type.NONE
+		var pool: org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type = org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.NONE
 
 		fun unlocked(key: String): Boolean {
 			if (unlock != null) {
 				return Achievements.unlocked(unlock)
-			} else if (pool != Upgrade.Type.NONE) {
+			} else if (pool != org.rexcellentgames.burningknight.entity.creature.npc.Upgrade.Type.NONE) {
 				return Achievements.unlocked("SHOP_" + key.toUpperCase())
 			}
 

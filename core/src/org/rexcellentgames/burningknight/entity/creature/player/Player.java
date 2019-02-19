@@ -16,7 +16,6 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
@@ -121,6 +120,7 @@ public class Player extends Creature {
 	public float goldModifier = 1f;
 	public int lavaResist;
 	public int fireResist;
+	public int sales;
 	public int poisonResist;
 	public int stunResist;
 	public boolean seeSecrets;
@@ -724,7 +724,7 @@ public class Player extends Creature {
 				}
 			}
 
-			float angle = 20;
+			float angle = 0;
 
 			this.animation.render(this.x - region.getRegionWidth() / 2 + 8,
 				this.y + this.z + offset, false, false, region.getRegionWidth() / 2,
@@ -1042,7 +1042,9 @@ public class Player extends Creature {
 
 	public Inventory getInventory() {
 		return this.inventory;
-	}	@Override
+	}
+
+	@Override
 	public void update(float dt) {
 		super.update(dt);
 
@@ -1050,37 +1052,6 @@ public class Player extends Creature {
 		light.attachToBody(body, 8, 8, 0);
 		light.setPosition(x + 8, y + 8);
 		light.setDistance(180);
-
-		if (Dungeon.depth == -3) {
-			this.tt += dt;
-
-			if (this.acceleration.len() > 1) {
-				this.moved = true;
-			}
-
-			if (this.step == 0) {
-				if (moved) {
-					this.step = 1;
-				} else if (this.tt >= 4f) {
-					Ui.ui.addControl("[white]" + Input.instance.getMapping("up") + " [gray]" + Locale.get("forward"));
-					Ui.ui.addControl("[white]" + Input.instance.getMapping("left") + " [gray]" + Locale.get("left"));
-					Ui.ui.addControl("[white]" + Input.instance.getMapping("down") + " [gray]" + Locale.get("back"));
-					Ui.ui.addControl("[white]" + Input.instance.getMapping("right") + " [gray]" + Locale.get("right"));
-
-					this.step = 1;
-				}
-			} else if (this.step == 1) {
-				if (this.moved && this.tt >= 5f) {
-					Ui.ui.hideControls();
-					step = 2;
-				}
-			} else if (this.step == 3) {
-				if (this.tt >= 3f && this.rolled) {
-					Ui.ui.hideControls();
-					step = 4;
-				}
-			}
-		}
 
 		if (this.hasBuff(BurningBuff.class)) {
 			this.light.setColor(1, 0.5f, 0f, 1);

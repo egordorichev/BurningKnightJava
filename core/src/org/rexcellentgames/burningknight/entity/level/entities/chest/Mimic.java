@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.*;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pattern.BulletPattern;
 import org.rexcellentgames.burningknight.entity.pattern.CircleBulletPattern;
@@ -396,9 +397,8 @@ public class Mimic extends Mob {
 					public void onEnd() {
 
 						if (numAttack % 2 == 1) {
-							BulletProjectile bullet = new BulletProjectile();
+							BulletProjectile bullet = new NanoBullet();
 
-							bullet.letter = "bullet-nano";
 							bullet.bad = true;
 							bullet.owner = self;
 							bullet.x = self.x + self.w / 2;
@@ -484,12 +484,9 @@ public class Mimic extends Mob {
 	}
 
 	public BulletProjectile newProjectile() {
-		BulletProjectile bullet = new BulletProjectile();
-
-		bullet.sprite = Graphics.getTexture("bullet-nano");
+		BulletProjectile bullet = new NanoBullet();
 
 		bullet.damage = 1;
-		bullet.letter = "bullet-nano";
 		bullet.owner = this;
 		bullet.bad = true;
 

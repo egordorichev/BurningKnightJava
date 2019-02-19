@@ -1,6 +1,5 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun
 
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet.Kotlin
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile
 
 class KotlingGun : Gun() {
@@ -13,12 +12,11 @@ class KotlingGun : Gun() {
 		useTime = 1f
 		damage = 3
 		vel = 0.7f
-		ammo = Kotlin::class.java
 	}
 
 	override fun modifyBullet(bullet: BulletProjectile?) {
 		super.modifyBullet(bullet)
 		bullet!!.second = false
-		bullet!!.rotates = true
+		bullet.rotates = true
 	}
 }

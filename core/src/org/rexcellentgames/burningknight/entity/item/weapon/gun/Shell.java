@@ -1,5 +1,4 @@
-package org.rexcellentgames.burningknight.entity.item.weapon.gun.bullet;
-
+package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
