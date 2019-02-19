@@ -32,7 +32,6 @@ import org.rexcellentgames.burningknight.entity.trap.Turret;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.AnimationData;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -417,10 +416,6 @@ public class BulletProjectile extends Projectile {
 			}
 		}
 
-		if (this.rotates) {
-			this.a += dt * 360 * 2 * dir * rotationSpeed;
-		}
-
 		this.control();
 
 		if (this.auto) {
@@ -442,8 +437,6 @@ public class BulletProjectile extends Projectile {
 			this.y += this.velocity.y * dt;
 			this.body.setTransform(this.x, this.y, ra);
 		}
-
-		//World.checkLocked(this.body).setTransform(this.x, this.y, this.ra);
 
 		if (!noLight) {
 			light.setPosition(x, y);
@@ -491,8 +484,14 @@ public class BulletProjectile extends Projectile {
 			this.velocity.y = this.body.getLinearVelocity().y;
 
 			ra = (float) Math.atan2(this.velocity.y, this.velocity.x);
-			a = (float) Math.toDegrees(ra);
+			if (!rotates) {
+				a = (float) Math.toDegrees(ra);
+			}
 			body.setTransform(x, y, ra);
+		}
+
+		if (this.rotates) {
+			this.a += dt * 360 * 2 * dir * rotationSpeed * 0.5f;
 		}
 	}
 }
