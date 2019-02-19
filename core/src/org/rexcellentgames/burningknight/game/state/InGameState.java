@@ -21,6 +21,7 @@ import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.entity.BombEntity;
 import org.rexcellentgames.burningknight.entity.item.pet.impl.Orbital;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
@@ -619,9 +620,16 @@ public class InGameState extends State {
 		if (Version.debug) {
 			if (Input.instance.wasPressed("F5")) {
 				for (Room room : Dungeon.level.getRooms()) {
-					if (room instanceof ShopRoom && !room.hidden) {
-						Point point = room.getRandomFreeCell();
-						Player.instance.tp(point.x * 16, point.y * 16);
+					if (room instanceof SecretRoom) {
+						BombEntity.make(room);
+						Dungeon.level.loadPassable();
+						Dungeon.level.addPhysics();
+
+						Point point = room.getRandomCell();
+
+						if (point != null) {
+							Player.instance.tp(point.x * 16, point.y * 16);
+						}
 
 						break;
 					}

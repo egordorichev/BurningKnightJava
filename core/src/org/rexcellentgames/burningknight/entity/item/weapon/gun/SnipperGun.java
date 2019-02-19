@@ -1,12 +1,19 @@
 package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.RektBullet;
 import org.rexcellentgames.burningknight.util.Tween;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class SnipperGun extends Gun {
 	{
 		bulletSprite = "bullet-rekt";
+	}
+
+	@Override
+	protected BulletProjectile getBullet() {
+		return new RektBullet();
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
+import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
@@ -143,6 +144,8 @@ public class NpcSaveRoom extends SpecialRoom {
 				break;
 			}
 		}
+
+		Log.error("Adding npc");
 
 		Dungeon.area.add(trader.add());
 		Dungeon.level.itemsToSpawn.add(new KeyC());

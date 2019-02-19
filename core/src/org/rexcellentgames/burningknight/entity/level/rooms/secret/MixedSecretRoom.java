@@ -22,7 +22,7 @@ public class MixedSecretRoom extends SecretRoom {
 		Painter.fillEllipse(level, this, 2, Terrain.randomFloor());
 
 		for (int i = 0; i < Random.newInt(1, 4); i++) {
-			Point point = this.getRandomCell();
+			Point point = this.getRandomFreeCell();
 
 			ItemHolder holder = new ItemHolder(new Bomb());
 
@@ -34,7 +34,7 @@ public class MixedSecretRoom extends SecretRoom {
 		}
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
-			Point point = this.getRandomCell();
+			Point point = this.getRandomFreeCell();
 
 			ItemHolder holder = new ItemHolder(new KeyC());
 			
@@ -46,7 +46,7 @@ public class MixedSecretRoom extends SecretRoom {
 		}
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
-			Point point = this.getRandomCell();
+			Point point = this.getRandomFreeCell();
 
 			ItemHolder holder = new ItemHolder(new Gold());
 			
@@ -59,7 +59,7 @@ public class MixedSecretRoom extends SecretRoom {
 		}
 
 		for (int i = 0; i < Random.newInt(1, 3); i++) {
-			Point point = this.getRandomCell();
+			Point point = this.getRandomFreeCell();
 
 			HeartFx holde = new HeartFx();
 			holde.x = point.x * 16 + 3;

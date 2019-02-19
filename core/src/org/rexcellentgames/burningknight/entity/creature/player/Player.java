@@ -1235,17 +1235,17 @@ public class Player extends Creature {
 					float f = 80;
 					ignoreAcceleration = true;
 
-					/*if (acceleration.len() > 1f) {
+					if (acceleration.len() > 1f) {
 						double a = (Math.atan2(acceleration.y, acceleration.x));
 
 						acceleration.x = (float) Math.cos(a) * speed * f;
 						acceleration.y = (float) Math.sin(a) * speed * f;
-					} else {*/
-					double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
+					} else {
+						double a = (getAngleTo(Input.instance.worldMouse.x, Input.instance.worldMouse.y));
 
-					acceleration.x = (float) Math.cos(a) * speed * f;
-					acceleration.y = (float) Math.sin(a) * speed * f;
-					// }
+						acceleration.x = (float) Math.cos(a) * speed * f;
+						acceleration.y = (float) Math.sin(a) * speed * f;
+					}
 
 					for (int i = 0; i < 3; i++) {
 						PoofFx fx = new PoofFx();

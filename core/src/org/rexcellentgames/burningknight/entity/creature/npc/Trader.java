@@ -137,7 +137,7 @@ public class Trader extends Npc {
 		flipped = Random.chance(50);
 
 		if (this.id != null) {
-			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+			this.saved = GlobalSave.isTrue("npc_" + this.id + "_saved");
 			this.loadSprite();
 		}
 	}
@@ -230,6 +230,8 @@ public class Trader extends Npc {
 		if (Dungeon.depth != -2 && this.saved && !this.onScreen) {
 			this.done = true;
 			this.remove();
+
+			Log.error("Removing the npc");
 		}
 
 		if (this.animation != null) {

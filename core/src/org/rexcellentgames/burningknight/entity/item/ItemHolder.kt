@@ -24,10 +24,8 @@ import org.rexcellentgames.burningknight.game.Ui
 import org.rexcellentgames.burningknight.game.input.Input
 import org.rexcellentgames.burningknight.game.state.InGameState
 import org.rexcellentgames.burningknight.physics.World
-import org.rexcellentgames.burningknight.util.CollisionHelper
-import org.rexcellentgames.burningknight.util.MathUtils
+import org.rexcellentgames.burningknight.util.*
 import org.rexcellentgames.burningknight.util.Random
-import org.rexcellentgames.burningknight.util.Tween
 import org.rexcellentgames.burningknight.util.file.FileReader
 import org.rexcellentgames.burningknight.util.file.FileWriter
 import java.io.IOException
@@ -206,7 +204,7 @@ open class ItemHolder : SaveableEntity {
             val i = Level.toIndex(x, y)
             val l = Dungeon.level.data[i]
 
-            if (l == Terrain.FLOOR_A || l == Terrain.FLOOR_B || l == Terrain.FLOOR_C || l == Terrain.FLOOR_D) {
+            if (l < 1 || l == Terrain.FLOOR_A || l == Terrain.FLOOR_B || l == Terrain.FLOOR_C || l == Terrain.FLOOR_D) {
               found = true
               break
             }
@@ -227,6 +225,7 @@ open class ItemHolder : SaveableEntity {
       }
 
 	    if (!found) {
+        Log.error("Fallling")
 		    falling = true
 	    }
     }

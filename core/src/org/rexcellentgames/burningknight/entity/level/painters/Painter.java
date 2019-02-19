@@ -140,6 +140,7 @@ public class Painter {
 				}
 			}
 
+
 			if (room.hidden) {
 				for (int y = room.top; y <= room.bottom; y++) {
 					for (int x = room.left; x <= room.right; x++) {
