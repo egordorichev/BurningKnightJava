@@ -73,18 +73,21 @@ public class LevelSave {
 		}
 	}
 
-	public static void generate() {
-		int i = 0;
+	private static int i;
 
+	public static void generate() {
 		try {
 			LoadState.generating = true;
 
 			Dungeon.level = Level.forDepth(Dungeon.depth);
 			Dungeon.area.add(Dungeon.level);
-			Dungeon.level.generate(i++);
+			Dungeon.level.generate(i);
+
+			i = 0;
 		} catch (RuntimeException e) {
 			e.printStackTrace();
 			generate();
+			i++;
 		}
 	}
 }

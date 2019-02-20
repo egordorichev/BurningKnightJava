@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.math.Vector2;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
@@ -382,12 +383,11 @@ public class UiMap extends UiEntity {
 					yc += s * dt;
 				}
 
-				float ix = -Input.instance.getAxis("mouseX") * s;
-				float iy = Input.instance.getAxis("mouseY") * s;
+				Vector2 move = Input.instance.getAxis("move");
 
-				if (Math.sqrt(ix * ix + iy * iy) > 0.8) {
-					xc += ix * dt;
-					yc += iy * dt;
+				if (move.len2() > 0.2) {
+					xc += move.x * dt * s;
+					yc += move.y * dt * s;
 				}
 			}
 

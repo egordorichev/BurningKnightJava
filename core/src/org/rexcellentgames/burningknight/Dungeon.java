@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.codedisaster.steamworks.SteamAPI;
@@ -712,12 +713,49 @@ public class Dungeon extends ApplicationAdapter {
 	}
 
 	private Point inputVel = new Point();
-	// private Vector2 angle = new Vector2(0.0001f, 1.0f);
+	private Vector2 angle = new Vector2(0.0001f, 1.0f);
 
 	private void updateMouse(float dt) {
 		inputVel.mul(dt * 53f);
 
-		// float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
+		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
+
+		if (Input.instance.wasPressed("mouse_left")) {
+			Log.info("left");
+		}
+
+		Vector2 move = Input.instance.getAxis("cursor");
+		boolean big = move.len2() > 0.2;
+
+		if (Player.instance != null) {
+			if (big) {
+				float a = move.angleRad();
+				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
+			}
+
+			float d = 64f;
+
+			Vector3 input = Camera.game.project(new Vector3(
+				Player.instance.x + Player.instance.w / 2 + angle.x * d,
+				Player.instance.y + Player.instance.h / 2 + angle.y * d, 0
+			));
+
+			Input.instance.mouse.x = input.x;
+			Input.instance.mouse.y = Gdx.graphics.getHeight() - input.y;
+
+			return;
+		}
+
+		if (big) {
+			inputVel.x += move.x * s;
+			inputVel.y += move.y * s;
+		}
+
+		Input.instance.mouse.x += inputVel.x;
+		Input.instance.mouse.y += inputVel.y;
+
+		Input.instance.mouse.x = MathUtils.clamp(0, Gdx.graphics.getWidth(), Input.instance.mouse.x);
+		Input.instance.mouse.y = MathUtils.clamp(0, Gdx.graphics.getHeight(), Input.instance.mouse.y);
 	}
 
 	@Override

@@ -1219,12 +1219,11 @@ public class Player extends Creature {
 					this.acceleration.y -= this.speed;
 				}
 
-				float mx = Input.instance.getAxis("moveX");
-				float my = Input.instance.getAxis("moveY");
+				Vector2 move = Input.instance.getAxis("move");
 
-				if (mx != 0 || my != 0) {
-					this.acceleration.x += mx * this.speed;
-					this.acceleration.y -= my * this.speed; // Inverted!
+				if (move.len2() > 0.2f) {
+					this.acceleration.x += move.x * this.speed;
+					this.acceleration.y -= move.y * this.speed; // Inverted!
 				}
 			}
 
