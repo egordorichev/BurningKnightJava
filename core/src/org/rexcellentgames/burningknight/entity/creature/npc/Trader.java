@@ -162,7 +162,7 @@ public class Trader extends Npc {
 		this.id = reader.readString();
 
 		if (this.id != null) {
-			this.saved = this.id.equals("b") || this.id.equals("f") || GlobalSave.isTrue("npc_" + this.id + "_saved");
+			this.saved = GlobalSave.isTrue("npc_" + this.id + "_saved");
 			this.loadSprite();
 		}
 	}

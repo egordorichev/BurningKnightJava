@@ -161,7 +161,7 @@ public abstract class RegularLevel extends Level {
 			Dungeon.area.add(mob);
 			LevelSave.add(mob);
 
-			mob.tp(point.x * 16, point.y * 16);
+			mob.tp((float) Math.floor(point.x * 16), (float) Math.floor(point.y * 16));
 		}
 
 		return weight;

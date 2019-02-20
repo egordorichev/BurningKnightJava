@@ -7,12 +7,18 @@ import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Portal;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
+import org.rexcellentgames.burningknight.entity.level.rooms.Room;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 
 public class EntranceRoom extends LadderRoom {
 	public boolean exit;
+
+	@Override
+	public boolean canConnect(Room r) {
+		return super.canConnect(r) && !(r instanceof EntranceRoom);
+	}
 
 	@Override
 	public void paint(Level level) {
