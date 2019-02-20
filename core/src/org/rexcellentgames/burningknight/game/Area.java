@@ -25,16 +25,9 @@ public class Area {
 
     return Float.compare(bd, ad);
   };
-  private boolean showWhenPaused = false;
+
+  private boolean showWhenPaused;
   private boolean hasSelectableEntity;
-
-  public void setShowWhenPaused(boolean showWhenPaused) {
-    this.showWhenPaused = showWhenPaused;
-  }
-
-  public Area() {
-
-  }
 
   public Area(boolean showWhenPaused) {
     this.showWhenPaused = showWhenPaused;
@@ -104,7 +97,16 @@ public class Area {
           this.selectedUiEntity = findLastSelectableUiEntity(this.selectedUiEntity - 1);
         }
 
-        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        if (selectedUiEntity < 0 || selectedUiEntity > entities.size()) {
+        	if (!hasSelectableEntity) {
+		        return;
+	        }
+
+	        selectedUiEntity = findLastSelectableUiEntity();
+	        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        } else {
+	        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+        }
       } else if (input > 0.5f && lastY < 0.5f || Input.instance.wasPressed("ui_down")) {
         if (this.selectedUiEntity >= 0) {
           if (selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
@@ -118,7 +120,16 @@ public class Area {
           this.selectedUiEntity = findFirstSelectableUiEntity(this.selectedUiEntity + 1);
         }
 
-        ((UiEntity) this.entities.get(selectedUiEntity)).select();
+	      if (selectedUiEntity < 0 || selectedUiEntity > entities.size()) {
+		      if (!hasSelectableEntity) {
+			      return;
+		      }
+
+		      selectedUiEntity = findFirstSelectableUiEntity();
+		      ((UiEntity) this.entities.get(selectedUiEntity)).select();
+	      } else {
+		      ((UiEntity) this.entities.get(selectedUiEntity)).select();
+	      }
       }
 
       lastY = input;
@@ -208,6 +219,8 @@ public class Area {
 		  }
 	  }
 
+
+	  selectedUiEntity = entities.indexOf(entity);
 	  entity.select();
   }
 

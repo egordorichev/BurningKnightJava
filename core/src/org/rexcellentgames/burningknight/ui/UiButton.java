@@ -87,8 +87,8 @@ public class UiButton extends UiEntity {
 
 	@Override
 	public void update(float dt) {
-		if (Input.instance.wasPressed("mouse") && !disableClick) {
-			if ((this.hover && !Input.instance.wasPressed("mouse") && this.isSelected) || (checkHover() && Input.instance.wasPressed("mouse"))) {
+		if (Input.instance.wasPressed("ui_accept") && !disableClick) {
+			if ((this.hover && this.isSelected && Input.instance.wasPressed("ui_accept")) || (checkHover() && Input.instance.wasPressed("ui_accept"))) {
 				if (this.last != null) {
 					Tween.remove(this.last);
 				}

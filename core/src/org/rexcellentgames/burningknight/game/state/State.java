@@ -210,6 +210,8 @@ public class State {
 
 	public static float settingsX;
 	public boolean addedSettings;
+	protected UiButton settingsFirst;
+	protected UiButton graphicsButton;
 
 	public void addSettings() {
 		if (addedSettings) {
@@ -234,6 +236,8 @@ public class State {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+
+				pauseMenuUi.select(settingsFirst);
 
 				Tween.to(new Tween.Task(0, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -329,7 +333,7 @@ public class State {
 			}
 		});
 
-		this.pauseMenuUi.add(new UiButton("graphics", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 5)) {
+		graphicsButton = (UiButton) this.pauseMenuUi.add(new UiButton("graphics", (int) (Display.UI_WIDTH * 1.5f), (int) (st + s * 5)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -353,6 +357,12 @@ public class State {
 				});
 			}
 		});
+
+		selectGraphics();
+	}
+
+	private void selectGraphics() {
+		pauseMenuUi.select(graphicsButton);
 	}
 
 	private ArrayList<Entity> currentSettings = new ArrayList<>();
@@ -366,41 +376,6 @@ public class State {
 			e.done = true;
 		}
 	}
-
-			/*
-Settings:
-* Video:
-	+ Screen shake
-	+ Freeze frames
-	+ Cursor (+ native)
-	+ Cursor rotation
-	+ Side art (new)
-	+ Fullscreen
-	+ Borderless window
-	+ Flash frames
-	+ Quality (Low, Good, Great)
-	+ Colorblind mode
-* Audio:
-	+ Music volume
-	+ Sfx volume
-	+ Ui sfx
-* Controls:
-	+ Use
-	+ Swap weapons
-	+ Interact
-	+ Active item
-	+ Movement
-	+ Roll
-* Game:
-  + Show FPS
-  + Hide HUD
-	+ Speedrun timer
-	+ Speedrun mode
-	+ Blood and Gore
-	+ View credits
-	+ Reset progress
-	+ Vegan mode
-		 */
 
 	public void addControls() {
 		clear();
@@ -422,6 +397,7 @@ Settings:
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				selectGraphics();
 
 				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -442,11 +418,15 @@ Settings:
 			}
 		}));
 
-		currentSettings.add(pauseMenuUi.add(new UiKey("use", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6))));
+		UiEntity button = (UiEntity) pauseMenuUi.add(new UiKey("use", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 6)));
+
+		currentSettings.add(button);
 		currentSettings.add(pauseMenuUi.add(new UiKey("switch", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 5))));
 		currentSettings.add(pauseMenuUi.add(new UiKey("interact", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4))));
 		currentSettings.add(pauseMenuUi.add(new UiKey("active", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3))));
 		currentSettings.add(pauseMenuUi.add(new UiKey("roll", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2))));
+
+		pauseMenuUi.select(button);
 	}
 
 	public void addGraphics() {
@@ -469,6 +449,7 @@ Settings:
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				selectGraphics();
 
 				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -488,31 +469,6 @@ Settings:
 				});
 			}
 		}));
-
-		/*currentSettings.add(pauseMenuUi.add(new UiCheckbox("borderless_window", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 2)) {
-			@Override
-			public void onClick() {
-				Settings.borderless = !Settings.borderless;
-				Gdx.graphics.setUndecorated(Settings.borderless);
-				super.onClick();
-			}
-		}.setOn(Settings.borderless)));*/
-
-		/*
-		currentSettings.add(pauseMenuUi.add(new UiChoice("side_art", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 3)) {
-			@Override
-			public void onUpdate() {
-				Settings.side_art = this.getCurrent();
-
-				if (getCurrent() != 0) {
-					final float upscale = Math.min(((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH, ((float) Gdx.graphics.getHeight()) / Display.GAME_HEIGHT) * Ui.upscale;
-
-					Gdx.graphics.setWindowedMode((int) upscale * Display.GAME_WIDTH, (int) upscale * Display.GAME_WIDTH);
-				}
-			}
-		}.setChoices(new String[] {
-			"none", "1/8", "2/8", "3/8", "4/8", "5/8", "6/8", "7/8", "8/8"
-		}).setCurrent(Settings.side_art)));*/
 
 		currentSettings.add(pauseMenuUi.add(new UiCheckbox("rotate_cursor", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
 			@Override
@@ -579,7 +535,7 @@ Settings:
 			"bad", "good", "great"
 		}).setCurrent(Settings.quality)));
 
-		currentSettings.add(pauseMenuUi.add(new UiCheckbox("fullscreen", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 11)) {
+		UiEntity button = (UiEntity) pauseMenuUi.add(new UiCheckbox("fullscreen", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 11)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -598,7 +554,11 @@ Settings:
 				setOn(Settings.fullscreen);
 				super.render();
 			}
-		}.setOn(Settings.fullscreen)));
+		}.setOn(Settings.fullscreen));
+
+		currentSettings.add(button);
+
+		pauseMenuUi.select(button);
 	}
 
 	public void addAudio() {
@@ -621,6 +581,7 @@ Settings:
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				selectGraphics();
 
 				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -685,6 +646,7 @@ Settings:
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");
+				selectGraphics();
 
 				Tween.to(new Tween.Task(Display.UI_WIDTH * 1f, 0.15f, Tween.Type.QUAD_IN_OUT) {
 					@Override
@@ -790,7 +752,7 @@ Settings:
 			}
 		}.setOn(Settings.vegan)));
 
-		currentSettings.add(pauseMenuUi.add(new UiCheckbox("show_fps", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 8)) {
+		UiEntity button = (UiEntity) pauseMenuUi.add(new UiCheckbox("show_fps", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 8)) {
 			@Override
 			public void update(float dt) {
 				super.update(dt);
@@ -819,6 +781,9 @@ Settings:
 
 				super.onClick();
 			}
-		}.setOn(Dungeon.fpsY != 0)));
+		}.setOn(Dungeon.fpsY != 0));
+
+		currentSettings.add(button);
+		pauseMenuUi.select(button);
 	}
 }

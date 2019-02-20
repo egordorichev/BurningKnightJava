@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.game.state.State;
 
 public class UiEntity extends Entity {
 	protected boolean isSelected;
@@ -43,9 +44,9 @@ public class UiEntity extends Entity {
 
 		float zoom = camera.zoom;
 
-		return this.x + this.w * 2 >= camera.position.x - Display.GAME_WIDTH / 2 * zoom &&
+		return this.x + this.w * 2 >= camera.position.x - Display.GAME_WIDTH / 2 * zoom + State.settingsX &&
 			this.y + this.h * 2 >= camera.position.y - Display.GAME_HEIGHT / 2 * zoom &&
-			this.x <= camera.position.x + Display.GAME_WIDTH / 2 * zoom &&
+			this.x <= camera.position.x + Display.GAME_WIDTH / 2 * zoom + State.settingsX &&
 			this.y <= camera.position.y + this.h + Display.GAME_HEIGHT / 2 * zoom;
 
 	}

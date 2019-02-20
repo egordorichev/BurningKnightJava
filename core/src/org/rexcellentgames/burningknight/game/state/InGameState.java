@@ -967,7 +967,7 @@ public class InGameState extends State {
 			m = 1;
 		}
 
-		this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y - m * 24) {
+		settingsFirst = (UiButton) this.pauseMenuUi.add(new UiButton("resume", Display.UI_WIDTH / 2, 128 + 32 + y - m * 24) {
 			@Override
 			public void onClick() {
 				Audio.playSfx("menu/exit");

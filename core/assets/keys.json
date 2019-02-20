@@ -26,5 +26,8 @@
 	"zoom_in" : [ "=" ],
 
 	"ui_up" : [ "Up",  "dpad_up" ],
-	"ui_down" : [ "Down", "dpad_down" ]
+	"ui_down" : [ "Down", "dpad_down" ],
+	"ui_right" : [ "Right",  "dpad_right" ],
+	"ui_left" : [ "Left", "dpad_left" ],
+	"ui_accept" : [ "Mouse0", "Return", "Enter", "button_x", "button_a", "button_rightshoulder", "button_leftshoulder" ]
 }

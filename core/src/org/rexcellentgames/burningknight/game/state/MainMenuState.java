@@ -129,7 +129,7 @@ public class MainMenuState extends State {
 		Dungeon.area.add(Camera.instance);
 		Camera.target = null;
 
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("play", -128, (int) (y + 24)) {
+		UiButton button = (UiButton) Dungeon.ui.add(new UiButton("play", -128, (int) (y + 24)) {
 			@Override
 			public void onClick() {
 				super.onClick();
@@ -169,7 +169,10 @@ public class MainMenuState extends State {
 					}
 				});
 			}
-		}.setSparks(true)));
+		}.setSparks(true));
+
+		settingsFirst = button;
+		buttons.add(button);
 
 		first = buttons.get(0);
 		Dungeon.ui.select(first);

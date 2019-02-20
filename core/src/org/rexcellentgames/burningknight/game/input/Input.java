@@ -482,7 +482,7 @@ public class Input implements InputProcessor, ControllerListener {
 			case SDL.SDL_CONTROLLER_BUTTON_RIGHTSHOULDER: return "button_rightshoulder";
 			case SDL.SDL_CONTROLLER_BUTTON_DPAD_UP: return "dpad_up";
 			case SDL.SDL_CONTROLLER_BUTTON_DPAD_DOWN: return "dpad_down";
-			case SDL.SDL_CONTROLLER_BUTTON_DPAD_LEFT: return "dpawn_left";
+			case SDL.SDL_CONTROLLER_BUTTON_DPAD_LEFT: return "dpad_left";
 			case SDL.SDL_CONTROLLER_BUTTON_DPAD_RIGHT: return "dpad_right";
 		}
 
