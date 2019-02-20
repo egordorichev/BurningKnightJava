@@ -171,6 +171,10 @@ public class ItemSelectState extends State {
 			item.y = Display.UI_HEIGHT / 2 + 48;
 			item.x = (Display.UI_WIDTH - mage.size() * 48) / 2 + i * 48 + 24;
 			Dungeon.ui.add(item);
+
+			if (i == 0) {
+				Dungeon.ui.select(item);
+			}
 		}
 
 		Dungeon.ui.add(new UiButton("random", Display.UI_WIDTH / 2, Display.UI_HEIGHT / 2 - 48 * 2) {
@@ -181,10 +185,10 @@ public class ItemSelectState extends State {
 
 				if (r < 0.333f || (melee.size() == 0 && ranged.size() == 0)) {
 					pick(mage.get(Random.newInt(mage.size() - 1)), Player.Type.WIZARD);
-				} else if (r < 0.666f || ranged.size() == 0) {
-					pick(melee.get(Random.newInt(melee.size() - 1)), Player.Type.WARRIOR);
-				} else {
+				} else if (r < 0.666f || melee.size() == 0) {
 					pick(ranged.get(Random.newInt(ranged.size() - 1)), Player.Type.RANGER);
+				} else {
+					pick(melee.get(Random.newInt(melee.size() - 1)), Player.Type.WARRIOR);
 				}
 			}
 		});

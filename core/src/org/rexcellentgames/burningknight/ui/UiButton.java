@@ -32,9 +32,8 @@ public class UiButton extends UiEntity {
 	protected float ab = 1f;
 	protected boolean playSfx = true;
 	private boolean disableClick;
-	private float t;
 	private Tween.Task last;
-	private float scaleMod = 1f;
+	public float scaleMod = 1f;
 
 	public UiButton(String label, int x, int y) {
 		this.setLabel(label);
@@ -113,10 +112,6 @@ public class UiButton extends UiEntity {
 						super.onEnd();
 						last = null;
 						onClick();
-
-						r = 0.7f;
-						g = 0.7f;
-						b = 0.7f;
 
 						last = Tween.to(new Tween.Task(1 + 0.2f * scaleMod, 0.05f) {
 							@Override
@@ -212,10 +207,6 @@ public class UiButton extends UiEntity {
 			this.g = 1;
 			this.b = 1;
 
-			if (!isSelected) {
-				this.area.select(this);
-			}
-
 			Audio.playSfx("menu/moving");
 			onHover();
 
@@ -260,12 +251,15 @@ public class UiButton extends UiEntity {
 			});
 		}
 
-		this.t += dt;
 		float s = dt * 4f;
 
 		this.rr += (this.r - this.rr) * s;
 		this.rg += (this.g - this.rg) * s;
 		this.rb += (this.b - this.rb) * s;
+
+		if (this.hover) {
+			this.area.select(this);
+		}
 
 		super.update(dt);
 	}
@@ -293,8 +287,8 @@ public class UiButton extends UiEntity {
 		Texture texture = Graphics.text.getColorBufferTexture();
 		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
 
-		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - this.h / 2, this.w / 2 + 4, this.h / 2 + 8,
-			this.w, this.h + 16, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 20)),
+		Graphics.batch.draw(texture, this.x - this.w / 2 + 2, this.y - this.h / 2, this.w / 2 + 4, this.h / 2 + 6,
+			this.w + 4, this.h + 16, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / this.w * 16 + 1f)),
 			0, 0, this.w + 4, this.h + 16, false, true);
 
 		Graphics.batch.setColor(1, 1, 1, 1);

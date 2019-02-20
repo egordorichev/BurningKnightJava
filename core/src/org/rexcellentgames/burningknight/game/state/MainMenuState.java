@@ -121,100 +121,11 @@ public class MainMenuState extends State {
 
 		Dungeon.buildDiscordBadge();
 
-		int y = Display.UI_HEIGHT / 2 - 24;
-
 		logoX = 0f;
 
 		instance = this;
 		Dungeon.area.add(Camera.instance);
 		Camera.target = null;
-
-		UiButton button = (UiButton) Dungeon.ui.add(new UiButton("play", -128, (int) (y + 24)) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
-				GameSave.Info info = GameSave.peek(SaveManager.slot);
-
-				for (final UiButton button : buttons) {
-					Tween.to(new Tween.Task(-Display.UI_WIDTH_MAX, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
-						@Override
-						public float getValue() {
-							return button.x;
-						}
-
-						@Override
-						public void setValue(float value) {
-							button.x = value;
-						}
-					});
-				}
-
-				Tween.to(new Tween.Task(0, 0.1f) {
-					@Override
-					public float getValue() {
-						return size;
-					}
-
-					@Override
-					public void setValue(float value) {
-						size = value;
-					}
-
-					@Override
-					public void onEnd() {
-						Log.error("Game slot was " + (info.free ? "free" : "not free"));
-						Dungeon.loadType = Entrance.LoadType.LOADING;
-						Dungeon.goToLevel((info.free ? -2 : info.depth));
-					}
-				});
-			}
-		}.setSparks(true));
-
-		settingsFirst = button;
-		buttons.add(button);
-
-		first = buttons.get(0);
-		Dungeon.ui.select(first);
-
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", -128, (int) (y)) {
-			@Override
-			public void onClick() {
-				super.onClick();
-				addSettings();
-
-				Tween.to(new Tween.Task(Display.UI_WIDTH, 0.15f, Tween.Type.QUAD_IN_OUT) {
-					@Override
-					public float getValue() {
-						return settingsX;
-					}
-
-					@Override
-					public void setValue(float value) {
-						settingsX = value;
-					}
-
-					@Override
-					public boolean runWhenPaused() {
-						return true;
-					}
-				});
-			}
-		}.setSparks(true)));
-
-		buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (y - 24)) {
-			@Override
-			public void onClick() {
-				Audio.playSfx("menu/exit");
-
-				transition(new Runnable() {
-					@Override
-					public void run() {
-						Gdx.app.exit();
-					}
-				});
-			}
-		}));
 
 		pauseMenuUi = new Area(true);
 		this.pauseMenuUi.show();
@@ -259,6 +170,95 @@ public class MainMenuState extends State {
 			Audio.highPriority("Menu");
 			Audio.current.setLooping(true);
 
+			int y = Display.UI_HEIGHT / 2 - 24;
+
+			UiButton button = (UiButton) Dungeon.ui.add(new UiButton("play", -128, (int) (y + 24)) {
+				@Override
+				public void onClick() {
+					super.onClick();
+					Player.toSet = Player.Type.values()[GlobalSave.getInt("last_class")];
+					GameSave.Info info = GameSave.peek(SaveManager.slot);
+
+					for (final UiButton button : buttons) {
+						Tween.to(new Tween.Task(-Display.UI_WIDTH_MAX, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
+							@Override
+							public float getValue() {
+								return button.x;
+							}
+
+							@Override
+							public void setValue(float value) {
+								button.x = value;
+							}
+						});
+					}
+
+					Tween.to(new Tween.Task(0, 0.1f) {
+						@Override
+						public float getValue() {
+							return size;
+						}
+
+						@Override
+						public void setValue(float value) {
+							size = value;
+						}
+
+						@Override
+						public void onEnd() {
+							Log.error("Game slot was " + (info.free ? "free" : "not free"));
+							Dungeon.loadType = Entrance.LoadType.LOADING;
+							Dungeon.goToLevel((info.free ? -2 : info.depth));
+						}
+					});
+				}
+			}.setSparks(true));
+
+			settingsFirst = button;
+			buttons.add(button);
+
+			first = buttons.get(0);
+			Dungeon.ui.select(first);
+
+			buttons.add((UiButton) Dungeon.ui.add(new UiButton("settings", -128, (int) (y)) {
+				@Override
+				public void onClick() {
+					super.onClick();
+					addSettings();
+
+					Tween.to(new Tween.Task(Display.UI_WIDTH, 0.15f, Tween.Type.QUAD_IN_OUT) {
+						@Override
+						public float getValue() {
+							return settingsX;
+						}
+
+						@Override
+						public void setValue(float value) {
+							settingsX = value;
+						}
+
+						@Override
+						public boolean runWhenPaused() {
+							return true;
+						}
+					});
+				}
+			}.setSparks(true)));
+
+			buttons.add((UiButton) Dungeon.ui.add(new UiButton("exit", -128, (int) (y - 24)) {
+				@Override
+				public void onClick() {
+					Audio.playSfx("menu/exit");
+
+					transition(new Runnable() {
+						@Override
+						public void run() {
+							Gdx.app.exit();
+						}
+					});
+				}
+			}));
+
 			Tween.to(new Tween.Task(256, 0.7f, Tween.Type.QUAD_IN) {
 				@Override
 				public float getValue() {
@@ -271,16 +271,17 @@ public class MainMenuState extends State {
 				}
 			});
 
-			for (final UiButton button : buttons) {
+			for (final UiButton b : buttons) {
 				Tween.to(new Tween.Task(Display.UI_WIDTH_MAX / 2, skip ? 0.001f : 0.4f, Tween.Type.BACK_OUT) {
 					@Override
 					public float getValue() {
-						return button.x;
+						return b.x;
 					}
+
 
 					@Override
 					public void setValue(float value) {
-						button.x = value;
+						b.x = value;
 					}
 				}).delay(0.4f);
 			}

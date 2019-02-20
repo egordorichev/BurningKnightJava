@@ -18,7 +18,7 @@
 	"interact" : [ "E", "button_x" ],
 	"pause" : [ "Escape", "button_back" ],
 	"mouse" : [ "Mouse0" ],
-	"start" : [ "Space", "Mouse0", "Mouse1", "button_start" ],
+	"start" : [ "Space", "Mouse0", "Mouse1", "button_start", "Return", "Enter", "button_x", "button_a", "button_rightshoulder", "button_leftshoulder" ],
 
 	"map" : [ "Tab", "dpad_up" ],
 	"toggle_minimap" : [ "M" ],

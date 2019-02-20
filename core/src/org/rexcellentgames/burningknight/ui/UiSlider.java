@@ -1,8 +1,13 @@
 package org.rexcellentgames.burningknight.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
@@ -45,21 +50,49 @@ public class UiSlider extends UiButton {
 
 	@Override
 	public void render() {
+		Graphics.batch.end();
+		Graphics.shadows.end();
+		Graphics.text.begin();
+		Graphics.batch.begin();
+
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		Graphics.medium.setColor(this.r * this.ar, this.g * this.ag, this.b * this.ab, 1);
+		Graphics.medium.draw(Graphics.batch, this.label, 2, 16);
+
 		float w = UiChoice.maxW;
 		Graphics.medium.draw(Graphics.batch, this.label, this.ox - (w) * 0.5f + 4, this.y - this.h / 2 + 16);
+		Graphics.medium.setColor(1, 1, 1, 1);
 
-		Graphics.batch.setColor(1, 1, 1, 1);
 		w = slider.getRegionWidth() - 4;
 		float v = MathUtils.map(this.val, this.min, this.max, 0, w / 4);
 
-		Graphics.render(fill, this.ox + UiChoice.maxW * 0.5f - w + 2, this.y - 2 + h * 0.5f, 0, 0, 0, false, false, v * scale, scale * 1.1f);
-		Graphics.render(slider, this.ox + UiChoice.maxW * 0.5f - w, this.y - 4 + h * 0.5f, 0, 0, 0, false, false, scale, scale);
+		float vl = 0.2f;
+		Graphics.batch.setColor(vl, vl, vl, 1);
+		Graphics.render(fill, UiChoice.maxW * 0.5f + w - sw + 2, h * 0.5f + 2, 0, 0, 0, false, false, w / 4 * scale, scale * 1.1f);
+		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.render(fill, UiChoice.maxW * 0.5f + w - sw + 2, h * 0.5f + 2, 0, 0, 0, false, false, v * scale, scale * 1.1f);
+		Graphics.render(slider, UiChoice.maxW * 0.5f + w - sw, h * 0.5f, 0, 0, 0, false, false, scale, scale);
 
 		String s = ((int)Math.floor((this.val) * 100f)) + "%";
 		Graphics.layout.setText(Graphics.small, s);
-		Graphics.medium.setColor(1, 1, 1, 1);
-		Graphics.print(s, Graphics.small, this.ox + UiChoice.maxW * 0.5f - w + 2 + (w - Graphics.layout.width) / 2, this.y - 3 + h * 0.5f);
+		Graphics.print(s, Graphics.small, w / 2 - 8 + UiChoice.maxW * 0.5f - Graphics.layout.width / 2, h * 0.5f + 2);
+
+		Graphics.batch.end();
+		Graphics.text.end();
+		Graphics.shadows.begin();
+		Graphics.batch.begin();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+		Texture texture = Graphics.text.getColorBufferTexture();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.setColor(1, 1, 1, 1);
+		Graphics.batch.draw(texture, this.x - UiChoice.maxW / 2 + 2, this.y - this.h / 2, this.w / 2, this.h / 2 + 8,
+			this.w + 32, this.h + 16, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / UiChoice.maxW * 10 + 1f)),
+			0, 0, this.w + 32, this.h + 16, false, true);
+
 	}
 
 	@Override

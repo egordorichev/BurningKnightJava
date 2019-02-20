@@ -88,7 +88,9 @@ public class Area {
 
       if (input < -0.5f && lastY > -0.5f || Input.instance.wasPressed("ui_up")) {
         if (this.selectedUiEntity >= 0) {
-          ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+	        if (selectedUiEntity < this.entities.size() && this.entities.get(this.selectedUiEntity) instanceof UiEntity) {
+		        ((UiEntity) this.entities.get(this.selectedUiEntity)).unselect();
+	        }
         }
 
         if (this.selectedUiEntity == 0) {
@@ -208,17 +210,28 @@ public class Area {
     return list.get(Random.newInt(list.size()));
   }
 
+  public void unselectAllExcept(UiEntity entity) {
+	  for (Entity e : this.entities) {
+		  if (e != entity && e instanceof UiEntity && ((UiEntity) e).isSelected()) {
+			  ((UiEntity) e).unselect();
+		  }
+	  }
+  }
+
   public void select(UiEntity entity) {
 	  if (entity == null || !entity.isSelectable()) {
 		  return;
 	  }
 
 	  for (Entity e : this.entities) {
-		  if (e instanceof UiEntity && ((UiEntity) e).isSelected()) {
+		  if (e != entity && e instanceof UiEntity && ((UiEntity) e).isSelected()) {
 			  ((UiEntity) e).unselect();
 		  }
 	  }
 
+	  if (entity.isSelected()) {
+	  	return;
+	  }
 
 	  selectedUiEntity = entities.indexOf(entity);
 	  entity.select();

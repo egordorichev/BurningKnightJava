@@ -52,6 +52,8 @@ public class StartingItem extends UiButton {
 		TextureRegion region = item.getSprite();
 		float a = (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * Math.max(0, 0.5f - rr * 0.5f) * 100);
 
+		scaleMod = 2;
+
 		Graphics.batch.setColor(this.r * this.ar, this.g * this.ag, this.b * this.ab, 1);
 		Graphics.render(region, this.x, this.y, a, region.getRegionWidth() / 2, region.getRegionHeight() / 2, false, false, this.scale * 2, this.scale * 2);
 		Graphics.medium.setColor(1, 1, 1, 1);

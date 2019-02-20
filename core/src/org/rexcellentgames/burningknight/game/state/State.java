@@ -617,13 +617,16 @@ public class State {
 			}
 		}.setValue(Settings.sfx)));
 
-		currentSettings.add(pauseMenuUi.add(new UiSlider("music", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
+		UiEntity button = (UiEntity) pauseMenuUi.add(new UiSlider("music", (int) (Display.UI_WIDTH * 2.5f), (int) (st + s * 4)) {
 			@Override
 			public void onUpdate() {
 				Settings.music = this.val;
 				Audio.update();
 			}
-		}.setValue(Settings.music)));
+		}.setValue(Settings.music));
+
+		currentSettings.add(button);
+		pauseMenuUi.select(button);
 	}
 
 	public void addGame() {

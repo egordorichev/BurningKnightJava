@@ -38,16 +38,45 @@ public class UiTextInput extends UiButton implements InputProcessor {
 	}
 
 	@Override
+	public void unselect() {
+		super.unselect();
+		active = false;
+		setLabel(lb + " " + input);
+	}
+
+	@Override
+	public void select() {
+		super.select();
+		active = true;
+		setLabel(lb + " " + input + "_");
+	}
+
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+
+		if (org.rexcellentgames.burningknight.game.input.Input.instance.wasPressed("pause")) {
+			onBackSpace();
+		}
+	}
+
+	private void onEnter() {
+		active = false;
+		setLabel(lb + " " + input);
+		Audio.playSfx("menu/select");
+	}
+
+	private void onBackSpace() {
+		this.input = this.input.substring(0, this.input.length() - 1);
+		setLabel(lb + " " + input + "_");
+		Audio.playSfx("menu/moving");
+	}
+
+	@Override
 	public boolean keyDown(int keycode) {
 		if (active) {
-			if (keycode == Input.Keys.ENTER) {
-				active = false;
-				setLabel(lb + " " + input);
-				Audio.playSfx("menu/select");
-			} else if (keycode == Input.Keys.BACKSPACE && input.length() > 0) {
-				this.input = this.input.substring(0, this.input.length() - 1);
-				setLabel(lb + " " + input + "_");
-				Audio.playSfx("menu/moving");
+			if (keycode == Input.Keys.BACKSPACE && input.length() > 0) {
+				onBackSpace();
 			} else if (keycode == Input.Keys.V && Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
 				int len = getMaxLength();
 

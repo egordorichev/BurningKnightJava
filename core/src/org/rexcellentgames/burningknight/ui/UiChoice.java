@@ -1,7 +1,12 @@
 package org.rexcellentgames.burningknight.ui;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
+import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
@@ -73,12 +78,34 @@ public class UiChoice extends UiButton {
 
 	@Override
 	public void render() {
+		Graphics.batch.end();
+		Graphics.shadows.end();
+		Graphics.text.begin();
+		Graphics.batch.begin();
+
+		Graphics.batch.setProjectionMatrix(Camera.nil.combined);
+		Gdx.gl.glClearColor(0, 0, 0, 0);
+		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT | GL20.GL_DEPTH_BUFFER_BIT | (Gdx.graphics.getBufferFormat().coverageSampling ? GL20.GL_COVERAGE_BUFFER_BIT_NV : 0));
 		Graphics.medium.setColor(this.r * this.ar, this.g * this.ag, this.b * this.ab, 1);
-		float w = maxW;
-		Graphics.medium.draw(Graphics.batch, this.def, this.x - w / 2 + 4, this.y - h / 2 + 16);
+		Graphics.medium.draw(Graphics.batch, this.def, 2, 16);
 		setColor();
-		Graphics.medium.draw(Graphics.batch, this.choices[this.current], this.x + w / 2 + 4 - this.sizes[this.current], this.y - h / 2 + 16);
+		Graphics.medium.draw(Graphics.batch, this.choices[this.current], maxW + 4 - this.sizes[this.current], 16);
 		Graphics.medium.setColor(1, 1, 1, 1);
+
+		Graphics.batch.end();
+		Graphics.text.end();
+		Graphics.shadows.begin();
+		Graphics.batch.begin();
+		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+
+		Texture texture = Graphics.text.getColorBufferTexture();
+		texture.setFilter(Texture.TextureFilter.Nearest, Texture.TextureFilter.Nearest);
+
+		Graphics.batch.draw(texture, this.x - maxW / 2 + 2, this.y - this.h / 2, maxW / 2 + 4, this.h / 2 + 6,
+			maxW + 5, this.h + 16, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / maxW * 16 + 1f)),
+			0, 0, (int) (maxW + 5), this.h + 16, false, true);
+
+		Graphics.batch.setColor(1, 1, 1, 1);
 	}
 
 	protected void setColor() {

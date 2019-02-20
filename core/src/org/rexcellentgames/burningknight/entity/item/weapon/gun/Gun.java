@@ -8,12 +8,13 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.desert.Archeologist;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase;
 import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BulletProjectile;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.NanoBullet;
+import org.rexcellentgames.burningknight.entity.item.weapon.projectile.SimpleBullet;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Random;
@@ -435,7 +436,7 @@ public class Gun extends WeaponBase {
 	}
 
 	protected BulletProjectile getBullet() {
-		return new BulletProjectile();
+		return this.owner == null || this.owner instanceof Mob ? new NanoBullet() : new SimpleBullet();
 	}
 
 	protected void sendBullet(float an, float xx, float yy) {

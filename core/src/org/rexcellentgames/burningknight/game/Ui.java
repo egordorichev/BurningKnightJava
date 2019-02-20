@@ -105,8 +105,8 @@ public class Ui {
 			}
 		}
 
-		if (Input.instance.wasPressed("use") || Input.instance.wasPressed("second_use")) {
-			Tween.to(new Tween.Task(1.2f, 0.1f) {
+		if (Input.instance.wasPressed("use")) {
+			Tween.to(new Tween.Task(1.25f, 0.03f) {
 				@Override
 				public float getValue() {
 					return scale;
@@ -296,8 +296,6 @@ public class Ui {
 							}
 						});
 
-						Dungeon.ui.select(button);
-
 
 						UiButton finalButton = button;
 						Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
@@ -454,6 +452,8 @@ public class Ui {
 						}
 					});
 
+					Dungeon.ui.select(button);
+
 					final UiButton finalButton3 = button;
 					Tween.to(new Tween.Task(Display.UI_WIDTH / 2, 0.5f, Tween.Type.BACK_OUT) {
 						@Override
@@ -467,8 +467,6 @@ public class Ui {
 						}
 					}).delay(0.3f);
 
-					Dungeon.ui.select(button);
-
 					if (Dungeon.depth != -3) {
 						button = (UiButton) Dungeon.ui.add(new UiButton("back_to_castle", Display.UI_WIDTH / 2 - Display.UI_WIDTH, 107) {
 							@Override
@@ -480,8 +478,6 @@ public class Ui {
 								Camera.shake(3);
 							}
 						});
-
-						Dungeon.ui.select(button);
 
 
 						UiButton finalButton = button;
