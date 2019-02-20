@@ -64,10 +64,12 @@ public class InGameState extends State {
 	private float volume = 0;
 	private float flowVolume;
 
-	public static boolean forceBoss;
-
 	@Override
 	public void init() {
+		if (Achievements.lastActive != null) {
+			Achievements.lastActive.init();
+		}
+
 		if (fire == null) {
 			fire = Audio.getMusic("OnFire");
 			water = Audio.getMusic("water");
@@ -1063,6 +1065,7 @@ public class InGameState extends State {
 
 		if (!Player.instance.isDead()) {
 			this.pauseMenuUi.show();
+			this.pauseMenuUi.selectFirst();
 		}
 	}
 }

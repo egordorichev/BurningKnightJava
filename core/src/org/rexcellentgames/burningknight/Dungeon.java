@@ -729,10 +729,11 @@ public class Dungeon extends ApplicationAdapter {
 		boolean big = move.len2() > 0.2;
 
 		if (Player.instance != null) {
-			if (big) {
-				angle.lerp(move, 0.06f * dt * 60);
+			if (!big) {
+				return;
 			}
 
+			angle.lerp(move, 0.06f * dt * 60);
 			float d = 48f;
 
 			Vector3 input = Camera.game.project(new Vector3(

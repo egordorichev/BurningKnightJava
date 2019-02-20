@@ -23,5 +23,8 @@
 	"map" : [ "Tab", "dpad_up" ],
 	"toggle_minimap" : [ "M" ],
 	"zoom_out" : [ "-" ],
-	"zoom_in" : [ "=" ]
+	"zoom_in" : [ "=" ],
+
+	"ui_up" : [ "Up",  "dpad_up" ],
+	"ui_down" : [ "Down", "dpad_down" ]
 }

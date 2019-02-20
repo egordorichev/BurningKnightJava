@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 public class UiEntity extends Entity {
 	protected boolean isSelected;
 	protected boolean isSelectable = true;
+	protected boolean wasSelected;
 
 	{
 		alwaysRender = true;
@@ -19,8 +20,13 @@ public class UiEntity extends Entity {
 		return isSelected;
 	}
 
-	public void select() {
+	@Override
+	public void update(float dt) {
+		super.update(dt);
+	}
 
+	public void select() {
+		isSelected = true;
 	}
 
 	public void unselect() {

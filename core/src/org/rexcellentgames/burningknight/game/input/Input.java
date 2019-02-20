@@ -209,8 +209,6 @@ public class Input implements InputProcessor, ControllerListener {
 			}
 		}
 
-		Log.error(!activeController.isConnected() + " " + !activeController.joystick.getAttached());
-
 		if (activeController != null && (!activeController.isConnected() || !activeController.joystick.getAttached())) {
 			disconnected(activeController);
 		}
@@ -514,7 +512,6 @@ public class Input implements InputProcessor, ControllerListener {
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
 		if (controller == activeController) {
-			Log.error(axisCode + " " + value);
 			axes[axisCode] = value;
 		}
 

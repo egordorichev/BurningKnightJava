@@ -70,7 +70,7 @@ public class Achievements {
 
 	private static ArrayList<UiAchievement> toShow = new ArrayList<>();
 	private static Area top = new Area(true);
-	private static UiAchievement lastActive;
+	public static UiAchievement lastActive;
 
 	public static boolean unlocked(String id) {
 		return id == null || GlobalSave.isTrue(id);

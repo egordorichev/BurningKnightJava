@@ -82,7 +82,7 @@ public class AssetLoadState extends State {
 	public void render() {
 		super.render();
 
-		Graphics.render(logo, (Display.GAME_WIDTH - 128) / 2, (Display.GAME_HEIGHT - 128) / 2);
+		Graphics.render(logo, (Display.GAME_WIDTH - 128) / 2, (Display.GAME_HEIGHT - 160) / 2);
 
 		/*
 
