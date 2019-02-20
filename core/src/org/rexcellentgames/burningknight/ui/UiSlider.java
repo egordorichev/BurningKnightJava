@@ -70,14 +70,14 @@ public class UiSlider extends UiButton {
 
 		float vl = 0.2f;
 		Graphics.batch.setColor(vl, vl, vl, 1);
-		Graphics.render(fill, UiChoice.maxW * 0.5f + w - sw + 2, h * 0.5f + 2, 0, 0, 0, false, false, w / 4 * scale, scale * 1.1f);
+		Graphics.render(fill, UiChoice.maxW - w + 2, h * 0.5f + 2, 0, 0, 0, false, false, w / 4 * scale, scale * 1.1f);
 		Graphics.batch.setColor(1, 1, 1, 1);
-		Graphics.render(fill, UiChoice.maxW * 0.5f + w - sw + 2, h * 0.5f + 2, 0, 0, 0, false, false, v * scale, scale * 1.1f);
-		Graphics.render(slider, UiChoice.maxW * 0.5f + w - sw, h * 0.5f, 0, 0, 0, false, false, scale, scale);
+		Graphics.render(fill, UiChoice.maxW - w + 2, h * 0.5f + 2, 0, 0, 0, false, false, v * scale, scale * 1.1f);
+		Graphics.render(slider, UiChoice.maxW - w, h * 0.5f, 0, 0, 0, false, false, scale, scale);
 
 		String s = ((int)Math.floor((this.val) * 100f)) + "%";
 		Graphics.layout.setText(Graphics.small, s);
-		Graphics.print(s, Graphics.small, w / 2 - 8 + UiChoice.maxW * 0.5f - Graphics.layout.width / 2, h * 0.5f + 2);
+		Graphics.print(s, Graphics.small, UiChoice.maxW - w * 0.5f - Graphics.layout.width / 2, h * 0.5f + 2);
 
 		Graphics.batch.end();
 		Graphics.text.end();
@@ -90,8 +90,8 @@ public class UiSlider extends UiButton {
 
 		Graphics.batch.setColor(1, 1, 1, 1);
 		Graphics.batch.draw(texture, this.x - UiChoice.maxW / 2 + 2, this.y - this.h / 2, this.w / 2, this.h / 2 + 8,
-			this.w + 32, this.h + 16, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / UiChoice.maxW * 10 + 1f)),
-			0, 0, this.w + 32, this.h + 16, false, true);
+			this.w + 72, this.h + 16, this.scale, this.scale, (float) (Math.cos(this.y / 12 + Dungeon.time * 6) * (this.mx / UiChoice.maxW * 10 + 1f)),
+			0, 0, this.w + 72, this.h + 16, false, true);
 
 	}
 

@@ -105,6 +105,11 @@ public class Area {
 	        }
 
 	        selectedUiEntity = findLastSelectableUiEntity();
+
+        	if (selectedUiEntity == -1) {
+        		return;
+	        }
+
 	        ((UiEntity) this.entities.get(selectedUiEntity)).select();
         } else {
 	        ((UiEntity) this.entities.get(selectedUiEntity)).select();
@@ -128,6 +133,11 @@ public class Area {
 		      }
 
 		      selectedUiEntity = findFirstSelectableUiEntity();
+
+		      if (selectedUiEntity == -1) {
+			      return;
+		      }
+
 		      ((UiEntity) this.entities.get(selectedUiEntity)).select();
 	      } else {
 		      ((UiEntity) this.entities.get(selectedUiEntity)).select();
