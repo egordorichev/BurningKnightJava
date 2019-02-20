@@ -716,24 +716,24 @@ public class Dungeon extends ApplicationAdapter {
 	private Vector2 angle = new Vector2(0.0001f, 1.0f);
 
 	private void updateMouse(float dt) {
-		inputVel.mul(dt * 53f);
+		if (Input.instance.activeController == null) {
+			return;
+		}
+
+		inputVel.x -= inputVel.x * dt * 10;
+		inputVel.y -= inputVel.y * dt * 10;
 
 		float s = ((float) Gdx.graphics.getWidth()) / Display.GAME_WIDTH;
-
-		if (Input.instance.wasPressed("mouse_left")) {
-			Log.info("left");
-		}
 
 		Vector2 move = Input.instance.getAxis("cursor");
 		boolean big = move.len2() > 0.2;
 
 		if (Player.instance != null) {
 			if (big) {
-				float a = move.angleRad();
-				angle.lerp(new Vector2((float) Math.cos(a), (float) Math.sin(a)), 0.08f);
+				angle.lerp(move, 0.06f * dt * 60);
 			}
 
-			float d = 64f;
+			float d = 48f;
 
 			Vector3 input = Camera.game.project(new Vector3(
 				Player.instance.x + Player.instance.w / 2 + angle.x * d,

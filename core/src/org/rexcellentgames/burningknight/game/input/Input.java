@@ -203,12 +203,16 @@ public class Input implements InputProcessor, ControllerListener {
 	private boolean tried;
 
 	public void update() {
-		if (!tried && activeController == null && sdlManager.getControllers().size > 0) {
-			tried = true;
-
+		if (activeController == null && sdlManager.getControllers().size > 0) {
 			for (Controller controller : sdlManager.getControllers()) {
 				connected(controller);
 			}
+		}
+
+		Log.error(!activeController.isConnected() + " " + !activeController.joystick.getAttached());
+
+		if (activeController != null && (!activeController.isConnected() || !activeController.joystick.getAttached())) {
+			disconnected(activeController);
 		}
 
 		anyPressed = false;
@@ -510,6 +514,7 @@ public class Input implements InputProcessor, ControllerListener {
 	@Override
 	public boolean axisMoved(Controller controller, int axisCode, float value) {
 		if (controller == activeController) {
+			Log.error(axisCode + " " + value);
 			axes[axisCode] = value;
 		}
 
