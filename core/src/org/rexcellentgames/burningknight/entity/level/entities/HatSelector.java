@@ -47,7 +47,7 @@ public class HatSelector extends ItemHolder {
 	public void render() {
 		super.render();
 
-		if ((!set && this.getItem() == null) || Upgrade.Companion.getUpdateEvent()) {
+		if ((!set && this.getItem() == null) || Upgrade.updateEvent) {
 			for (Map.Entry<String, ItemRegistry.Pair> pair : ItemRegistry.items.entrySet()) {
 				if (!pair.getValue().shown && pair.getValue().pool == Upgrade.Type.DECOR && !pair.getKey().equals(this.key) && pair.getValue().unlocked(pair.getKey())) {
 					pair.getValue().shown = true;

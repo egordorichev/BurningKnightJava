@@ -17,7 +17,6 @@ import org.rexcellentgames.burningknight.entity.creature.player.Spawn;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Revolver;
-import org.rexcellentgames.burningknight.entity.level.Control;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.*;
@@ -192,22 +191,7 @@ public class HandmadeRoom extends RegularRoom {
 
 			Rectangle rect = ((RectangleMapObject) o).getRectangle();
 
-			if (name.startsWith("class_")) {
-				ClassSelector c = new ClassSelector(name.replace("class_", ""));
-
-				c.x = x + rect.x + (rect.width - c.w) / 2 + 16;
-				c.y = y + rect.y + (rect.height - c.h) / 2 + 16;
-
-				Dungeon.area.add(c.add());
-			} else if (name.startsWith("control_")) {
-				Control c = new Control();
-
-				c.id = name.replace("control_", "");
-				c.x = x + rect.x + 16;
-				c.y = y + rect.y + 16;
-
-				Dungeon.area.add(c.add());
-			} else if (name.startsWith("sk_")) {
+			if (name.startsWith("sk_")) {
 				String id = name.replace("sk_", "");
 
 				Trader trader = new Trader();
@@ -233,13 +217,13 @@ public class HandmadeRoom extends RegularRoom {
 
 				trader.x = x + rect.x + 16;
 				trader.y = y + rect.y + 16 - 8;
-				trader.setIdd(id);
+				trader.idd  = id;
 
 				switch (id) {
-					case "a": trader.setType(Upgrade.Type.ACCESSORY); break;
-					case "d": trader.setType(Upgrade.Type.WEAPON); break;
-					case "c": trader.setType(Upgrade.Type.CONSUMABLE); break;
-					case "h": trader.setType(Upgrade.Type.DECOR); break;
+					case "a": trader.type = Upgrade.Type.ACCESSORY; break;
+					case "d": trader.type = Upgrade.Type.WEAPON; break;
+					case "c": trader.type = Upgrade.Type.CONSUMABLE; break;
+					case "h": trader.type = Upgrade.Type.DECOR; break;
 				}
 
 				Dungeon.area.add(trader.add());

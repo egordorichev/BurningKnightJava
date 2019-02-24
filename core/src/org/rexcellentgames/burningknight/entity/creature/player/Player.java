@@ -52,7 +52,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
@@ -837,12 +836,6 @@ public class Player extends Creature {
 					item.remove();
 				}
 			} else if (!item.getFalling()) {
-				if (item instanceof ClassSelector) {
-					if (((ClassSelector) item).same(this.type)) {
-						return;
-					}
-				}
-
 				this.holders.add(item);
 
 				if (this.pickupFx == null) {
@@ -858,10 +851,6 @@ public class Player extends Creature {
 			if (this.burnLevel > 0) {
 				((Mob) entity).addBuff(new BurningBuff());
 			}
-
-			/*if (Random.chance(this.thornDamageChance)) {
-				((Mob) entity).modifyHp(-this.inventory.findItem(ThornRing.class).getLevel() * 2, this);
-			}*/
 		}
 	}
 

@@ -118,21 +118,6 @@ open class ItemHolder : SaveableEntity {
     }
   }
 
-  fun unSale() {
-    item!!.sale = false
-    item!!.price *= 2
-
-    if (item!!.price % 2 == 0) {
-      item!!.price++
-    }
-
-    added = false
-
-    if (price != null) {
-      price!!.done = true
-    }
-  }
-
   override fun shouldCollide(entity: Any?, contact: Contact?, fixture: Fixture?): Boolean {
     if (entity is Chest) {
       return false
@@ -287,22 +272,7 @@ open class ItemHolder : SaveableEntity {
     if (this.body != null) {
       this.body!!.linearVelocity = this.velocity
     }
-
-    /*
-    if (this.item is BurningKey) {
-      this.lst += dtthat
-
-      if (this.lst > 0.2f) {
-        Dungeon.level.setOnFire(Level.toIndex((Math.floor(((this.x + this.w / 2) / 16).toDouble()).toInt()), (Math.floor(((this.y + this.h / 2) / 16).toDouble())).toInt()), true)
-        Dungeon.area.add(FlameFx(this))
-        lst = 0f
-      }
-    }*/
   }
-
-  // private var lst = 0f
-
-	private var collided = false
 
   override fun init() {
     super.init()
@@ -395,10 +365,6 @@ open class ItemHolder : SaveableEntity {
 
   override fun onCollision(entity: Entity?) {
     super.onCollision(entity)
-
-    if (t < 0.01f) {
-      // return;
-    }
 
     if (entity is Creature) {
       Tween.to(object : Tween.Task(4f, 0.3f) {

@@ -10,8 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Shotgun;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -457,7 +456,7 @@ public class Shopkeeper extends Npc {
 			}
 		}
 
-		shotgun = new BronzeShotgun();
+		shotgun = new Shotgun();
 		shotgun.setOwner(this);
 	}
 
@@ -478,7 +477,7 @@ public class Shopkeeper extends Npc {
 
 			if (self.shotgun == null) {
 				friendly = false;
-				shotgun = new BronzeShotgun();
+				shotgun = new Shotgun();
 				shotgun.setOwner(self);
 			}
 
