@@ -2,8 +2,12 @@ package org.rexcellentgames.burningknight.debug;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
+import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.Version;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
+import org.rexcellentgames.burningknight.game.Ui;
+import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.ui.UiInput;
 
 import java.util.ArrayList;
@@ -17,28 +21,29 @@ public class Console implements InputProcessor {
 	private int historyIndex = 0;
 	private String savedString;
 
+	public class Line {
+		public String text;
+		public float time;
+	}
+
+	public ArrayList<Line> lines = new ArrayList<>();
+
 	public Console() {
 		instance = this;
 
 		org.rexcellentgames.burningknight.game.input.Input.multiplexer.addProcessor(this);
 
-		this.commands.add(new HelpCommand());
 		this.commands.add(new GiveCommand());
 		this.commands.add(new HealCommand());
 		this.commands.add(new GodModeCommand());
-		this.commands.add(new ResetCommand());
 		this.commands.add(new LevelCommand());
 		this.commands.add(new LightCommand());
 		this.commands.add(new DebugCommand());
-		this.commands.add(new ArcadeCommand());
-		this.commands.add(new ShadowCommand());
 		this.commands.add(new DieCommand());
 		this.commands.add(new PassableCommand());
 		this.commands.add(new RoomDebugCommand());
 		this.commands.add(new ZoomCommand());
 		this.commands.add(new HurtCommand());
-		this.commands.add(new CoinCommand());
-		this.commands.add(new ClearCommand());
 	}
 
 	public void destroy() {
@@ -46,10 +51,31 @@ public class Console implements InputProcessor {
 	}
 	
 	public void update(float dt) {
+		for (int i = this.lines.size() - 1; i >= 0; i--) {
+			Line line = this.lines.get(i);
+			line.time += dt;
 
+			if (line.time >= 5f) {
+				this.lines.remove(i);
+			}
+		}
+	}
+
+	public void print(String str) {
+		Line line = new Line();
+		line.text = str;
+
+		this.lines.add(0, line);
 	}
 
 	public void render() {
+		if (!Ui.hideUi) {
+			for (int i = 0; i < this.lines.size(); i++) {
+				Line line = this.lines.get(i);
+				Graphics.print(line.text, Graphics.small, 2, 2 + (i + 1) * 10);
+			}
+		}
+
 		if (this.open) {
 			Graphics.print(this.input + "|", Graphics.small, 2, 2);
 		}
@@ -79,6 +105,12 @@ public class Console implements InputProcessor {
 			}
 		} else if (keycode == Input.Keys.F1 && Version.debug) {
 			this.open = !this.open;
+			Audio.playSfx(this.open ? "menu/select" : "menu/exit");
+
+			if (this.open && Dungeon.game.getState() instanceof InGameState) {
+				Dungeon.game.getState().setPaused(true);
+			}
+
 			org.rexcellentgames.burningknight.game.input.Input.instance.blocked = this.open;
 		} else if (keycode == Input.Keys.ENTER && this.open) {
 			String string = this.input;
@@ -95,7 +127,7 @@ public class Console implements InputProcessor {
 
 	public void runCommand(String input) {
 		if (!input.startsWith("/")) {
-			return;
+			input = "/" + input;
 		}
 
 		history.add(0, input);
@@ -104,7 +136,7 @@ public class Console implements InputProcessor {
 		String name = parts[0];
 
 		for (ConsoleCommand command : this.commands) {
-			if (command.getName().equals(name) || command.getShortName().equals(name)) {
+			if (command.name.equals(name) || command.shortName.equals(name)) {
 				String[] args = new String[parts.length - 1];
 
 				System.arraycopy(parts, 1, args, 0, args.length);
@@ -113,6 +145,8 @@ public class Console implements InputProcessor {
 				return;
 			}
 		}
+
+		this.print("[red]Unknown command");
 	}
 
 	@Override

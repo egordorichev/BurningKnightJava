@@ -59,7 +59,7 @@ public class Item extends Entity {
   }
 
   private void initStats() {
-	  String unlocalizedName = Utils.INSTANCE.pascalCaseToSnakeCase(getClass().getSimpleName());
+	  String unlocalizedName = Utils.pascalCaseToSnakeCase(getClass().getSimpleName());
 
   	if (this.sprite == null) {
   		this.sprite = "item-" + unlocalizedName;
@@ -76,22 +76,6 @@ public class Item extends Entity {
 
   public void updateInHands(float dt) {
 
-  }
-  
-  public String getUseSpeedAsString() {
-    String str = "super_slow";
-
-    if (this.useTime <= 0.1f) {
-      str = "insane_fast";
-    } else if (this.useTime <= 0.2f) {
-      str = "fast";
-    } else if (this.useTime <= 0.4f) {
-      str = "normal_spd";
-    } else if (this.useTime <= 0.5f) {
-      str = "slow";
-    }
-
-    return Locale.get(str);
   }
 
   public void generate() {
