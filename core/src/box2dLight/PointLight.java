@@ -86,7 +86,6 @@ public class PointLight extends PositionalLight {
 	}
 	
 	/** Not applicable for this light type **/
-	@Deprecated
 	@Override
 	public void setDirection(float directionDegree) {
 	}

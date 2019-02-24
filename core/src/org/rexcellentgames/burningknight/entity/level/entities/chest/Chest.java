@@ -10,6 +10,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buffs;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -28,10 +29,8 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.GameSave;
-import org.rexcellentgames.burningknight.entity.level.save.GlobalSave;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.entity.pool.Pool;
-import org.rexcellentgames.burningknight.game.Ui;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.physics.World;
@@ -146,7 +145,7 @@ public class Chest extends SaveableEntity {
 		}
 
 		if (entity instanceof Creature) {
-			if (((Creature) entity).hasBuff(BurningBuff.class)) {
+			if (((Creature) entity).hasBuff(Buffs.BURNING)) {
 				this.burning = true;
 			} else if (this.burning) {
 				((Creature) entity).addBuff(new BurningBuff());
@@ -449,10 +448,6 @@ public class Chest extends SaveableEntity {
 						return;
 					}
 
-					if (Dungeon.depth == -3) {
-						Ui.ui.hideControlsFast();
-					}
-
 					Player.instance.playSfx("unlock");
 					this.playSfx("chest");
 
@@ -525,7 +520,7 @@ public class Chest extends SaveableEntity {
 	private float lastFlame;
 	private boolean drawOpenAnim;
 
-	public static boolean isVeganFine(Class<? extends Item> item) {
+	public static boolean isVeganFine(Class item) {
 		if (!Settings.vegan) {
 			return true;
 		}
@@ -542,10 +537,6 @@ public class Chest extends SaveableEntity {
 	}
 
 	public void open() {
-		if (this.collided) {
-			Ui.ui.hideControlsFast();
-		}
-
 		ItemHolder holder = new ItemHolder(this.item);
 
 		holder.x = this.x + (this.w - this.item.getSprite().getRegionWidth()) / 2;

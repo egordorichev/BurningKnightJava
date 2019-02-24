@@ -70,6 +70,8 @@ public class InGameState extends State {
 			Achievements.lastActive.init();
 		}
 
+		Ui.ui.reset();
+
 		if (fire == null) {
 			fire = Audio.getMusic("OnFire");
 			water = Audio.getMusic("water");
@@ -82,8 +84,6 @@ public class InGameState extends State {
 		Audio.important = false;
 
 		Dungeon.dark = 1;
-
-		Ui.controls.clear();
 
 		shader.begin();
 		float a = Random.newFloat((float) (Math.PI * 2));

@@ -169,14 +169,14 @@ public class Factory extends Bot {
 		MobPool.instance.initForFloor();
 		MobHub hub = MobPool.instance.generate();
 
-		for (Class<? extends Mob> type : hub.types) {
+		for (Class type : hub.types) {
 			if (type == Factory.class) {
 				return generateMob();
 			}
 		}
 
 		try {
-			return hub.types.get(Random.newInt(hub.types.size())).newInstance();
+			return (Mob) hub.types.get(Random.newInt(hub.types.size())).newInstance();
 		} catch (InstantiationException e) {
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {

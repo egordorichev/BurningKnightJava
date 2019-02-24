@@ -1,18 +1,17 @@
 
 package org.rexcellentgames.burningknight.entity.creature.buff;
 
-public class FreezeBuff extends Buff {
+public class FrozenBuff extends Buff {
 	{
-		name = "Speed = 0";
-		description = "You are slow!";
+		id = Buffs.FROZEN;
+		name = "Frozen";
 		duration = 5f;
-		sprite = "ui-freezed";
 	}
 
 	@Override
 	public void onStart() {
 		this.owner.freezed = true;
-		this.owner.removeBuff(BurningBuff.class);
+		this.owner.removeBuff(Buffs.BURNING);
 	}
 
 	@Override

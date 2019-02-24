@@ -68,9 +68,9 @@ public class SecretRoom extends Room {
 			while (weight > 0) {
 				MobHub mobs = MobPool.instance.generate();
 
-				for (Class<? extends Mob> mob : mobs.types) {
+				for (Class mob : mobs.types) {
 					try {
-						weight = spawnMob(mob.newInstance(), this, weight);
+						weight = spawnMob((Mob) mob.newInstance(), this, weight);
 					} catch (InstantiationException | IllegalAccessException e) {
 						e.printStackTrace();
 					}

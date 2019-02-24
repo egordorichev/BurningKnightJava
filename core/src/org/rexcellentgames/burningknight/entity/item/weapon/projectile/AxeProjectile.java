@@ -7,6 +7,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.game.input.Input;
@@ -21,7 +22,7 @@ public class AxeProjectile extends Projectile {
 
 	public TextureRegion region;
 	public boolean penetrates;
-	public Class<? extends Axe> type;
+	public Class type;
 	public int speed;
 	public Axe axe;
 
@@ -116,7 +117,7 @@ public class AxeProjectile extends Projectile {
 
 		if (false) {
 			try {
-				ItemHolder holder = new ItemHolder(this.type.newInstance());
+				ItemHolder holder = new ItemHolder((Item) this.type.newInstance());
 
 				holder.x = this.x;
 				holder.y = this.y;

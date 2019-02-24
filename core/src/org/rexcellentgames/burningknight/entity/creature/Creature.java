@@ -12,8 +12,9 @@ import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buffs;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonedBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.GoreFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
@@ -82,7 +83,7 @@ public class Creature extends SaveableEntity {
 	protected float mul = 0.7f;
 	protected float timer;
 	protected boolean flipped = false;
-	protected HashMap<Class<? extends Buff>, Buff> buffs = new HashMap<>();
+	protected HashMap<String, Buff> buffs = new HashMap<>();
 	protected float invtt;
 	protected boolean shouldDie = false;
 	protected boolean ignorePos;
@@ -165,7 +166,7 @@ public class Creature extends SaveableEntity {
 		if (this.isFlying() && entity instanceof Level) {
 			return false;
 		} else if (entity instanceof Creature) {
-			if (this.hasBuff(BurningBuff.class)) {
+			if (this.hasBuff(Buffs.BURNING)) {
 				((Creature) entity).addBuff(new BurningBuff());
 			}
 
@@ -181,7 +182,7 @@ public class Creature extends SaveableEntity {
 		return super.shouldCollide(entity, contact, fixture);
 	}
 
-	public boolean hasBuff(Class<? extends Buff> buff) {
+	public boolean hasBuff(String buff) {
 		return this.buffs.containsKey(buff);
 	}
 
@@ -374,8 +375,8 @@ public class Creature extends SaveableEntity {
 
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
-			if (this.hasBuff(BurningBuff.class) && !(this instanceof BurningMan)) {
-				this.removeBuff(BurningBuff.class);
+			if (this.hasBuff(Buffs.BURNING) && !(this instanceof BurningMan)) {
+				this.removeBuff(Buffs.BURNING);
 
 				for (int i = 0; i < 20; i++) {
 					SteamFx fx = new SteamFx();
@@ -387,7 +388,7 @@ public class Creature extends SaveableEntity {
 				}
 			}
 		} else {
-			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
+			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(Buffs.BURNING)) {
 				this.addBuff(new BurningBuff());
 			}
 
@@ -409,7 +410,7 @@ public class Creature extends SaveableEntity {
 					Dungeon.area.add(fx);
 				}
 			} else if (!this.isFlying() && t == Terrain.VENOM) {
-				this.addBuff(new PoisonBuff());
+				this.addBuff(new PoisonedBuff());
 			}
 		}
 	}
@@ -708,12 +709,12 @@ public class Creature extends SaveableEntity {
 		for (int i = 0; i < count; i++) {
 			String t = reader.readString();
 
-			Class<?> clazz;
+			Class clazz;
 
 			try {
 				clazz = Class.forName(t);
 
-				Constructor<?> constructor = clazz.getConstructor();
+				Constructor constructor = clazz.getConstructor();
 				Object object = constructor.newInstance();
 				Buff buff = (Buff) object;
 
@@ -738,26 +739,26 @@ public class Creature extends SaveableEntity {
 		}
 
 		if (this.canHaveBuff(buff)) {
-			Buff b = this.buffs.get(buff.getClass());
+			Buff b = this.buffs.get(buff.getId());
 
 			if (b != null) {
 				// b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
 			} else {
-				this.buffs.put(buff.getClass(), buff);
+				this.buffs.put(buff.getId(), buff);
 
 				buff.setOwner(this);
 				buff.onStart();
 			}
 
-			if (buff instanceof PoisonBuff) {
-				this.removeBuff(BurningBuff.class);
+			if (buff instanceof PoisonedBuff) {
+				this.removeBuff(Buffs.BURNING);
 			}
 		}
 	}
 
 	protected boolean canHaveBuff(Buff buff) {
 		if (this.unhittable) {
-			if (buff instanceof BurningBuff || buff instanceof PoisonBuff) {
+			if (buff instanceof BurningBuff || buff instanceof PoisonedBuff) {
 				return false;
 			}
 		}
@@ -765,7 +766,7 @@ public class Creature extends SaveableEntity {
 		return true;
 	}
 
-	public void removeBuff(Class<? extends Buff> buff) {
+	public void removeBuff(String buff) {
 		Buff instance = this.buffs.get(buff);
 
 		if (instance != null) {

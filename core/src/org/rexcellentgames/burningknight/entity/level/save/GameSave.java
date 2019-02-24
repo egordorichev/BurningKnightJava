@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import org.rexcellentgames.burningknight.Dungeon;
-import org.rexcellentgames.burningknight.Version;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.BurningKnight;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.util.Random;
@@ -23,7 +22,7 @@ public class GameSave {
 	public static void save(FileWriter writer, boolean old) {
 		try {
 			writer.writeByte((byte) (old ? Dungeon.lastDepth : Dungeon.depth));
-			writer.writeByte((byte) (Player.instance == null ? Player.toSet.id : Player.instance.type.id));
+			writer.writeByte((byte) (Player.instance == null ? Player.getTypeId(Player.toSet): Player.getTypeId(Player.instance.type)));
 
 			writer.writeBoolean(defeatedBK);
 			writer.writeInt32(killCount);

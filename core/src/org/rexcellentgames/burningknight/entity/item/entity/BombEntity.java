@@ -12,8 +12,8 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FrozenBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonedBuff;
 import org.rexcellentgames.burningknight.entity.creature.buff.fx.FlameFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
@@ -80,9 +80,9 @@ public class BombEntity extends Entity {
 		for (Buff buff : this.toApply) {
 			if (buff instanceof BurningBuff) {
 				this.burning = true;
-			} else if (buff instanceof PoisonBuff) {
+			} else if (buff instanceof PoisonedBuff) {
 				this.poison = true;
-			} else if (buff instanceof FreezeBuff) {
+			} else if (buff instanceof FrozenBuff) {
 				this.ice = true;
 			}
 		}
@@ -213,7 +213,7 @@ public class BombEntity extends Entity {
 			for (Buff add : toApply) {
 				if (add instanceof BurningBuff) {
 					fire = true;
-				} else if (add instanceof FreezeBuff) {
+				} else if (add instanceof FrozenBuff) {
 					ice = true;
 				}
 			}

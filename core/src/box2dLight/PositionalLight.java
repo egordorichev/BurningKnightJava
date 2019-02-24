@@ -189,8 +189,11 @@ public abstract class PositionalLight extends Light {
 		boolean oddNodes = false;
 		float x2 = mx[rayNum] = start.x;
 		float y2 = my[rayNum] = start.y;
-		float x1, y1;
-		for (int i = 0; i <= rayNum; x2 = x1, y2 = y1, ++i) {
+		float x1 = 0;
+		float y1 = 0;
+		for (int i = 0; i <= rayNum; ++i) {
+			x2 = x1;
+			y2 = y1;
 			x1 = mx[i];
 			y1 = my[i];
 			if (((y1 < y) && (y2 >= y)) || (y1 >= y) && (y2 < y)) {

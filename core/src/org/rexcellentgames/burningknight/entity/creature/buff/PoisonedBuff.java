@@ -6,14 +6,12 @@ import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 
-public class PoisonBuff extends Buff {
+public class PoisonedBuff extends Buff {
 	public static TextureRegion poison = Graphics.getTexture("ui-debuff_poison");
 
 	{
+		id = Buffs.POISONED;
 		name = "Poisoned";
-		description = "You are slowly losing your life";
-		sprite = "ui-poisoned";
-		bad = true;
 	}
 
 	private float rate;

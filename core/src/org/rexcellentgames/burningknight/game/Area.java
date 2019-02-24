@@ -6,7 +6,6 @@ import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.ui.UiEntity;
-import org.rexcellentgames.burningknight.util.Random;
 
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -202,30 +201,6 @@ public class Area {
     for (Entity entity: this.entities) {
       entity.setActive(true);
     }
-  }
-
-  public Entity getRandomEntity(Class<? extends Entity> type) {
-    ArrayList<Entity> list = new ArrayList<>();
-
-    for (Entity entity: this.entities) {
-      if (type.isInstance(entity)) {
-        list.add(entity);
-      }
-    }
-
-    if (list.size() == 0) {
-      return null;
-    }
-
-    return list.get(Random.newInt(list.size()));
-  }
-
-  public void unselectAllExcept(UiEntity entity) {
-	  for (Entity e : this.entities) {
-		  if (e != entity && e instanceof UiEntity && ((UiEntity) e).isSelected()) {
-			  ((UiEntity) e).unselect();
-		  }
-	  }
   }
 
   public void select(UiEntity entity) {

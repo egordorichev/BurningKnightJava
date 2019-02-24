@@ -8,12 +8,10 @@ import com.badlogic.gdx.physics.box2d.Contact
 import com.badlogic.gdx.physics.box2d.Fixture
 import org.rexcellentgames.burningknight.Dungeon
 import org.rexcellentgames.burningknight.assets.Graphics
-import org.rexcellentgames.burningknight.assets.Locale
 import org.rexcellentgames.burningknight.entity.Entity
 import org.rexcellentgames.burningknight.entity.creature.Creature
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob
 import org.rexcellentgames.burningknight.entity.creature.player.Player
-import org.rexcellentgames.burningknight.entity.item.key.Key
 import org.rexcellentgames.burningknight.entity.item.weapon.WeaponBase
 import org.rexcellentgames.burningknight.entity.level.Level
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity
@@ -400,11 +398,6 @@ open class ItemHolder : SaveableEntity {
 
     if (t < 0.01f) {
       // return;
-    }
-
-    if (item is Key && !collided && Dungeon.depth == -3 && Ui.controls.size == 0) {
-      Ui.ui.addControl("[white]" + Input.instance.getMapping("interact") + " [gray]" + Locale.get("interact"))
-      collided = true
     }
 
     if (entity is Creature) {

@@ -178,7 +178,7 @@ public class Inventory {
 		Dungeon.area.add(fx);
 	}
 
-	public boolean find(Class<? extends Item> clazz) {
+	public boolean find(Class clazz) {
 		for (int i = 0; i < 3; i++) {
 			if (!this.isEmpty(i)) {
 				if (clazz.isInstance(this.getSlot(i))) {
@@ -190,7 +190,7 @@ public class Inventory {
 		return findEquipped(clazz);
 	}
 
-	public boolean findEquipped(Class<? extends Item> clazz) {
+	public boolean findEquipped(Class clazz) {
 		for (Item item : spaces) {
 			if (clazz.isInstance(item)) {
 				return true;
@@ -200,7 +200,7 @@ public class Inventory {
 		return false;
 	}
 
-	public Item findItem(Class<? extends Item> clazz) {
+	public Item findItem(Class clazz) {
 		for (int i = 0; i < 3; i++) {
 			if (!this.isEmpty(i)) {
 				if (clazz.isInstance(this.getSlot(i))) {
@@ -218,7 +218,7 @@ public class Inventory {
 		return null;
 	}
 
-	public Item remove(Class<? extends Item> clazz) {
+	public Item remove(Class clazz) {
 		for (int i = 0; i < 3; i++) {
 			if (!this.isEmpty(i)) {
 				Item item = this.getSlot(i);

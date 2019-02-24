@@ -173,15 +173,21 @@ public class DirectionalLight extends Light {
 		boolean oddNodes = false;
 		float x2 = mx[rayNum] = start[0].x;
 		float y2 = my[rayNum] = start[0].y;
-		float x1, y1;
-		for (int i = 0; i <= rayNum; x2 = x1, y2 = y1, ++i) {
+		float x1 = 0;
+		float y1 = 0;
+		for (int i = 0; i <= rayNum; ++i) {
+			x2 = x1;
+			y2 = y1;
+
 			x1 = mx[i];
 			y1 = my[i];
 			if (((y1 < y) && (y2 >= y)) || (y1 >= y) && (y2 < y)) {
 				if ((y - y1) / (y2 - y1) * (x2 - x1) < (x - x1)) oddNodes = !oddNodes;
 			}
 		}
-		for (int i = 0; i < rayNum; x2 = x1, y2 = y1, ++i) {
+		for (int i = 0; i < rayNum; ++i) {
+			x2 = x1;
+			y2 = y1;
 			x1 = start[i].x;
 			y1 = start[i].y;
 			if (((y1 < y) && (y2 >= y)) || (y1 >= y) && (y2 < y)) {
@@ -192,13 +198,11 @@ public class DirectionalLight extends Light {
 	}
 
 	/** Not applicable for this light type **/
-	@Deprecated
 	@Override
 	public void attachToBody (Body body) {
 	}
 	
 	/** Not applicable for this light type **/
-	@Deprecated
 	@Override
 	public void setPosition (float x, float y) {
 	}
@@ -212,7 +216,7 @@ public class DirectionalLight extends Light {
 	/** Not applicable for this light type
 	 * <p>Always return {@code 0}
 	 **/
-	@Deprecated
+	
 	@Override
 	public float getX () {
 		return 0;
@@ -221,26 +225,26 @@ public class DirectionalLight extends Light {
 	/** Not applicable for this light type
 	 * <p>Always return {@code 0}
 	 **/
-	@Deprecated
+	
 	@Override
 	public float getY () {
 		return 0;
 	}
 
 	/** Not applicable for this light type **/
-	@Deprecated
+	
 	@Override
 	public void setPosition (Vector2 position) {
 	}
 
 	/** Not applicable for this light type **/
-	@Deprecated
+	
 	@Override
 	public void setDistance(float dist) {
 	}
 	
 	/** Not applicable for this light type **/
-	@Deprecated
+	
 	@Override
 	public void setIgnoreAttachedBody(boolean flag) {
 	}
@@ -248,7 +252,7 @@ public class DirectionalLight extends Light {
 	/** Not applicable for this light type
 	 * <p>Always return {@code false}
 	 **/
-	@Deprecated
+	
 	@Override
 	public boolean getIgnoreAttachedBody() {
 		return false;

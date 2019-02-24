@@ -115,7 +115,13 @@ public class Spinor {
   }
 
   public Spinor slerp(Spinor dest, float t) {
-    float tr, tc, omega, cosom, sinom, scale0, scale1;
+    float tr;
+    float tc;
+    float omega;
+    float cosom;
+    float sinom;
+    float scale0;
+    float scale1;
 
     // cosine
     cosom = real * dest.real + complex * dest.complex;

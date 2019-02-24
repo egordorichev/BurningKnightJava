@@ -174,7 +174,7 @@ public class Repair extends Bot {
 			super.onExit();
 
 			try {
-				Mob mob = self.targetDead.type.newInstance();
+				Mob mob = (Mob) self.targetDead.type.newInstance();
 				mob.x = self.targetDead.x;
 				mob.y = self.targetDead.y;
 				mob.noLoot = true;

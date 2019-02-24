@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.pool;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.mob.DiagonalShotFly;
-import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.blood.BigZombie;
 import org.rexcellentgames.burningknight.entity.creature.mob.blood.Mother;
 import org.rexcellentgames.burningknight.entity.creature.mob.blood.Zombie;
@@ -91,7 +90,7 @@ public class MobPool {
 		chances.clear();
 	}
 
-	private void add(float chance, int max, Class<? extends Mob> ... classes) {
+	private void add(float chance, int max, Class ... classes) {
 		add(new MobHub(chance, max, classes), chance);
 	}
 

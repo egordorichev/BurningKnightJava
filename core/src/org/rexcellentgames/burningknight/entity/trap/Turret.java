@@ -3,8 +3,6 @@ package org.rexcellentgames.burningknight.entity.trap;
 import com.badlogic.gdx.math.Rectangle;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.FireFx;
 import org.rexcellentgames.burningknight.entity.fx.FireFxPhysic;
@@ -309,10 +307,7 @@ public class Turret extends SolidProp {
 	}
 
 	protected void modify(BulletProjectile entity) {
-		switch (this.type) {
-			case 1: entity.toApply = PoisonBuff.class; break;
-			case 2: entity.toApply = FreezeBuff.class; break;
-		}
+
 	}
 
 	private boolean rotated;
