@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.level.entities;
 import org.jetbrains.annotations.NotNull;
 import org.rexcellentgames.burningknight.entity.creature.npc.Upgrade;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
+import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.ItemRegistry;
 import org.rexcellentgames.burningknight.entity.item.NullItem;
@@ -29,7 +30,7 @@ public class HatSelector extends ItemHolder {
 		}
 
 		if (pair != null) {
-			pair.setShown(false);
+			pair.shown = false;
 		}
 
 		all.remove(this);
@@ -47,15 +48,14 @@ public class HatSelector extends ItemHolder {
 		super.render();
 
 		if ((!set && this.getItem() == null) || Upgrade.Companion.getUpdateEvent()) {
-			for (Map.Entry<String, ItemRegistry.Pair> pair : ItemRegistry.INSTANCE.getItems().entrySet()) {
-				// fixme: unlocks are broken here?
-				if (!pair.getValue().getShown() && pair.getValue().getPool() == Upgrade.Type.DECOR && !pair.getKey().equals(this.key) && pair.getValue().unlocked(pair.getKey())) {
-					pair.getValue().setShown(true);
+			for (Map.Entry<String, ItemRegistry.Pair> pair : ItemRegistry.items.entrySet()) {
+				if (!pair.getValue().shown && pair.getValue().pool == Upgrade.Type.DECOR && !pair.getKey().equals(this.key) && pair.getValue().unlocked(pair.getKey())) {
+					pair.getValue().shown = true;
 					this.pair = pair.getValue();
 					key = pair.getKey();
 
 					try {
-						this.setItem(ItemRegistry.INSTANCE.getItems().get(pair.getKey()).getType().newInstance());
+						this.setItem((Item) ItemRegistry.items.get(pair.getKey()).type.newInstance());
 					} catch (InstantiationException | IllegalAccessException e) {
 						e.printStackTrace();
 					}

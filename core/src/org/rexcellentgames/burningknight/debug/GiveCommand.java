@@ -24,14 +24,14 @@ public class GiveCommand extends ConsoleCommand {
 			Item item;
 
 			try {
-				ItemRegistry.Pair clazz = ItemRegistry.INSTANCE.getItems().get(name);
+				ItemRegistry.Pair clazz = ItemRegistry.items.get(name);
 
 				if (clazz == null) {
 					console.print("[red]Unknown item $name");
 					return;
 				}
 
-				item = clazz.getType().newInstance();
+				item = (Item) clazz.type.newInstance();
 
 				if (item.isStackable()) {
 					item.setCount(count);

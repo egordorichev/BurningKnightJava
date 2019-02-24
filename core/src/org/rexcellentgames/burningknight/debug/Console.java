@@ -72,7 +72,7 @@ public class Console implements InputProcessor {
 		if (!Ui.hideUi) {
 			for (int i = 0; i < this.lines.size(); i++) {
 				Line line = this.lines.get(i);
-				Graphics.print(line.text, Graphics.small, 2, 2 + (i + 1) * 10);
+				Graphics.print(line.text, Graphics.small, 2, 2 + (i + (this.open ? 1 : 0)) * 10);
 			}
 		}
 

@@ -77,7 +77,7 @@ class Upgrade : SaveableEntity() {
 
 				pair.busy = true
 
-				this.item = pair.type.newInstance()
+				this.item = pair.type.newInstance() as Item?
 				this.price = pair.cost
 				this.setupInfo()
 
@@ -106,7 +106,7 @@ class Upgrade : SaveableEntity() {
 					this.price = value.cost
 					this.setupInfo()
 
-					return value.type.newInstance()
+					return value.type.newInstance() as Item?
 				} catch (e: InstantiationException) {
 					e.printStackTrace()
 				} catch (e: IllegalAccessException) {

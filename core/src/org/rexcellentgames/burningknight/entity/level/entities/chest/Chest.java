@@ -105,17 +105,17 @@ public class Chest extends SaveableEntity {
 	public static Pool<Item> makePool(ItemRegistry.Quality quality, boolean weapon, boolean any) {
 		Pool<Item> pool = new Pool<>();
 
-		for (Map.Entry<String, ItemRegistry.Pair> both : ItemRegistry.INSTANCE.getItems().entrySet()) {
+		for (Map.Entry<String, ItemRegistry.Pair> both : ItemRegistry.items.entrySet()) {
 			ItemRegistry.Pair item = both.getValue();
 
-			if (item.getQuality().check(quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.getType())))
-				&& item.unlocked(both.getKey()) && (Player.instance == null || Player.instance.getInventory().findItem(item.getType()) == null)) {
+			if (ItemRegistry.check(item.quality, quality) && (any || (weapon == WeaponBase.class.isAssignableFrom(item.type)))
+				&& item.unlocked(both.getKey()) && (Player.instance == null || Player.instance.getInventory().findItem(item.type) == null)) {
 
-				if (isVeganFine(item.getType())) {
-					pool.add(item.getType(), item.getChance() * (
-						item.getWarrior() * Player.getStaticWarrior() +
-							item.getMage() * Player.getStaticMage() +
-							item.getRanged() * Player.getStaticRanger()
+				if (isVeganFine(item.type)) {
+					pool.add(item.type, item.chance * (
+						item.warrior * Player.getStaticWarrior() +
+							item.mage * Player.getStaticMage() +
+							item.ranged * Player.getStaticRanger()
 					));
 				}
 			}
