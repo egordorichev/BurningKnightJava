@@ -265,6 +265,13 @@ public class Upgrade extends ItemHolder {
 
 	private float al;
 
+	@Override
+	public void renderShadow() {
+		if (!this.hidden) {
+			super.renderShadow();
+		}
+	}
+
 	public void renderSigns() {
 		if (hidden || item == null) {
 			return;

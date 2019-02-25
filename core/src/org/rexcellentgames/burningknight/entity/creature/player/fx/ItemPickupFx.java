@@ -132,7 +132,7 @@ public class ItemPickupFx extends Entity {
 					} else {
 						this.player.setMoney(g - this.item.getItem().price);
 						this.item.getItem().shop = false;
-						this.item.getPrice().remove();
+						this.item.price.remove();
 						this.erase();
 						Player.instance.playSfx("item_purchase");
 

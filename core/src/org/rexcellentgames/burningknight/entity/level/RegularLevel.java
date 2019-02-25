@@ -52,7 +52,7 @@ public abstract class RegularLevel extends Level {
 
 		Player.all.clear();
 		Mob.all.clear();
-		ItemHolder.getAll().clear();
+		ItemHolder.all.clear();
 		Chest.all.clear();
 		Mimic.all.clear();
 

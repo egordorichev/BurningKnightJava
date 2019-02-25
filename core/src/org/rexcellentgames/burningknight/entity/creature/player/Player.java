@@ -826,8 +826,8 @@ public class Player extends Creature {
 
 					Dungeon.area.add(fx);
 				}
-			} else if (!item.getItem().shop && (item.getItem().hasAutoPickup() || item.getAuto())) {
-				if (this.tryToPickup(item) && !item.getAuto()) {
+			} else if (!item.getItem().shop && (item.getItem().hasAutoPickup() || item.auto)) {
+				if (this.tryToPickup(item) && !item.auto) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
 					}
@@ -835,7 +835,7 @@ public class Player extends Creature {
 					item.done = true;
 					item.remove();
 				}
-			} else if (!item.getFalling()) {
+			} else if (!item.falling) {
 				this.holders.add(item);
 
 				if (this.pickupFx == null) {

@@ -593,12 +593,12 @@ public class Ui {
 			String info = item.buildInfo().toString();
 
 			Graphics.layout.setText(Graphics.small, info);
-			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height) * pickupFx.item.getAl() - (1 - pickupFx.item.getAl()) * Graphics.layout.height);
+			Graphics.print(info, Graphics.small, Display.UI_WIDTH - Graphics.layout.width - 4, (Graphics.layout.height) * pickupFx.item.al - (1 - pickupFx.item.al) * Graphics.layout.height);
 
-			if (pickupFx.item.getAl() <= 0.05f) {
+			if (pickupFx.item.al <= 0.05f) {
 				pickupFx = null;
 			} else if (pickupFx.done) {
-				pickupFx.item.setAl(pickupFx.item.getAl() - Gdx.graphics.getDeltaTime() * 3);
+				pickupFx.item.al = (pickupFx.item.al - Gdx.graphics.getDeltaTime() * 3);
 			}
 		}
 
