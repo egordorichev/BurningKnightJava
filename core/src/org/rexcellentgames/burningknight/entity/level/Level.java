@@ -21,7 +21,7 @@ import org.rexcellentgames.burningknight.Settings;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FrozenBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.fx.SteamFx;
@@ -759,7 +759,7 @@ public abstract class Level extends SaveableEntity {
 											}
 
 											if (CollisionHelper.check(mob.hx + mob.x, mob.hy + mob.y, mob.hw, mob.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
-												mob.addBuff(new FreezeBuff());
+												mob.addBuff(new FrozenBuff());
 											}
 										}
 
@@ -770,7 +770,7 @@ public abstract class Level extends SaveableEntity {
 										}
 
 										if (CollisionHelper.check(mob.hx + mob.x, mob.hy + mob.y, mob.hw, mob.hh / 3, x * 16, y * 16 - 8, 16, 16)) {
-											mob.addBuff(new FreezeBuff());
+											mob.addBuff(new FrozenBuff());
 										}
 									}
 
@@ -2401,7 +2401,7 @@ public abstract class Level extends SaveableEntity {
 		return this.rooms.get(Random.newInt(this.rooms.size()));
 	}
 
-	public Room getRandomRoom(Class<? extends Room> type) {
+	public Room getRandomRoom(Class type) {
 		for (int i = 0; i < 30; i++) {
 			Room room = this.rooms.get(Random.newInt(this.rooms.size()));
 
@@ -2413,7 +2413,7 @@ public abstract class Level extends SaveableEntity {
 		return null;
 	}
 
-	public Point getRandomFreePoint(Class<? extends Room> type) {
+	public Point getRandomFreePoint(Class type) {
 		for (int i = 0; i < 10; i++) {
 			Room room = this.getRandomRoom(type);
 

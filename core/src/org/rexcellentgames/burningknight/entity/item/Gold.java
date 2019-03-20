@@ -8,8 +8,6 @@ import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.AnimationData;
 import org.rexcellentgames.burningknight.util.Random;
 
-import java.util.ArrayList;
-
 public class Gold extends Item {
 	private static Animation gold = Animation.make("coin", "-gold");
 	private static Animation iron = Animation.make("coin", "-iron");
@@ -23,8 +21,6 @@ public class Gold extends Item {
 		useable = false;
 		description = Locale.get("gold_desc");
 	}
-
-	public static ArrayList<ItemHolder> all = new ArrayList<>();
 
 	@Override
 	public void onPickup() {

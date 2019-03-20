@@ -43,7 +43,7 @@ public class BulletProjectile extends Projectile {
 	public boolean remove;
 	public boolean circleShape;
 	public boolean rotates;
-	public Class<? extends Buff> toApply;
+	public Buff toApply;
 	public float duration = 2f;
 	public boolean parts;
 	public int dir;
@@ -294,11 +294,7 @@ public class BulletProjectile extends Projectile {
 	@Override
 	protected void onHit(Entity entity) {
 		if (toApply != null) {
-			try {
-				((Creature) entity).addBuff(toApply.newInstance().setDuration(this.duration));
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
+			((Creature) entity).addBuff(toApply);
 		}
 	}
 

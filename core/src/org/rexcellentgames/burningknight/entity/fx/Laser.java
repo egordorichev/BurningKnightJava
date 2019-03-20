@@ -114,7 +114,8 @@ public class Laser extends Entity {
 			World.world.rayCast(callback, xx, yy, x2, y2);
 		}
 
-		float dx, dy;
+		float dx;
+		float dy;
 
 		if (last.x != -1) {
 			dx = last.x - x;
@@ -195,18 +196,21 @@ public class Laser extends Entity {
 
 	public boolean dead;
 
-	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		Object data = fixture.getBody().getUserData();
+	private static RayCastCallback callback = new RayCastCallback() {
+		@Override
+		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+			Object data = fixture.getBody().getUserData();
 
-		if (data == null || (data instanceof Door && !((Door) data).isOpen()) || data instanceof SolidProp || data instanceof RollingSpike) {
-			if (fraction < closestFraction) {
-				closestFraction = fraction;
-				last.x = point.x;
-				last.y = point.y;
+			if (data == null || (data instanceof Door && !((Door) data).isOpen()) || data instanceof SolidProp || data instanceof RollingSpike) {
+				if (fraction < closestFraction) {
+					closestFraction = fraction;
+					last.x = point.x;
+					last.y = point.y;
+				}
 			}
-		}
 
-		return closestFraction;
+			return closestFraction;
+		}
 	};
 
 	@Override

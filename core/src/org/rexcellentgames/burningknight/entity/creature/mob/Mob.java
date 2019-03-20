@@ -17,8 +17,8 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FrozenBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonedBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -35,7 +35,6 @@ import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.key.KeyC;
-import org.rexcellentgames.burningknight.entity.item.weapon.projectile.BadBullet;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
 import org.rexcellentgames.burningknight.entity.level.entities.Door;
@@ -83,7 +82,7 @@ public class Mob extends Creature {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		if (nodebuffs && (buff instanceof FreezeBuff || buff instanceof BurningBuff || buff instanceof PoisonBuff)) {
+		if (nodebuffs && (buff instanceof FrozenBuff || buff instanceof BurningBuff || buff instanceof PoisonedBuff)) {
 			return false;
 		}
 
@@ -328,14 +327,6 @@ public class Mob extends Creature {
 		float y2 = player.y;
 
 		return Dungeon.level.canSee((int) Math.floor(x / 16), (int) Math.floor(y / 16), (int) Math.floor(x2 / 16), (int) Math.floor(y2 / 16), 0) == 0;
-	}
-
-	protected void assignTarget() {
-		this.target = (Creature) this.area.getRandomEntity(this.stupid ? Mob.class : Player.class);
-
-		if (this.target != null && this.target.invisible) {
-			this.target = null;
-		}
 	}
 
 	public Point getCloser(Point target) {

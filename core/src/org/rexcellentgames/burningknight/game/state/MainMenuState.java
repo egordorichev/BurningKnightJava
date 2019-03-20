@@ -299,9 +299,14 @@ public class MainMenuState extends State {
 		Camera.ui.update();
 
 		Graphics.batch.setProjectionMatrix(Camera.ui.combined);
+		float off = 4f;
 
 		if (logoY < 256f) {
 			float scale = 1f;
+			Graphics.batch.setColor(0, 0, 0, 0.4f);
+			float sm = scale;
+			Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX + off + 2, (float) (Display.UI_HEIGHT / 2 + Math.cos(Dungeon.time * 3f) * 2.5f) + logoY - off, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, sm, sm);
+
 			Graphics.batch.setColor(1, 1, 1, 1);
 			Graphics.render(logo, Display.UI_WIDTH_MAX / 2 + logoX, (float) (Display.UI_HEIGHT / 2 + Math.cos(Dungeon.time * 3f) * 2.5f) + logoY, 0, logo.getRegionWidth() / 2, logo.getRegionHeight() / 2, false, false, scale, scale);
 		}

@@ -3,6 +3,7 @@ package org.rexcellentgames.burningknight.entity.creature.mob.common;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buffs;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.physics.World;
@@ -71,7 +72,7 @@ public class BurningMan extends Mob {
 			animation.update(dt);
 		}
 
-		if (this.target != null && this.target.room == this.room && !this.hasBuff(BurningBuff.class)) {
+		if (this.target != null && this.target.room == this.room && !this.hasBuff(Buffs.BURNING)) {
 			BurningBuff burningBuff = new BurningBuff();
 			burningBuff.infinite = true;
 

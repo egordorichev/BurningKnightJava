@@ -52,7 +52,7 @@ public abstract class RegularLevel extends Level {
 
 		Player.all.clear();
 		Mob.all.clear();
-		ItemHolder.getAll().clear();
+		ItemHolder.all.clear();
 		Chest.all.clear();
 		Mimic.all.clear();
 
@@ -108,9 +108,9 @@ public abstract class RegularLevel extends Level {
 					while (weight > 0) {
 						MobHub mobs = MobPool.instance.generate();
 
-						for (Class<? extends Mob> m : mobs.types) {
+						for (Class m : mobs.types) {
 							try {
-								weight = spawnMob(m.newInstance(), room, weight);
+								weight = spawnMob((Mob) m.newInstance(), room, weight);
 							} catch (InstantiationException | IllegalAccessException e) {
 								e.printStackTrace();
 							}

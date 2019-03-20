@@ -37,16 +37,18 @@ public class HeartFx extends SaveableEntity {
 	private PointLight light;
 
 	public enum Type {
-		RED(0, false), RED_HALF(1, true),
-		IRON(2, false),
-		GOLDEN(3, false);
+		RED,
+		RED_HALF,
+		IRON,
+		GOLDEN
+	}
 
-		public byte id;
-		public boolean half;
-
-		Type(int id, boolean half) {
-			this.id = (byte) id;
-			this.half = half;
+	public static int idFromType(Type type) {
+		switch (type) {
+			case RED: return 0;
+			case RED_HALF: return 1;
+			case IRON: return 2;
+			case GOLDEN: default: return 3;
 		}
 	}
 
@@ -101,7 +103,7 @@ public class HeartFx extends SaveableEntity {
 
 		this.type = Type.values()[reader.readByte()];
 
-		if (this.type.half) {
+		if (this.type == Type.RED_HALF) {
 			// this.w /= 2;
 		}
 
@@ -119,7 +121,7 @@ public class HeartFx extends SaveableEntity {
 	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
-		writer.writeByte(this.type.id);
+		writer.writeByte((byte) idFromType(this.type));
 	}
 
 	@Override

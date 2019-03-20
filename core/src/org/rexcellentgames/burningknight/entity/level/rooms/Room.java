@@ -10,13 +10,11 @@ import org.rexcellentgames.burningknight.util.MathUtils;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.geometry.Point;
 import org.rexcellentgames.burningknight.util.geometry.Rect;
-import org.rexcellentgames.burningknight.util.path.GraphNode;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 
-public abstract class Room extends Rect implements GraphNode {
+public abstract class Room extends Rect {
 	public ArrayList<Room> neighbours = new ArrayList<>();
 	public HashMap<Room, Door> connected = new HashMap<>();
 	private int price = 1;
@@ -209,31 +207,6 @@ public abstract class Room extends Rect implements GraphNode {
 				}
 			}
 		}
-	}
-
-	@Override
-	public int getPrice() {
-		return this.price;
-	}
-
-	@Override
-	public void setPrice(int price) {
-		this.price = price;
-	}
-
-	@Override
-	public int getDistance() {
-		return this.distance;
-	}
-
-	@Override
-	public void setDistance(int distance) {
-		this.distance = distance;
-	}
-
-	@Override
-	public Collection<? extends GraphNode> getEdges() {
-		return neighbours;
 	}
 
 	public Room getRandomNeighbour() {

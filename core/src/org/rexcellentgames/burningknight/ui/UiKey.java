@@ -4,13 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Audio;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
-import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.game.state.InGameState;
 import org.rexcellentgames.burningknight.util.CollisionHelper;
+import org.rexcellentgames.burningknight.util.Log;
 
 public class UiKey extends UiButton {
 	private String keyId;
@@ -28,7 +29,7 @@ public class UiKey extends UiButton {
 
 	@Override
 	public void onClick() {
-		Player.instance.playSfx("menu/change_parameter");
+		Audio.playSfx("menu/change_parameter");
 		Input.listener = this;
 		setSecond();
 	}
@@ -64,7 +65,7 @@ public class UiKey extends UiButton {
 
 	public void set(String id) {
 		Input.listener = null;
-		Player.instance.playSfx("menu/select");
+		Audio.playSfx("menu/select");
 		Input.instance.rebind(this.keyId, Input.instance.getBinding(this.keyId), id);
 		setSecond();
 	}

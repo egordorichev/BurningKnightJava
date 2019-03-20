@@ -21,7 +21,7 @@ import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FrozenBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.HeartFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
@@ -282,7 +282,7 @@ public class BurningKnight extends Boss {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		return !(buff instanceof BurningBuff || buff instanceof FreezeBuff);
+		return !(buff instanceof BurningBuff || buff instanceof FrozenBuff);
 	}
 
 	@Override
@@ -1371,7 +1371,7 @@ public class BurningKnight extends Boss {
 				Mob mob = null;
 
 				try {
-					mob = MobPool.instance.generate().types.get(0).newInstance();
+					mob = (Mob) MobPool.instance.generate().types.get(0).newInstance();
 				} catch (InstantiationException | IllegalAccessException e) {
 					e.printStackTrace();
 				}
@@ -1379,7 +1379,7 @@ public class BurningKnight extends Boss {
 				if (mob == null) {
 					MobPool.instance.initForFloor();
 					try {
-						mob = MobPool.instance.generate().types.get(0).newInstance();
+						mob = (Mob) MobPool.instance.generate().types.get(0).newInstance();
 					} catch (InstantiationException | IllegalAccessException e) {
 						e.printStackTrace();
 					}

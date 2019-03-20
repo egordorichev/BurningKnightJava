@@ -6,7 +6,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonedBuff;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
 import org.rexcellentgames.burningknight.util.Random;
@@ -53,7 +53,7 @@ public class PoisonFx extends Entity {
 		super.onCollision(entity);
 
 		if (entity instanceof Creature && !((Creature) entity).isFlying()) {
-			((Creature) entity).addBuff(new PoisonBuff().setDuration(2f));
+			((Creature) entity).addBuff(new PoisonedBuff().setDuration(2f));
 		}
 	}
 

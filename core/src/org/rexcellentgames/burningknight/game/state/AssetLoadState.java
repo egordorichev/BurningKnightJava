@@ -13,7 +13,7 @@ import org.rexcellentgames.burningknight.entity.level.save.SaveManager;
 import org.rexcellentgames.burningknight.util.Log;
 
 public class AssetLoadState extends State {
-	public static final boolean START_TO_MENU = true; //!Version.debug;
+	public static final boolean START_TO_MENU = !Version.debug;
 	public static final boolean QUICK = true;
 	public static boolean done = false;
 	private float a;

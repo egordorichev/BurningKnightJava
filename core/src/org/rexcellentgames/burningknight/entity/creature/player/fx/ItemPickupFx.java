@@ -2,7 +2,6 @@ package org.rexcellentgames.burningknight.entity.creature.player.fx;
 
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
-import org.rexcellentgames.burningknight.assets.Locale;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.npc.Shopkeeper;
@@ -13,13 +12,11 @@ import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.NullItem;
 import org.rexcellentgames.burningknight.entity.item.accessory.hat.*;
 import org.rexcellentgames.burningknight.entity.item.key.BurningKey;
-import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.HatSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.fx.PoofFx;
 import org.rexcellentgames.burningknight.entity.level.save.LevelSave;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.util.Dialog;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.Random;
 import org.rexcellentgames.burningknight.util.Tween;
 
@@ -36,14 +33,10 @@ public class ItemPickupFx extends Entity {
 	}
 
 	public ItemPickupFx(ItemHolder item, Player player) {
-		if (item instanceof ClassSelector) {
-			this.text = Locale.get(((ClassSelector) item).getClass());
-		} else {
-			this.text = item.getItem().getName();
+		this.text = item.getItem().getName();
 
-			if (this.text == null) {
-				this.text = "Missing item name";
-			}
+		if (this.text == null) {
+			this.text = "Missing item name";
 		}
 
 		if (this.text.equals("null_item")) {
@@ -126,24 +119,6 @@ public class ItemPickupFx extends Entity {
 				this.item.getItem().setOwner(Player.instance);
 				this.item.setItem(setSkin(skin));
 				Player.instance.playSfx("menu/select");
-			} else if (this.item instanceof ClassSelector) {
-				ClassSelector s = (ClassSelector) this.item;
-
-				// Item item = Player.instance.getInventory().getSlot(0);
-				Item old = this.item.getItem();
-
-				old.setOwner(Player.instance);
-				Player.instance.getInventory().setSlot(0, old);
-
-				if ("warrior".equals(s.getClass())) {
-					Player.instance.setType(Player.Type.WARRIOR);
-				} else if ("wizard".equals(s.getClass())) {
-					Player.instance.setType(Player.Type.WIZARD);
-				} else if ("ranger".equals(s.getClass())) {
-					Player.instance.setType(Player.Type.RANGER);
-				}
-
-				this.erase();
 			} else {
 				if (this.item.getItem().shop) {
 					int g = this.player.getMoney();
@@ -157,7 +132,7 @@ public class ItemPickupFx extends Entity {
 					} else {
 						this.player.setMoney(g - this.item.getItem().price);
 						this.item.getItem().shop = false;
-						this.item.getPrice().remove();
+						this.item.price.remove();
 						this.erase();
 						Player.instance.playSfx("item_purchase");
 
@@ -229,7 +204,7 @@ public class ItemPickupFx extends Entity {
 
 		this.go = true;
 
-		if (!(this.item instanceof ClassSelector) && !text.startsWith("+")) {
+		if (!text.startsWith("+")) {
 			this.text = "+" + this.text;
 
 			Graphics.layout.setText(Graphics.medium, this.text);
@@ -237,22 +212,19 @@ public class ItemPickupFx extends Entity {
 			this.y = item.y + item.h + 4;
 		}
 
+		Tween.to(new Tween.Task(this.y + 10, 2f, Tween.Type.QUAD_OUT) {
+			@Override
+			public float getValue() {
+				return y;
+			}
 
-		if (!(this.item instanceof ClassSelector)) {
-			Tween.to(new Tween.Task(this.y + 10, 2f, Tween.Type.QUAD_OUT) {
-				@Override
-				public float getValue() {
-					return y;
-				}
+			@Override
+			public void setValue(float value) {
+				y = value;
+			}
+		});
 
-				@Override
-				public void setValue(float value) {
-					y = value;
-				}
-			});
-		}
-
-		Tween.to(new Tween.Task(0, (this.item instanceof ClassSelector) ? 0.4f : 2f) {
+		Tween.to(new Tween.Task(0, 2f) {
 			@Override
 			public float getValue() {
 				return a;

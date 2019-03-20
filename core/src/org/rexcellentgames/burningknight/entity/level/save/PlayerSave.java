@@ -3,7 +3,6 @@ package org.rexcellentgames.burningknight.entity.level.save;
 import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.level.SaveableEntity;
-import org.rexcellentgames.burningknight.util.Log;
 import org.rexcellentgames.burningknight.util.file.FileReader;
 import org.rexcellentgames.burningknight.util.file.FileWriter;
 
@@ -69,7 +68,7 @@ public class PlayerSave {
 
 		if (Dungeon.quick) {
 			Dungeon.quick = false;
-			GlobalSave.put("last_class", player.getType().id);
+			GlobalSave.put("last_class", Player.getTypeId(player.getType()));
 		}
 	}
 }

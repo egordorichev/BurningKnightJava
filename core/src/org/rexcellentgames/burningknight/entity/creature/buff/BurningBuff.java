@@ -15,10 +15,8 @@ public class BurningBuff extends Buff {
 	public static TextureRegion flame = Graphics.getTexture("ui-debuff_fire");
 
 	{
+		id = Buffs.BURNING;
 		name = "Burning";
-		description = "You are on fire!";
-		sprite = "ui-burning";
-		bad = true;
 	}
 
 	private float lastFlame = 0;
@@ -35,7 +33,7 @@ public class BurningBuff extends Buff {
 	public void onStart() {
 		super.onStart();
 		setDuration(7.0f);
-		this.owner.removeBuff(FreezeBuff.class);
+		this.owner.removeBuff(Buffs.FROZEN);
 	}
 
 	@Override

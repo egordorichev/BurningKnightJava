@@ -10,8 +10,7 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Gold;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.ItemHolder;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.Shotgun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Shotgun;
 import org.rexcellentgames.burningknight.game.Achievements;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -142,11 +141,11 @@ public class Shopkeeper extends Npc {
 		this.playSfx("death_towelknight");
 		this.done = true;
 
-		for (ItemHolder holder : ItemHolder.getAll()) {
+		for (ItemHolder holder : ItemHolder.all) {
 			holder.getItem().shop = false;
-			if (holder.getPrice() != null) {
-				holder.getPrice().remove();
-				holder.setPrice(null);
+			if (holder.price != null) {
+				holder.price.remove();
+				holder.price = null;
 			}
 		}
 
@@ -415,7 +414,7 @@ public class Shopkeeper extends Npc {
 			if (to == null) {
 				ArrayList<ItemHolder> list = new ArrayList<>();
 
-				for (ItemHolder holder : ItemHolder.getAll()) {
+				for (ItemHolder holder : ItemHolder.all) {
 					if (holder.getItem().shop) {
 						list.add(holder);
 					}
@@ -449,15 +448,15 @@ public class Shopkeeper extends Npc {
 		enranged = true;
 		this.become("hana");
 
-		for (ItemHolder holder : ItemHolder.getAll()) {
+		for (ItemHolder holder : ItemHolder.all) {
 			holder.getItem().shop = false;
-			if (holder.getPrice() != null) {
-				holder.getPrice().remove();
-				holder.setPrice(null);
+			if (holder.price != null) {
+				holder.price.remove();
+				holder.price = null;
 			}
 		}
 
-		shotgun = new BronzeShotgun();
+		shotgun = new Shotgun();
 		shotgun.setOwner(this);
 	}
 
@@ -478,7 +477,7 @@ public class Shopkeeper extends Npc {
 
 			if (self.shotgun == null) {
 				friendly = false;
-				shotgun = new BronzeShotgun();
+				shotgun = new Shotgun();
 				shotgun.setOwner(self);
 			}
 

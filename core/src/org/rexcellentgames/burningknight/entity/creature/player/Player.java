@@ -19,14 +19,10 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.*;
 import org.rexcellentgames.burningknight.entity.creature.fx.BloodFx;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.inventory.Inventory;
-import org.rexcellentgames.burningknight.entity.creature.inventory.UiBuff;
 import org.rexcellentgames.burningknight.entity.creature.inventory.UiInventory;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -56,7 +52,6 @@ import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
 import org.rexcellentgames.burningknight.entity.item.weapon.sword.Sword;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
-import org.rexcellentgames.burningknight.entity.level.entities.ClassSelector;
 import org.rexcellentgames.burningknight.entity.level.entities.Coin;
 import org.rexcellentgames.burningknight.entity.level.entities.Entrance;
 import org.rexcellentgames.burningknight.entity.level.entities.Exit;
@@ -116,7 +111,6 @@ public class Player extends Creature {
 	public float heat;
 	public boolean hasRedLine;
 	public UiInventory ui;
-	public ArrayList<UiBuff> uiBuffs = new ArrayList<>();
 	public float goldModifier = 1f;
 	public int lavaResist;
 	public int fireResist;
@@ -383,7 +377,9 @@ public class Player extends Creature {
 
 	public void setType(Type type) {
 		this.type = type;
-	}	@Override
+	}
+
+	@Override
 	public void renderShadow() {
 		float z = this.z;
 		boolean flying = false;
@@ -830,8 +826,8 @@ public class Player extends Creature {
 
 					Dungeon.area.add(fx);
 				}
-			} else if (!item.getItem().shop && (item.getItem().hasAutoPickup() || item.getAuto())) {
-				if (this.tryToPickup(item) && !item.getAuto()) {
+			} else if (!item.getItem().shop && (item.getItem().hasAutoPickup() || item.auto)) {
+				if (this.tryToPickup(item) && !item.auto) {
 					if (!(item.getItem() instanceof Gold)) {
 						this.area.add(new ItemPickedFx(item));
 					}
@@ -839,13 +835,7 @@ public class Player extends Creature {
 					item.done = true;
 					item.remove();
 				}
-			} else if (!item.getFalling()) {
-				if (item instanceof ClassSelector) {
-					if (((ClassSelector) item).same(this.type)) {
-						return;
-					}
-				}
-
+			} else if (!item.falling) {
 				this.holders.add(item);
 
 				if (this.pickupFx == null) {
@@ -855,16 +845,12 @@ public class Player extends Creature {
 			}
 		} else if (entity instanceof Mob) {
 			if (this.frostLevel > 0) {
-				((Mob) entity).addBuff(new FreezeBuff());
+				((Mob) entity).addBuff(new FrozenBuff());
 			}
 
 			if (this.burnLevel > 0) {
 				((Mob) entity).addBuff(new BurningBuff());
 			}
-
-			/*if (Random.chance(this.thornDamageChance)) {
-				((Mob) entity).modifyHp(-this.inventory.findItem(ThornRing.class).getLevel() * 2, this);
-			}*/
 		}
 	}
 
@@ -1053,7 +1039,7 @@ public class Player extends Creature {
 		light.setPosition(x + 8, y + 8);
 		light.setDistance(180);
 
-		if (this.hasBuff(BurningBuff.class)) {
+		if (this.hasBuff(Buffs.BURNING)) {
 			this.light.setColor(1, 0.5f, 0f, 1);
 		} else {
 			this.light.setColor(1, 1, 0.8f, 1);
@@ -1262,7 +1248,7 @@ public class Player extends Creature {
 					Tween.to(new Tween.Task(0, 0.2f) {
 						@Override
 						public void onEnd() {
-							removeBuff(BurningBuff.class);
+							removeBuff(Buffs.BURNING);
 
 							ignoreAcceleration = false;
 							self.velocity.x = 0;
@@ -1361,22 +1347,31 @@ public class Player extends Creature {
 	public int getLevel() {
 		return this.level;
 	}
+
 	public enum Type {
-		WARRIOR(0),
-		WIZARD(1),
-		RANGER(2),
-		NONE(3);
+		WARRIOR,
+		WIZARD,
+		RANGER,
+		NONE
+	}
 
-		public int id;
-
-		Type(int id) {
-			this.id = id;
+	public static Type getTypeFromId(int id) {
+		switch (id) {
+			case 0: return Type.WARRIOR;
+			case 1: return Type.WIZARD;
+			case 2: return Type.RANGER;
+			default: return Type.NONE;
 		}
 	}
 
-
-
-
+	public static int getTypeId(Type type) {
+		switch (type) {
+			case WARRIOR: return 0;
+			case WIZARD: return 1;
+			case RANGER: return 2;
+			default: return 3;
+		}
+	}
 
 	@Override
 	public boolean isFlying() {
@@ -1386,7 +1381,7 @@ public class Player extends Creature {
 	@Override
 	protected void onTouch(short t, int x, int y, int info) {
 		if (t == Terrain.WATER && !this.isFlying()) {
-			if (this.hasBuff(BurningBuff.class)) {
+			if (this.hasBuff(Buffs.BURNING)) {
 				int num = GlobalSave.getInt("num_fire_out") + 1;
 				GlobalSave.put("num_fire_out", num);
 
@@ -1394,7 +1389,7 @@ public class Player extends Creature {
 					Achievements.unlock(Achievements.UNLOCK_WATER_BOLT);
 				}
 
-				this.removeBuff(BurningBuff.class);
+				this.removeBuff(Buffs.BURNING);
 
 				for (int i = 0; i < 20; i++) {
 					SteamFx fx = new SteamFx();
@@ -1410,7 +1405,7 @@ public class Player extends Creature {
 				Dungeon.level.venom(x, y);
 			}
 		} else {
-			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(BurningBuff.class)) {
+			if (!this.isFlying() && BitHelper.isBitSet(info, 0) && !this.hasBuff(Buffs.BURNING)) {
 				this.addBuff(new BurningBuff());
 			}
 
@@ -1443,7 +1438,7 @@ public class Player extends Creature {
 					Dungeon.area.add(fx);
 				}
 			} else if (!this.isFlying() && t == Terrain.VENOM) {
-				this.addBuff(new PoisonBuff());
+				this.addBuff(new PoisonedBuff());
 			}
 		}
 	}
@@ -1600,7 +1595,7 @@ public class Player extends Creature {
 
 			for (Mob mob : Mob.all) {
 				if (mob.room == this.room) {
-					mob.addBuff(new FreezeBuff().setDuration(10));
+					mob.addBuff(new FrozenBuff().setDuration(10));
 				}
 			}
 		}
@@ -1662,18 +1657,6 @@ public class Player extends Creature {
 	}
 
 	@Override
-	public void onBuffRemove(Buff buff) {
-		super.onBuffRemove(buff);
-
-		for (UiBuff b : this.uiBuffs) {
-			if (b.buff.getClass().equals(buff.getClass())) {
-				b.remove();
-				return;
-			}
-		}
-	}
-
-	@Override
 	public void save(FileWriter writer) throws IOException {
 		super.save(writer);
 
@@ -1692,6 +1675,8 @@ public class Player extends Creature {
 		writer.writeByte((byte) this.bombs);
 		writer.writeByte((byte) this.keys);
 		writer.writeInt16((short) this.money);
+
+		writer.writeByte((byte) getTypeId(this.type));
 	}
 
 	@Override
@@ -1727,58 +1712,20 @@ public class Player extends Creature {
 
 		light.setPosition(this.x + 8, this.y + 8);
 		light.attachToBody(this.body, 8, 8, 0);
+
+		this.type = getTypeFromId(reader.readByte());
 	}
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
 		if ((this.rolling || fireResist > 0) && buff instanceof BurningBuff) {
 			return false;
-		} else if (poisonResist > 0 && buff instanceof PoisonBuff) {
+		} else if (poisonResist > 0 && buff instanceof PoisonedBuff) {
 			return false;
-		} else if ((this.rolling || stunResist > 0) && buff instanceof FreezeBuff) {
+		} else if ((this.rolling || stunResist > 0) && buff instanceof FrozenBuff) {
 			return false;
 		}
 
 		return super.canHaveBuff(buff);
 	}
-
-	@Override
-	public void addBuff(Buff buff) {
-		if (this.canHaveBuff(buff)) {
-			Buff b = this.buffs.get(buff.getClass());
-
-			if (b != null) {
-				b.setDuration(Math.max(b.getDuration(), buff.getDuration()));
-			} else {
-				this.buffs.put(buff.getClass(), buff);
-
-				buff.setOwner(this);
-				buff.onStart();
-
-				UiBuff bf = new UiBuff();
-
-				bf.buff = buff;
-				bf.owner = this;
-
-				for (UiBuff bu : this.uiBuffs) {
-					if (bu.buff.getClass() == buff.getClass()) {
-						bu.buff = buff;
-						return;
-					}
-				}
-
-				this.uiBuffs.add(bf);
-			}
-		}
-	}
-
-
-
-
-
-
-
-
-
-
 }

@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Fixture;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
-import org.rexcellentgames.burningknight.entity.creature.buff.FreezeBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.FrozenBuff;
 import org.rexcellentgames.burningknight.entity.creature.fx.Firefly;
 import org.rexcellentgames.burningknight.entity.creature.fx.HpFx;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
@@ -203,7 +203,7 @@ public class IceElemental extends Mob {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Player) {
-			((Player) entity).addBuff(new FreezeBuff().setDuration(1f));
+			((Player) entity).addBuff(new FrozenBuff().setDuration(1f));
 		} else if (entity instanceof BulletProjectile && target != null) {
 			BulletProjectile bullet = (BulletProjectile) entity;
 

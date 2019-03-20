@@ -70,6 +70,8 @@ public class InGameState extends State {
 			Achievements.lastActive.init();
 		}
 
+		Ui.ui.reset();
+
 		if (fire == null) {
 			fire = Audio.getMusic("OnFire");
 			water = Audio.getMusic("water");
@@ -82,8 +84,6 @@ public class InGameState extends State {
 		Audio.important = false;
 
 		Dungeon.dark = 1;
-
-		Ui.controls.clear();
 
 		shader.begin();
 		float a = Random.newFloat((float) (Math.PI * 2));
@@ -465,7 +465,7 @@ public class InGameState extends State {
 		UiInventory.justUsed = Math.max(0, UiInventory.justUsed - 1);
 
 		if (Dungeon.depth == -2) {
-			Upgrade.Companion.setUpdateEvent(false);
+			Upgrade.updateEvent = false;
 		}
 
 		if (startTween) {
@@ -885,7 +885,7 @@ public class InGameState extends State {
 			Graphics.batch.begin();
 
 			if (Dungeon.depth == -2) {
-				for (Upgrade upgrade : Upgrade.Companion.getAll()) {
+				for (Upgrade upgrade : Upgrade.all) {
 					upgrade.renderSigns();
 				}
 			}
@@ -923,12 +923,6 @@ public class InGameState extends State {
 		}
 
 		if (this.mv > -256) {
-			/*Graphics.shape.setProjectionMatrix(Camera.nil.combined);
-			Graphics.startAlphaShape();
-			Graphics.shape.setColor(bg.r, bg.g, bg.b, this.alp);
-			Graphics.shape.rect(0, 0, Display.GAME_WIDTH, Display.GAME_HEIGHT);
-			Graphics.endAlphaShape();*/
-
 			Camera.ui.translate(settingsX, this.mv);
 			Camera.ui.update();
 

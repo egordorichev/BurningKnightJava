@@ -65,7 +65,6 @@ public class Batterfly extends DiagonalFly {
 
 		Iterator<Map.Entry<Mob, Lighting>> it = lighting.entrySet().iterator();
 
-
 		while (it.hasNext()) {
 			Map.Entry<Mob, Lighting> pair = it.next();
 			Lighting lighting = pair.getValue();

@@ -21,7 +21,7 @@ public class Bot extends Mob {
 	}
 
 	public class DeathData {
-		public Class<? extends Mob> type;
+		public Class type;
 		public float x;
 		public float y;
 	}

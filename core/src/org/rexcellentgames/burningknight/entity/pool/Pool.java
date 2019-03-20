@@ -6,7 +6,7 @@ import org.rexcellentgames.burningknight.util.Random;
 import java.util.ArrayList;
 
 public class Pool<T> {
-	protected ArrayList<Class<? extends T>> classes = new ArrayList<>();
+	protected ArrayList<Class> classes = new ArrayList<>();
 	protected ArrayList<Float> chances = new ArrayList<>();
 
 	public T generate() {
@@ -17,10 +17,10 @@ public class Pool<T> {
 			return null;
 		}
 
-		Class<? extends T> type = classes.get(i);
+		Class type = classes.get(i);
 
 		try {
-			return type.newInstance();
+			return (T) type.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			e.printStackTrace();
 		}
@@ -28,7 +28,7 @@ public class Pool<T> {
 		return null;
 	}
 
-	public void add(Class<? extends T> type, float chance) {
+	public void add(Class type, float chance) {
 		classes.add(type);
 		chances.add(chance);
 	}

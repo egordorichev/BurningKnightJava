@@ -112,14 +112,14 @@ public class Achievements {
 				String reg = id.replace("UNLOCK_", "").replace("SHOP_", "").toLowerCase();
 
 				try {
-					ItemRegistry.Pair pair = ItemRegistry.INSTANCE.getItems().get(reg);
+					ItemRegistry.Pair pair = ItemRegistry.items.get(reg);
 
 					if (pair == null) {
 						Log.error("Failed to unlock item " + reg);
 						return;
 					}
 
-					Item item = pair.getType().newInstance();
+					Item item = (Item) pair.type.newInstance();
 
 					achievement.text = item.getName() + " " + Locale.get("was_unlocked");
 					achievement.icon = item.getSprite();
@@ -128,11 +128,7 @@ public class Achievements {
 					e.printStackTrace();
 					return;
 				}
-
-				// todo
 			}
-
-			// achievement.icon = Item.missing;
 
 			toShow.add(achievement);
 		}

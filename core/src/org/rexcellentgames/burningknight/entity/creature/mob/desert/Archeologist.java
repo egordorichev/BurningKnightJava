@@ -9,8 +9,8 @@ import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.Explosion;
 import org.rexcellentgames.burningknight.entity.item.Item;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.Gun;
+import org.rexcellentgames.burningknight.entity.item.weapon.gun.Shotgun;
 import org.rexcellentgames.burningknight.entity.item.weapon.gun.SnipperGun;
-import org.rexcellentgames.burningknight.entity.item.weapon.gun.shotgun.BronzeShotgun;
 import org.rexcellentgames.burningknight.entity.level.entities.chest.Chest;
 import org.rexcellentgames.burningknight.physics.World;
 import org.rexcellentgames.burningknight.util.Animation;
@@ -332,7 +332,7 @@ public class Archeologist extends Mob {
 		ArrayList<Item> items = super.getDrops();
 
 		if (Random.chance(5)) {
-			items.add(new BronzeShotgun());
+			items.add(new Shotgun());
 		}
 
 		return items;

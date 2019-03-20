@@ -5,7 +5,7 @@ import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.buff.Buff;
-import org.rexcellentgames.burningknight.entity.creature.buff.PoisonBuff;
+import org.rexcellentgames.burningknight.entity.creature.buff.PoisonedBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
 import org.rexcellentgames.burningknight.entity.item.*;
@@ -316,7 +316,7 @@ public class Mimic extends Mob {
 
 	@Override
 	protected boolean canHaveBuff(Buff buff) {
-		return !(buff instanceof PoisonBuff) && super.canHaveBuff(buff);
+		return !(buff instanceof PoisonedBuff) && super.canHaveBuff(buff);
 	}
 
 	public class AttackState extends MimicState {

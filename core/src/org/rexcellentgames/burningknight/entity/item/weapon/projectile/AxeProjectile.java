@@ -2,12 +2,10 @@ package org.rexcellentgames.burningknight.entity.item.weapon.projectile;
 
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.physics.box2d.BodyDef;
-import org.rexcellentgames.burningknight.Dungeon;
 import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.player.Player;
-import org.rexcellentgames.burningknight.entity.item.ItemHolder;
 import org.rexcellentgames.burningknight.entity.item.weapon.axe.Axe;
 import org.rexcellentgames.burningknight.game.input.Input;
 import org.rexcellentgames.burningknight.physics.World;
@@ -21,7 +19,7 @@ public class AxeProjectile extends Projectile {
 
 	public TextureRegion region;
 	public boolean penetrates;
-	public Class<? extends Axe> type;
+	public Class type;
 	public int speed;
 	public Axe axe;
 
@@ -108,24 +106,5 @@ public class AxeProjectile extends Projectile {
 	@Override
 	public void render() {
 		Graphics.render(this.region, this.x, this.y, this.a, this.region.getRegionWidth() / 2, this.region.getRegionHeight() / 2, false, false);
-	}
-
-	@Override
-	public void destroy() {
-		super.destroy();
-
-		if (false) {
-			try {
-				ItemHolder holder = new ItemHolder(this.type.newInstance());
-
-				holder.x = this.x;
-				holder.y = this.y;
-				holder.setAuto(true);
-
-				Dungeon.area.add(holder);
-			} catch (InstantiationException | IllegalAccessException e) {
-				e.printStackTrace();
-			}
-		}
 	}
 }

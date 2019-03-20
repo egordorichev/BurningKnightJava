@@ -80,28 +80,6 @@ public class ChainLight extends Light {
 		this(rayHandler, rays, color, distance, rayDirection, null);
 	}
 
-	/**
-	 * Creates chain light from specified vertices
-	 * 
-	 * @param rayHandler
-	 *            not {@code null} instance of RayHandler
-	 * @param rays
-	 *            number of rays - more rays make light to look more realistic
-	 *            but will decrease performance, can't be less than MIN_RAYS
-	 * @param color
-	 *            color, set to {@code null} to use the default color
-	 * @param distance
-	 *            distance of light
-	 * @param rayDirection
-	 *            direction of rays
-	 *            <ul>
-	 *            <li>1 = left</li>
-	 *            <li>-1 = right</li>
-	 *            </ul>
-	 * @param chain
-	 *            float array of (x, y) vertices from which rays will be
-	 *            evenly distributed
-	 */
 	public ChainLight(RayHandler rayHandler, int rays, Color color,
 			float distance, int rayDirection, float[] chain) {
 		
@@ -275,7 +253,6 @@ public class ChainLight extends Light {
 	}
 	
 	/** Not applicable for this light type **/
-	@Deprecated
 	@Override
 	public void setDirection(float directionDegree) {
 	}
@@ -306,15 +283,19 @@ public class ChainLight extends Light {
 		segmentAngles.clear();
 		segmentLengths.clear();
 		float remainingLength = 0;
-		
-		for (int i = 0, j = 0; i < chain.size - 2; i += 2, j++) {
-			v1.set(chain.items[i + 2], chain.items[i + 3])
-				.sub(chain.items[i], chain.items[i + 1]);
-			segmentLengths.add(v1.len());
-			segmentAngles.add(
-				v1.rotate90(rayDirection).angle() * MathUtils.degreesToRadians
-			);
-			remainingLength += segmentLengths.items[j];
+
+		{
+			int j = 0;
+			for (int i = 0; i < chain.size - 2; i += 2) {
+				v1.set(chain.items[i + 2], chain.items[i + 3])
+					.sub(chain.items[i], chain.items[i + 1]);
+				segmentLengths.add(v1.len());
+				segmentAngles.add(
+					v1.rotate90(rayDirection).angle() * MathUtils.degreesToRadians
+				);
+				remainingLength += segmentLengths.items[j];
+				j++;
+			}
 		}
 		
 		int rayNumber = 0;

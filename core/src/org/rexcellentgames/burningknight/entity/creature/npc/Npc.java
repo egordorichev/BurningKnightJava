@@ -59,7 +59,7 @@ public class Npc extends Mob {
 		super.update(dt);
 
 
-		lastWhite = (active == null && Upgrade.Companion.getActiveUpgrade() == null && !this.talking && Player.instance.pickupFx == null && Player.instance.room == this.room && wantToTalk() && Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2) < 10);
+		lastWhite = (active == null && Upgrade.activeUpgrade == null && !this.talking && Player.instance.pickupFx == null && Player.instance.room == this.room && wantToTalk() && Player.instance.getDistanceTo(this.x + this.w / 2, this.y + this.h / 2) < 10);
 
 		if (lastWhite && Input.instance.wasPressed("interact")) {
 			Dialog.active = selectDialog();

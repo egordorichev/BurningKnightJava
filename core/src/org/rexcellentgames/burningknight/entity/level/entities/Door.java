@@ -8,6 +8,7 @@ import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.Camera;
 import org.rexcellentgames.burningknight.entity.Entity;
 import org.rexcellentgames.burningknight.entity.creature.Creature;
+import org.rexcellentgames.burningknight.entity.creature.buff.Buffs;
 import org.rexcellentgames.burningknight.entity.creature.buff.BurningBuff;
 import org.rexcellentgames.burningknight.entity.creature.mob.Mob;
 import org.rexcellentgames.burningknight.entity.creature.mob.boss.Boss;
@@ -56,7 +57,7 @@ public class Door extends SaveableEntity {
 	public boolean autoLock;
 	public boolean lockable;
 	public boolean lock;
-	public Class<? extends Key> key;
+	public Class key;
 	private TextureRegion keyRegion;
 	private int sx;
 	private int sy;
@@ -417,7 +418,7 @@ public class Door extends SaveableEntity {
 	@Override
 	public void onCollision(Entity entity) {
 		if (entity instanceof Creature && !(entity instanceof Boss)) {
-			if (((Creature) entity).hasBuff(BurningBuff.class)) {
+			if (((Creature) entity).hasBuff(Buffs.BURNING)) {
 				this.burning = true;
 			} else if (this.burning) {
 				((Creature) entity).addBuff(new BurningBuff());
@@ -495,7 +496,7 @@ public class Door extends SaveableEntity {
 
 		if (this.key != null && this.key != KeyB.class && this.keyRegion == null) {
 			try {
-				Key key = this.key.newInstance();
+				Key key = (Key) this.key.newInstance();
 				this.keyRegion = key.getSprite();
 			} catch (InstantiationException e) {
 				e.printStackTrace();
@@ -578,7 +579,7 @@ public class Door extends SaveableEntity {
 
 		if (reader.readBoolean()) {
 			try {
-				this.key = (Class<? extends Key>) Class.forName(reader.readString());
+				this.key = Class.forName(reader.readString());
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

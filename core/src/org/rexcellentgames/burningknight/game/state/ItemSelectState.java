@@ -306,7 +306,7 @@ public class ItemSelectState extends State {
 
 	public static void fastPick(Item item, Player.Type tp) {
 		Player.toSet = tp;
-		GlobalSave.put("last_class", Player.toSet.id);
+		GlobalSave.put("last_class", Player.getTypeId(Player.toSet));
 		Player.startingItem = item;
 
 		LoadState.fromSelect = true;

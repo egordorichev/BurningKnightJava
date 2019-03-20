@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MobHub {
-	public ArrayList<Class<? extends Mob>> types;
+	public ArrayList<Class> types;
 	public float chance;
 	public int maxMatches;
 	public int maxMatchesInitial;
 	public boolean once;
 
-	public MobHub(float chance, int max, Class<? extends Mob> ... classes) {
+	public MobHub(float chance, int max, Class ... classes) {
 		types = new ArrayList<>();
 		types.addAll(Arrays.asList(classes));
 

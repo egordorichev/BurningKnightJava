@@ -2,6 +2,7 @@ package org.rexcellentgames.burningknight.entity.item.weapon.gun;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import org.rexcellentgames.burningknight.Display;
 import org.rexcellentgames.burningknight.Dungeon;
@@ -28,19 +29,23 @@ import java.io.IOException;
 public class Gun extends WeaponBase {
 	private static Vector2 last = new Vector2();
 	private static float closestFraction = 1.0f;
-	private static RayCastCallback callback = (fixture, point, normal, fraction) -> {
-		Object data = fixture.getBody().getUserData();
+	private static RayCastCallback callback = new RayCastCallback() {
+		@Override
+		public float reportRayFixture(Fixture fixture, Vector2 point, Vector2 normal, float fraction) {
+			Object data = fixture.getBody().getUserData();
 
-		if (data == null || (data instanceof Door && !((Door) data).isOpen())) {
-			if (fraction < closestFraction) {
-				closestFraction = fraction;
-				last.x = point.x;
-				last.y = point.y;
+			if (data == null || (data instanceof Door && !((Door) data).isOpen())) {
+				if (fraction < closestFraction) {
+					closestFraction = fraction;
+					last.x = point.x;
+					last.y = point.y;
+				}
 			}
-		}
 
-		return closestFraction;
+			return closestFraction;
+		}
 	};
+
 	public int ammoMax = 12;
 	public boolean showRedLine;
 	protected float accuracy = -3f;
