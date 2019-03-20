@@ -263,7 +263,7 @@ public abstract class RegularLevel extends Level {
 
 		if (Dungeon.depth > -1) {
 			this.entrance = EntranceRoomPool.instance.generate();
-			this.exit = this instanceof BossLevel ? BossRoomPool.instance.generate() : EntranceRoomPool.instance.generate();
+			this.exit = BossRoomPool.instance.generate();
 			((EntranceRoom) this.exit).exit = true;
 			// rooms.add(new BossEntranceRoom());
 
@@ -289,9 +289,7 @@ public abstract class RegularLevel extends Level {
 
 		boolean bk = Random.getSeed().equals("BK");
 
-		if (this instanceof BossLevel) {
 			rooms.add(new PrebossRoom());
-		}
 
 		int regular = bk ? 0 : this.getNumRegularRooms();
 		int special = bk ? 0 : this.getNumSpecialRooms();

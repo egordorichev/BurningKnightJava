@@ -16,7 +16,8 @@ public class ItemRegistry {
 		new Pair("guitar", Guitar.class, 0.5f, 1f, 0.3f, 0.1f, Quality.GOLDEN),
 		new Pair("spear", Spear.class, 1f, 1f, 0.1f, 0.3f, Quality.WOODEN),
 		new Pair("missile_wand", MagicMissileWand.class, 1f, 0.3f, 1f, 0.3f, Quality.WOODEN),
-		new Pair("gun", Revolver.class, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN)
+		new Pair("gun", Revolver.class, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN),
+		new Pair("boom", Boom.class, 1f, 0.3f, 0.1f, 1f, Quality.WOODEN)
 	};
 
 	public static HashMap<String, Pair> items = new HashMap<>();

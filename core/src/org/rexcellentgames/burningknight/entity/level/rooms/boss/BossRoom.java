@@ -1,7 +1,10 @@
 package org.rexcellentgames.burningknight.entity.level.rooms.boss;
 
+import org.rexcellentgames.burningknight.Dungeon;
+import org.rexcellentgames.burningknight.assets.Graphics;
 import org.rexcellentgames.burningknight.entity.level.Level;
 import org.rexcellentgames.burningknight.entity.level.Terrain;
+import org.rexcellentgames.burningknight.entity.level.entities.Prop;
 import org.rexcellentgames.burningknight.entity.level.features.Door;
 import org.rexcellentgames.burningknight.entity.level.painters.Painter;
 import org.rexcellentgames.burningknight.entity.level.rooms.entrance.EntranceRoom;
@@ -80,10 +83,22 @@ public class BossRoom extends EntranceRoom {
 			}
 		}
 
-
 		for (Door door : connected.values()) {
 			door.setType(Door.Type.BOSS);
 		}
+
+		Prop prop = new Prop() {
+			@Override
+			public void renderShadow() {
+				Graphics.shadow(this.x, this.y - 3, this.w, this.h);
+			}
+		};
+
+		prop.sprite = "item-nuclear";
+		prop.x = getCenter().x * 16;
+		prop.y = getCenter().y * 16;
+
+		Dungeon.area.add(prop);
 	}
 
 	private void paintTunnels(Level level, boolean force) {

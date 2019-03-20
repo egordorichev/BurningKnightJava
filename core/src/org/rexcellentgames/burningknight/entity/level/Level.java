@@ -203,6 +203,10 @@ public abstract class Level extends SaveableEntity {
 	public static RegularLevel forDepth(int depth) {
 		String seed = Random.getSeed();
 
+		if (true) {
+			return new BossLevel();
+		}
+
 		switch (seed) {
 			case "ICE": return new IceLevel();
 			case "CASTLE": return new HallLevel();
