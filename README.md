@@ -2,6 +2,8 @@
 
 **This is not the latest branch of the game, see [this repo](https://github.com/egordorichev/BurningKnight) for the C# branch.**
 
+###### You can read about why the game was rewritten in C# later on [here](https://rexcellentgames.com/story-about-mistakes-of-the-past/)
+
 This is the Java branch of Burning Knight, the second version of the game (first one was written in Lua, but it only lasted for 3 days).
 I have to warn you, the code is not pretty. In fact, looking back at it, it's awful. But non the less, I've learned so much from this mess,
 and I tried my best to make the C# branch a lot better (and I think it worked out really well).
